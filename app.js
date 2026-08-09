@@ -53,7 +53,7 @@
       var s = season.standings;
       var boxes = [
         ['PJ', s.pj], ['PG', s.pg], ['PE', s.pe], ['PP', s.pp],
-        ['GF', s.gf], ['GC', s.gc], ['DIF', s.dif], ['PTS', s.pts], ['POS', s.pos]
+        ['GF', s.gf], ['GC', s.gc], ['DIF', s.dif], ['PTS', s.pts]
       ];
       card.innerHTML = boxes.map(function (b) {
         return '<div class="stat-box"><span class="label">' + b[0] + '</span><span class="value">' +
@@ -75,42 +75,6 @@
           '</td><td>' + esc(m.gc) + '</td><td class="' + resClass + '">' + esc((m.resultado || '').toUpperCase()) + '</td></tr>';
       }).join('');
     }
-
-    renderPosChart(season.position || []);
-  }
-
-  function renderPosChart(position) {
-    var canvas = document.getElementById('pos-chart');
-    if (!position.length || typeof Chart === 'undefined') {
-      canvas.parentElement.innerHTML = '<p style="color:#8b93ad;margin:0;">Sin datos de posición todavía.</p>';
-      return;
-    }
-    new Chart(canvas.getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: position.map(function (p) { return p.jornada; }),
-        datasets: [{
-          label: 'Posición',
-          data: position.map(function (p) { return p.pos; }),
-          borderColor: '#ffcc33',
-          backgroundColor: 'rgba(255,204,51,0.15)',
-          tension: 0.25,
-          fill: true,
-          pointRadius: 3
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          y: {
-            reverse: false, // values are negative-is-better already, so a normal axis reads "up = better"
-            ticks: { color: '#8b93ad', callback: function (v) { return Math.abs(v); } },
-            grid: { color: '#232c47' }
-          },
-          x: { ticks: { color: '#8b93ad' }, grid: { display: false } }
-        }
-      }
-    });
   }
 
   // ---------------- Historial (leaderboards) ----------------

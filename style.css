@@ -88,8 +88,6 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
 .res-p { color: var(--bad); font-weight: 700; }
 .res-e { color: var(--draw); font-weight: 700; }
 
-.chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; }
-
 .controls {
   display: flex;
   flex-wrap: wrap;
