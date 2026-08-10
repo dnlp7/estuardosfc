@@ -56,20 +56,22 @@
     var card = document.getElementById('standings-card');
     if (season.standings) {
       var s = season.standings;
-      var boxes = [
-        ['PJ', s.pj], ['PG', s.pg], ['PE', s.pe], ['PP', s.pp],
-        ['GF', s.gf], ['GC', s.gc], ['DIF', s.dif], ['PTS', s.pts]
+      // Grouped to mirror the real RES tab's "Torneo de Liga" box: a
+      // PJ/PG/PE/PP cluster, a GF/GC/DIF cluster, and PTS on its own.
+      var groups = [
+        [['PJ', s.pj], ['PG', s.pg], ['PE', s.pe], ['PP', s.pp]],
+        [['GF', s.gf], ['GC', s.gc], ['DIF', s.dif]],
+        [['PTS', s.pts]]
       ];
-      card.innerHTML = boxes.map(function (b) {
-        return '<div class="stat-box"><span class="label">' + b[0] + '</span><span class="value">' +
-          (b[1] === null || b[1] === undefined || b[1] === '' ? '—' : b[1]) + '</span></div>';
+      card.innerHTML = groups.map(function (group) {
+        return '<div class="standings-group">' + group.map(renderStatBox).join('') + '</div>';
       }).join('');
     } else {
-      card.innerHTML = '<p style="color:#8b93ad;margin:0;">Tabla de posiciones no disponible aún.</p>';
+      card.innerHTML = '<p style="color:#7fa3a8;margin:0;">Tabla de posiciones no disponible aún.</p>';
     }
 
     var tbody = document.querySelector('#matches-table tbody');
-    var matches = (season.matches || []).slice().reverse(); // most recent first
+    var matches = season.matches || []; // chronological order: J1 first
     if (!matches.length) {
       tbody.innerHTML = '<tr><td colspan="8" style="color:#7fa3a8;">Sin partidos jugados todavía.</td></tr>';
     } else {
@@ -78,9 +80,15 @@
         var resClass = m.resultado === 'g' ? 'res-g' : m.resultado === 'p' ? 'res-p' : m.resultado === 'e' ? 'res-e' : '';
         return '<tr><td>' + esc(m.jornada) + '</td><td>' + esc(m.cancha) + '</td><td>' + esc(m.fecha) +
           '</td><td>' + esc(m.hora) + '</td><td class="' + resClass + '">' + esc((m.resultado || '').toUpperCase()) +
-          '</td><td>' + esc(m.gf) + '</td><td>' + esc(m.gc) + '</td><td>' + esc(m.rival) + '</td></tr>';
+          '</td><td class="val-strong">' + esc(m.gf) + '</td><td class="val-strong">' + esc(m.gc) +
+          '</td><td class="val-strong">' + esc(m.rival) + '</td></tr>';
       }).join('');
     }
+  }
+
+  function renderStatBox(b) {
+    return '<div class="stat-box"><span class="label">' + b[0] + '</span><span class="value">' +
+      (b[1] === null || b[1] === undefined || b[1] === '' ? '—' : b[1]) + '</span></div>';
   }
 
   // ---------------- Historial (leaderboards) ----------------
@@ -161,7 +169,12 @@
     }
 
     tbody.innerHTML = rows.map(function (r, i) {
-      return '<tr><td class="rank-cell">' + (i + 1) + '</td><td>' + esc(r.p.dorsal) + '</td><td>' +
+      var rank = i + 1;
+      var pillClass = rank === 1 ? ' rank-gold' : rank === 2 ? ' rank-silver' : rank === 3 ? ' rank-bronze' : '';
+      var rankCell = pillClass
+        ? '<span class="rank-pill' + pillClass + '">' + rank + '</span>'
+        : rank;
+      return '<tr><td class="rank-cell">' + rankCell + '</td><td>' + esc(r.p.dorsal) + '</td><td>' +
         esc(r.p.nombre) + '</td><td>' + esc(r.val) + '</td></tr>';
     }).join('');
   }

@@ -68,17 +68,27 @@ main { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 .tab-panel.active { display: block; }
 
 h2 { margin-top: 0; }
-h3 { color: var(--accent-light); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
+h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
 
 .standings-card {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1rem 0;
 }
+/* Three visual clusters — [PJ PG PE PP] [GF GC DIF] [PTS] — mirroring
+   the real RES tab's "Torneo de Liga" box layout, separated by a
+   vertical divider rather than shown as one flat row of 8 boxes. */
+.standings-group {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0 1.5rem;
+}
+.standings-group:not(:last-child) { border-right: 1px solid var(--border); }
 .standings-card .stat-box { text-align: center; }
 .standings-card .stat-box .label { display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
 .standings-card .stat-box .value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--accent-light); }
@@ -89,18 +99,47 @@ h3 { color: var(--accent-light); font-size: 0.95rem; text-transform: uppercase; 
   border: 1px solid var(--border);
   border-radius: 12px;
 }
+/* Compact mode (the Historial leaderboard's simple view): the wrapper
+   hugs the table's own content width instead of stretching to fill
+   the page, so a short 4-column table doesn't get spread out with
+   large gaps between columns. */
+.table-wrap.compact { display: table; }
+.table-wrap.compact table { width: auto; }
+
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
 tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 tbody tr:hover { background: rgba(255,255,255,0.05); }
 
-/* Jersey number column — narrow and tight against the player name,
-   matching the season docs' own table layout. */
+/* Leaderboard column sizing — rank, dorsal, and TOT columns pulled in
+   tight; only the player name gets breathing room. */
+#leaderboard-table th:first-child, #leaderboard-table td:first-child {
+  padding-right: 0.5rem;
+}
 #leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2) {
-  width: 1%; padding-right: 0.25rem; text-align: right;
+  width: 1%; padding-left: 0.5rem; padding-right: 0.25rem; text-align: right;
 }
 #leaderboard-table th:nth-child(3), #leaderboard-table td:nth-child(3) { padding-left: 0.4rem; }
+#leaderboard-table th:last-child, #leaderboard-table td:last-child {
+  padding-left: 1.25rem; text-align: right;
+}
+
+.rank-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  color: var(--black);
+}
+.rank-gold { background: #d4af37; }
+.rank-silver { background: #c0c0c0; }
+.rank-bronze { background: #cd7f32; }
+
+.val-strong { font-weight: 700; }
 
 .res-g { color: var(--good); font-weight: 700; }
 .res-p { color: var(--bad); font-weight: 700; }
