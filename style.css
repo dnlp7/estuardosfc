@@ -73,7 +73,6 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 .standings-card {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 0;
   background: var(--card);
   border: 1px solid var(--border);
@@ -82,13 +81,22 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 }
 /* Three visual clusters — [PJ PG PE PP] [GF GC DIF] [PTS] — mirroring
    the real RES tab's "Torneo de Liga" box layout, separated by a
-   vertical divider rather than shown as one flat row of 8 boxes. */
+   vertical divider. Each group grows to fill its fair share of the
+   card's full width (not just huddled in the center) — PJ/PG/PE/PP
+   has 4 stat-boxes to PTS's 1, so it gets proportionally more space
+   via flex-grow matching its box count, and its own boxes are spread
+   out with space-evenly rather than packed together. */
 .standings-group {
   display: flex;
-  gap: 1.25rem;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1rem;
   padding: 0 1.5rem;
 }
 .standings-group:not(:last-child) { border-right: 1px solid var(--border); }
+.standings-group:nth-child(1) { flex: 4; }
+.standings-group:nth-child(2) { flex: 3; }
+.standings-group:nth-child(3) { flex: 1; }
 .standings-card .stat-box { text-align: center; }
 .standings-card .stat-box .label { display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
 .standings-card .stat-box .value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--accent-light); }
@@ -102,8 +110,9 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 /* Compact mode (the Historial leaderboard's simple view): the wrapper
    hugs the table's own content width instead of stretching to fill
    the page, so a short 4-column table doesn't get spread out with
-   large gaps between columns. */
-.table-wrap.compact { display: table; }
+   large gaps between columns — but stays centered on the page rather
+   than sticking to the left edge. */
+.table-wrap.compact { display: table; margin: 0 auto; }
 .table-wrap.compact table { width: auto; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -112,17 +121,14 @@ thead th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; b
 tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 tbody tr:hover { background: rgba(255,255,255,0.05); }
 
-/* Leaderboard column sizing — rank, dorsal, and TOT columns pulled in
-   tight; only the player name gets breathing room. */
-#leaderboard-table th:first-child, #leaderboard-table td:first-child {
-  padding-right: 0.5rem;
-}
-#leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2) {
-  width: 1%; padding-left: 0.5rem; padding-right: 0.25rem; text-align: right;
-}
-#leaderboard-table th:nth-child(3), #leaderboard-table td:nth-child(3) { padding-left: 0.4rem; }
+/* Leaderboard column sizing — rank, dorsal, and TOT columns narrower
+   than the name column (which does the heavy lifting for readability)
+   but with real breathing room, not crammed; all three centered. */
+#leaderboard-table th, #leaderboard-table td { padding: 0.6rem 1.25rem; }
+#leaderboard-table th:first-child, #leaderboard-table td:first-child,
+#leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2),
 #leaderboard-table th:last-child, #leaderboard-table td:last-child {
-  padding-left: 1.25rem; text-align: right;
+  text-align: center;
 }
 
 .rank-pill {
