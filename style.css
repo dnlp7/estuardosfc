@@ -1,11 +1,19 @@
 :root {
-  --bg: #0b1020;
-  --card: #131a2e;
-  --border: #232c47;
-  --text: #e8ecf7;
-  --muted: #8b93ad;
-  --accent: #ffcc33;
-  --accent2: #3b82f6;
+  /* Team palette: #074f57 main, black secondary, white tertiary,
+     #18a8b6 light accent, #062225 dark accent (also used in social
+     media graphics). */
+  --main: #074f57;
+  --black: #000000;
+  --white: #ffffff;
+  --accent-light: #18a8b6;
+  --accent-dark: #062225;
+
+  --bg: var(--black);
+  --card: var(--accent-dark);
+  --border: #0e3a40;
+  --text: var(--white);
+  --muted: #7fa3a8;
+  --accent: var(--accent-light);
   --good: #34d399;
   --bad: #f87171;
   --draw: #fbbf24;
@@ -24,10 +32,10 @@ body {
 .site-header {
   text-align: center;
   padding: 2rem 1rem 1rem;
+  background: var(--main);
 }
-.site-header h1 { margin: 0; font-size: 2rem; letter-spacing: 0.02em; }
-.subtitle { margin: 0.25rem 0 0; color: var(--muted); }
-.updated { margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--muted); }
+.site-header h1 { margin: 0; font-size: 2rem; letter-spacing: 0.02em; color: var(--white); }
+.subtitle { margin: 0.25rem 0 0; color: var(--white); opacity: 0.85; }
 
 .tabs {
   display: flex;
@@ -35,19 +43,22 @@ body {
   gap: 0.5rem;
   padding: 0 1rem 1rem;
   border-bottom: 1px solid var(--border);
+  background: var(--main);
 }
 .tab-btn {
   background: transparent;
   border: none;
-  color: var(--muted);
+  color: var(--white);
+  opacity: 0.7;
   font-size: 1rem;
   padding: 0.6rem 1.2rem;
   cursor: pointer;
   border-radius: 8px 8px 0 0;
 }
 .tab-btn.active {
-  color: var(--text);
-  background: var(--card);
+  color: var(--white);
+  opacity: 1;
+  background: var(--accent-dark);
   font-weight: 600;
 }
 
@@ -57,7 +68,7 @@ main { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 .tab-panel.active { display: block; }
 
 h2 { margin-top: 0; }
-h3 { color: var(--muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; }
+h3 { color: var(--accent-light); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
 
 .standings-card {
   display: grid;
@@ -70,7 +81,7 @@ h3 { color: var(--muted); font-size: 0.95rem; text-transform: uppercase; letter-
 }
 .standings-card .stat-box { text-align: center; }
 .standings-card .stat-box .label { display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
-.standings-card .stat-box .value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+.standings-card .stat-box .value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--accent-light); }
 
 .table-wrap {
   overflow-x: auto;
@@ -82,7 +93,14 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
 tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
-tbody tr:hover { background: rgba(255,255,255,0.03); }
+tbody tr:hover { background: rgba(255,255,255,0.05); }
+
+/* Jersey number column — narrow and tight against the player name,
+   matching the season docs' own table layout. */
+#leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2) {
+  width: 1%; padding-right: 0.25rem; text-align: right;
+}
+#leaderboard-table th:nth-child(3), #leaderboard-table td:nth-child(3) { padding-left: 0.4rem; }
 
 .res-g { color: var(--good); font-weight: 700; }
 .res-p { color: var(--bad); font-weight: 700; }
@@ -104,8 +122,9 @@ tbody tr:hover { background: rgba(255,255,255,0.03); }
   border-radius: 999px;
   cursor: pointer;
   font-size: 0.85rem;
+  font-weight: 700;
 }
-.stat-btn.active { color: var(--bg); background: var(--accent); border-color: var(--accent); font-weight: 700; }
+.stat-btn.active { color: var(--black); background: var(--accent-light); border-color: var(--accent-light); }
 
 #player-search, #era-filter {
   background: var(--card);

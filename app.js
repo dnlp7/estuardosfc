@@ -1,6 +1,11 @@
 (function () {
   var DATA_URL = 'data.json';
-  var STAT_LABELS = { GOL: 'Goles', AST: 'Asistencias', PA: 'Partidos Asistidos', PI: 'Posición Inicial' };
+  var STAT_TITLES = {
+    GOL: 'GOLES ANOTADOS',
+    AST: 'ASISTENCIAS DE GOL',
+    PA: 'PARTIDOS ASISTIDOS',
+    PI: 'PARTIDOS INICIADOS'
+  };
 
   var state = { data: null, stat: 'GOL', era: '__all__', search: '' };
 
@@ -66,13 +71,14 @@
     var tbody = document.querySelector('#matches-table tbody');
     var matches = (season.matches || []).slice().reverse(); // most recent first
     if (!matches.length) {
-      tbody.innerHTML = '<tr><td colspan="8" style="color:#8b93ad;">Sin partidos jugados todavía.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8" style="color:#7fa3a8;">Sin partidos jugados todavía.</td></tr>';
     } else {
+      // Column order: Jornada, Cancha, Fecha, Hora, Resultado, GF, GC, Rival
       tbody.innerHTML = matches.map(function (m) {
         var resClass = m.resultado === 'g' ? 'res-g' : m.resultado === 'p' ? 'res-p' : m.resultado === 'e' ? 'res-e' : '';
-        return '<tr><td>' + esc(m.jornada) + '</td><td>' + esc(m.fecha) + '</td><td>' + esc(m.hora) +
-          '</td><td>' + esc(m.cancha) + '</td><td>' + esc(m.rival) + '</td><td>' + esc(m.gf) +
-          '</td><td>' + esc(m.gc) + '</td><td class="' + resClass + '">' + esc((m.resultado || '').toUpperCase()) + '</td></tr>';
+        return '<tr><td>' + esc(m.jornada) + '</td><td>' + esc(m.cancha) + '</td><td>' + esc(m.fecha) +
+          '</td><td>' + esc(m.hora) + '</td><td class="' + resClass + '">' + esc((m.resultado || '').toUpperCase()) +
+          '</td><td>' + esc(m.gf) + '</td><td>' + esc(m.gc) + '</td><td>' + esc(m.rival) + '</td></tr>';
       }).join('');
     }
   }
@@ -84,6 +90,7 @@
         document.querySelectorAll('.stat-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         state.stat = btn.dataset.stat;
+        document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;
         populateEraFilter(data);
         renderLeaderboard();
       });
@@ -105,9 +112,11 @@
   function populateEraFilter(data) {
     var select = document.getElementById('era-filter');
     var statBlock = data.stats[state.stat];
-    var eras = statBlock ? statBlock.eras : [];
+    // eras arrives oldest-first (matches the historical doc's own column
+    // order); the dropdown shows most-recent-first, "Todas" pinned on top.
+    var eras = (statBlock ? statBlock.eras : []).slice().reverse();
     var current = select.value || '__all__';
-    select.innerHTML = '<option value="__all__">Todas las temporadas (TOT)</option>' +
+    select.innerHTML = '<option value="__all__">Todas las temporadas</option>' +
       eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(era) + '</option>'; }).join('');
     select.value = eras.indexOf(current) >= 0 ? current : '__all__';
     state.era = select.value;
@@ -121,7 +130,7 @@
     var header = document.getElementById('leaderboard-value-header');
 
     if (!statBlock || !statBlock.players.length) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:#8b93ad;">Sin datos.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="color:#7fa3a8;">Sin datos.</td></tr>';
       return;
     }
 
@@ -147,7 +156,7 @@
     }
 
     if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:#8b93ad;">Sin resultados.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="color:#7fa3a8;">Sin resultados.</td></tr>';
       return;
     }
 

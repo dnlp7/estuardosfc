@@ -9,8 +9,7 @@
 <body>
   <header class="site-header">
     <h1>Estuardos FC</h1>
-    <p class="subtitle">Estadísticas históricas</p>
-    <p class="updated" id="updated-at"></p>
+    <p class="subtitle">Estadísticas del equipo</p>
   </header>
 
   <nav class="tabs">
@@ -29,8 +28,8 @@
         <table id="matches-table">
           <thead>
             <tr>
-              <th>Jor.</th><th>Fecha</th><th>Hora</th><th>Cancha</th>
-              <th>Rival</th><th>GF</th><th>GC</th><th>R</th>
+              <th>Jor.</th><th>Cancha</th><th>Fecha</th><th>Hora</th>
+              <th>R</th><th>GF</th><th>GC</th><th>Rival</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -41,16 +40,18 @@
     <section id="tab-historial" class="tab-panel">
       <div class="controls">
         <div class="stat-selector" id="stat-selector">
-          <button class="stat-btn active" data-stat="GOL">Goles</button>
-          <button class="stat-btn" data-stat="AST">Asistencias</button>
-          <button class="stat-btn" data-stat="PA">Asistidos</button>
-          <button class="stat-btn" data-stat="PI">Pos. Inicial</button>
+          <button class="stat-btn active" data-stat="GOL">GOL</button>
+          <button class="stat-btn" data-stat="AST">AST</button>
+          <button class="stat-btn" data-stat="PA">PA</button>
+          <button class="stat-btn" data-stat="PI">PI</button>
         </div>
         <input type="search" id="player-search" placeholder="Buscar jugador...">
         <select id="era-filter">
-          <option value="__all__">Todas las temporadas (TOT)</option>
+          <option value="__all__">Todas las temporadas</option>
         </select>
       </div>
+
+      <h3 id="stat-title">GOLES ANOTADOS</h3>
 
       <div class="table-wrap">
         <table id="leaderboard-table">
@@ -64,7 +65,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>Datos actualizados automáticamente cada noche.</p>
+    <p class="updated" id="updated-at"></p>
   </footer>
 
   <script src="app.js"></script>
