@@ -117,9 +117,14 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 
-/* Cancha column (matches-table) — narrow, just a 1-digit court number. */
+/* Results table — every column centered except Rival (last), which
+   stays left-aligned since it's the one variable-length text field. */
+#matches-table th:not(:last-child), #matches-table td:not(:last-child) {
+  text-align: center;
+}
+/* Cancha column — narrow, just a 1-digit court number. */
 #matches-table th:nth-child(2), #matches-table td:nth-child(2) {
-  width: 1%; text-align: center; padding-left: 0.5rem; padding-right: 0.5rem;
+  width: 1%; padding-left: 0.5rem; padding-right: 0.5rem;
 }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
