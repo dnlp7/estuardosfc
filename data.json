@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T06:23:11.713Z",
+  "generatedAt": "2026-08-11T06:23:20.428Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -2156,6 +2156,761 @@
       "gc": 28,
       "dif": -16,
       "pts": 9
+    }
+  },
+  "detail": {
+    "era": "2026/27",
+    "GOL": {
+      "columns": [
+        {
+          "partido": "J1 RFU",
+          "resultado": "p"
+        },
+        {
+          "partido": "J2 CAN",
+          "resultado": "g"
+        },
+        {
+          "partido": "J3 TAP",
+          "resultado": "p"
+        },
+        {
+          "partido": "J4 MDR",
+          "resultado": "g"
+        },
+        {
+          "partido": "J5 BRO",
+          "resultado": "g"
+        },
+        {
+          "partido": "J6 PAN",
+          "resultado": "p"
+        }
+      ],
+      "players": [
+        {
+          "dorsal": 9,
+          "nombre": "Hector",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            1,
+            1,
+            null,
+            1,
+            null
+          ]
+        },
+        {
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 2,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            2,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 27,
+          "nombre": "Chuy",
+          "total": 2,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            2,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 6,
+          "nombre": "Lanuza",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            1,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 7,
+          "nombre": "Daniel",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            1,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 10,
+          "nombre": "Paco",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            1,
+            null
+          ]
+        },
+        {
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            1
+          ]
+        },
+        {
+          "dorsal": 23,
+          "nombre": "Sergio",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            1,
+            null
+          ]
+        },
+        {
+          "dorsal": 1,
+          "nombre": "Charly",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 3,
+          "nombre": "Sheko",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 4,
+          "nombre": "Mares",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 12,
+          "nombre": "Chente",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 14,
+          "nombre": "Eric",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 20,
+          "nombre": "Abraham",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 28,
+          "nombre": "Mane",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": "",
+          "nombre": "[Default]",
+          "total": 0,
+          "isUtility": true,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": "",
+          "nombre": "[Autogoles]",
+          "total": 0,
+          "isUtility": true,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
+    },
+    "AST": {
+      "columns": [
+        {
+          "partido": "J1 RFU",
+          "resultado": "p"
+        },
+        {
+          "partido": "J2 CAN",
+          "resultado": "g"
+        },
+        {
+          "partido": "J3 TAP",
+          "resultado": "p"
+        },
+        {
+          "partido": "J4 MDR",
+          "resultado": "g"
+        },
+        {
+          "partido": "J5 BRO",
+          "resultado": "g"
+        },
+        {
+          "partido": "J6 PAN",
+          "resultado": "p"
+        }
+      ],
+      "players": [
+        {
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            2,
+            1
+          ]
+        },
+        {
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            1,
+            null,
+            2,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 3,
+          "nombre": "Sheko",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            1,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 4,
+          "nombre": "Mares",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            1,
+            null
+          ]
+        },
+        {
+          "dorsal": 7,
+          "nombre": "Daniel",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            1,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 12,
+          "nombre": "Chente",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            1,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 20,
+          "nombre": "Abraham",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            1,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 23,
+          "nombre": "Sergio",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            1,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 1,
+          "nombre": "Charly",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 6,
+          "nombre": "Lanuza",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 9,
+          "nombre": "Hector",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 10,
+          "nombre": "Paco",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 14,
+          "nombre": "Eric",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 27,
+          "nombre": "Chuy",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 28,
+          "nombre": "Mane",
+          "total": 0,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
+    },
+    "PA": {
+      "columns": [
+        {
+          "partido": "J1 RFU",
+          "resultado": "p"
+        },
+        {
+          "partido": "J2 CAN",
+          "resultado": "g"
+        },
+        {
+          "partido": "J3 TAP",
+          "resultado": "p"
+        },
+        {
+          "partido": "J4 MDR",
+          "resultado": "g"
+        },
+        {
+          "partido": "J5 BRO",
+          "resultado": "g"
+        },
+        {
+          "partido": "J6 PAN",
+          "resultado": "p"
+        }
+      ],
+      "players": [
+        {
+          "dorsal": 4,
+          "nombre": "Mares",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 7,
+          "nombre": "Daniel",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 9,
+          "nombre": "Hector",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 20,
+          "nombre": "Abraham",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 23,
+          "nombre": "Sergio",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 1,
+          "nombre": "Charly",
+          "total": 5,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            null
+          ]
+        },
+        {
+          "dorsal": 3,
+          "nombre": "Sheko",
+          "total": 5,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            null
+          ]
+        },
+        {
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 5,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 14,
+          "nombre": "Eric",
+          "total": 5,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            null
+          ]
+        },
+        {
+          "dorsal": 6,
+          "nombre": "Lanuza",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            null,
+            "x",
+            "x",
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 12,
+          "nombre": "Chente",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            null,
+            "x",
+            null,
+            null
+          ]
+        },
+        {
+          "dorsal": 27,
+          "nombre": "Chuy",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            "x",
+            null,
+            "x",
+            "x",
+            null
+          ]
+        },
+        {
+          "dorsal": 10,
+          "nombre": "Paco",
+          "total": 2,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 28,
+          "nombre": "Mane",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            "x",
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      ]
+    },
+    "PI": {
+      "columns": [],
+      "players": []
     }
   }
 }
