@@ -317,7 +317,7 @@
     var columns = detail.columns || [];
     var fixedHeadHtml = ['#', 'N°', 'Jugador', 'TOT'].map(function (h) { return '<th>' + esc(h) + '</th>'; });
     var matchHeadHtml = columns.map(function (c) { return '<th>' + jornadaHeaderHtml(c.partido) + '</th>'; });
-    var barCellsHtml = ['<td></td>', '<td></td>', '<td></td>', '<td></td>'].concat(
+    var barCellsHtml = ['<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>'].concat(
       columns.map(function (c) {
         var cls = c.resultado === 'g' ? 'result-bar-g' : c.resultado === 'p' ? 'result-bar-p' : c.resultado === 'e' ? 'result-bar-e' : '';
         return '<td class="result-bar' + (cls ? ' ' + cls : '') + '"></td>';
