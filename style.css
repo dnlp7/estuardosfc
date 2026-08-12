@@ -151,6 +151,13 @@ tbody tr:hover { background: rgba(255,255,255,0.05); }
   padding: 0.5rem 0.6rem;
   text-align: center;
 }
+/* Match header cells wrap onto two lines (jornada code / rival, via
+   jornadaHeaderHtml in app.js) instead of forcing the column wide
+   enough to fit both on one line — the main lever on total table width. */
+#leaderboard-table th:nth-child(n+5) {
+  white-space: normal;
+  line-height: 1.2;
+}
 
 .detail-toggle {
   display: flex;
@@ -177,7 +184,11 @@ tbody tr:hover { background: rgba(255,255,255,0.05); }
    used for the simple TOT-only table. */
 .table-wrap:not(.compact) table { width: max-content; min-width: 100%; }
 
-.result-bar { height: 4px; padding: 0 !important; }
+/* line-height/font-size: 0 — an empty <td> still gets a phantom inline
+   content line-box sized by the inherited line-height (~20px here)
+   even with padding removed; zeroing both collapses it to the
+   explicit 4px height with nothing fighting it. */
+.result-bar { height: 4px; padding: 0 !important; line-height: 0; font-size: 0; }
 .result-bar span { display: block; height: 100%; }
 .result-bar-g { background: var(--good); }
 .result-bar-p { background: var(--bad); }

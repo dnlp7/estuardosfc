@@ -315,7 +315,8 @@
    * and left out of the rank count. */
   function renderMatchDetailLeaderboard(detail) {
     var columns = detail.columns || [];
-    var headCells = ['#', 'N°', 'Jugador', 'TOT'].concat(columns.map(function (c) { return c.partido; }));
+    var fixedHeadHtml = ['#', 'N°', 'Jugador', 'TOT'].map(function (h) { return '<th>' + esc(h) + '</th>'; });
+    var matchHeadHtml = columns.map(function (c) { return '<th>' + jornadaHeaderHtml(c.partido) + '</th>'; });
     var barCellsHtml = ['<td></td>', '<td></td>', '<td></td>', '<td></td>'].concat(
       columns.map(function (c) {
         var cls = c.resultado === 'g' ? 'result-bar-g' : c.resultado === 'p' ? 'result-bar-p' : c.resultado === 'e' ? 'result-bar-e' : '';
@@ -323,7 +324,7 @@
       })
     );
     setTableHead(
-      '<tr>' + headCells.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>' +
+      '<tr>' + fixedHeadHtml.concat(matchHeadHtml).join('') + '</tr>' +
       '<tr>' + barCellsHtml.join('') + '</tr>'
     );
 
@@ -343,6 +344,16 @@
         '</td><td>' + esc(p.dorsal) + '</td><td>' + esc(p.nombre) + '</td><td class="val-strong">' +
         esc(p.total) + '</td>' + matchCells + '</tr>';
     }).join(''));
+  }
+
+  /** Splits a match header like "J1 RFU" into two lines (jornada code /
+   * rival abbreviation) so the column doesn't have to be wide enough
+   * for both on one line — the single biggest driver of how wide a
+   * detailed table ends up. */
+  function jornadaHeaderHtml(partido) {
+    var parts = String(partido || '').trim().split(/\s+/);
+    if (parts.length < 2) return esc(partido);
+    return esc(parts[0]) + '<br>' + esc(parts.slice(1).join(' '));
   }
 
   function esc(v) {
