@@ -141,6 +141,39 @@ tbody tr:hover { background: rgba(255,255,255,0.05); }
   text-align: center;
 }
 
+.detail-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+}
+.detail-toggle input { accent-color: var(--accent-light); width: 1.1rem; height: 1.1rem; cursor: pointer; }
+
+.detail-message {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Detailed leaderboard view (per-match or per-era columns) — the wrap
+   goes full-width + scrollable instead of the compact/hugging layout
+   used for the simple TOT-only table. */
+.table-wrap:not(.compact) table { width: max-content; min-width: 100%; }
+
+.result-bar { height: 4px; padding: 0 !important; }
+.result-bar span { display: block; height: 100%; }
+.result-bar-g { background: var(--good); }
+.result-bar-p { background: var(--bad); }
+.result-bar-e { background: var(--draw); }
+
+.utility-row td { font-style: italic; color: var(--muted); }
+
 .rank-pill {
   display: inline-flex;
   align-items: center;

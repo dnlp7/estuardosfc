@@ -49,11 +49,17 @@
         <select id="era-filter">
           <option value="__all__">Todas las temporadas</option>
         </select>
+        <label class="detail-toggle">
+          <input type="checkbox" id="detail-toggle">
+          <span>Mostrar detalle</span>
+        </label>
       </div>
 
       <h3 id="stat-title">GOLES ANOTADOS</h3>
 
-      <div class="table-wrap compact">
+      <p id="detail-message" class="detail-message" hidden></p>
+
+      <div class="table-wrap compact" id="leaderboard-wrap">
         <table id="leaderboard-table">
           <thead>
             <tr><th>#</th><th>N°</th><th>Jugador</th><th id="leaderboard-value-header">TOT</th></tr>

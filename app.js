@@ -1,5 +1,6 @@
 (function () {
   var DATA_URL = 'data.json';
+  var HISTORY_DETAIL_URL = 'data-history-detail.json';
   var STAT_TITLES = {
     GOL: 'GOLES ANOTADOS',
     AST: 'ASISTENCIAS DE GOL',
@@ -7,7 +8,14 @@
     PI: 'PARTIDOS INICIADOS'
   };
 
-  var state = { data: null, stat: 'GOL', era: '__all__', search: '' };
+  var state = {
+    data: null,
+    stat: 'GOL',
+    era: '__all__',
+    search: '',
+    detail: false,           // "Mostrar detalle" toggle — off by default
+    historyDetailPromise: null // lazy-loaded + cached data-history-detail.json fetch
+  };
 
   fetch(DATA_URL)
     .then(function (r) {
@@ -114,6 +122,11 @@
       renderLeaderboard();
     });
 
+    document.getElementById('detail-toggle').addEventListener('change', function (e) {
+      state.detail = e.target.checked;
+      renderLeaderboard();
+    });
+
     populateEraFilter(data);
   }
 
@@ -130,25 +143,116 @@
     state.era = select.value;
   }
 
-  function renderLeaderboard() {
-    var data = state.data;
-    if (!data) return;
-    var statBlock = data.stats[state.stat];
-    var tbody = document.querySelector('#leaderboard-table tbody');
-    var header = document.getElementById('leaderboard-value-header');
-
-    if (!statBlock || !statBlock.players.length) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:#7fa3a8;">Sin datos.</td></tr>';
-      return;
-    }
-
-    header.textContent = state.era === '__all__' ? 'TOT' : state.era;
-
-    var players = statBlock.players.filter(function (p) {
+  function filteredPlayers(players) {
+    return (players || []).filter(function (p) {
       if (!state.search) return true;
       return String(p.nombre).toLowerCase().indexOf(state.search) >= 0;
     });
+  }
 
+  function rankPillHtml(rank) {
+    var pillClass = rank === 1 ? ' rank-gold' : rank === 2 ? ' rank-silver' : rank === 3 ? ' rank-bronze' : '';
+    return pillClass ? '<span class="rank-pill' + pillClass + '">' + rank + '</span>' : String(rank);
+  }
+
+  function setTableHead(html) { document.querySelector('#leaderboard-table thead').innerHTML = html; }
+  function setTableBody(html) { document.querySelector('#leaderboard-table tbody').innerHTML = html; }
+
+  function showLeaderboardTable() {
+    document.getElementById('detail-message').hidden = true;
+    document.getElementById('leaderboard-wrap').hidden = false;
+  }
+
+  function showDetailMessage(text) {
+    var msg = document.getElementById('detail-message');
+    msg.textContent = text;
+    msg.hidden = false;
+    document.getElementById('leaderboard-wrap').hidden = true;
+  }
+
+  /** Main dispatcher — picks one of three render modes based on the
+   * "Mostrar detalle" toggle and which era is selected:
+   *   - toggle off              -> simple TOT/single-era table (unchanged)
+   *   - toggle on, "Todas"      -> one column per era (already in data.json)
+   *   - toggle on, current era  -> per-match columns (already in data.json's "detail")
+   *   - toggle on, older era    -> per-match columns, lazy-fetched from
+   *                                data-history-detail.json (cached after first load)
+   */
+  function renderLeaderboard() {
+    var data = state.data;
+    if (!data) return;
+    var wrap = document.getElementById('leaderboard-wrap');
+    var statBlock = data.stats[state.stat];
+
+    if (!statBlock || !statBlock.players.length) {
+      showLeaderboardTable();
+      wrap.classList.add('compact');
+      setTableHead('<tr><th>#</th><th>N°</th><th>Jugador</th><th>TOT</th></tr>');
+      setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin datos.</td></tr>');
+      return;
+    }
+
+    if (!state.detail) {
+      showLeaderboardTable();
+      wrap.classList.add('compact');
+      renderSimpleLeaderboard(statBlock);
+      return;
+    }
+
+    wrap.classList.remove('compact');
+
+    if (state.era === '__all__') {
+      showLeaderboardTable();
+      renderEraWideLeaderboard(statBlock);
+      return;
+    }
+
+    if (data.detail && state.era === data.detail.era && data.detail[state.stat]) {
+      showLeaderboardTable();
+      renderMatchDetailLeaderboard(data.detail[state.stat]);
+      return;
+    }
+
+    // Older season — lazy fetch data-history-detail.json (once, cached).
+    showDetailMessage('Cargando detalle...');
+    var requestedEra = state.era, requestedStat = state.stat;
+    fetchHistoryDetail()
+      .then(function (historyData) {
+        // If the user changed era/stat/toggle while this was in flight,
+        // a fresh renderLeaderboard() already handled it — don't stomp it.
+        if (!state.detail || state.era !== requestedEra || state.stat !== requestedStat) return;
+        var eraData = historyData && historyData.eras && historyData.eras[requestedEra];
+        var statDetail = eraData ? eraData[requestedStat] : undefined;
+        if (!statDetail || !statDetail.columns || !statDetail.columns.length) {
+          showDetailMessage('Detalle no disponible para esta temporada.');
+          return;
+        }
+        showLeaderboardTable();
+        renderMatchDetailLeaderboard(statDetail);
+      })
+      .catch(function (err) {
+        if (!state.detail || state.era !== requestedEra || state.stat !== requestedStat) return;
+        showDetailMessage('No se pudo cargar el detalle histórico.');
+        console.error(err);
+      });
+  }
+
+  function fetchHistoryDetail() {
+    if (!state.historyDetailPromise) {
+      state.historyDetailPromise = fetch(HISTORY_DETAIL_URL).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      });
+    }
+    return state.historyDetailPromise;
+  }
+
+  /** Simple mode (toggle off) — TOT, or one specific era's total. */
+  function renderSimpleLeaderboard(statBlock) {
+    var valueHeader = state.era === '__all__' ? 'TOT' : state.era;
+    setTableHead('<tr><th>#</th><th>N°</th><th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
+
+    var players = filteredPlayers(statBlock.players);
     var rows;
     if (state.era === '__all__') {
       rows = players.map(function (p) { return { p: p, val: p.total }; });
@@ -164,19 +268,77 @@
     }
 
     if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="4" style="color:#7fa3a8;">Sin resultados.</td></tr>';
+      setTableBody('<tr><td colspan="4" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
     }
 
-    tbody.innerHTML = rows.map(function (r, i) {
-      var rank = i + 1;
-      var pillClass = rank === 1 ? ' rank-gold' : rank === 2 ? ' rank-silver' : rank === 3 ? ' rank-bronze' : '';
-      var rankCell = pillClass
-        ? '<span class="rank-pill' + pillClass + '">' + rank + '</span>'
-        : rank;
-      return '<tr><td class="rank-cell">' + rankCell + '</td><td>' + esc(r.p.dorsal) + '</td><td>' +
-        esc(r.p.nombre) + '</td><td>' + esc(r.val) + '</td></tr>';
-    }).join('');
+    setTableBody(rows.map(function (r, i) {
+      return '<tr><td class="rank-cell">' + rankPillHtml(i + 1) + '</td><td>' + esc(r.p.dorsal) + '</td><td>' +
+        esc(r.p.nombre) + '</td><td class="val-strong">' + esc(r.val) + '</td></tr>';
+    }).join(''));
+  }
+
+  /** Detailed mode, "Todas las temporadas" — one column per era, same
+   * totals already in data.json (stats[stat].players[].byEra), no
+   * extra fetch needed. Player order is already the source doc's own
+   * sorted (total desc, dorsal-tiebreak) physical row order. */
+  function renderEraWideLeaderboard(statBlock) {
+    var eras = statBlock.eras; // oldest-first, matches the historical doc's own layout
+    var headCells = ['#', 'N°', 'Jugador', 'TOT'].concat(eras);
+    setTableHead('<tr>' + headCells.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>');
+
+    var players = filteredPlayers(statBlock.players);
+    if (!players.length) {
+      setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin resultados.</td></tr>');
+      return;
+    }
+
+    setTableBody(players.map(function (p, i) {
+      var eraCells = eras.map(function (era) {
+        var v = p.byEra && p.byEra[era];
+        return '<td>' + (v === undefined ? '' : esc(v)) + '</td>';
+      }).join('');
+      return '<tr><td class="rank-cell">' + rankPillHtml(i + 1) + '</td><td>' + esc(p.dorsal) + '</td><td>' +
+        esc(p.nombre) + '</td><td class="val-strong">' + esc(p.total) + '</td>' + eraCells + '</tr>';
+    }).join(''));
+  }
+
+  /** Detailed mode, one specific era — per-match columns (either from
+   * data.json's "detail" for the current season, or a lazily-fetched
+   * data-history-detail.json entry for an older one). Includes a
+   * result-colored bar row under the match headers, and
+   * [Default]/[Autogoles] utility rows (GOL only) styled distinctly
+   * and left out of the rank count. */
+  function renderMatchDetailLeaderboard(detail) {
+    var columns = detail.columns || [];
+    var headCells = ['#', 'N°', 'Jugador', 'TOT'].concat(columns.map(function (c) { return c.partido; }));
+    var barCellsHtml = ['<td></td>', '<td></td>', '<td></td>', '<td></td>'].concat(
+      columns.map(function (c) {
+        var cls = c.resultado === 'g' ? 'result-bar-g' : c.resultado === 'p' ? 'result-bar-p' : c.resultado === 'e' ? 'result-bar-e' : '';
+        return '<td class="result-bar' + (cls ? ' ' + cls : '') + '"></td>';
+      })
+    );
+    setTableHead(
+      '<tr>' + headCells.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>' +
+      '<tr>' + barCellsHtml.join('') + '</tr>'
+    );
+
+    var players = filteredPlayers(detail.players);
+    if (!players.length) {
+      setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin resultados.</td></tr>');
+      return;
+    }
+
+    var rankIdx = 0;
+    setTableBody(players.map(function (p) {
+      var rankCell = p.isUtility ? '' : rankPillHtml(++rankIdx);
+      var matchCells = (p.byMatch || []).map(function (v) {
+        return '<td>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+      }).join('');
+      return '<tr' + (p.isUtility ? ' class="utility-row"' : '') + '><td class="rank-cell">' + rankCell +
+        '</td><td>' + esc(p.dorsal) + '</td><td>' + esc(p.nombre) + '</td><td class="val-strong">' +
+        esc(p.total) + '</td>' + matchCells + '</tr>';
+    }).join(''));
   }
 
   function esc(v) {
