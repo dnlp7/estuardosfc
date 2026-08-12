@@ -63,6 +63,10 @@ body {
 }
 
 main { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+/* Detailed leaderboard views (per-match or per-era columns) need much
+   more horizontal room than the 900px reading-width column — toggled
+   via JS alongside the table-wrap's own compact/full-width switch. */
+main.wide { max-width: 1400px; }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
@@ -138,6 +142,13 @@ tbody tr:hover { background: rgba(255,255,255,0.05); }
 #leaderboard-table th:first-child, #leaderboard-table td:first-child,
 #leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2),
 #leaderboard-table th:last-child, #leaderboard-table td:last-child {
+  text-align: center;
+}
+/* Detailed mode's match/era columns (5th onward) — much narrower
+   padding than the 4 fixed columns, so 20+ numeric columns stay
+   compact instead of each eating >2rem of horizontal padding alone. */
+#leaderboard-table th:nth-child(n+5), #leaderboard-table td:nth-child(n+5) {
+  padding: 0.5rem 0.6rem;
   text-align: center;
 }
 

@@ -158,6 +158,11 @@
   function setTableHead(html) { document.querySelector('#leaderboard-table thead').innerHTML = html; }
   function setTableBody(html) { document.querySelector('#leaderboard-table tbody').innerHTML = html; }
 
+  function setWideLayout(wide) {
+    document.getElementById('leaderboard-wrap').classList.toggle('compact', !wide);
+    document.querySelector('main').classList.toggle('wide', wide);
+  }
+
   function showLeaderboardTable() {
     document.getElementById('detail-message').hidden = true;
     document.getElementById('leaderboard-wrap').hidden = false;
@@ -181,12 +186,11 @@
   function renderLeaderboard() {
     var data = state.data;
     if (!data) return;
-    var wrap = document.getElementById('leaderboard-wrap');
     var statBlock = data.stats[state.stat];
 
     if (!statBlock || !statBlock.players.length) {
       showLeaderboardTable();
-      wrap.classList.add('compact');
+      setWideLayout(false);
       setTableHead('<tr><th>#</th><th>N°</th><th>Jugador</th><th>TOT</th></tr>');
       setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin datos.</td></tr>');
       return;
@@ -194,12 +198,12 @@
 
     if (!state.detail) {
       showLeaderboardTable();
-      wrap.classList.add('compact');
+      setWideLayout(false);
       renderSimpleLeaderboard(statBlock);
       return;
     }
 
-    wrap.classList.remove('compact');
+    setWideLayout(true);
 
     if (state.era === '__all__') {
       showLeaderboardTable();
