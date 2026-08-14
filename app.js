@@ -185,7 +185,7 @@
         var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
 
         return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td' + styleAttr_(canchaColor) + '>' +
-          esc(m.cancha) + '</td><td>' + esc(m.fecha) + '</td><td' + styleAttr_(horaColor) + '>' + esc(m.hora) +
+          esc(m.cancha) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td><td' + styleAttr_(horaColor) + '>' + esc(m.hora) +
           '</td><td class="result-chip ' + resClass + '"></td><td class="val-strong">' + esc(m.gf) +
           '</td><td class="val-strong">' + esc(m.gc) + '</td><td' + rivalStyle + '>' + esc(m.rival) + '</td></tr>';
       }).join('');
@@ -199,6 +199,20 @@
     var m = String(hora || '').match(/^(\d{1,2}):(\d{2})/);
     if (!m) return null;
     return Number(m[1]) * 60 + Number(m[2]);
+  }
+
+  var MESES_ES_ = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+  /** Reformats data.json's ISO "yyyy-MM-dd" Fecha into the shorter
+   * "DD/Mmm/YY" the Results table shows (e.g. "2026-07-04" -> "04/Jul/26"),
+   * so the column doesn't need to be as wide. Falls back to the raw
+   * value unchanged if it isn't in the expected shape. */
+  function formatFechaCorta_(iso) {
+    var m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return iso;
+    var mes = MESES_ES_[Number(m[2]) - 1];
+    if (!mes) return iso;
+    return m[3] + '/' + mes + '/' + m[1].slice(2);
   }
 
   function renderStatBox(b) {

@@ -160,9 +160,16 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 /* Jornada column — fixed light-accent background (not a scale), black
    text for contrast, mirroring the real RES tab. */
 #matches-table td.jornada-cell { background: var(--accent-light); color: var(--black); font-weight: 700; }
-/* Result column — a narrow solid-colored chip instead of a G/E/P
-   letter, same idea as the leaderboard's result-bar row. */
-#matches-table td.result-chip { width: 1%; padding: 0; }
+/* Result column — a thin solid-colored line instead of a G/E/P letter,
+   same idea as the leaderboard's result-bar row. Fixed narrow width on
+   both header and cell so the "R" heading doesn't force the column
+   wider than the line itself needs to be. */
+#matches-table th:nth-child(5), #matches-table td:nth-child(5) {
+  width: 22px;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+}
+#matches-table td.result-chip { padding: 0; }
 .result-chip-g { background: var(--good); }
 .result-chip-p { background: var(--bad); }
 .result-chip-e { background: var(--draw); }
