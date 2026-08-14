@@ -13,6 +13,16 @@
   --grey-cell: #333333;
   --grey-cell-hover: #3d3d3d;
 
+  /* Color-scale endpoints used by app.js for the stat-table gradients
+     (rank/total/matchday cells) and the Results table's Cancha/Hora
+     gradients — read at runtime via getComputedStyle, so these are the
+     single source of truth for both CSS and JS. */
+  --scale-best: #0b5394;
+  --cancha-light: #4a86c9;
+  --cancha-dark: #0d2b4a;
+  --hora-light: #8a63b3;
+  --hora-dark: #2e1a47;
+
   --bg: var(--accent-dark);
   --card: var(--grey-cell);
   --border: #444444;
@@ -135,6 +145,15 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 #matches-table th:nth-child(2), #matches-table td:nth-child(2) {
   width: 1%; padding-left: 0.5rem; padding-right: 0.5rem;
 }
+/* Jornada column — fixed light-accent background (not a scale), black
+   text for contrast, mirroring the real RES tab. */
+#matches-table td.jornada-cell { background: var(--accent-light); color: var(--black); font-weight: 700; }
+/* Result column — a narrow solid-colored chip instead of a G/E/P
+   letter, same idea as the leaderboard's result-bar row. */
+#matches-table td.result-chip { width: 1%; padding: 0; }
+.result-chip-g { background: var(--good); }
+.result-chip-p { background: var(--bad); }
+.result-chip-e { background: var(--draw); }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
 tbody td { background: var(--grey-cell); }
@@ -170,6 +189,25 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
 /* Player name column — main team color, not the grey used by every
    other cell (the one deliberate exception to the grey table scheme). */
 #leaderboard-table td:nth-child(3) { background: var(--main); }
+/* Dorsal column — also main-color, and narrow (just enough for a
+   2-digit number), mirroring the real season-doc tables. */
+#leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2) {
+  background: var(--main);
+  width: 1%;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+/* Thick black grid lines, mirroring the real season-doc tables —
+   overrides the thin bottom-only border used elsewhere. Rank/Total/
+   matchday cell backgrounds are set inline per-cell by app.js's color
+   scales, so they layer on top of this border grid untouched. */
+#leaderboard-table th, #leaderboard-table td { border: 2px solid var(--black); }
+/* Dorsal and Jugador read as one visual unit — no divider between them. */
+#leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2) { border-right: none; }
+#leaderboard-table th:nth-child(3), #leaderboard-table td:nth-child(3) { border-left: none; }
+/* The thin result-bar row would otherwise be swallowed by the new 2px
+   grid borders — keep it borderless so it still reads as a hairline. */
+#leaderboard-table td.result-bar { border: none; }
 
 .detail-toggle {
   display: flex;
@@ -209,10 +247,6 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
 .utility-row td { font-style: italic; color: var(--muted); }
 
 .val-strong { font-weight: 700; }
-
-.res-g { color: var(--good); font-weight: 700; }
-.res-p { color: var(--bad); font-weight: 700; }
-.res-e { color: var(--draw); font-weight: 700; }
 
 .controls {
   display: flex;
