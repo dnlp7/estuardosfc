@@ -87,13 +87,14 @@ main.wide { max-width: 1400px; }
 .tab-panel.active { display: block; }
 
 h2 { margin-top: 0; }
+#temporada-era { color: var(--accent-light); }
 h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
 
 .standings-card {
   display: flex;
   flex-wrap: wrap;
   gap: 0;
-  background: var(--card);
+  background: var(--grey-header);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem 0;
@@ -118,7 +119,7 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 .standings-group:nth-child(3) { flex: 1; }
 .standings-card .stat-box { text-align: center; }
 .standings-card .stat-box .label { display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
-.standings-card .stat-box .value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--accent-light); }
+.standings-card .stat-box .value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--white); }
 
 .table-wrap {
   overflow-x: auto;
@@ -133,6 +134,10 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    than sticking to the left edge. */
 .table-wrap.compact { display: table; margin: 0 auto; }
 .table-wrap.compact table { width: auto; }
+/* The leaderboard table already carries its own thick black grid —
+   the wrap's soft grey card border/radius on top of that just reads as
+   a stray outline, so it's dropped for this one table specifically. */
+#leaderboard-wrap { border: none; border-radius: 0; background: transparent; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 
@@ -145,6 +150,8 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 #matches-table th:nth-child(2), #matches-table td:nth-child(2) {
   width: 1%; padding-left: 0.5rem; padding-right: 0.5rem;
 }
+/* Full cell grid, not just a bottom border between rows. */
+#matches-table th, #matches-table td { border: 1px solid var(--border); }
 /* Jornada column — fixed light-accent background (not a scale), black
    text for contrast, mirroring the real RES tab. */
 #matches-table td.jornada-cell { background: var(--accent-light); color: var(--black); font-weight: 700; }
@@ -167,10 +174,19 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
    than the name column (which does the heavy lifting for readability)
    but with real breathing room, not crammed; all three centered. */
 #leaderboard-table th, #leaderboard-table td { padding: 0.6rem 1.25rem; }
+/* Every header centered, regardless of column. */
+#leaderboard-table th { text-align: center; }
 #leaderboard-table th:first-child, #leaderboard-table td:first-child,
 #leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2),
+#leaderboard-table th:nth-child(4), #leaderboard-table td:nth-child(4),
 #leaderboard-table th:last-child, #leaderboard-table td:last-child {
   text-align: center;
+}
+/* Rank column ("#") — narrow, just a 1-2 digit number. */
+#leaderboard-table th:first-child, #leaderboard-table td:first-child {
+  width: 1%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 /* Detailed mode's match/era columns (5th onward) — much narrower
    padding than the 4 fixed columns, so 20+ numeric columns stay
@@ -187,12 +203,28 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
   line-height: 1.2;
 }
 /* Player name column — main team color, not the grey used by every
-   other cell (the one deliberate exception to the grey table scheme). */
-#leaderboard-table td:nth-child(3) { background: var(--main); }
-/* Dorsal column — also main-color, and narrow (just enough for a
-   2-digit number), mirroring the real season-doc tables. */
-#leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2) {
+   other cell (the one deliberate exception to the grey table scheme).
+   Slightly wider than a plain content-fit column, and pulled in tight
+   against the dorsal cell on the left (no divider between them) while
+   keeping normal breathing room on the right. */
+#leaderboard-table th:nth-child(3), #leaderboard-table td:nth-child(3) {
+  min-width: 11rem;
+}
+#leaderboard-table td:nth-child(3) {
   background: var(--main);
+  padding-left: 0.5rem;
+  padding-right: 2rem;
+}
+/* Dorsal column — narrow (just enough for a 2-digit number), main-color
+   background on the value cell only — the header stays the same grey
+   as every other header. */
+#leaderboard-table td:nth-child(2) {
+  background: var(--main);
+  width: 1%;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+#leaderboard-table th:nth-child(2) {
   width: 1%;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
@@ -244,7 +276,7 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
 .result-bar-p { background: var(--bad); }
 .result-bar-e { background: var(--draw); }
 
-.utility-row td { font-style: italic; color: var(--muted); }
+.utility-row td { font-style: italic; color: var(--white); }
 
 .val-strong { font-weight: 700; }
 
@@ -257,7 +289,7 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
 }
 .stat-selector { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 .stat-btn {
-  background: var(--card);
+  background: var(--grey-header);
   border: 1px solid var(--border);
   color: var(--muted);
   padding: 0.45rem 0.9rem;
@@ -269,7 +301,7 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
 .stat-btn.active { color: var(--black); background: var(--accent-light); border-color: var(--accent-light); }
 
 #player-search, #era-filter {
-  background: var(--card);
+  background: var(--grey-header);
   border: 1px solid var(--border);
   color: var(--text);
   padding: 0.5rem 0.75rem;
@@ -278,7 +310,8 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
 }
 #player-search { flex: 1; min-width: 140px; }
 
-.rank-cell { color: var(--muted); }
+.rank-cell { color: var(--white); font-weight: 700; }
+#leaderboard-table td:nth-child(2), #leaderboard-table td:nth-child(3) { font-weight: 700; color: var(--white); }
 
 .site-footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 1rem; }
 
