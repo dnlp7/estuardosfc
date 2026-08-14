@@ -154,7 +154,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    than the usual --border grey — several cells in this table carry
    their own colored backgrounds (Jornada/Cancha/Hora/Rival), and the
    subtler grey border read as invisible against grey-on-grey cells. */
-#matches-table th, #matches-table td { border: 1px solid var(--black); }
+#matches-table th, #matches-table td { border: 2px solid var(--black); }
 /* Rival name — bold, matching the kit-color treatment. */
 #matches-table td:last-child { font-weight: 700; }
 /* Jornada column — fixed light-accent background (not a scale), black
@@ -213,12 +213,12 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
    against the dorsal cell on the left (no divider between them) while
    keeping normal breathing room on the right. */
 #leaderboard-table th:nth-child(3), #leaderboard-table td:nth-child(3) {
-  min-width: 11rem;
+  min-width: 8rem;
 }
 #leaderboard-table td:nth-child(3) {
   background: var(--main);
   padding-left: 0.5rem;
-  padding-right: 2rem;
+  padding-right: 1.5rem;
 }
 /* Dorsal column — narrow (just enough for a 2-digit number), main-color
    background on the value cell only — the header stays the same grey
