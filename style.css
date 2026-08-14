@@ -1,18 +1,23 @@
 :root {
   /* Team palette: #074f57 main, black secondary, white tertiary,
      #18a8b6 light accent, #062225 dark accent (also used in social
-     media graphics). */
+     media graphics). Page background uses the dark accent rather than
+     pure black; tables use a separate neutral dark-grey pair so data
+     grids read distinctly from the page/card chrome around them. */
   --main: #074f57;
   --black: #000000;
   --white: #ffffff;
   --accent-light: #18a8b6;
   --accent-dark: #062225;
+  --grey-header: #262626;
+  --grey-cell: #333333;
+  --grey-cell-hover: #3d3d3d;
 
-  --bg: var(--black);
-  --card: var(--accent-dark);
-  --border: #0e3a40;
+  --bg: var(--accent-dark);
+  --card: var(--grey-cell);
+  --border: #444444;
   --text: var(--white);
-  --muted: #7fa3a8;
+  --muted: #9a9a9a;
   --accent: var(--accent-light);
   --good: #34d399;
   --bad: #f87171;
@@ -131,9 +136,13 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   width: 1%; padding-left: 0.5rem; padding-right: 0.5rem;
 }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
-thead th { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+tbody td { background: var(--grey-cell); }
 tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
-tbody tr:hover { background: rgba(255,255,255,0.05); }
+/* Hover targets the cells directly, not the <tr> — each td now paints
+   its own opaque background, so a background set on the row itself
+   would be completely covered and invisible. */
+tbody tr:hover td { background: var(--grey-cell-hover); }
 
 /* Leaderboard column sizing — rank, dorsal, and TOT columns narrower
    than the name column (which does the heavy lifting for readability)
@@ -158,6 +167,9 @@ tbody tr:hover { background: rgba(255,255,255,0.05); }
   white-space: normal;
   line-height: 1.2;
 }
+/* Player name column — main team color, not the grey used by every
+   other cell (the one deliberate exception to the grey table scheme). */
+#leaderboard-table td:nth-child(3) { background: var(--main); }
 
 .detail-toggle {
   display: flex;
@@ -195,20 +207,6 @@ tbody tr:hover { background: rgba(255,255,255,0.05); }
 .result-bar-e { background: var(--draw); }
 
 .utility-row td { font-style: italic; color: var(--muted); }
-
-.rank-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.6rem;
-  height: 1.6rem;
-  border-radius: 999px;
-  font-weight: 700;
-  color: var(--black);
-}
-.rank-gold { background: #d4af37; }
-.rank-silver { background: #c0c0c0; }
-.rank-bronze { background: #cd7f32; }
 
 .val-strong { font-weight: 700; }
 

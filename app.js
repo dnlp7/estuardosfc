@@ -151,8 +151,7 @@
   }
 
   function rankPillHtml(rank) {
-    var pillClass = rank === 1 ? ' rank-gold' : rank === 2 ? ' rank-silver' : rank === 3 ? ' rank-bronze' : '';
-    return pillClass ? '<span class="rank-pill' + pillClass + '">' + rank + '</span>' : String(rank);
+    return String(rank);
   }
 
   function setTableHead(html) { document.querySelector('#leaderboard-table thead').innerHTML = html; }
