@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T06:23:42.322Z",
+  "generatedAt": "2026-08-14T05:11:32.906Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -2094,7 +2094,9 @@
         "resultado": "p",
         "gf": 0,
         "gc": 3,
-        "rival": "REAL FUSIÓN"
+        "rival": "REAL FUSIÓN",
+        "rivalBg": "#ffffff",
+        "rivalText": "#ffc000"
       },
       {
         "jornada": "J2",
@@ -2104,7 +2106,9 @@
         "resultado": "g",
         "gf": 3,
         "gc": 1,
-        "rival": "CANADIENSE"
+        "rival": "CANADIENSE",
+        "rivalBg": "#000000",
+        "rivalText": "#ffc000"
       },
       {
         "jornada": "J3",
@@ -2114,7 +2118,9 @@
         "resultado": "p",
         "gf": 1,
         "gc": 12,
-        "rival": "TAPICERÍA FC"
+        "rival": "TAPICERÍA FC",
+        "rivalBg": "#cfe2f3",
+        "rivalText": "#1155cc"
       },
       {
         "jornada": "J4",
@@ -2124,7 +2130,9 @@
         "resultado": "g",
         "gf": 4,
         "gc": 2,
-        "rival": "MILAN DRAGONES"
+        "rival": "MILAN DRAGONES",
+        "rivalBg": "#000000",
+        "rivalText": "#f2041b"
       },
       {
         "jornada": "J5",
@@ -2134,7 +2142,9 @@
         "resultado": "g",
         "gf": 3,
         "gc": 1,
-        "rival": "BROOKKIND FC"
+        "rival": "BROOKKIND FC",
+        "rivalBg": "#e2d8ce",
+        "rivalText": "#000000"
       },
       {
         "jornada": "J6",
@@ -2144,7 +2154,9 @@
         "resultado": "p",
         "gf": 1,
         "gc": 9,
-        "rival": "PANCHIZA"
+        "rival": "PANCHIZA",
+        "rivalBg": "#000000",
+        "rivalText": "#0000ff"
       }
     ],
     "standings": {
