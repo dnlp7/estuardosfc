@@ -150,8 +150,13 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 #matches-table th:nth-child(2), #matches-table td:nth-child(2) {
   width: 1%; padding-left: 0.5rem; padding-right: 0.5rem;
 }
-/* Full cell grid, not just a bottom border between rows. */
-#matches-table th, #matches-table td { border: 1px solid var(--border); }
+/* Full cell grid, not just a bottom border between rows. Black rather
+   than the usual --border grey — several cells in this table carry
+   their own colored backgrounds (Jornada/Cancha/Hora/Rival), and the
+   subtler grey border read as invisible against grey-on-grey cells. */
+#matches-table th, #matches-table td { border: 1px solid var(--black); }
+/* Rival name — bold, matching the kit-color treatment. */
+#matches-table td:last-child { font-weight: 700; }
 /* Jornada column — fixed light-accent background (not a scale), black
    text for contrast, mirroring the real RES tab. */
 #matches-table td.jornada-cell { background: var(--accent-light); color: var(--black); font-weight: 700; }
