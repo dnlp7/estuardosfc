@@ -523,7 +523,17 @@
       return String(a.nombre).localeCompare(String(b.nombre));
     });
 
-    var rows = allRows.filter(function (r) { return matchesSearch_(r.nombre); });
+    var rows = allRows.filter(function (r) {
+      if (!matchesSearch_(r.nombre)) return false;
+      // "Todas" -> anyone who ever has a real all-time record (as with
+      // every other stat table). A specific season -> only players with
+      // a defined value in at least one of the 4 stats that era, same
+      // "byEra[era] !== undefined" participation test the single-stat
+      // views already use — otherwise every player who's ever existed
+      // shows up in every season's table, blank cells and all.
+      if (state.era === '__all__') return true;
+      return STATS_ORDER.some(function (stat) { return r.values[stat] !== undefined && r.values[stat] !== null; });
+    });
     if (!rows.length) {
       setTableBody('<tr><td colspan="6" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
