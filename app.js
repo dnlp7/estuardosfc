@@ -264,10 +264,28 @@
     state.era = select.value;
   }
 
-  function filteredPlayers(players) {
-    return (players || []).filter(function (p) {
-      if (!state.search) return true;
-      return String(p.nombre).toLowerCase().indexOf(state.search) >= 0;
+  function matchesSearch_(nombre) {
+    if (!state.search) return true;
+    return String(nombre).toLowerCase().indexOf(state.search) >= 0;
+  }
+
+  /** Assigns "competition" rank (ties share a rank; the rank after a
+   * tie skips ahead by the tie's size — 1,2,2,4) to every item in
+   * `rows`, which must already be sorted by value descending. Mutates
+   * each row with a `.rank` property. Always called on the FULL,
+   * unfiltered row set — the search box only hides rows afterward, it
+   * never renumbers what's left. */
+  function assignRanks_(rows, valueFn) {
+    var prevVal = null, prevRank = 0;
+    rows.forEach(function (row, i) {
+      var v = Number(valueFn(row)) || 0;
+      if (prevVal === null || v !== prevVal) {
+        row.rank = i + 1;
+        prevRank = row.rank;
+        prevVal = v;
+      } else {
+        row.rank = prevRank;
+      }
     });
   }
 
@@ -376,31 +394,33 @@
     var valueHeader = state.era === '__all__' ? 'TOT' : state.era;
     setTableHead('<tr><th>#</th><th>N°</th><th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
 
-    var players = filteredPlayers(statBlock.players);
-    var rows;
+    var allRows;
     if (state.era === '__all__') {
-      rows = players.map(function (p) { return { p: p, val: p.total }; });
+      allRows = statBlock.players.map(function (p) { return { p: p, val: p.total }; });
     } else {
-      rows = players
+      allRows = statBlock.players
         .filter(function (p) { return p.byEra && p.byEra[state.era] !== undefined; })
         .map(function (p) { return { p: p, val: p.byEra[state.era] }; });
-      rows.sort(function (a, b) {
+      allRows.sort(function (a, b) {
         var diff = (Number(b.val) || 0) - (Number(a.val) || 0);
         if (diff !== 0) return diff;
         return (Number(a.p.dorsal) || 0) - (Number(b.p.dorsal) || 0);
       });
     }
+    // Rank on the full list first, then filter — ties share a rank and
+    // the search box never renumbers what's left visible.
+    assignRanks_(allRows, function (r) { return r.val; });
+    var rows = allRows.filter(function (r) { return matchesSearch_(r.p.nombre); });
 
     if (!rows.length) {
       setTableBody('<tr><td colspan="4" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
     }
 
-    var scales = rankTotalStyles_(rows.map(function (r, i) { return { rank: i + 1, total: r.val }; }));
+    var scales = rankTotalStyles_(rows.map(function (r) { return { rank: r.rank, total: r.val }; }));
 
-    setTableBody(rows.map(function (r, i) {
-      var rank = i + 1;
-      return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(rank)) + '>' + rankPillHtml(rank) +
+    setTableBody(rows.map(function (r) {
+      return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
         '</td><td>' + esc(r.p.dorsal) + '</td><td>' + esc(r.p.nombre) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
@@ -415,30 +435,34 @@
     var headCells = ['#', 'N°', 'Jugador', 'TOT'].concat(eras);
     setTableHead('<tr>' + headCells.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>');
 
-    var players = filteredPlayers(statBlock.players);
-    if (!players.length) {
+    // statBlock.players is already sorted total desc, dorsal-tiebreak —
+    // rank the full list before the search box filters it down.
+    var allRows = statBlock.players.map(function (p) { return { p: p }; });
+    assignRanks_(allRows, function (r) { return r.p.total; });
+    var rows = allRows.filter(function (r) { return matchesSearch_(r.p.nombre); });
+    if (!rows.length) {
       setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
     }
 
-    var scales = rankTotalStyles_(players.map(function (p, i) { return { rank: i + 1, total: p.total }; }));
+    var scales = rankTotalStyles_(rows.map(function (r) { return { rank: r.rank, total: r.p.total }; }));
 
     var maxEraVal = 0;
-    players.forEach(function (p) {
+    rows.forEach(function (r) {
       eras.forEach(function (era) {
-        var v = p.byEra && p.byEra[era];
+        var v = r.p.byEra && r.p.byEra[era];
         if (v !== undefined && Number(v) > maxEraVal) maxEraVal = Number(v);
       });
     });
 
-    setTableBody(players.map(function (p, i) {
-      var rank = i + 1;
+    setTableBody(rows.map(function (r) {
+      var p = r.p;
       var eraCells = eras.map(function (era) {
         var v = p.byEra && p.byEra[era];
         var color = v === undefined ? null : gridValueColor_(v, maxEraVal);
         return '<td' + styleAttr_(color) + '>' + (v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(rank)) + '>' + rankPillHtml(rank) +
+      return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
         '</td><td>' + esc(p.dorsal) + '</td><td>' + esc(p.nombre) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(p.total)) + '>' + esc(p.total) + '</td>' + eraCells + '</tr>';
     }).join(''));
@@ -465,24 +489,27 @@
       '<tr>' + barCellsHtml.join('') + '</tr>'
     );
 
-    var players = filteredPlayers(detail.players);
-    if (!players.length) {
+    // Rank on the FULL player list (ties share a rank, utility rows are
+    // excluded from ranking entirely) before the search box filters it.
+    var allRows = (detail.players || []).map(function (p) { return { p: p, rank: null }; });
+    assignRanks_(
+      allRows.filter(function (r) { return !r.p.isUtility; }),
+      function (r) { return r.p.total; }
+    );
+    var rankedPlayers = allRows.filter(function (r) { return matchesSearch_(r.p.nombre); });
+    if (!rankedPlayers.length) {
       setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
     }
 
-    var rankIdx = 0;
-    var rankedPlayers = players.map(function (p) {
-      return { p: p, rank: p.isUtility ? null : ++rankIdx };
-    });
     var scales = rankTotalStyles_(
       rankedPlayers.filter(function (r) { return r.rank !== null; })
         .map(function (r) { return { rank: r.rank, total: r.p.total }; })
     );
 
     var maxMatchVal = 0;
-    players.forEach(function (p) {
-      (p.byMatch || []).forEach(function (v) {
+    rankedPlayers.forEach(function (r) {
+      (r.p.byMatch || []).forEach(function (v) {
         if (v !== null && v !== undefined && Number(v) > maxMatchVal) maxMatchVal = Number(v);
       });
     });
