@@ -36,6 +36,19 @@
 
 * { box-sizing: border-box; }
 
+/* CSS cascade rule: an author-stylesheet "display" declaration always
+   beats the browser's built-in "[hidden] { display: none }" rule,
+   regardless of selector specificity, since normal author rules
+   outrank normal user-agent rules in the origin/importance order —
+   the only thing that can override an author "display" rule is a
+   HIGHER-precedence declaration, hence !important here. Without this,
+   any element toggled via the "hidden" IDL property in app.js (e.g.
+   showTeamBalance_/showTeamSeasonDetail_) that also carries a class
+   like .table-wrap.compact (display: table) stays visibly on screen
+   even while "hidden" is true — confirmed as the cause of the all-time
+   balance table showing underneath a selected season's results. */
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   background: var(--bg);
@@ -181,6 +194,11 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    soft grey card wrapper is dropped for the same reason it's dropped
    on #leaderboard-wrap — the table already carries its own border. */
 #team-balance-wrap { border: none; border-radius: 0; background: transparent; }
+/* Results table (Equipo tab) — same reasoning as #leaderboard-wrap:
+   #matches-table already carries its own thick black grid, so the
+   plain .table-wrap grey card border/radius on top of it just reads
+   as a stray outline. */
+#matches-wrap { border: none; border-radius: 0; background: transparent; }
 #team-balance-table th, #team-balance-table td {
   border: 2px solid var(--black);
   text-align: center;
@@ -379,7 +397,7 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
 }
 .stat-btn.active { color: var(--black); background: var(--accent-light); border-color: var(--accent-light); }
 
-#player-search, #era-filter {
+#player-search, #era-filter, #team-era-filter {
   background: var(--grey-header);
   border: 1px solid var(--border);
   color: var(--text);

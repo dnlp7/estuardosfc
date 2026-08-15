@@ -167,6 +167,18 @@
     return p.dorsal;
   }
 
+  /** Display-only era abbreviation: "2019/20" -> "19/20", "2017/18" ->
+   * "17/18" — strips the century off a two-year "NNNN/NN" era label.
+   * Single-year eras ("2020", "2024") are left unchanged; so is
+   * "__all__" and anything else that doesn't match the pattern. Never
+   * used on the underlying era VALUE (dropdown option value, byEra/
+   * dorsalByEra lookup key, historyData.equipo key, etc.) — only on
+   * text actually rendered to the page — since every lookup elsewhere
+   * still keys off the full era string from data.json. */
+  function formatEraLabel_(era) {
+    return /^\d{4}\/\d{2}$/.test(String(era)) ? String(era).slice(2) : era;
+  }
+
   fetch(DATA_URL)
     .then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -224,7 +236,7 @@
     var select = document.getElementById('team-era-filter');
     var eras = (data.stats.PA ? data.stats.PA.eras : []).slice().reverse();
     select.innerHTML = '<option value="__all__">Todas las temporadas</option>' +
-      eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(era) + '</option>'; }).join('');
+      eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</option>'; }).join('');
     select.value = '__all__'; // default: all-time balance, not the current season
     state.teamEra = select.value;
   }
@@ -258,7 +270,7 @@
     if (!data) return;
 
     document.getElementById('temporada-era').textContent =
-      state.teamEra === '__all__' ? 'Balance General' : 'Temporada ' + state.teamEra;
+      state.teamEra === '__all__' ? 'Balance General' : 'Temporada ' + formatEraLabel_(state.teamEra);
 
     if (state.teamEra === '__all__') {
       renderTeamBalanceTable_(data);
@@ -348,7 +360,7 @@
         var color = (v === null || v === undefined) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, COLORS.greyCell, COLORS.scaleBest);
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td class="val-strong">' + esc(r.era) + '</td>' + cells + '</tr>';
+      return '<tr><td class="val-strong">' + esc(formatEraLabel_(r.era)) + '</td>' + cells + '</tr>';
     }).join('');
   }
 
@@ -496,7 +508,7 @@
     var eras = (statBlock ? statBlock.eras : []).slice().reverse();
     var current = select.value || '__all__';
     select.innerHTML = '<option value="__all__">Todas las temporadas</option>' +
-      eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(era) + '</option>'; }).join('');
+      eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</option>'; }).join('');
     select.value = eras.indexOf(current) >= 0 ? current : '__all__';
     state.era = select.value;
   }
@@ -713,7 +725,7 @@
 
   /** Simple mode (toggle off) — TOT, or one specific era's total. */
   function renderSimpleLeaderboard(statBlock) {
-    var valueHeader = state.era === '__all__' ? 'TOT' : state.era;
+    var valueHeader = state.era === '__all__' ? 'TOT' : formatEraLabel_(state.era);
     setTableHead('<tr><th>#</th><th>N°</th><th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
 
     var allRows;
@@ -757,8 +769,8 @@
    * extra fetch needed. Player order is already the source doc's own
    * sorted (total desc, dorsal-tiebreak) physical row order. */
   function renderEraWideLeaderboard(statBlock) {
-    var eras = statBlock.eras; // oldest-first, matches the historical doc's own layout
-    var headCells = ['#', 'N°', 'Jugador', 'TOT'].concat(eras);
+    var eras = statBlock.eras; // oldest-first, matches the historical doc's own layout — real keys, never abbreviated
+    var headCells = ['#', 'N°', 'Jugador', 'TOT'].concat(eras.map(formatEraLabel_));
     setTableHead('<tr>' + headCells.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>');
 
     // statBlock.players is already sorted total desc, dorsal-tiebreak —
