@@ -98,6 +98,39 @@
     return scaleColor_(value, 0, maxValue, COLORS.greyCell, COLORS.accentLight);
   }
 
+  /** Looks up one player's Jugadores entry (activo + dorsalByEra) by
+   * Nombre — the shared identity lookup lives once in data.json
+   * ("jugadores") and is reused for every player table, regardless of
+   * which JSON file supplied that table's actual rows (main data.json
+   * or the lazily-fetched data-history-detail.json). Returns null if
+   * the player isn't listed (fail open — caller treats that as active,
+   * no era-specific dorsal). */
+  function jugadorInfo_(nombre) {
+    var jugadores = state.data && state.data.jugadores;
+    return (jugadores && jugadores[nombre]) || null;
+  }
+
+  /** Dorsal/name cell background — main-color for a current roster
+   * player, dark grey for a former one, per Jugadores' Activo flag.
+   * Fails open to "active" (main color) when the player isn't listed. */
+  function activoBackground_(nombre) {
+    var info = jugadorInfo_(nombre);
+    var activo = info ? info.activo : true;
+    return ' style="background:' + (activo ? 'var(--main)' : 'var(--grey-header)') + '"';
+  }
+  var INACTIVE_BG_ = ' style="background:var(--grey-header)"';
+
+  /** The dorsal a player actually wore in `era` (Jugadores.dorsalByEra),
+   * falling back to their canonical/current dorsal if that era isn't
+   * listed for them — used only where a table shows one specific
+   * season at a time (simple mode with an era selected), since that's
+   * the one view where "which dorsal" is unambiguous. */
+  function dorsalForEra_(p, era) {
+    var info = jugadorInfo_(p.nombre);
+    if (info && info.dorsalByEra && info.dorsalByEra[era] !== undefined) return info.dorsalByEra[era];
+    return p.dorsal;
+  }
+
   fetch(DATA_URL)
     .then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -420,8 +453,12 @@
     var scales = rankTotalStyles_(rows.map(function (r) { return { rank: r.rank, total: r.val }; }));
 
     setTableBody(rows.map(function (r) {
+      // One specific season selected -> the dorsal that player actually
+      // wore THAT season (Jugadores.dorsalByEra), not their current one.
+      var dorsal = state.era === '__all__' ? r.p.dorsal : dorsalForEra_(r.p, state.era);
+      var idBg = activoBackground_(r.p.nombre);
       return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td>' + esc(r.p.dorsal) + '</td><td>' + esc(r.p.nombre) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.p.nombre) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
   }
@@ -457,13 +494,14 @@
 
     setTableBody(rows.map(function (r) {
       var p = r.p;
+      var idBg = activoBackground_(p.nombre);
       var eraCells = eras.map(function (era) {
         var v = p.byEra && p.byEra[era];
         var color = v === undefined ? null : gridValueColor_(v, maxEraVal);
         return '<td' + styleAttr_(color) + '>' + (v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
       return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td>' + esc(p.dorsal) + '</td><td>' + esc(p.nombre) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(p.nombre) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(p.total)) + '>' + esc(p.total) + '</td>' + eraCells + '</tr>';
     }).join(''));
   }
@@ -519,12 +557,15 @@
       var rankCell = r.rank ? rankPillHtml(r.rank) : '';
       var rankStyle = r.rank ? styleAttr_(scales.rankColor(r.rank)) : '';
       var totalStyle = p.isUtility ? '' : styleAttr_(scales.totalColor(p.total));
+      // [Default]/[Autogoles] aren't real players (no Jugadores entry to
+      // fail open to "active" from) — treat them as inactive-colored.
+      var idBg = p.isUtility ? INACTIVE_BG_ : activoBackground_(p.nombre);
       var matchCells = (p.byMatch || []).map(function (v) {
         var color = gridValueColor_(v, maxMatchVal);
         return '<td' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
       return '<tr' + (p.isUtility ? ' class="utility-row"' : '') + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
-        '</td><td>' + esc(p.dorsal) + '</td><td>' + esc(p.nombre) + '</td><td class="val-strong"' + totalStyle + '>' +
+        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(p.nombre) + '</td><td class="val-strong"' + totalStyle + '>' +
         esc(p.total) + '</td>' + matchCells + '</tr>';
     }).join(''));
   }

@@ -214,24 +214,22 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
   white-space: normal;
   line-height: 1.2;
 }
-/* Player name column — main team color, not the grey used by every
-   other cell (the one deliberate exception to the grey table scheme).
-   Slightly wider than a plain content-fit column, and pulled in tight
-   against the dorsal cell on the left (no divider between them) while
-   keeping normal breathing room on the right. */
+/* Player name column — active/inactive color (set inline per row by
+   app.js from the Jugadores tab's Activo flag), not the grey used by
+   every other cell. Slightly wider than a plain content-fit column,
+   and pulled in tight against the dorsal cell on the left (no divider
+   between them) while keeping normal breathing room on the right. */
 #leaderboard-table th:nth-child(3), #leaderboard-table td:nth-child(3) {
   min-width: 8rem;
 }
 #leaderboard-table td:nth-child(3) {
-  background: var(--main);
   padding-left: 0.5rem;
   padding-right: 1.5rem;
 }
-/* Dorsal column — narrow (just enough for a 2-digit number), main-color
-   background on the value cell only — the header stays the same grey
-   as every other header. */
+/* Dorsal column — narrow (just enough for a 2-digit number); the
+   active/inactive background is set inline per row, same as the name
+   cell — the header stays the same grey as every other header. */
 #leaderboard-table td:nth-child(2) {
-  background: var(--main);
   width: 1%;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
