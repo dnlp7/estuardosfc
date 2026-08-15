@@ -175,6 +175,23 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 .result-chip-g { background: var(--good); }
 .result-chip-p { background: var(--bad); }
 .result-chip-e { background: var(--draw); }
+
+/* Equipo tab — all-time balance table (one row per season). Same
+   thick-black-grid convention as the leaderboard/Results tables; the
+   soft grey card wrapper is dropped for the same reason it's dropped
+   on #leaderboard-wrap — the table already carries its own border. */
+#team-balance-wrap { border: none; border-radius: 0; background: transparent; }
+#team-balance-table th, #team-balance-table td {
+  border: 2px solid var(--black);
+  text-align: center;
+  padding: 0.6rem 1.25rem;
+}
+/* Temporada column — the only text (not numeric-scale) column, so it
+   stays left-aligned like Rival does on the Results table. */
+#team-balance-table th:first-child, #team-balance-table td:first-child {
+  text-align: left;
+  font-weight: 700;
+}
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
 tbody td { background: var(--grey-cell); }

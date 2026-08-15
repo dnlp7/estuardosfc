@@ -26,6 +26,7 @@
     data: null,
     stat: 'BALANCE',
     era: '__all__',
+    teamEra: '__all__',      // Equipo tab's own season dropdown — independent of "era" above (Jugadores tab)
     search: '',
     detail: false,           // "Mostrar detalle" toggle — off by default
     historyDetailPromise: null // lazy-loaded + cached data-history-detail.json fetch
@@ -188,7 +189,7 @@
       : '';
 
     setupTabs();
-    renderTemporada(data.currentSeason);
+    setupEquipoControls(data);
     setupHistorialControls(data);
     renderLeaderboard();
   }
@@ -205,10 +206,157 @@
     });
   }
 
-  // ---------------- Temporada Actual ----------------
-  function renderTemporada(season) {
+  // ---------------- Equipo ----------------
+  function setupEquipoControls(data) {
+    document.getElementById('team-era-filter').addEventListener('change', function (e) {
+      state.teamEra = e.target.value;
+      renderEquipo();
+    });
+    populateTeamEraFilter(data);
+    renderEquipo();
+  }
+
+  /** Season dropdown source: PA's own era list. PA/PI both only cover
+   * the 14 real season docs (never the 3 legacy-only eras, which have
+   * no RES tab at all to build a season summary from) — GOL's list is
+   * NOT used here since it also includes those 3 legacy eras. */
+  function populateTeamEraFilter(data) {
+    var select = document.getElementById('team-era-filter');
+    var eras = (data.stats.PA ? data.stats.PA.eras : []).slice().reverse();
+    select.innerHTML = '<option value="__all__">Todas las temporadas</option>' +
+      eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(era) + '</option>'; }).join('');
+    select.value = '__all__'; // default: all-time balance, not the current season
+    state.teamEra = select.value;
+  }
+
+  function showTeamSeasonDetail_() {
+    document.getElementById('team-message').hidden = true;
+    document.getElementById('team-season-detail').hidden = false;
+    document.getElementById('team-balance-wrap').hidden = true;
+  }
+  function showTeamBalance_() {
+    document.getElementById('team-message').hidden = true;
+    document.getElementById('team-season-detail').hidden = true;
+    document.getElementById('team-balance-wrap').hidden = false;
+  }
+  function showTeamMessage_(text) {
+    var msg = document.getElementById('team-message');
+    msg.textContent = text;
+    msg.hidden = false;
+    document.getElementById('team-season-detail').hidden = true;
+    document.getElementById('team-balance-wrap').hidden = true;
+  }
+
+  /** Main Equipo dispatcher — "Todas" shows the all-time balance table
+   * (one row per season); a specific season shows that season's
+   * standings + results, sourced from data.json directly if it's the
+   * current era, or lazily fetched (and cached) from
+   * data-history-detail.json's "equipo" section otherwise — same
+   * lazy-fetch pattern as the player Historial tab's older-era detail. */
+  function renderEquipo() {
+    var data = state.data;
+    if (!data) return;
+
+    document.getElementById('temporada-era').textContent =
+      state.teamEra === '__all__' ? 'Balance General' : 'Temporada ' + state.teamEra;
+
+    if (state.teamEra === '__all__') {
+      renderTeamBalanceTable_(data);
+      return;
+    }
+
+    if (data.currentSeason && state.teamEra === data.currentSeason.era) {
+      showTeamSeasonDetail_();
+      renderTemporadaSeason_(data.currentSeason);
+      return;
+    }
+
+    showTeamMessage_('Cargando temporada...');
+    var requestedEra = state.teamEra;
+    fetchHistoryDetail()
+      .then(function (historyData) {
+        if (state.teamEra !== requestedEra) return; // stale — a newer request already handled it
+        var season = historyData && historyData.equipo && historyData.equipo[requestedEra];
+        if (!season) {
+          showTeamMessage_('Detalle no disponible para esta temporada.');
+          return;
+        }
+        showTeamSeasonDetail_();
+        renderTemporadaSeason_({ era: requestedEra, matches: season.matches, standings: season.standings });
+      })
+      .catch(function (err) {
+        if (state.teamEra !== requestedEra) return;
+        showTeamMessage_('No se pudo cargar el detalle histórico.');
+        console.error(err);
+      });
+  }
+
+  /** All-time balance — one row per season (newest first), one column
+   * per standings value, each with its own blue scale (same convention
+   * as the player BALANCE tab). The current season's standings come
+   * straight from data.json; the other 13 need the same lazily-fetched
+   * data-history-detail.json as everything else historical — but this
+   * is the DEFAULT Equipo view, so that fetch effectively happens as
+   * soon as the tab is first shown, not on some deferred user action. */
+  function renderTeamBalanceTable_(data) {
+    var eras = (data.stats.PA ? data.stats.PA.eras : []).slice().reverse();
+    showTeamMessage_('Cargando balance histórico...');
+
+    fetchHistoryDetail()
+      .then(function (historyData) {
+        if (state.teamEra !== '__all__') return;
+        renderTeamBalanceRows_(buildTeamBalanceRows_(data, eras, historyData));
+      })
+      .catch(function (err) {
+        if (state.teamEra !== '__all__') return;
+        // Degrade gracefully — the current season's own standings are
+        // already in hand even if the historical file fails to load.
+        var rows = buildTeamBalanceRows_(data, eras, null);
+        if (rows.length) { renderTeamBalanceRows_(rows); return; }
+        showTeamMessage_('No se pudo cargar el balance histórico.');
+        console.error(err);
+      });
+  }
+
+  function buildTeamBalanceRows_(data, eras, historyData) {
+    return eras.map(function (era) {
+      var standings = (data.currentSeason && era === data.currentSeason.era)
+        ? data.currentSeason.standings
+        : (historyData && historyData.equipo && historyData.equipo[era] && historyData.equipo[era].standings);
+      return { era: era, standings: standings };
+    }).filter(function (r) { return r.standings; });
+  }
+
+  function renderTeamBalanceRows_(rows) {
+    showTeamBalance_();
+    var tbody = document.querySelector('#team-balance-table tbody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="9" style="color:#7fa3a8;">Sin datos.</td></tr>';
+      return;
+    }
+
+    var STAT_KEYS = ['pj', 'pg', 'pe', 'pp', 'gf', 'gc', 'dif', 'pts'];
+    var ranges = {};
+    STAT_KEYS.forEach(function (k) {
+      var vals = rows.map(function (r) { return Number(r.standings[k]) || 0; });
+      ranges[k] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
+    });
+
+    tbody.innerHTML = rows.map(function (r) {
+      var cells = STAT_KEYS.map(function (k) {
+        var v = r.standings[k];
+        var color = (v === null || v === undefined) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, COLORS.greyCell, COLORS.scaleBest);
+        return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+      }).join('');
+      return '<tr><td class="val-strong">' + esc(r.era) + '</td>' + cells + '</tr>';
+    }).join('');
+  }
+
+  /** Renders one season's standings + results — used for both the
+   * current season (data straight from data.json) and any older season
+   * (lazily fetched from data-history-detail.json's "equipo" section). */
+  function renderTemporadaSeason_(season) {
     if (!season) return;
-    document.getElementById('temporada-era').textContent = 'Temporada ' + (season.era || '');
 
     var card = document.getElementById('standings-card');
     if (season.standings) {
@@ -248,8 +396,10 @@
         var canchaColor = isNaN(canchaNum) ? null : scaleColor_(canchaNum, canchaMin, canchaMax, COLORS.canchaLight, COLORS.canchaDark);
         var horaVal = parseHoraMinutes_(m.hora);
         var horaColor = horaVal === null ? null : scaleColor_(horaVal, horaMin, horaMax, COLORS.horaLight, COLORS.horaDark);
-        // Rival kit colors come from each season doc's Rivales tab; a
-        // rival not listed there yet gets no inline style (default cell).
+        // Rival kit colors come straight from RES's own Rival cell
+        // formatting (bg/font color) in the season doc — no separate
+        // Rivales tab. A rival cell with no color set gets no inline
+        // style (default cell).
         var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
 
         return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td' + styleAttr_(canchaColor) + '>' +

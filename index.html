@@ -19,17 +19,39 @@
 
   <main>
     <section id="tab-temporada" class="tab-panel active">
-      <h2 id="temporada-era">Temporada</h2>
+      <div class="controls">
+        <select id="team-era-filter">
+          <option value="__all__">Todas las temporadas</option>
+        </select>
+      </div>
 
-      <div class="standings-card" id="standings-card"></div>
+      <h2 id="temporada-era">Balance General</h2>
 
-      <h3>Resultados</h3>
-      <div class="table-wrap">
-        <table id="matches-table">
+      <p id="team-message" class="detail-message" hidden></p>
+
+      <div id="team-season-detail" hidden>
+        <div class="standings-card" id="standings-card"></div>
+
+        <h3>Resultados</h3>
+        <div class="table-wrap">
+          <table id="matches-table">
+            <thead>
+              <tr>
+                <th>Jor.</th><th>C</th><th>Fecha</th><th>Hora</th>
+                <th>R</th><th>GF</th><th>GC</th><th>Rival</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="table-wrap compact" id="team-balance-wrap">
+        <table id="team-balance-table">
           <thead>
             <tr>
-              <th>Jor.</th><th>C</th><th>Fecha</th><th>Hora</th>
-              <th>R</th><th>GF</th><th>GC</th><th>Rival</th>
+              <th>Temporada</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th>
+              <th>GF</th><th>GC</th><th>DIF</th><th>PTS</th>
             </tr>
           </thead>
           <tbody></tbody>
