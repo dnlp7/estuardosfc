@@ -216,8 +216,18 @@ tbody td { background: var(--grey-cell); }
 tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 /* Hover targets the cells directly, not the <tr> — each td now paints
    its own opaque background, so a background set on the row itself
-   would be completely covered and invisible. */
-tbody tr:hover td { background: var(--grey-cell-hover); }
+   would be completely covered and invisible.
+   Wrapped in :where() so this rule's own specificity is just "td"
+   (0,0,0,1) — any class-based color on a cell (.jornada-cell,
+   .result-chip-g/p/e, .result-bar-g/p/e, the leaderboard's grey
+   result-bar leading cells, etc.) naturally outranks it and stays
+   correctly colored on hover instead of flashing to plain grey. Cells
+   colored via inline style="" (the rank/total/matchday/PA/PI scales,
+   set per-cell by app.js) were already immune to this either way,
+   since inline styles beat any stylesheet rule regardless of
+   specificity — this fix is for the CLASS-based colored cells, which
+   without :where() lost to this rule purely on selector length. */
+:where(tbody tr:hover) td { background: var(--grey-cell-hover); }
 
 /* Leaderboard column sizing — rank, dorsal, and TOT columns narrower
    than the name column (which does the heavy lifting for readability)
