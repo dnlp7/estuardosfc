@@ -9,12 +9,12 @@
 <body>
   <header class="site-header">
     <h1>Estuardos FC</h1>
-    <p class="subtitle">Estadísticas del equipo</p>
   </header>
 
   <nav class="tabs">
-    <button class="tab-btn active" data-tab="temporada">Temporada Actual</button>
-    <button class="tab-btn" data-tab="historial">Historial</button>
+    <span class="tabs-label">Estadísticas:</span>
+    <button class="tab-btn active" data-tab="temporada">Equipo</button>
+    <button class="tab-btn" data-tab="historial">Jugadores</button>
   </nav>
 
   <main>
@@ -40,7 +40,8 @@
     <section id="tab-historial" class="tab-panel">
       <div class="controls">
         <div class="stat-selector" id="stat-selector">
-          <button class="stat-btn active" data-stat="GOL">GOL</button>
+          <button class="stat-btn active" data-stat="BALANCE">BALANCE</button>
+          <button class="stat-btn" data-stat="GOL">GOL</button>
           <button class="stat-btn" data-stat="AST">AST</button>
           <button class="stat-btn" data-stat="PA">PA</button>
           <button class="stat-btn" data-stat="PI">PI</button>
@@ -55,7 +56,7 @@
         </label>
       </div>
 
-      <h3 id="stat-title">GOLES ANOTADOS</h3>
+      <h3 id="stat-title">BALANCE</h3>
 
       <p id="detail-message" class="detail-message" hidden></p>
 

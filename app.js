@@ -2,15 +2,29 @@
   var DATA_URL = 'data.json';
   var HISTORY_DETAIL_URL = 'data-history-detail.json';
   var STAT_TITLES = {
+    BALANCE: 'BALANCE',
     GOL: 'GOLES ANOTADOS',
     AST: 'ASISTENCIAS DE GOL',
     PA: 'PARTIDOS ASISTIDOS',
     PI: 'PARTIDOS INICIADOS'
   };
 
+  // Position colors shared by the PI detailed view and the Equipo tab's
+  // TxJ starter pills (once that lands) — matches the real season docs'
+  // own convention. White text on every position except SUP, whose
+  // dark background needs the dimmer #4c818e instead.
+  var POSITION_COLORS_ = {
+    POR: { bg: '#f87c23', text: '#ffffff' },
+    DEF: { bg: '#f9c204', text: '#ffffff' },
+    MED: { bg: '#60d233', text: '#ffffff' },
+    DEL: { bg: '#566bf6', text: '#ffffff' },
+    SUP: { bg: '#12343d', text: '#4c818e' }
+  };
+  var CAPTAIN_COLOR_ = { bg: '#a3cb42', text: '#000000' };
+
   var state = {
     data: null,
-    stat: 'GOL',
+    stat: 'BALANCE',
     era: '__all__',
     search: '',
     detail: false,           // "Mostrar detalle" toggle — off by default
@@ -96,6 +110,27 @@
   function gridValueColor_(value, maxValue) {
     if (value === null || value === undefined || value === '') return null;
     return scaleColor_(value, 0, maxValue, COLORS.greyCell, COLORS.accentLight);
+  }
+
+  /** Per-match detail cell style — stat-specific, not just a generic
+   * numeric gradient:
+   *   - PA: presence/absence only (an "x" mark, not a magnitude) — a
+   *     fixed light-accent background + white text rather than a scale.
+   *   - PI: position text (POR/DEF/MED/DEL/SUP) — fixed color per
+   *     position (POSITION_COLORS_), matching the real season docs.
+   *   - everything else (GOL/AST): the usual numeric grid gradient.
+   * Returns { bg, text } (text may be null, meaning "leave default") or
+   * null for a blank cell. */
+  function matchCellStyle_(stat, value, maxValue) {
+    if (value === null || value === undefined || value === '') return null;
+    if (stat === 'PA') return { bg: COLORS.accentLight, text: '#ffffff' };
+    if (stat === 'PI') return POSITION_COLORS_[String(value).trim().toUpperCase()] || null;
+    var bg = gridValueColor_(value, maxValue);
+    return bg ? { bg: bg, text: null } : null;
+  }
+  function matchCellStyleAttr_(style) {
+    if (!style) return '';
+    return ' style="background:' + style.bg + (style.text ? ';color:' + style.text : '') + '"';
   }
 
   /** Looks up one player's Jugadores entry (activo + dorsalByEra) by
@@ -261,6 +296,7 @@
         btn.classList.add('active');
         state.stat = btn.dataset.stat;
         document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;
+        updateDetailToggleAvailability_();
         populateEraFilter(data);
         renderLeaderboard();
       });
@@ -281,12 +317,30 @@
       renderLeaderboard();
     });
 
+    document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;
+    updateDetailToggleAvailability_();
     populateEraFilter(data);
+  }
+
+  /** BALANCE has no meaningful "detailed" view (it's already a 4-column
+   * summary) — the checkbox is disabled and forced off while BALANCE is
+   * the active stat, and re-enabled when switching to any real stat. */
+  function updateDetailToggleAvailability_() {
+    var checkbox = document.getElementById('detail-toggle');
+    var isBalance = state.stat === 'BALANCE';
+    checkbox.disabled = isBalance;
+    if (isBalance && state.detail) {
+      state.detail = false;
+      checkbox.checked = false;
+    }
   }
 
   function populateEraFilter(data) {
     var select = document.getElementById('era-filter');
-    var statBlock = data.stats[state.stat];
+    // BALANCE has no stat block of its own — GOL's era list is the most
+    // complete (it's the only stat with data back through the 3 legacy
+    // eras), so it doubles as BALANCE's era dropdown too.
+    var statBlock = data.stats[state.stat] || data.stats.GOL;
     // eras arrives oldest-first (matches the historical doc's own column
     // order); the dropdown shows most-recent-first, "Todas" pinned on top.
     var eras = (statBlock ? statBlock.eras : []).slice().reverse();
@@ -357,6 +411,16 @@
   function renderLeaderboard() {
     var data = state.data;
     if (!data) return;
+
+    document.getElementById('leaderboard-table').classList.toggle('balance-mode', state.stat === 'BALANCE');
+
+    if (state.stat === 'BALANCE') {
+      showLeaderboardTable();
+      setWideLayout(false);
+      renderBalanceLeaderboard(data);
+      return;
+    }
+
     var statBlock = data.stats[state.stat];
 
     if (!statBlock || !statBlock.players.length) {
@@ -420,6 +484,71 @@
       });
     }
     return state.historyDetailPromise;
+  }
+
+  /** BALANCE — a fifth, always-simple view: every player's total across
+   * all 4 real stats in one row. No "#" rank column (there's no single
+   * value to rank by here) — ordered by dorsal ascending instead.
+   * Respects the era dropdown like every other stat (per-era dorsal +
+   * per-era values), but never the detail toggle (disabled whenever
+   * BALANCE is active — see updateDetailToggleAvailability_). */
+  function renderBalanceLeaderboard(data) {
+    setTableHead('<tr><th>N°</th><th>Jugador</th><th>GOL</th><th>AST</th><th>PA</th><th>PI</th></tr>');
+
+    var STATS_ORDER = ['GOL', 'AST', 'PA', 'PI'];
+    // Union of every player appearing in ANY of the 4 stat blocks — GOL
+    // alone isn't guaranteed exhaustive (e.g. a player who only ever
+    // appears in PA/PI edge cases), so this doesn't assume one master list.
+    var byName = {};
+    STATS_ORDER.forEach(function (stat) {
+      var block = data.stats[stat];
+      if (!block) return;
+      block.players.forEach(function (p) {
+        if (!byName[p.nombre]) byName[p.nombre] = { nombre: p.nombre, dorsal: p.dorsal, values: {} };
+        var entry = byName[p.nombre];
+        entry.values[stat] = state.era === '__all__' ? p.total : (p.byEra ? p.byEra[state.era] : undefined);
+        if (!entry.dorsal) entry.dorsal = p.dorsal;
+      });
+    });
+
+    var allRows = Object.keys(byName).map(function (nombre) { return byName[nombre]; });
+    // Dorsal ascending — non-numeric/missing dorsals sort after every
+    // real number, alphabetically among themselves.
+    allRows.sort(function (a, b) {
+      var da = Number(a.dorsal), db = Number(b.dorsal);
+      var aValid = !isNaN(da) && a.dorsal !== '', bValid = !isNaN(db) && b.dorsal !== '';
+      if (aValid && bValid) return da - db;
+      if (aValid) return -1;
+      if (bValid) return 1;
+      return String(a.nombre).localeCompare(String(b.nombre));
+    });
+
+    var rows = allRows.filter(function (r) { return matchesSearch_(r.nombre); });
+    if (!rows.length) {
+      setTableBody('<tr><td colspan="6" style="color:#7fa3a8;">Sin resultados.</td></tr>');
+      return;
+    }
+
+    // Each stat column gets its own blue scale (grey at that column's
+    // lowest visible value, scale-best at its highest) — independent
+    // per column, same convention as the TOT column everywhere else.
+    var columnRanges = {};
+    STATS_ORDER.forEach(function (stat) {
+      var vals = rows.map(function (r) { return Number(r.values[stat]) || 0; });
+      columnRanges[stat] = { min: vals.length ? Math.min.apply(null, vals) : 0, max: vals.length ? Math.max.apply(null, vals) : 0 };
+    });
+
+    setTableBody(rows.map(function (r) {
+      var dorsal = state.era === '__all__' ? r.dorsal : dorsalForEra_(r, state.era);
+      var idBg = activoBackground_(r.nombre);
+      var statCells = STATS_ORDER.map(function (stat) {
+        var v = r.values[stat];
+        var range = columnRanges[stat];
+        var color = (v === null || v === undefined) ? null : scaleColor_(v, range.min, range.max, COLORS.greyCell, COLORS.scaleBest);
+        return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+      }).join('');
+      return '<tr><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.nombre) + '</td>' + statCells + '</tr>';
+    }).join(''));
   }
 
   /** Simple mode (toggle off) — TOT, or one specific era's total. */
@@ -561,8 +690,8 @@
       // fail open to "active" from) — treat them as inactive-colored.
       var idBg = p.isUtility ? INACTIVE_BG_ : activoBackground_(p.nombre);
       var matchCells = (p.byMatch || []).map(function (v) {
-        var color = gridValueColor_(v, maxMatchVal);
-        return '<td' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+        var cellStyle = matchCellStyle_(state.stat, v, maxMatchVal);
+        return '<td' + matchCellStyleAttr_(cellStyle) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
       return '<tr' + (p.isUtility ? ' class="utility-row"' : '') + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
         '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(p.nombre) + '</td><td class="val-strong"' + totalStyle + '>' +

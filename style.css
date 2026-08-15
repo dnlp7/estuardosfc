@@ -55,11 +55,13 @@ body {
 .tabs {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.5rem;
   padding: 0 1rem 1rem;
   border-bottom: 1px solid var(--border);
   background: var(--main);
 }
+.tabs-label { color: var(--white); opacity: 0.85; font-weight: 600; margin-right: 0.25rem; }
 .tab-btn {
   background: transparent;
   border: none;
@@ -251,6 +253,39 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
    grid borders — keep it borderless so it still reads as a hairline. */
 #leaderboard-table td.result-bar { border: none; }
 
+/* BALANCE mode — no rank column, so dorsal/name shift one column left
+   (1,2 instead of 2,3); the 4 stat columns start at 3, each centered
+   with its own inline blue value-scale (app.js). Higher specificity
+   than the plain #leaderboard-table rules above (id+class beats id
+   alone), so these safely override the normal-mode column widths/
+   borders without touching any other view. */
+#leaderboard-table.balance-mode td:nth-child(1) {
+  width: 1%;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  text-align: center;
+  border-right: none;
+}
+#leaderboard-table.balance-mode th:nth-child(1) {
+  width: 1%;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  text-align: center;
+  border-right: none;
+}
+#leaderboard-table.balance-mode td:nth-child(2) {
+  min-width: 8rem;
+  padding-left: 0.5rem;
+  padding-right: 1.5rem;
+  border-left: none;
+}
+#leaderboard-table.balance-mode th:nth-child(2) { min-width: 8rem; border-left: none; }
+#leaderboard-table.balance-mode th:nth-child(n+3),
+#leaderboard-table.balance-mode td:nth-child(n+3) {
+  text-align: center;
+  padding: 0.6rem 1.25rem;
+}
+
 .detail-toggle {
   display: flex;
   align-items: center;
@@ -261,6 +296,8 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
   user-select: none;
 }
 .detail-toggle input { accent-color: var(--accent-light); width: 1.1rem; height: 1.1rem; cursor: pointer; }
+.detail-toggle input:disabled { cursor: not-allowed; opacity: 0.4; }
+.detail-toggle:has(input:disabled) { cursor: not-allowed; opacity: 0.5; }
 
 .detail-message {
   background: var(--card);
