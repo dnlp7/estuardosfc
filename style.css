@@ -251,9 +251,22 @@ tbody tr:hover td { background: var(--grey-cell-hover); }
    without this it would silently lose its left border too. */
 #leaderboard-table:not(.balance-mode) th:nth-child(2), #leaderboard-table:not(.balance-mode) td:nth-child(2) { border-right: none; }
 #leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) { border-left: none; }
-/* The thin result-bar row would otherwise be swallowed by the new 2px
-   grid borders — keep it borderless so it still reads as a hairline. */
-#leaderboard-table td.result-bar { border: none; }
+/* The thin result-bar row keeps its top/bottom borders off (those would
+   swallow the whole 4px row — the horizontal lines it shows are really
+   the neighboring header/data rows' borders collapsing against it) but
+   still gets real vertical dividers between columns, same grid as every
+   other row. No divider between dorsal/name, matching the rest of the
+   table. The 4 leading (non-match) cells get the header's dark-grey
+   background instead of standing out as bare black gaps. */
+#leaderboard-table td.result-bar {
+  border-top: none;
+  border-bottom: none;
+  border-left: 2px solid var(--black);
+  border-right: 2px solid var(--black);
+}
+#leaderboard-table td.result-bar:nth-child(2) { border-right: none; }
+#leaderboard-table td.result-bar:nth-child(3) { border-left: none; }
+#leaderboard-table td.result-bar:nth-child(-n+4) { background: var(--grey-header); }
 
 /* BALANCE mode — no rank column, so dorsal/name shift one column left
    (1,2 instead of 2,3); the 4 stat columns start at 3, each centered
