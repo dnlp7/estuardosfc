@@ -181,6 +181,28 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 #leaderboard-wrap { border: none; border-radius: 0; background: transparent; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+/* These three tables use border-collapse: separate instead — required
+   for the sticky frozen columns further down to render their borders
+   reliably. A collapsed border is really ONE shared line computed
+   between two adjacent cells based on the table's static layout, and
+   that computation doesn't reliably follow a cell once it's
+   repositioned by sticky during horizontal-scroll compositing — that's
+   what caused the frozen columns' grid lines to flicker/vanish under
+   scroll (a box-shadow reinforcement was tried first and reverted: it
+   didn't fix the flicker and made the static/unscrolled borders read
+   as uneven/doubled). Separate borders are just normal per-element
+   borders with no cross-cell sharing, immune to that. border-spacing:
+   0 keeps cells flush (no visible gap between them), and — since
+   separate borders don't merge/collapse away doubled thickness the
+   way collapsed ones do — each cell below is deliberately given a
+   border on only 2 of its 4 sides (right + bottom); the header row
+   additionally draws a top border and the first column additionally
+   draws a left border, so the full grid reconstructs with exactly one
+   border's worth of thickness at every shared edge, never two. */
+#matches-table, #leaderboard-table, #team-balance-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
 
 /* Results table — every column centered except Rival (last), which
    stays left-aligned since it's the one variable-length text field. */
@@ -194,8 +216,16 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 /* Full cell grid, not just a bottom border between rows. Black rather
    than the usual --border grey — several cells in this table carry
    their own colored backgrounds (Jornada/Cancha/Hora/Rival), and the
-   subtler grey border read as invisible against grey-on-grey cells. */
-#matches-table th, #matches-table td { border: 2px solid var(--black); }
+   subtler grey border read as invisible against grey-on-grey cells.
+   Right + bottom on every cell, plus top on the header row and left on
+   the first column — see the border-collapse: separate comment above
+   for why it's split this way instead of a plain 4-side border. */
+#matches-table th, #matches-table td {
+  border-right: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+}
+#matches-table thead th { border-top: 2px solid var(--black); }
+#matches-table th:first-child, #matches-table td:first-child { border-left: 2px solid var(--black); }
 /* Rival name — bold, matching the kit-color treatment. */
 #matches-table td:last-child { font-weight: 700; }
 /* Jornada column — fixed light-accent background (not a scale), black
@@ -211,13 +241,6 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   position: sticky;
   left: 0;
   z-index: 1;
-  /* Reinforces the left/right edges via box-shadow, not just the
-     (collapsed) border — see the "Sticky-column border fix" comment
-     further down (leaderboard-table) for the full explanation of why
-     collapsed borders alone flicker out on a sticky cell during
-     horizontal scroll. This is the table's only frozen column, so it
-     owns both its outer-left edge and its trailing edge with Cancha. */
-  box-shadow: inset 2px 0 0 0 var(--black), inset -2px 0 0 0 var(--black);
 }
 /* Result column — a thin solid-colored line instead of a G/E/P letter,
    same idea as the leaderboard's result-bar row. Fixed narrow width on
@@ -243,11 +266,16 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    plain .table-wrap grey card border/radius on top of it just reads
    as a stray outline. */
 #matches-wrap { border: none; border-radius: 0; background: transparent; }
+/* Right + bottom on every cell, plus top on the header row and left on
+   the first column — see the border-collapse: separate comment further
+   up for why it's split this way instead of a plain 4-side border. */
 #team-balance-table th, #team-balance-table td {
-  border: 2px solid var(--black);
+  border-right: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
   text-align: center;
   padding: 0.6rem 1.25rem;
 }
+#team-balance-table thead th { border-top: 2px solid var(--black); }
 /* Temporada column — the only text (not numeric-scale) column, so it
    stays left-aligned like Rival does on the Results table. Also the
    frozen/sticky column — the one thing that identifies which season a
@@ -257,13 +285,10 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 #team-balance-table th:first-child, #team-balance-table td:first-child {
   text-align: left;
   font-weight: 700;
+  border-left: 2px solid var(--black);
   position: sticky;
   left: 0;
   z-index: 1;
-  /* Same box-shadow border reinforcement as #matches-table's frozen
-     column — see the "Sticky-column border fix" comment near the
-     leaderboard-table sticky rules for the full explanation. */
-  box-shadow: inset 2px 0 0 0 var(--black), inset -2px 0 0 0 var(--black);
 }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
@@ -352,28 +377,36 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 /* Thick black grid lines, mirroring the real season-doc tables —
    overrides the thin bottom-only border used elsewhere. Rank/Total/
    matchday cell backgrounds are set inline per-cell by app.js's color
-   scales, so they layer on top of this border grid untouched. */
-#leaderboard-table th, #leaderboard-table td { border: 2px solid var(--black); }
+   scales, so they layer on top of this border grid untouched.
+   Right + bottom on every cell, plus top on the header row and left on
+   the first column — see the border-collapse: separate comment further
+   up for why it's split this way instead of a plain 4-side border. */
+#leaderboard-table th, #leaderboard-table td {
+  border-right: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+}
+#leaderboard-table thead th { border-top: 2px solid var(--black); }
+#leaderboard-table th:first-child, #leaderboard-table td:first-child { border-left: 2px solid var(--black); }
 /* Dorsal and Jugador read as one visual unit — no divider between them.
    Scoped away from balance-mode, where column 3 is GOL, not Jugador —
-   without this it would silently lose its left border too. */
+   without this it would silently lose its left border too. Only the
+   LEFT-hand cell of a shared edge needs to suppress its border in
+   border-collapse: separate mode (there's no "merge and pick a
+   winner" step like collapse had, so the right-hand cell simply never
+   draws a left border of its own in this grid to begin with — nothing
+   to separately suppress there). */
 #leaderboard-table:not(.balance-mode) th:nth-child(2), #leaderboard-table:not(.balance-mode) td:nth-child(2) { border-right: none; }
-#leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) { border-left: none; }
-/* The thin result-bar row keeps its top/bottom borders off (those would
-   swallow the whole 4px row — the horizontal lines it shows are really
-   the neighboring header/data rows' borders collapsing against it) but
-   still gets real vertical dividers between columns, same grid as every
-   other row. No divider between dorsal/name, matching the rest of the
-   table. The 4 leading (non-match) cells get the header's dark-grey
-   background instead of standing out as bare black gaps. */
-#leaderboard-table td.result-bar {
-  border-top: none;
-  border-bottom: none;
-  border-left: 2px solid var(--black);
-  border-right: 2px solid var(--black);
-}
-#leaderboard-table td.result-bar:nth-child(2) { border-right: none; }
-#leaderboard-table td.result-bar:nth-child(3) { border-left: none; }
+/* The thin result-bar row needs no border overrides at all now — it's
+   a normal body row, so it never gets a top border (only the header
+   row does) and its own bottom border (from the base rule above) is
+   what draws the line beneath it; vertical dividers come from the
+   same column rules as every other row, including the dorsal/Jugador
+   no-divider rule just above. (Previously this row explicitly zeroed
+   its own top/bottom and borrowed collapsed borders from its
+   neighbors — a collapse-specific trick that doesn't apply, or need
+   to apply, under border-collapse: separate.) The 4 leading
+   (non-match) cells get the header's dark-grey background instead of
+   standing out as bare black gaps. */
 #leaderboard-table td.result-bar:nth-child(-n+4) { background: var(--grey-header); }
 
 /* BALANCE mode — no rank column, so dorsal/name shift one column left
@@ -400,9 +433,8 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   min-width: 8rem;
   padding-left: 0.5rem;
   padding-right: 1.5rem;
-  border-left: none;
 }
-#leaderboard-table.balance-mode th:nth-child(2) { min-width: 8rem; border-left: none; }
+#leaderboard-table.balance-mode th:nth-child(2) { min-width: 8rem; }
 
 /* Frozen leading columns — the identity of a row (dorsal + name, plus
    rank outside BALANCE mode) stays pinned to the left edge while
@@ -442,39 +474,6 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   z-index: 2;
 }
 
-/* Sticky-column border fix: position: sticky combined with this
-   project's border-collapse: collapse tables is a known cross-browser
-   rendering conflict — a collapsed border is really ONE shared line
-   computed between two adjacent cells based on the table's static
-   layout, and that computation doesn't reliably follow a cell once
-   it's repositioned by sticky during horizontal-scroll compositing, so
-   the vertical grid lines around the frozen columns can flicker out,
-   letting the scrolling columns' content show through underneath.
-   box-shadow is a normal per-element paint property (not subject to
-   cross-cell collapsed-border computation), so reinforcing just the
-   vertical edges of the frozen region with it guarantees those lines
-   always render correctly regardless of scroll position — without
-   touching border-collapse or any other border rule on the rest of
-   the table. Only the edges that actually need it get a shadow (the
-   table's outer left edge, and the trailing edge where the frozen
-   region hands off to the first scrolling column) — the no-divider
-   boundary between dorsal/Jugador stays shadow-free too, matching its
-   existing borderless design; giving a shadow to both sides of any one
-   boundary would just double its visual thickness. Applies to every
-   row this selector matches, including the thin result-bar row, so
-   the reinforcement is there wherever the columns are actually sticky. */
-#leaderboard-table:not(.balance-mode) th:first-child, #leaderboard-table:not(.balance-mode) td:first-child {
-  box-shadow: inset 2px 0 0 0 var(--black), inset -2px 0 0 0 var(--black);
-}
-#leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) {
-  box-shadow: inset -2px 0 0 0 var(--black);
-}
-#leaderboard-table.balance-mode th:nth-child(1), #leaderboard-table.balance-mode td:nth-child(1) {
-  box-shadow: inset 2px 0 0 0 var(--black);
-}
-#leaderboard-table.balance-mode th:nth-child(2), #leaderboard-table.balance-mode td:nth-child(2) {
-  box-shadow: inset -2px 0 0 0 var(--black);
-}
 #leaderboard-table.balance-mode th:nth-child(n+3),
 #leaderboard-table.balance-mode td:nth-child(n+3) {
   text-align: center;
