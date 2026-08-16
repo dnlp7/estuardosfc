@@ -234,9 +234,9 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 /* Rival name — bold, matching the kit-color treatment. Now the 5th
    column (moved from last) as part of the reorder above. */
 #matches-table td:nth-child(5) { font-weight: 700; }
-/* Jornada column — main dark-grey background (the same grey every
-   other cell defaults to) with light-accent text, rather than a fixed
-   accent background. Also the table's one frozen/sticky column on
+/* Jornada column — the main dark grey (--grey-header, same as the
+   column headers) with light-accent text, rather than a fixed accent
+   background. Also the table's one frozen/sticky column on
    narrow screens: it's the only column that identifies which match a
    scrolled-right row belongs to, so it stays pinned to the left edge
    while the rest of the row scrolls under it — it's still the FIRST
@@ -244,7 +244,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    unchanged. Only one column needs freezing here (unlike the player
    leaderboard's 2-3), so no left-offset math is needed — it's always
    left: 0. */
-#matches-table td.jornada-cell { background: var(--grey-cell); color: var(--accent-light); font-weight: 700; }
+#matches-table td.jornada-cell { background: var(--grey-header); color: var(--accent-light); font-weight: 700; }
 #matches-table th:first-child, #matches-table td:first-child {
   position: sticky;
   left: 0;
