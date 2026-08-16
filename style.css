@@ -79,10 +79,20 @@ body {
 
 .site-header {
   text-align: center;
-  padding: 2rem 1rem 1rem;
-  background: var(--main);
+  padding: 1.5rem 1rem;
+  /* --main is the fallback in case the image fails to load; the pattern
+     is a genuinely seamless tile (confirmed against its own source),
+     so it's repeated at native resolution rather than stretched to
+     "cover" — that avoids ever upscaling it, even on a very wide
+     screen, and needs no larger source image to look sharp. */
+  background: var(--main) url("images/Base-verde-lowRes.jpg") repeat;
 }
-.site-header h1 { margin: 0; font-size: 2rem; letter-spacing: 0.02em; color: var(--white); text-transform: uppercase; }
+.site-badge {
+  height: 5.5rem;
+  width: auto;
+  display: block;
+  margin: 0 auto;
+}
 .subtitle { margin: 0.25rem 0 0; color: var(--white); opacity: 0.85; }
 
 /* Both nav levels share the same button shape/border/text rules — a
