@@ -133,6 +133,27 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
   text-align: center;
   padding: 0.6rem 1.25rem;
 }
+/* Grouped like the real RES tab's "Torneo de Liga" box — [PJ PG PE PP]
+   [GF GC DIF] [PTS] read as three clusters, not 8 uniform cells. Same
+   "no divider within a pair" technique already used for dorsal/Jugador
+   on the leaderboard: both cells on an internal boundary suppress
+   their shared border (collapse only keeps a line if at least one side
+   still specifies one), while the two real group boundaries — PP|GF
+   and DIF|PTS — are left alone and keep their default 2px border. */
+#standings-table td:nth-child(1), #standings-table th:nth-child(1),
+#standings-table td:nth-child(5), #standings-table th:nth-child(5) {
+  border-right: none;
+}
+#standings-table td:nth-child(2), #standings-table th:nth-child(2),
+#standings-table td:nth-child(3), #standings-table th:nth-child(3),
+#standings-table td:nth-child(6), #standings-table th:nth-child(6) {
+  border-left: none;
+  border-right: none;
+}
+#standings-table td:nth-child(4), #standings-table th:nth-child(4),
+#standings-table td:nth-child(7), #standings-table th:nth-child(7) {
+  border-left: none;
+}
 #standings-table td { font-weight: 700; color: var(--white); }
 
 .table-wrap {
