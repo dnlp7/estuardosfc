@@ -217,12 +217,6 @@
   }
 
   // ---------------- Plantel ----------------
-  // TEMP: every card uses the same placeholder photo (Daniel's first
-  // finished sample, images/plantel/P012.jpg) until the rest of the
-  // roster's photos are ready — swap the marked line below for the real
-  // per-player path once every current player has one in images/plantel/.
-  var PLANTEL_PLACEHOLDER_IMG_ = 'images/plantel/P012.jpg';
-
   /** Current roster, sorted by dorsal ascending — same "Activo" flag
    * (Jugadores tab) that already drives active/inactive coloring
    * everywhere else, so no separate roster list to maintain. Each
@@ -248,8 +242,7 @@
     });
 
     grid.innerHTML = roster.map(function (p) {
-      // Real path once every photo exists: 'images/plantel/' + p.playerId + '.jpg'
-      var img = PLANTEL_PLACEHOLDER_IMG_;
+      var img = 'images/plantel/' + p.playerId + '.jpg';
       return '<div class="plantel-card"><img src="' + img + '" alt="' + esc(p.nombre) + '" loading="lazy"></div>';
     }).join('');
   }
