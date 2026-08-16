@@ -543,7 +543,39 @@
   }
 
   function setTableHead(html) { document.querySelector('#leaderboard-table thead').innerHTML = html; }
-  function setTableBody(html) { document.querySelector('#leaderboard-table tbody').innerHTML = html; }
+  function setTableBody(html) {
+    document.querySelector('#leaderboard-table tbody').innerHTML = html;
+    syncStickyOffsets_();
+  }
+
+  /** The frozen leading columns' "left" offsets (--sticky-left-2/-3,
+   * read by style.css) are measured from the ACTUAL rendered width of
+   * the header row's cells, not assumed from a CSS width declaration.
+   * These tables use table-layout: auto (so the Jugador name column
+   * can stay content-flexible instead of a fixed width), and auto
+   * layout only ever treats a cell's declared "width" as a hint, not a
+   * guarantee — the real rendered width of the rank/dorsal columns can
+   * differ slightly by device/font. A hardcoded rem-based offset left
+   * a visible gap between dorsal and Jugador on one phone despite
+   * looking correct on desktop; measuring what actually rendered is
+   * correct everywhere, not just wherever it was last tuned. Called
+   * after every table body render (from setTableBody, above), so it's
+   * always in sync with whatever just got drawn — including the
+   * BALANCE-mode column shift (rank column absent, so column 1 is
+   * dorsal instead of rank; the formula is identical either way, it's
+   * just "the width of whatever column 1 actually is"). */
+  function syncStickyOffsets_() {
+    var table = document.getElementById('leaderboard-table');
+    if (!table) return;
+    var headRow = table.querySelector('thead tr');
+    if (!headRow || headRow.children.length < 2) return;
+    var width1 = headRow.children[0].getBoundingClientRect().width;
+    table.style.setProperty('--sticky-left-2', width1 + 'px');
+    if (!table.classList.contains('balance-mode') && headRow.children.length >= 3) {
+      var width2 = headRow.children[1].getBoundingClientRect().width;
+      table.style.setProperty('--sticky-left-3', (width1 + width2) + 'px');
+    }
+  }
 
   function setWideLayout(wide) {
     document.getElementById('leaderboard-wrap').classList.toggle('compact', !wide);

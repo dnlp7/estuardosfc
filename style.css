@@ -321,12 +321,14 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 #leaderboard-table th:last-child, #leaderboard-table td:last-child {
   text-align: center;
 }
-/* Rank column ("#") — narrow, just a 1-2 digit number. A genuine FIXED
-   width (not the usual "width: 1%" shrink-to-content hint) because the
-   sticky-column freeze below needs to know its exact rendered width in
-   advance to position the next frozen column's "left" offset — "1%"
-   only ever meant "as narrow as content allows", not a number CSS
-   could reuse elsewhere. */
+/* Rank column ("#") — narrow, just a 1-2 digit number. A declared FIXED
+   width (not the usual "width: 1%" shrink-to-content hint) so it stays
+   consistently narrow — though since these tables use table-layout:
+   auto, this is only a strong hint, not a guarantee; the sticky
+   columns' "left" offsets are measured from the ACTUAL rendered width
+   at runtime (app.js's syncStickyOffsets_()), not assumed from this
+   value, precisely because auto layout doesn't always honor it exactly
+   (see the "Frozen leading columns" comment further down). */
 #leaderboard-table th:first-child, #leaderboard-table td:first-child {
   width: 2.75rem;
   padding-left: 0.5rem;
@@ -361,9 +363,8 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 /* Dorsal column — narrow (just enough for a 2-digit number); the
    active/inactive background is set inline per row, same as the name
    cell — the header stays the same grey as every other header. Also a
-   genuine fixed width, same reasoning as the rank column above — the
-   sticky Jugador column's "left" offset needs to know this column's
-   exact width. */
+   declared fixed width, same reasoning/caveat as the rank column
+   above — the actual sticky offset is measured, not assumed. */
 #leaderboard-table td:nth-child(2) {
   width: 2.4rem;
   padding-left: 0.4rem;
@@ -439,15 +440,24 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 /* Frozen leading columns — the identity of a row (dorsal + name, plus
    rank outside BALANCE mode) stays pinned to the left edge while
    stat/era/match columns scroll underneath, so you never lose track
-   of which player a row belongs to on a narrow screen. Left offsets
-   are exact sums of the FIXED widths set above (2.75rem rank +
-   2.4rem dorsal), not guesses — Jugador's own width can stay flexible
-   (min-width: 8rem) since nothing after it needs to be measured; it's
-   the last frozen column in both modes. z-index keeps these cells
-   painted above the columns scrolling in behind them; every sticky
-   cell already has an opaque background (the default grey tbody
-   background, or an inline/class color set elsewhere), so nothing
-   bleeds through. */
+   of which player a row belongs to on a narrow screen.
+   Left offsets come from --sticky-left-2/--sticky-left-3, custom
+   properties set on the table element by app.js's syncStickyOffsets_()
+   after every render — NOT hardcoded rem guesses. These tables use
+   table-layout: auto (so Jugador's name column can stay content-
+   flexible), and auto layout only treats a cell's declared "width" as
+   a hint, not a guarantee — the ACTUAL rendered width of the rank/
+   dorsal columns can differ slightly by device/font, which is exactly
+   what caused a visible gap between dorsal and Jugador on one phone
+   despite looking correct on desktop with a hardcoded value. Measuring
+   the real rendered width and writing it as a custom property is
+   correct on every device, not just the one it happened to be tuned
+   against. The rem fallback (before the var's first value) only
+   matters for the instant before JS runs on first paint. z-index keeps
+   these cells painted above the columns scrolling in behind them;
+   every sticky cell already has an opaque background (the default
+   grey tbody background, or an inline/class color set elsewhere), so
+   nothing bleeds through. */
 #leaderboard-table:not(.balance-mode) th:first-child, #leaderboard-table:not(.balance-mode) td:first-child {
   position: sticky;
   left: 0;
@@ -455,12 +465,12 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 }
 #leaderboard-table:not(.balance-mode) th:nth-child(2), #leaderboard-table:not(.balance-mode) td:nth-child(2) {
   position: sticky;
-  left: 2.75rem;
+  left: var(--sticky-left-2, 2.75rem);
   z-index: 2;
 }
 #leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) {
   position: sticky;
-  left: 5.15rem;
+  left: var(--sticky-left-3, 5.15rem);
   z-index: 2;
 }
 #leaderboard-table.balance-mode th:nth-child(1), #leaderboard-table.balance-mode td:nth-child(1) {
@@ -470,7 +480,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 }
 #leaderboard-table.balance-mode th:nth-child(2), #leaderboard-table.balance-mode td:nth-child(2) {
   position: sticky;
-  left: 2.4rem;
+  left: var(--sticky-left-2, 2.4rem);
   z-index: 2;
 }
 
