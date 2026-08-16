@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T22:28:01.260Z",
+  "generatedAt": "2026-08-16T22:41:33.024Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -618,7 +618,7 @@
         {
           "dorsal": 10,
           "nombre": "Paco",
-          "total": 282,
+          "total": 283,
           "byEra": {
             "2019": 26,
             "2020": 2,
@@ -636,7 +636,7 @@
             "2023/24": 18,
             "2024/25": 23,
             "2025/26": 24,
-            "2026/27": 1
+            "2026/27": 2
           }
         },
         {
@@ -665,7 +665,7 @@
         {
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 108,
+          "total": 109,
           "byEra": {
             "2021": 0,
             "2022": 11,
@@ -678,7 +678,7 @@
             "2023/24": 14,
             "2024/25": 24,
             "2025/26": 11,
-            "2026/27": 1
+            "2026/27": 2
           }
         },
         {
@@ -955,6 +955,16 @@
           }
         },
         {
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 6,
+          "byEra": {
+            "2026": 0,
+            "2025/26": 3,
+            "2026/27": 3
+          }
+        },
+        {
           "dorsal": 9,
           "nombre": "Coco",
           "total": 6,
@@ -975,16 +985,6 @@
             "2017/18": 1,
             "2018/19": 0,
             "2019/20": 2
-          }
-        },
-        {
-          "dorsal": 5,
-          "nombre": "Alonso",
-          "total": 5,
-          "byEra": {
-            "2026": 0,
-            "2025/26": 3,
-            "2026/27": 2
           }
         },
         {
@@ -1189,7 +1189,7 @@
         {
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 93,
+          "total": 94,
           "byEra": {
             "2023": 5,
             "2024": 18,
@@ -1199,13 +1199,13 @@
             "2023/24": 14,
             "2024/25": 19,
             "2025/26": 7,
-            "2026/27": 3
+            "2026/27": 4
           }
         },
         {
           "dorsal": 10,
           "nombre": "Paco",
-          "total": 88,
+          "total": 89,
           "byEra": {
             "2023": 6,
             "2024": 18,
@@ -1215,7 +1215,7 @@
             "2023/24": 12,
             "2024/25": 18,
             "2025/26": 4,
-            "2026/27": 0
+            "2026/27": 1
           }
         },
         {
@@ -1359,6 +1359,16 @@
           }
         },
         {
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 7,
+          "byEra": {
+            "2026": 0,
+            "2025/26": 3,
+            "2026/27": 4
+          }
+        },
+        {
           "dorsal": 14,
           "nombre": "Eric",
           "total": 7,
@@ -1372,16 +1382,6 @@
             "2024/25": 1,
             "2025/26": 2,
             "2026/27": 0
-          }
-        },
-        {
-          "dorsal": 5,
-          "nombre": "Alonso",
-          "total": 6,
-          "byEra": {
-            "2026": 0,
-            "2025/26": 3,
-            "2026/27": 3
           }
         },
         {
@@ -1458,20 +1458,20 @@
         },
         {
           "dorsal": 18,
-          "nombre": "Paquito",
-          "total": 1,
-          "byEra": {
-            "2022/23": 1
-          }
-        },
-        {
-          "dorsal": 18,
           "nombre": "Miguel",
           "total": 1,
           "byEra": {
             "2025": 0,
             "2024/25": 0,
             "2025/26": 1
+          }
+        },
+        {
+          "dorsal": 18,
+          "nombre": "Paquito",
+          "total": 1,
+          "byEra": {
+            "2022/23": 1
           }
         },
         {
@@ -1601,7 +1601,7 @@
         {
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 284,
+          "total": 285,
           "byEra": {
             "2020": 4,
             "2021": 19,
@@ -1616,13 +1616,13 @@
             "2023/24": 26,
             "2024/25": 27,
             "2025/26": 20,
-            "2026/27": 6
+            "2026/27": 7
           }
         },
         {
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 260,
+          "total": 261,
           "byEra": {
             "2020": 3,
             "2021": 17,
@@ -1637,13 +1637,13 @@
             "2023/24": 25,
             "2024/25": 23,
             "2025/26": 20,
-            "2026/27": 6
+            "2026/27": 7
           }
         },
         {
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 232,
+          "total": 233,
           "byEra": {
             "2020": 3,
             "2021": 15,
@@ -1658,13 +1658,13 @@
             "2023/24": 21,
             "2024/25": 24,
             "2025/26": 20,
-            "2026/27": 6
+            "2026/27": 7
           }
         },
         {
           "dorsal": 14,
           "nombre": "Eric",
-          "total": 215,
+          "total": 216,
           "byEra": {
             "2020": 3,
             "2021": 15,
@@ -1679,13 +1679,13 @@
             "2023/24": 24,
             "2024/25": 24,
             "2025/26": 18,
-            "2026/27": 5
+            "2026/27": 6
           }
         },
         {
           "dorsal": 1,
           "nombre": "Charly",
-          "total": 214,
+          "total": 215,
           "byEra": {
             "2020": 4,
             "2021": 11,
@@ -1700,13 +1700,13 @@
             "2023/24": 20,
             "2024/25": 25,
             "2025/26": 19,
-            "2026/27": 5
+            "2026/27": 6
           }
         },
         {
           "dorsal": 10,
           "nombre": "Paco",
-          "total": 207,
+          "total": 208,
           "byEra": {
             "2020": 1,
             "2021": 9,
@@ -1721,7 +1721,7 @@
             "2023/24": 23,
             "2024/25": 18,
             "2025/26": 15,
-            "2026/27": 2
+            "2026/27": 3
           }
         },
         {
@@ -1748,7 +1748,7 @@
         {
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 195,
+          "total": 196,
           "byEra": {
             "2021": 2,
             "2022": 24,
@@ -1761,13 +1761,13 @@
             "2023/24": 25,
             "2024/25": 20,
             "2025/26": 16,
-            "2026/27": 5
+            "2026/27": 6
           }
         },
         {
           "dorsal": 9,
           "nombre": "Hector",
-          "total": 193,
+          "total": 194,
           "byEra": {
             "2020": 1,
             "2021": 14,
@@ -1781,7 +1781,7 @@
             "2023/24": 20,
             "2024/25": 23,
             "2025/26": 14,
-            "2026/27": 6
+            "2026/27": 7
           }
         },
         {
@@ -1808,7 +1808,7 @@
         {
           "dorsal": 12,
           "nombre": "Chente",
-          "total": 156,
+          "total": 157,
           "byEra": {
             "2020": 2,
             "2021": 13,
@@ -1823,7 +1823,7 @@
             "2023/24": 0,
             "2024/25": 15,
             "2025/26": 18,
-            "2026/27": 3
+            "2026/27": 4
           }
         },
         {
@@ -1880,14 +1880,14 @@
         {
           "dorsal": 6,
           "nombre": "Lanuza",
-          "total": 72,
+          "total": 73,
           "byEra": {
             "2024": 14,
             "2025": 18,
             "2026": 5,
             "2024/25": 19,
             "2025/26": 13,
-            "2026/27": 3
+            "2026/27": 4
           }
         },
         {
@@ -1996,6 +1996,16 @@
           }
         },
         {
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 13,
+          "byEra": {
+            "2026": 2,
+            "2025/26": 4,
+            "2026/27": 7
+          }
+        },
+        {
           "dorsal": 9,
           "nombre": "Coco",
           "total": 13,
@@ -2003,16 +2013,6 @@
             "2020": 1,
             "2021": 3,
             "2019/20": 9
-          }
-        },
-        {
-          "dorsal": 5,
-          "nombre": "Alonso",
-          "total": 12,
-          "byEra": {
-            "2026": 2,
-            "2025/26": 4,
-            "2026/27": 6
           }
         },
         {
@@ -2113,7 +2113,7 @@
         {
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 213,
+          "total": 214,
           "byEra": {
             "2020": 2,
             "2021": 15,
@@ -2128,13 +2128,13 @@
             "2023/24": 19,
             "2024/25": 20,
             "2025/26": 17,
-            "2026/27": 6
+            "2026/27": 7
           }
         },
         {
           "dorsal": 1,
           "nombre": "Charly",
-          "total": 170,
+          "total": 171,
           "byEra": {
             "2020": 3,
             "2021": 9,
@@ -2149,13 +2149,13 @@
             "2023/24": 15,
             "2024/25": 21,
             "2025/26": 18,
-            "2026/27": 5
+            "2026/27": 6
           }
         },
         {
           "dorsal": 10,
           "nombre": "Paco",
-          "total": 166,
+          "total": 167,
           "byEra": {
             "2020": 1,
             "2021": 8,
@@ -2170,13 +2170,13 @@
             "2023/24": 15,
             "2024/25": 11,
             "2025/26": 13,
-            "2026/27": 0
+            "2026/27": 1
           }
         },
         {
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 157,
+          "total": 158,
           "byEra": {
             "2021": 1,
             "2022": 21,
@@ -2189,7 +2189,7 @@
             "2023/24": 20,
             "2024/25": 15,
             "2025/26": 12,
-            "2026/27": 4
+            "2026/27": 5
           }
         },
         {
@@ -2237,7 +2237,7 @@
         {
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 122,
+          "total": 123,
           "byEra": {
             "2020": 2,
             "2021": 16,
@@ -2252,7 +2252,7 @@
             "2023/24": 7,
             "2024/25": 5,
             "2025/26": 16,
-            "2026/27": 4
+            "2026/27": 5
           }
         },
         {
@@ -2314,7 +2314,7 @@
         {
           "dorsal": 12,
           "nombre": "Chente",
-          "total": 83,
+          "total": 84,
           "byEra": {
             "2020": 1,
             "2021": 10,
@@ -2329,7 +2329,7 @@
             "2023/24": 0,
             "2024/25": 5,
             "2025/26": 8,
-            "2026/27": 1
+            "2026/27": 2
           }
         },
         {
@@ -2473,11 +2473,11 @@
         {
           "dorsal": 5,
           "nombre": "Alonso",
-          "total": 8,
+          "total": 9,
           "byEra": {
             "2026": 0,
             "2025/26": 2,
-            "2026/27": 6
+            "2026/27": 7
           }
         },
         {
@@ -2679,17 +2679,29 @@
         "rival": "PANCHIZA",
         "rivalBg": "#000000",
         "rivalText": "#0000ff"
+      },
+      {
+        "jornada": "J7",
+        "cancha": 2,
+        "fecha": "2026-08-15",
+        "hora": "8:30",
+        "resultado": "g",
+        "gf": 4,
+        "gc": 1,
+        "rival": "HOLANDA",
+        "rivalBg": "#ffffff",
+        "rivalText": "#cc0000"
       }
     ],
     "standings": {
-      "pj": 6,
-      "pg": 3,
+      "pj": 7,
+      "pg": 4,
       "pe": 0,
       "pp": 3,
-      "gf": 12,
-      "gc": 28,
-      "dif": -16,
-      "pts": 9
+      "gf": 16,
+      "gc": 29,
+      "dif": -13,
+      "pts": 12
     }
   },
   "detail": {
@@ -2719,9 +2731,28 @@
         {
           "partido": "J6 PAN",
           "resultado": "p"
+        },
+        {
+          "partido": "J7 HOL",
+          "resultado": "g"
         }
       ],
       "players": [
+        {
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            2,
+            null,
+            null,
+            1
+          ]
+        },
         {
           "dorsal": 9,
           "nombre": "Hector",
@@ -2733,21 +2764,38 @@
             1,
             null,
             1,
+            null,
             null
           ]
         },
         {
-          "dorsal": 5,
-          "nombre": "Alonso",
+          "dorsal": 10,
+          "nombre": "Paco",
           "total": 2,
           "isUtility": false,
           "byMatch": [
             null,
             null,
             null,
-            2,
             null,
-            null
+            1,
+            null,
+            1
+          ]
+        },
+        {
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 2,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            1,
+            1
           ]
         },
         {
@@ -2758,6 +2806,7 @@
           "byMatch": [
             null,
             2,
+            null,
             null,
             null,
             null,
@@ -2775,6 +2824,7 @@
             null,
             1,
             null,
+            null,
             null
           ]
         },
@@ -2789,35 +2839,8 @@
             null,
             1,
             null,
+            null,
             null
-          ]
-        },
-        {
-          "dorsal": 10,
-          "nombre": "Paco",
-          "total": 1,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            null,
-            null,
-            null,
-            1,
-            null
-          ]
-        },
-        {
-          "dorsal": 11,
-          "nombre": "Ramiro",
-          "total": 1,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            1
           ]
         },
         {
@@ -2831,6 +2854,7 @@
             null,
             null,
             1,
+            null,
             null
           ]
         },
@@ -2840,6 +2864,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -2859,6 +2884,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -2868,6 +2894,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -2887,6 +2914,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -2896,6 +2924,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -2915,6 +2944,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -2924,6 +2954,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -2943,13 +2974,14 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
         {
           "dorsal": "",
           "nombre": "[Autogoles]",
-          "total": 0,
+          "total": 1,
           "isUtility": true,
           "byMatch": [
             null,
@@ -2957,7 +2989,8 @@
             null,
             null,
             null,
-            null
+            null,
+            1
           ]
         }
       ]
@@ -2987,13 +3020,17 @@
         {
           "partido": "J6 PAN",
           "resultado": "p"
+        },
+        {
+          "partido": "J7 HOL",
+          "resultado": "g"
         }
       ],
       "players": [
         {
           "dorsal": 5,
           "nombre": "Alonso",
-          "total": 3,
+          "total": 4,
           "isUtility": false,
           "byMatch": [
             null,
@@ -3001,13 +3038,14 @@
             null,
             null,
             2,
+            1,
             1
           ]
         },
         {
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 3,
+          "total": 4,
           "isUtility": false,
           "byMatch": [
             null,
@@ -3015,7 +3053,8 @@
             null,
             2,
             null,
-            null
+            null,
+            1
           ]
         },
         {
@@ -3028,6 +3067,7 @@
             null,
             null,
             1,
+            null,
             null,
             null
           ]
@@ -3043,6 +3083,7 @@
             null,
             null,
             1,
+            null,
             null
           ]
         },
@@ -3057,7 +3098,23 @@
             null,
             1,
             null,
+            null,
             null
+          ]
+        },
+        {
+          "dorsal": 10,
+          "nombre": "Paco",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            1
           ]
         },
         {
@@ -3068,6 +3125,7 @@
           "byMatch": [
             null,
             1,
+            null,
             null,
             null,
             null,
@@ -3085,6 +3143,7 @@
             1,
             null,
             null,
+            null,
             null
           ]
         },
@@ -3099,6 +3158,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -3108,6 +3168,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -3127,6 +3188,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -3137,19 +3199,6 @@
           "isUtility": false,
           "byMatch": [
             null,
-            null,
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        {
-          "dorsal": 10,
-          "nombre": "Paco",
-          "total": 0,
-          "isUtility": false,
-          "byMatch": [
             null,
             null,
             null,
@@ -3169,6 +3218,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -3183,6 +3233,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -3192,6 +3243,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -3227,15 +3279,20 @@
         {
           "partido": "J6 PAN",
           "resultado": "p"
+        },
+        {
+          "partido": "J7 HOL",
+          "resultado": "g"
         }
       ],
       "players": [
         {
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 6,
+          "total": 7,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -3247,9 +3304,10 @@
         {
           "dorsal": 5,
           "nombre": "Alonso",
-          "total": 6,
+          "total": 7,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -3261,9 +3319,10 @@
         {
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 6,
+          "total": 7,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -3275,9 +3334,10 @@
         {
           "dorsal": 9,
           "nombre": "Hector",
-          "total": 6,
+          "total": 7,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -3289,23 +3349,10 @@
         {
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 6,
+          "total": 7,
           "isUtility": false,
           "byMatch": [
             "x",
-            "x",
-            "x",
-            "x",
-            "x",
-            "x"
-          ]
-        },
-        {
-          "dorsal": 23,
-          "nombre": "Sergio",
-          "total": 6,
-          "isUtility": false,
-          "byMatch": [
             "x",
             "x",
             "x",
@@ -3317,9 +3364,55 @@
         {
           "dorsal": 1,
           "nombre": "Charly",
-          "total": 5,
+          "total": 6,
           "isUtility": false,
           "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            null,
+            "x"
+          ]
+        },
+        {
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "dorsal": 14,
+          "nombre": "Eric",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            null,
+            "x"
+          ]
+        },
+        {
+          "dorsal": 23,
+          "nombre": "Sergio",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -3339,41 +3432,14 @@
             "x",
             "x",
             "x",
-            null
-          ]
-        },
-        {
-          "dorsal": 11,
-          "nombre": "Ramiro",
-          "total": 5,
-          "isUtility": false,
-          "byMatch": [
             null,
-            "x",
-            "x",
-            "x",
-            "x",
-            "x"
-          ]
-        },
-        {
-          "dorsal": 14,
-          "nombre": "Eric",
-          "total": 5,
-          "isUtility": false,
-          "byMatch": [
-            "x",
-            "x",
-            "x",
-            "x",
-            "x",
             null
           ]
         },
         {
           "dorsal": 6,
           "nombre": "Lanuza",
-          "total": 3,
+          "total": 4,
           "isUtility": false,
           "byMatch": [
             "x",
@@ -3381,13 +3447,14 @@
             "x",
             "x",
             null,
-            null
+            null,
+            "x"
           ]
         },
         {
           "dorsal": 12,
           "nombre": "Chente",
-          "total": 3,
+          "total": 4,
           "isUtility": false,
           "byMatch": [
             "x",
@@ -3395,7 +3462,23 @@
             null,
             "x",
             null,
-            null
+            null,
+            "x"
+          ]
+        },
+        {
+          "dorsal": 10,
+          "nombre": "Paco",
+          "total": 3,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            "x",
+            "x",
+            "x"
           ]
         },
         {
@@ -3409,21 +3492,8 @@
             null,
             "x",
             "x",
+            null,
             null
-          ]
-        },
-        {
-          "dorsal": 10,
-          "nombre": "Paco",
-          "total": 2,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            null,
-            null,
-            null,
-            "x",
-            "x"
           ]
         },
         {
@@ -3434,6 +3504,7 @@
           "byMatch": [
             null,
             "x",
+            null,
             null,
             null,
             null,
@@ -3467,15 +3538,20 @@
         {
           "partido": "J6 PAN",
           "resultado": "p"
+        },
+        {
+          "partido": "J7 HOL",
+          "resultado": "g"
         }
       ],
       "players": [
         {
           "dorsal": 5,
           "nombre": "Alonso",
-          "total": 6,
+          "total": 7,
           "isUtility": false,
           "byMatch": [
+            "MED",
             "MED",
             "MED",
             "MED",
@@ -3487,7 +3563,7 @@
         {
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 6,
+          "total": 7,
           "isUtility": false,
           "byMatch": [
             "MED",
@@ -3495,7 +3571,23 @@
             "DEF",
             "DEF",
             "DEF",
-            "DEF"
+            "DEF",
+            "MED"
+          ]
+        },
+        {
+          "dorsal": 1,
+          "nombre": "Charly",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "POR",
+            "POR",
+            "POR",
+            "POR",
+            "POR",
+            null,
+            "POR"
           ]
         },
         {
@@ -3509,27 +3601,14 @@
             "DEL",
             "DEL",
             "DEL",
-            "DEL"
-          ]
-        },
-        {
-          "dorsal": 1,
-          "nombre": "Charly",
-          "total": 5,
-          "isUtility": false,
-          "byMatch": [
-            "POR",
-            "POR",
-            "POR",
-            "POR",
-            "POR",
+            "DEL",
             null
           ]
         },
         {
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 4,
+          "total": 5,
           "isUtility": false,
           "byMatch": [
             "DEF",
@@ -3537,7 +3616,23 @@
             "SUP",
             "DEF",
             "DEF",
-            "SUP"
+            "SUP",
+            "DEF"
+          ]
+        },
+        {
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 5,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            "SUP",
+            "MED",
+            "MED",
+            "MED",
+            "DEF",
+            "MED"
           ]
         },
         {
@@ -3551,21 +3646,8 @@
             "MED",
             "SUP",
             "SUP",
-            "MED"
-          ]
-        },
-        {
-          "dorsal": 11,
-          "nombre": "Ramiro",
-          "total": 4,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            "SUP",
             "MED",
-            "MED",
-            "MED",
-            "DEF"
+            "SUP"
           ]
         },
         {
@@ -3579,7 +3661,23 @@
             null,
             "MED",
             "MED",
+            null,
             null
+          ]
+        },
+        {
+          "dorsal": 12,
+          "nombre": "Chente",
+          "total": 2,
+          "isUtility": false,
+          "byMatch": [
+            "DEF",
+            "SUP",
+            null,
+            "SUP",
+            null,
+            null,
+            "DEF"
           ]
         },
         {
@@ -3593,21 +3691,23 @@
             "SUP",
             "SUP",
             "SUP",
-            "DEF"
+            "DEF",
+            "SUP"
           ]
         },
         {
-          "dorsal": 12,
-          "nombre": "Chente",
+          "dorsal": 10,
+          "nombre": "Paco",
           "total": 1,
           "isUtility": false,
           "byMatch": [
-            "DEF",
-            "SUP",
+            null,
+            null,
+            null,
             null,
             "SUP",
-            null,
-            null
+            "SUP",
+            "DEL"
           ]
         },
         {
@@ -3621,7 +3721,8 @@
             "DEF",
             "SUP",
             "SUP",
-            null
+            null,
+            "SUP"
           ]
         },
         {
@@ -3635,6 +3736,7 @@
             "SUP",
             "SUP",
             "SUP",
+            null,
             null
           ]
         },
@@ -3649,20 +3751,7 @@
             "SUP",
             "SUP",
             null,
-            null
-          ]
-        },
-        {
-          "dorsal": 10,
-          "nombre": "Paco",
-          "total": 0,
-          "isUtility": false,
-          "byMatch": [
             null,
-            null,
-            null,
-            null,
-            "SUP",
             "SUP"
           ]
         },
@@ -3674,6 +3763,7 @@
           "byMatch": [
             null,
             "SUP",
+            null,
             null,
             null,
             null,
