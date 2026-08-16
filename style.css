@@ -120,6 +120,8 @@ main.wide { max-width: 1400px; }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
+.section-panel { display: none; }
+.section-panel.active { display: block; }
 
 h2 { margin-top: 0; }
 h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }

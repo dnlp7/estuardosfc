@@ -208,17 +208,44 @@
       ? 'Actualizado: ' + new Date(data.generatedAt).toLocaleString('es-MX')
       : '';
 
+    setupSections();
     setupTabs();
     setupEquipoControls(data);
     setupHistorialControls(data);
     renderLeaderboard();
   }
 
+  // ---------------- Sections (Estadísticas / Plantel) ----------------
+  // Top-level nav, one level above the Equipo/Jugadores sub-tabs. The
+  // sub-tab buttons also carry the shared ".tab-btn" pill styling, so
+  // this scopes its own button/click handling to ".main-tab-btn" only —
+  // sharing ".tab-btn" for CSS but never for the two nav levels' click
+  // wiring, which stay fully independent of each other.
+  function setupSections() {
+    document.querySelectorAll('.main-tab-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.main-tab-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.section-panel').forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('section-' + btn.dataset.section).classList.add('active');
+        var isEstadisticas = btn.dataset.section === 'estadisticas';
+        // The Equipo/Jugadores sub-nav only makes sense inside Estadísticas.
+        document.getElementById('estadisticas-subnav').hidden = !isEstadisticas;
+        // Same "wide" resync reasoning as setupTabs() below — leaving
+        // Estadísticas while Jugadores' detail view is on must not keep
+        // <main> stretched on Plantel (or vice versa, coming back).
+        var historialActive = document.querySelector('#estadisticas-subnav .tab-btn[data-tab="historial"]').classList.contains('active');
+        document.querySelector('main').classList.toggle('wide', isEstadisticas && historialActive && state.detail);
+        if (isEstadisticas) syncStickyOffsets_();
+      });
+    });
+  }
+
   // ---------------- Tabs ----------------
   function setupTabs() {
-    document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (b) { b.classList.remove('active'); });
         document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
