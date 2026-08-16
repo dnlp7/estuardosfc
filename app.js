@@ -410,7 +410,9 @@
       var horaMin = horaMins.length ? Math.min.apply(null, horaMins) : 0;
       var horaMax = horaMins.length ? Math.max.apply(null, horaMins) : 0;
 
-      // Column order: Jornada, Cancha, Fecha, Hora, Resultado, GF, GC, Rival
+      // Column order: Jornada, Resultado, GF, GC, Rival, Fecha, Hora,
+      // Cancha — most important data first (visible without scrolling
+      // on a phone), with Jornada staying first/sticky throughout.
       tbody.innerHTML = matches.map(function (m) {
         var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? 'result-chip-e' : '';
         var canchaNum = Number(m.cancha);
@@ -423,10 +425,10 @@
         // style (default cell).
         var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
 
-        return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td' + styleAttr_(canchaColor) + '>' +
-          esc(m.cancha) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td><td' + styleAttr_(horaColor) + '>' + esc(m.hora) +
-          '</td><td class="result-chip ' + resClass + '"></td><td class="val-strong">' + esc(m.gf) +
-          '</td><td class="val-strong">' + esc(m.gc) + '</td><td' + rivalStyle + '>' + esc(m.rival) + '</td></tr>';
+        return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
+          '<td class="val-strong">' + esc(m.gf) + '</td><td class="val-strong">' + esc(m.gc) + '</td>' +
+          '<td' + rivalStyle + '>' + esc(m.rival) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td>' +
+          '<td' + styleAttr_(horaColor) + '>' + esc(m.hora) + '</td><td' + styleAttr_(canchaColor) + '>' + esc(m.cancha) + '</td></tr>';
       }).join('');
     }
   }

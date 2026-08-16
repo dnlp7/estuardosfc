@@ -204,13 +204,18 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   border-spacing: 0;
 }
 
-/* Results table — every column centered except Rival (last), which
-   stays left-aligned since it's the one variable-length text field. */
-#matches-table th:not(:last-child), #matches-table td:not(:last-child) {
+/* Results table — every column centered except Rival, which stays
+   left-aligned since it's the one variable-length text field. Column
+   order (Jornada, R, GF, GC, Rival, Fecha, Hora, Cancha) puts the most
+   important data first so it's visible without scrolling; Rival is
+   5th, not last, hence the :not(:nth-child(5)) rather than
+   :not(:last-child). */
+#matches-table th:not(:nth-child(5)), #matches-table td:not(:nth-child(5)) {
   text-align: center;
 }
-/* Cancha column — narrow, just a 1-digit court number. */
-#matches-table th:nth-child(2), #matches-table td:nth-child(2) {
+/* Cancha column — narrow, just a 1-digit court number. Now the LAST
+   column (moved from 2nd) as part of the reorder above. */
+#matches-table th:last-child, #matches-table td:last-child {
   width: 1%; padding-left: 0.5rem; padding-right: 0.5rem;
 }
 /* Full cell grid, not just a bottom border between rows. Black rather
@@ -226,17 +231,20 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 }
 #matches-table thead th { border-top: 2px solid var(--black); }
 #matches-table th:first-child, #matches-table td:first-child { border-left: 2px solid var(--black); }
-/* Rival name — bold, matching the kit-color treatment. */
-#matches-table td:last-child { font-weight: 700; }
-/* Jornada column — fixed light-accent background (not a scale), black
-   text for contrast, mirroring the real RES tab. Also the table's one
-   frozen/sticky column on narrow screens: it's the only column that
-   identifies which match a scrolled-right row belongs to, so it stays
-   pinned to the left edge while Fecha/Hora/GF/GC/Rival scroll under
-   it. Only one column needs freezing here (unlike the player
+/* Rival name — bold, matching the kit-color treatment. Now the 5th
+   column (moved from last) as part of the reorder above. */
+#matches-table td:nth-child(5) { font-weight: 700; }
+/* Jornada column — main dark-grey background (the same grey every
+   other cell defaults to) with light-accent text, rather than a fixed
+   accent background. Also the table's one frozen/sticky column on
+   narrow screens: it's the only column that identifies which match a
+   scrolled-right row belongs to, so it stays pinned to the left edge
+   while the rest of the row scrolls under it — it's still the FIRST
+   column after the reorder above, so this sticky behavior is
+   unchanged. Only one column needs freezing here (unlike the player
    leaderboard's 2-3), so no left-offset math is needed — it's always
    left: 0. */
-#matches-table td.jornada-cell { background: var(--accent-light); color: var(--black); font-weight: 700; }
+#matches-table td.jornada-cell { background: var(--grey-cell); color: var(--accent-light); font-weight: 700; }
 #matches-table th:first-child, #matches-table td:first-child {
   position: sticky;
   left: 0;
@@ -245,8 +253,9 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 /* Result column — a thin solid-colored line instead of a G/E/P letter,
    same idea as the leaderboard's result-bar row. Fixed narrow width on
    both header and cell so the "R" heading doesn't force the column
-   wider than the line itself needs to be. */
-#matches-table th:nth-child(5), #matches-table td:nth-child(5) {
+   wider than the line itself needs to be. Now the 2nd column (moved
+   from 5th) as part of the reorder above. */
+#matches-table th:nth-child(2), #matches-table td:nth-child(2) {
   width: 22px;
   padding-left: 0.3rem;
   padding-right: 0.3rem;
