@@ -89,7 +89,7 @@ body {
   background-size: 2100px auto;
 }
 .site-badge {
-  height: 6.5rem;
+  height: 7.5rem;
   width: auto;
   display: block;
   margin: 0 auto;
@@ -360,10 +360,17 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 #leaderboard-table th, #leaderboard-table td { padding: 0.6rem 1.25rem; }
 /* Every header centered, regardless of column. */
 #leaderboard-table th { text-align: center; }
-#leaderboard-table th:first-child, #leaderboard-table td:first-child,
-#leaderboard-table th:nth-child(2), #leaderboard-table td:nth-child(2),
-#leaderboard-table th:nth-child(4), #leaderboard-table td:nth-child(4),
-#leaderboard-table th:last-child, #leaderboard-table td:last-child {
+/* Body-cell centering — deliberately excludes the Jugador (name)
+   column, which stays left-aligned like every other table's name
+   column. In non-balance mode that's column 3, already left out below;
+   in balance mode Jugador shifts to column 2, so that column is
+   excluded here with :not(.balance-mode) instead of being listed
+   unconditionally — otherwise this would center player names in
+   BALANCE while every other view left-aligns them. */
+#leaderboard-table td:first-child,
+#leaderboard-table:not(.balance-mode) td:nth-child(2),
+#leaderboard-table td:nth-child(4),
+#leaderboard-table td:last-child {
   text-align: center;
 }
 /* Rank column ("#") — narrow, just a 1-2 digit number. A declared FIXED
@@ -409,13 +416,22 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    active/inactive background is set inline per row, same as the name
    cell — the header stays the same grey as every other header. Also a
    declared fixed width, same reasoning/caveat as the rank column
-   above — the actual sticky offset is measured, not assumed. */
-#leaderboard-table td:nth-child(2) {
+   above — the actual sticky offset is measured, not assumed.
+   Scoped away from balance-mode: without ":not(.balance-mode)" here,
+   this rule's "width: 2.4rem" was the ONLY width declaration touching
+   column 2 in balance mode too (dorsal shifts to column 1 there, so
+   column 2 is Jugador) — the balance-mode-specific block further down
+   only sets min-width for that column, which doesn't cancel out a
+   competing width from a lower-specificity rule on a DIFFERENT
+   property. That stray width hint was fighting the real content width,
+   widening the visual gap between the dorsal and Jugador cells instead
+   of the tight pairing every other table gets. */
+#leaderboard-table:not(.balance-mode) td:nth-child(2) {
   width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
 }
-#leaderboard-table th:nth-child(2) {
+#leaderboard-table:not(.balance-mode) th:nth-child(2) {
   width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
