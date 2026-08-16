@@ -428,9 +428,28 @@
     if (season.standings) {
       var s = season.standings;
       var STANDINGS_KEYS = ['pj', 'pg', 'pe', 'pp', 'gf', 'gc', 'dif', 'pts'];
+      // Single-row table, so there's no set of other rows to scale
+      // against — each column instead scales against its own natural
+      // ceiling: PG/PE/PP can't exceed PJ (matches played), PTS can't
+      // exceed PJ*3 (a win every match). GF/GC aren't scaled at all,
+      // just always shown in their "high" color — DIF is the one that
+      // scales, from GC*-1 (worst possible) to GF (best possible).
+      var pj = Number(s.pj) || 0;
+      var gf = Number(s.gf) || 0;
+      var gc = Number(s.gc) || 0;
+      var STANDINGS_COLOR = {
+        pg: function (v) { return scaleColor_(v, 0, pj, COLORS.greyCell, COLORS.good); },
+        pe: function (v) { return scaleColor_(v, 0, pj, COLORS.greyCell, COLORS.draw); },
+        pp: function (v) { return scaleColor_(v, 0, pj, COLORS.greyCell, COLORS.bad); },
+        gf: function () { return COLORS.scaleBest; },
+        gc: function () { return COLORS.gcColor; },
+        dif: function (v) { return scaleColor_(v, -gc, gf, COLORS.gcColor, COLORS.scaleBest); },
+        pts: function (v) { return scaleColor_(v, 0, pj * 3, COLORS.greyCell, COLORS.good); }
+      };
       standingsBody.innerHTML = '<tr>' + STANDINGS_KEYS.map(function (k) {
         var v = s[k];
-        return '<td>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+        var color = (v === null || v === undefined || !STANDINGS_COLOR[k]) ? null : STANDINGS_COLOR[k](v);
+        return '<td' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('') + '</tr>';
     } else {
       standingsBody.innerHTML = '<tr><td colspan="8" style="color:#7fa3a8;">Tabla de posiciones no disponible aún.</td></tr>';
