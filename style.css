@@ -157,16 +157,23 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    the page, so a short 4-column table doesn't get spread out with
    large gaps between columns — but stays centered on the page rather
    than sticking to the left edge.
-   max-width: 100% is the actual mobile fix here: a display:table box
-   with width:auto sizes itself to fit its (nowrap) content even beyond
-   its containing block if the content can't shrink — on a phone, a
-   wide table dragged the WHOLE WRAPPER (and with it the whole page,
-   since nothing above it clips horizontal overflow) wider than the
-   viewport, instead of the wrapper's own overflow-x: auto scrolling
-   internally like it should. Capping the wrapper's own width forces
-   any excess into its internal scrollbar, same as the non-compact
-   case. */
-.table-wrap.compact { display: table; margin: 0 auto; max-width: 100%; }
+   Uses width: fit-content (a normal block box), NOT display: table —
+   display: table was the previous approach and caused two separate
+   real bugs: (1) on a phone, a display:table box with width:auto
+   sizes itself to fit (nowrap) content even beyond its containing
+   block, dragging the WHOLE WRAPPER — and with it the whole page,
+   since nothing above it clipped horizontal overflow — wider than the
+   viewport, instead of scrolling internally like it should; (2) on a
+   wide many-column detail table, that same auto-sizing-beyond-parent
+   behavior on a table-DISPLAY box interacted unreliably with its own
+   overflow-x: auto, in some cases preventing the internal scrollbar
+   from working at all — silently locking out any columns past the
+   visible edge, worse on both counts than the box-drag bug. A plain
+   block box sized via fit-content (capped by max-width: 100%) doesn't
+   have either issue: overflow-x: auto on a normal block container is
+   the most well-supported scroll pattern in CSS, no table-layout
+   sizing ambiguity involved. */
+.table-wrap.compact { display: block; width: fit-content; max-width: 100%; margin: 0 auto; }
 .table-wrap.compact table { width: auto; }
 /* The leaderboard table already carries its own thick black grid —
    the wrap's soft grey card border/radius on top of that just reads as
@@ -204,6 +211,13 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   position: sticky;
   left: 0;
   z-index: 1;
+  /* Reinforces the left/right edges via box-shadow, not just the
+     (collapsed) border — see the "Sticky-column border fix" comment
+     further down (leaderboard-table) for the full explanation of why
+     collapsed borders alone flicker out on a sticky cell during
+     horizontal scroll. This is the table's only frozen column, so it
+     owns both its outer-left edge and its trailing edge with Cancha. */
+  box-shadow: inset 2px 0 0 0 var(--black), inset -2px 0 0 0 var(--black);
 }
 /* Result column — a thin solid-colored line instead of a G/E/P letter,
    same idea as the leaderboard's result-bar row. Fixed narrow width on
@@ -246,6 +260,10 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   position: sticky;
   left: 0;
   z-index: 1;
+  /* Same box-shadow border reinforcement as #matches-table's frozen
+     column — see the "Sticky-column border fix" comment near the
+     leaderboard-table sticky rules for the full explanation. */
+  box-shadow: inset 2px 0 0 0 var(--black), inset -2px 0 0 0 var(--black);
 }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
@@ -422,6 +440,40 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   position: sticky;
   left: 2.4rem;
   z-index: 2;
+}
+
+/* Sticky-column border fix: position: sticky combined with this
+   project's border-collapse: collapse tables is a known cross-browser
+   rendering conflict — a collapsed border is really ONE shared line
+   computed between two adjacent cells based on the table's static
+   layout, and that computation doesn't reliably follow a cell once
+   it's repositioned by sticky during horizontal-scroll compositing, so
+   the vertical grid lines around the frozen columns can flicker out,
+   letting the scrolling columns' content show through underneath.
+   box-shadow is a normal per-element paint property (not subject to
+   cross-cell collapsed-border computation), so reinforcing just the
+   vertical edges of the frozen region with it guarantees those lines
+   always render correctly regardless of scroll position — without
+   touching border-collapse or any other border rule on the rest of
+   the table. Only the edges that actually need it get a shadow (the
+   table's outer left edge, and the trailing edge where the frozen
+   region hands off to the first scrolling column) — the no-divider
+   boundary between dorsal/Jugador stays shadow-free too, matching its
+   existing borderless design; giving a shadow to both sides of any one
+   boundary would just double its visual thickness. Applies to every
+   row this selector matches, including the thin result-bar row, so
+   the reinforcement is there wherever the columns are actually sticky. */
+#leaderboard-table:not(.balance-mode) th:first-child, #leaderboard-table:not(.balance-mode) td:first-child {
+  box-shadow: inset 2px 0 0 0 var(--black), inset -2px 0 0 0 var(--black);
+}
+#leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) {
+  box-shadow: inset -2px 0 0 0 var(--black);
+}
+#leaderboard-table.balance-mode th:nth-child(1), #leaderboard-table.balance-mode td:nth-child(1) {
+  box-shadow: inset 2px 0 0 0 var(--black);
+}
+#leaderboard-table.balance-mode th:nth-child(2), #leaderboard-table.balance-mode td:nth-child(2) {
+  box-shadow: inset -2px 0 0 0 var(--black);
 }
 #leaderboard-table.balance-mode th:nth-child(n+3),
 #leaderboard-table.balance-mode td:nth-child(n+3) {
