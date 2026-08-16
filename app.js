@@ -214,6 +214,15 @@
         document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        // The leaderboard's very first render happens in init(), before
+        // the user has clicked any tab — if "Jugadores" isn't the
+        // default active tab, that render happens while it's still
+        // display: none, so syncStickyOffsets_'s width measurement
+        // returns 0 (see its own visibility guard) and never gets a
+        // real value. Re-measuring now that this tab is actually
+        // visible catches that case, and is a harmless no-op otherwise
+        // (re-measuring an already-correct value doesn't change it).
+        syncStickyOffsets_();
       });
     });
   }
@@ -563,19 +572,41 @@
    * always in sync with whatever just got drawn — including the
    * BALANCE-mode column shift (rank column absent, so column 1 is
    * dorsal instead of rank; the formula is identical either way, it's
-   * just "the width of whatever column 1 actually is"). */
+   * just "the width of whatever column 1 actually is").
+   *
+   * GUARDED against measuring while hidden: the table's very first
+   * render happens in init(), before the user has clicked any tab —
+   * if the Jugadores tab isn't the default active one, that render
+   * happens while #leaderboard-table sits inside a display: none
+   * panel, and getBoundingClientRect() on anything inside a hidden
+   * subtree always returns 0. Writing that 0 as a real offset made the
+   * Jugador column stick at the same left: 0 as the dorsal column,
+   * completely covering it — worse than the gap this was meant to
+   * fix. table.offsetParent is null whenever an ancestor is
+   * display: none, so this bails out and leaves the CSS's rem
+   * fallback in place instead; setupTabs()'s click handler re-calls
+   * this once the tab is actually visible, so a real measurement
+   * always follows shortly after. */
   function syncStickyOffsets_() {
     var table = document.getElementById('leaderboard-table');
-    if (!table) return;
+    if (!table || !table.offsetParent) return;
     var headRow = table.querySelector('thead tr');
     if (!headRow || headRow.children.length < 2) return;
     var width1 = headRow.children[0].getBoundingClientRect().width;
+    if (!width1) return;
     table.style.setProperty('--sticky-left-2', width1 + 'px');
     if (!table.classList.contains('balance-mode') && headRow.children.length >= 3) {
       var width2 = headRow.children[1].getBoundingClientRect().width;
       table.style.setProperty('--sticky-left-3', (width1 + width2) + 'px');
     }
   }
+  // Same underlying reason as the tab-switch re-sync above: a rendered
+  // width can go stale any time the viewport reflows the table without
+  // re-rendering it — e.g. rotating a phone, or resizing a desktop
+  // window — so re-measure on resize too. Cheap (a couple of
+  // getBoundingClientRect reads) and a safe no-op while the leaderboard
+  // tab is hidden, per this function's own visibility guard.
+  window.addEventListener('resize', function () { syncStickyOffsets_(); });
 
   function setWideLayout(wide) {
     document.getElementById('leaderboard-wrap').classList.toggle('compact', !wide);
