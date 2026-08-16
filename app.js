@@ -222,6 +222,16 @@
         document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        // The "wide" layout (setWideLayout, called from renderLeaderboard)
+        // lives on <main> — shared by both tab panels, since a panel can
+        // never render wider than its own parent — rather than scoped to
+        // #tab-historial specifically. It's only ever meant for the
+        // Jugadores detail view, so switching tabs must explicitly
+        // resync it: otherwise leaving "Mostrar detalle" enabled on
+        // Jugadores keeps <main> stretched to 1400px even after
+        // switching to Equipo, stretching its tables/gaps too. Same
+        // boolean renderLeaderboard() itself uses for setWideLayout.
+        document.querySelector('main').classList.toggle('wide', btn.dataset.tab === 'historial' && state.detail);
         // The leaderboard's very first render happens in init(), before
         // the user has clicked any tab — if "Jugadores" isn't the
         // default active tab, that render happens while it's still
