@@ -46,7 +46,15 @@
       canchaLight: v('--cancha-light') || '#4a86c9',
       canchaDark: v('--cancha-dark') || '#0d2b4a',
       horaLight: v('--hora-light') || '#8a63b3',
-      horaDark: v('--hora-dark') || '#2e1a47'
+      horaDark: v('--hora-dark') || '#2e1a47',
+      gcColor: v('--gc-color') || '#8f2eb3',
+      // Win/draw/loss — same colors as .result-chip-g/p/e etc. (see
+      // style.css), read here too since the all-time balance table's
+      // PG/PE/PP/PTS column scales use these as their high-value
+      // endpoint via JS, not just a static CSS class.
+      good: v('--good') || '#25b659',
+      draw: v('--draw') || '#979797',
+      bad: v('--bad') || '#ec071e'
     };
   }
 
@@ -278,15 +286,6 @@
     var data = state.data;
     if (!data) return;
 
-    // "Balance General" still earns its own heading (nothing else on
-    // the all-time view names it), but a specific season's "Temporada
-    // X" heading was pure duplication of the dropdown right above it
-    // (which already reads "X") — hidden rather than shown empty, so
-    // it doesn't leave a stray blank heading's worth of margin.
-    var eraHeading = document.getElementById('temporada-era');
-    eraHeading.hidden = state.teamEra !== '__all__';
-    eraHeading.textContent = 'Balance General';
-
     if (state.teamEra === '__all__') {
       renderTeamBalanceTable_(data);
       return;
@@ -363,8 +362,25 @@
     }
 
     var STAT_KEYS = ['pj', 'pg', 'pe', 'pp', 'gf', 'gc', 'dif', 'pts'];
+    // Per-column scale endpoints — not the uniform grey -> blue gradient
+    // every other table on the site uses. PJ has no entry (no scale at
+    // all, just a plain count). DIF's low end is GC's own high color
+    // (purple) rather than the usual grey, since it's framed as "as bad
+    // as the worst GC" to "as good as the best GF" instead of a plain
+    // low/high spread.
+    var SCALE_ENDPOINTS = {
+      pg: { low: COLORS.greyCell, high: COLORS.good },
+      pe: { low: COLORS.greyCell, high: COLORS.draw },
+      pp: { low: COLORS.greyCell, high: COLORS.bad },
+      gf: { low: COLORS.greyCell, high: COLORS.scaleBest },
+      gc: { low: COLORS.greyCell, high: COLORS.gcColor },
+      dif: { low: COLORS.gcColor, high: COLORS.scaleBest },
+      pts: { low: COLORS.greyCell, high: COLORS.good }
+    };
+
     var ranges = {};
     STAT_KEYS.forEach(function (k) {
+      if (!SCALE_ENDPOINTS[k]) return; // pj — no scale, nothing to range
       var vals = rows.map(function (r) { return Number(r.standings[k]) || 0; });
       ranges[k] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
     });
@@ -372,11 +388,20 @@
     tbody.innerHTML = rows.map(function (r) {
       var cells = STAT_KEYS.map(function (k) {
         var v = r.standings[k];
-        var color = (v === null || v === undefined) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, COLORS.greyCell, COLORS.scaleBest);
+        var endpoints = SCALE_ENDPOINTS[k];
+        var color = (v === null || v === undefined || !endpoints) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, endpoints.low, endpoints.high);
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
       return '<tr><td class="val-strong">' + esc(formatEraLabel_(r.era)) + '</td>' + cells + '</tr>';
     }).join('');
+
+    // TOTAL row — plain sums across every season shown, no color scale
+    // (matches PJ's own always-plain treatment above).
+    var totalCells = STAT_KEYS.map(function (k) {
+      var total = rows.reduce(function (sum, r) { return sum + (Number(r.standings[k]) || 0); }, 0);
+      return '<td class="val-strong">' + esc(total) + '</td>';
+    }).join('');
+    tbody.innerHTML += '<tr><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
   }
 
   /** Renders one season's standings + results — used for both the

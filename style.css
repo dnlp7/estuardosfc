@@ -22,6 +22,11 @@
   --cancha-dark: #0d2b4a;
   --hora-light: #8a63b3;
   --hora-dark: #2e1a47;
+  /* GC's own scale-high (purple) — also DIF's scale-low, since DIF is
+     defined as spanning from "as bad as the worst GC" to "as good as
+     the best GF" rather than the usual grey-to-color scale every other
+     column uses. */
+  --gc-color: #8f2eb3;
 
   --bg: var(--accent-dark);
   --card: var(--grey-cell);
@@ -29,9 +34,14 @@
   --text: var(--white);
   --muted: #9a9a9a;
   --accent: var(--accent-light);
-  --good: #34d399;
-  --bad: #f87171;
-  --draw: #fbbf24;
+  /* Win/draw/loss — used directly as the Results table's R column and
+     the leaderboard's result-bar row (.result-chip-g/p/e,
+     .result-bar-g/p/e below), AND read into app.js's COLORS object as
+     the all-time balance table's PG/PE/PP (and PTS, via --good again)
+     column scale-highs — same three colors, one definition. */
+  --good: #25b659;
+  --bad: #ec071e;
+  --draw: #979797;
 }
 
 * { box-sizing: border-box; }
@@ -112,7 +122,6 @@ main.wide { max-width: 1400px; }
 .tab-panel.active { display: block; }
 
 h2 { margin-top: 0; }
-#temporada-era { color: var(--accent-light); }
 h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
 
 /* Team stats — single-season standings snapshot. Same two-row table
