@@ -163,7 +163,7 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 #standings-table td:nth-child(7), #standings-table th:nth-child(7) {
   border-left: none;
 }
-#standings-table td { font-weight: 700; color: var(--white); }
+#standings-table td { font-weight: 700; color: var(--white); font-size: 1.35rem; }
 
 .table-wrap {
   overflow-x: auto;
