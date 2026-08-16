@@ -213,6 +213,45 @@
     setupEquipoControls(data);
     setupHistorialControls(data);
     renderLeaderboard();
+    renderPlantel();
+  }
+
+  // ---------------- Plantel ----------------
+  // TEMP: every card uses the same placeholder photo (Daniel's first
+  // finished sample, images/plantel/P012.jpg) until the rest of the
+  // roster's photos are ready — swap the marked line below for the real
+  // per-player path once every current player has one in images/plantel/.
+  var PLANTEL_PLACEHOLDER_IMG_ = 'images/plantel/P012.jpg';
+
+  /** Current roster, sorted by dorsal ascending — same "Activo" flag
+   * (Jugadores tab) that already drives active/inactive coloring
+   * everywhere else, so no separate roster list to maintain. Each
+   * player's CURRENT dorsal comes from dorsalByEra[currentEra], not the
+   * BALANCE table's all-time "dorsal" field (which can be stale/blank
+   * for eras that predate a player, or simply wrong for someone whose
+   * number changed) — currentEra is the same value data.json's
+   * season/era controls already use. */
+  function renderPlantel() {
+    var data = state.data;
+    var grid = document.getElementById('plantel-grid');
+    if (!data || !grid) return;
+    var jugadores = data.jugadores || {};
+    var currentEra = data.currentEra;
+    var roster = Object.keys(jugadores).map(function (nombre) {
+      var info = jugadores[nombre];
+      var dorsal = info.dorsalByEra && info.dorsalByEra[currentEra];
+      return { nombre: nombre, playerId: info.playerId, activo: info.activo, dorsal: dorsal };
+    }).filter(function (p) {
+      return p.activo && p.dorsal !== undefined && p.dorsal !== null && p.dorsal !== '';
+    }).sort(function (a, b) {
+      return (Number(a.dorsal) || 0) - (Number(b.dorsal) || 0);
+    });
+
+    grid.innerHTML = roster.map(function (p) {
+      // Real path once every photo exists: 'images/plantel/' + p.playerId + '.jpg'
+      var img = PLANTEL_PLACEHOLDER_IMG_;
+      return '<div class="plantel-card"><img src="' + img + '" alt="' + esc(p.nombre) + '" loading="lazy"></div>';
+    }).join('');
   }
 
   // ---------------- Sections (Estadísticas / Plantel) ----------------

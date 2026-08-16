@@ -138,6 +138,21 @@ main.wide { max-width: 1400px; }
 .section-panel { display: none; }
 .section-panel.active { display: block; }
 
+/* Plantel — roster cards, 4 per row. Each card is just the player photo
+   (dorsal/name are already baked into the image itself, same style as
+   the team's social media graphics), so there's no separate text overlay
+   to style here — just lay the images out in a grid. */
+.plantel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+.plantel-card { display: block; }
+.plantel-card img { width: 100%; height: auto; display: block; }
+@media (max-width: 640px) {
+  .plantel-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 h2 { margin-top: 0; }
 h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
 
