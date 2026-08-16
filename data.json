@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T06:23:35.239Z",
+  "generatedAt": "2026-08-16T06:57:26.555Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -73,6 +73,7 @@
   ],
   "jugadores": {
     "Paco": {
+      "playerId": "P001",
       "activo": true,
       "dorsalByEra": {
         "2019": 10,
@@ -95,6 +96,7 @@
       }
     },
     "Arthie": {
+      "playerId": "P002",
       "activo": false,
       "dorsalByEra": {
         "2019": 24,
@@ -108,6 +110,7 @@
       }
     },
     "Omar": {
+      "playerId": "P003",
       "activo": false,
       "dorsalByEra": {
         "2019": 55,
@@ -118,6 +121,7 @@
       }
     },
     "Chuy": {
+      "playerId": "P004",
       "activo": true,
       "dorsalByEra": {
         "2023": 5,
@@ -133,6 +137,7 @@
       }
     },
     "Chente": {
+      "playerId": "P005",
       "activo": true,
       "dorsalByEra": {
         "2019": 12,
@@ -155,6 +160,7 @@
       }
     },
     "Abraham": {
+      "playerId": "P006",
       "activo": true,
       "dorsalByEra": {
         "2019": 20,
@@ -177,6 +183,7 @@
       }
     },
     "Orlando": {
+      "playerId": "P007",
       "activo": false,
       "dorsalByEra": {
         "2019": 21,
@@ -193,6 +200,7 @@
       }
     },
     "David": {
+      "playerId": "P008",
       "activo": false,
       "dorsalByEra": {
         "2018/19": 13,
@@ -200,6 +208,7 @@
       }
     },
     "Gabo": {
+      "playerId": "P009",
       "activo": false,
       "dorsalByEra": {
         "2019": 19,
@@ -211,6 +220,7 @@
       }
     },
     "Sheko": {
+      "playerId": "P010",
       "activo": true,
       "dorsalByEra": {
         "2019": 3,
@@ -233,6 +243,7 @@
       }
     },
     "Mares": {
+      "playerId": "P011",
       "activo": true,
       "dorsalByEra": {
         "2019": 4,
@@ -255,6 +266,7 @@
       }
     },
     "Daniel": {
+      "playerId": "P012",
       "activo": true,
       "dorsalByEra": {
         "2019": 7,
@@ -277,6 +289,7 @@
       }
     },
     "Neto": {
+      "playerId": "P013",
       "activo": false,
       "dorsalByEra": {
         "2019": 30,
@@ -286,6 +299,7 @@
       }
     },
     "Charly": {
+      "playerId": "P014",
       "activo": true,
       "dorsalByEra": {
         "2019": 5,
@@ -308,6 +322,7 @@
       }
     },
     "Irving": {
+      "playerId": "P015",
       "activo": false,
       "dorsalByEra": {
         "2019": 11,
@@ -326,6 +341,7 @@
       }
     },
     "Eric": {
+      "playerId": "P016",
       "activo": true,
       "dorsalByEra": {
         "2019": 31,
@@ -348,6 +364,7 @@
       }
     },
     "Wero": {
+      "playerId": "P017",
       "activo": false,
       "dorsalByEra": {
         "2018/19": 17,
@@ -355,6 +372,7 @@
       }
     },
     "Enrique": {
+      "playerId": "P018",
       "activo": false,
       "dorsalByEra": {
         "2019": 23,
@@ -364,6 +382,7 @@
       }
     },
     "Mane": {
+      "playerId": "P019",
       "activo": true,
       "dorsalByEra": {
         "2019": 28,
@@ -386,6 +405,7 @@
       }
     },
     "Sergio": {
+      "playerId": "P020",
       "activo": true,
       "dorsalByEra": {
         "2019": 100,
@@ -407,12 +427,14 @@
       }
     },
     "Antonio": {
+      "playerId": "P021",
       "activo": false,
       "dorsalByEra": {
         "2018/19": 6
       }
     },
     "Coco": {
+      "playerId": "P022",
       "activo": false,
       "dorsalByEra": {
         "2019": 32,
@@ -423,12 +445,14 @@
       }
     },
     "Diego": {
+      "playerId": "P023",
       "activo": false,
       "dorsalByEra": {
         "2018/19": 94
       }
     },
     "Hector": {
+      "playerId": "P024",
       "activo": true,
       "dorsalByEra": {
         "2020": 36,
@@ -447,6 +471,7 @@
       }
     },
     "Pavel": {
+      "playerId": "P025",
       "activo": false,
       "dorsalByEra": {
         "2020": 25,
@@ -458,6 +483,7 @@
       }
     },
     "Luis": {
+      "playerId": "P026",
       "activo": false,
       "dorsalByEra": {
         "2021": 6,
@@ -468,6 +494,7 @@
       }
     },
     "Ramiro": {
+      "playerId": "P027",
       "activo": true,
       "dorsalByEra": {
         "2021": 29,
@@ -485,6 +512,7 @@
       }
     },
     "Rene": {
+      "playerId": "P028",
       "activo": false,
       "dorsalByEra": {
         "2022": 31,
@@ -495,6 +523,7 @@
       }
     },
     "Paquito": {
+      "playerId": "P029",
       "activo": false,
       "dorsalByEra": {
         "2020": 33,
@@ -504,12 +533,14 @@
       }
     },
     "Bismark": {
+      "playerId": "P030",
       "activo": false,
       "dorsalByEra": {
         "2022/23": 8
       }
     },
     "Lanuza": {
+      "playerId": "P031",
       "activo": true,
       "dorsalByEra": {
         "2024": 16,
@@ -521,12 +552,14 @@
       }
     },
     "Pablo": {
+      "playerId": "P032",
       "activo": false,
       "dorsalByEra": {
         "2024": 5
       }
     },
     "Miguel": {
+      "playerId": "P033",
       "activo": false,
       "dorsalByEra": {
         "2025": 18,
@@ -535,6 +568,7 @@
       }
     },
     "Paleta": {
+      "playerId": "P034",
       "activo": false,
       "dorsalByEra": {
         "2025": 22,
@@ -542,6 +576,7 @@
       }
     },
     "Noe": {
+      "playerId": "P035",
       "activo": false,
       "dorsalByEra": {
         "2026": 13,
@@ -549,6 +584,7 @@
       }
     },
     "Alonso": {
+      "playerId": "P036",
       "activo": true,
       "dorsalByEra": {
         "2026": 17,
