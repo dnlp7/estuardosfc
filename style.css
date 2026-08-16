@@ -86,9 +86,10 @@ body {
      "cover" — that avoids ever upscaling it, even on a very wide
      screen, and needs no larger source image to look sharp. */
   background: var(--main) url("images/Base-verde-lowRes.jpg") repeat;
+  background-size: 2100px auto;
 }
 .site-badge {
-  height: 5.5rem;
+  height: 6.5rem;
   width: auto;
   display: block;
   margin: 0 auto;
