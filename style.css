@@ -609,4 +609,17 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   #team-balance-table th, #team-balance-table td {
     padding: 0.45rem 0.4rem;
   }
+  /* Same issue on the player-side BALANCE view: the base leaderboard
+     padding (0.6rem 1.25rem, ID-scoped, line 343) survives the plain
+     "th, td" rule above for the same specificity reason, and BALANCE
+     mode's four stat columns (GOL/AST/PA/PI) have their own even more
+     specific override (id+class+nth-child, line 515) carrying the same
+     generous padding — needs an equally-specific mobile match to win. */
+  #leaderboard-table th, #leaderboard-table td {
+    padding: 0.45rem 0.4rem;
+  }
+  #leaderboard-table.balance-mode th:nth-child(n+3),
+  #leaderboard-table.balance-mode td:nth-child(n+3) {
+    padding: 0.45rem 0.4rem;
+  }
 }
