@@ -49,6 +49,16 @@
    balance table showing underneath a selected season's results. */
 [hidden] { display: none !important; }
 
+html, body {
+  /* Defensive backstop — the page itself should never scroll
+     horizontally; only individual .table-wrap elements should (via
+     their own overflow-x: auto). Without this, any future wide/nowrap
+     content that slips past a .table-wrap's containment would drag the
+     whole page (header, nav) sideways instead of just scrolling a
+     table, the same failure mode fixed below for .table-wrap.compact. */
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -146,8 +156,17 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    hugs the table's own content width instead of stretching to fill
    the page, so a short 4-column table doesn't get spread out with
    large gaps between columns — but stays centered on the page rather
-   than sticking to the left edge. */
-.table-wrap.compact { display: table; margin: 0 auto; }
+   than sticking to the left edge.
+   max-width: 100% is the actual mobile fix here: a display:table box
+   with width:auto sizes itself to fit its (nowrap) content even beyond
+   its containing block if the content can't shrink — on a phone, a
+   wide table dragged the WHOLE WRAPPER (and with it the whole page,
+   since nothing above it clips horizontal overflow) wider than the
+   viewport, instead of the wrapper's own overflow-x: auto scrolling
+   internally like it should. Capping the wrapper's own width forces
+   any excess into its internal scrollbar, same as the non-compact
+   case. */
+.table-wrap.compact { display: table; margin: 0 auto; max-width: 100%; }
 .table-wrap.compact table { width: auto; }
 /* The leaderboard table already carries its own thick black grid —
    the wrap's soft grey card border/radius on top of that just reads as
@@ -173,8 +192,19 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 /* Rival name — bold, matching the kit-color treatment. */
 #matches-table td:last-child { font-weight: 700; }
 /* Jornada column — fixed light-accent background (not a scale), black
-   text for contrast, mirroring the real RES tab. */
+   text for contrast, mirroring the real RES tab. Also the table's one
+   frozen/sticky column on narrow screens: it's the only column that
+   identifies which match a scrolled-right row belongs to, so it stays
+   pinned to the left edge while Fecha/Hora/GF/GC/Rival scroll under
+   it. Only one column needs freezing here (unlike the player
+   leaderboard's 2-3), so no left-offset math is needed — it's always
+   left: 0. */
 #matches-table td.jornada-cell { background: var(--accent-light); color: var(--black); font-weight: 700; }
+#matches-table th:first-child, #matches-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
 /* Result column — a thin solid-colored line instead of a G/E/P letter,
    same idea as the leaderboard's result-bar row. Fixed narrow width on
    both header and cell so the "R" heading doesn't force the column
@@ -205,10 +235,17 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   padding: 0.6rem 1.25rem;
 }
 /* Temporada column — the only text (not numeric-scale) column, so it
-   stays left-aligned like Rival does on the Results table. */
+   stays left-aligned like Rival does on the Results table. Also the
+   frozen/sticky column — the one thing that identifies which season a
+   scrolled-right row belongs to, same reasoning as #matches-table's
+   Jornada column above (only one column to freeze, so left is always
+   0, no offset math needed). */
 #team-balance-table th:first-child, #team-balance-table td:first-child {
   text-align: left;
   font-weight: 700;
+  position: sticky;
+  left: 0;
+  z-index: 1;
 }
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
@@ -241,9 +278,14 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 #leaderboard-table th:last-child, #leaderboard-table td:last-child {
   text-align: center;
 }
-/* Rank column ("#") — narrow, just a 1-2 digit number. */
+/* Rank column ("#") — narrow, just a 1-2 digit number. A genuine FIXED
+   width (not the usual "width: 1%" shrink-to-content hint) because the
+   sticky-column freeze below needs to know its exact rendered width in
+   advance to position the next frozen column's "left" offset — "1%"
+   only ever meant "as narrow as content allows", not a number CSS
+   could reuse elsewhere. */
 #leaderboard-table th:first-child, #leaderboard-table td:first-child {
-  width: 1%;
+  width: 2.75rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
@@ -275,14 +317,17 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 }
 /* Dorsal column — narrow (just enough for a 2-digit number); the
    active/inactive background is set inline per row, same as the name
-   cell — the header stays the same grey as every other header. */
+   cell — the header stays the same grey as every other header. Also a
+   genuine fixed width, same reasoning as the rank column above — the
+   sticky Jugador column's "left" offset needs to know this column's
+   exact width. */
 #leaderboard-table td:nth-child(2) {
-  width: 1%;
+  width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
 }
 #leaderboard-table th:nth-child(2) {
-  width: 1%;
+  width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
 }
@@ -320,14 +365,14 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    alone), so these safely override the normal-mode column widths/
    borders without touching any other view. */
 #leaderboard-table.balance-mode td:nth-child(1) {
-  width: 1%;
+  width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
   text-align: center;
   border-right: none;
 }
 #leaderboard-table.balance-mode th:nth-child(1) {
-  width: 1%;
+  width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
   text-align: center;
@@ -340,6 +385,44 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   border-left: none;
 }
 #leaderboard-table.balance-mode th:nth-child(2) { min-width: 8rem; border-left: none; }
+
+/* Frozen leading columns — the identity of a row (dorsal + name, plus
+   rank outside BALANCE mode) stays pinned to the left edge while
+   stat/era/match columns scroll underneath, so you never lose track
+   of which player a row belongs to on a narrow screen. Left offsets
+   are exact sums of the FIXED widths set above (2.75rem rank +
+   2.4rem dorsal), not guesses — Jugador's own width can stay flexible
+   (min-width: 8rem) since nothing after it needs to be measured; it's
+   the last frozen column in both modes. z-index keeps these cells
+   painted above the columns scrolling in behind them; every sticky
+   cell already has an opaque background (the default grey tbody
+   background, or an inline/class color set elsewhere), so nothing
+   bleeds through. */
+#leaderboard-table:not(.balance-mode) th:first-child, #leaderboard-table:not(.balance-mode) td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+#leaderboard-table:not(.balance-mode) th:nth-child(2), #leaderboard-table:not(.balance-mode) td:nth-child(2) {
+  position: sticky;
+  left: 2.75rem;
+  z-index: 2;
+}
+#leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) {
+  position: sticky;
+  left: 5.15rem;
+  z-index: 2;
+}
+#leaderboard-table.balance-mode th:nth-child(1), #leaderboard-table.balance-mode td:nth-child(1) {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+#leaderboard-table.balance-mode th:nth-child(2), #leaderboard-table.balance-mode td:nth-child(2) {
+  position: sticky;
+  left: 2.4rem;
+  z-index: 2;
+}
 #leaderboard-table.balance-mode th:nth-child(n+3),
 #leaderboard-table.balance-mode td:nth-child(n+3) {
   text-align: center;
