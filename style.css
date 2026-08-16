@@ -597,4 +597,16 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 @media (max-width: 480px) {
   .site-header h1 { font-size: 1.5rem; }
   th, td { padding: 0.45rem 0.5rem; font-size: 0.8rem; }
+  /* The standings snapshot and all-time balance tables set their own
+     generous desktop padding (0.6rem 1.25rem, ID-scoped) that doesn't
+     shrink under the plain "th, td" rule above — an ID selector beats
+     a type selector regardless of which is inside the media query.
+     With 7-8 narrow numeric columns, that leftover desktop padding
+     alone was enough to force horizontal scrolling on a phone despite
+     how much visually empty space sits in each cell. Tightening it
+     here lets both fit a phone screen with no scrolling at all. */
+  #standings-table th, #standings-table td,
+  #team-balance-table th, #team-balance-table td {
+    padding: 0.45rem 0.4rem;
+  }
 }
