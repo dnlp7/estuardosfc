@@ -115,36 +115,25 @@ h2 { margin-top: 0; }
 #temporada-era { color: var(--accent-light); }
 h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
 
-.standings-card {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  background: var(--grey-header);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1rem 0;
+/* Team stats — single-season standings snapshot. Same two-row table
+   language as every other table on the site (grey header row, thick
+   black grid) instead of the old rounded flex "card", which read as
+   visually inconsistent and didn't adapt well to a phone screen. No
+   color scale on the values — that only makes sense comparing across
+   multiple rows (like the all-time balance table below it), and would
+   be meaningless against a single season's own numbers. No sticky
+   columns needed either: just 8 narrow numeric columns and one row,
+   so it fits a phone screen without any scrolling — plain
+   border-collapse: collapse (the site's default) is fine here, unlike
+   the tables that need border-collapse: separate for their sticky
+   columns. */
+#standings-wrap { border: none; border-radius: 0; background: transparent; }
+#standings-table th, #standings-table td {
+  border: 2px solid var(--black);
+  text-align: center;
+  padding: 0.6rem 1.25rem;
 }
-/* Three visual clusters — [PJ PG PE PP] [GF GC DIF] [PTS] — mirroring
-   the real RES tab's "Torneo de Liga" box layout, separated by a
-   vertical divider. Each group grows to fill its fair share of the
-   card's full width (not just huddled in the center) — PJ/PG/PE/PP
-   has 4 stat-boxes to PTS's 1, so it gets proportionally more space
-   via flex-grow matching its box count, and its own boxes are spread
-   out with space-evenly rather than packed together. */
-.standings-group {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 1rem;
-  padding: 0 1.5rem;
-}
-.standings-group:not(:last-child) { border-right: 1px solid var(--border); }
-.standings-group:nth-child(1) { flex: 4; }
-.standings-group:nth-child(2) { flex: 3; }
-.standings-group:nth-child(3) { flex: 1; }
-.standings-card .stat-box { text-align: center; }
-.standings-card .stat-box .label { display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
-.standings-card .stat-box .value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--white); }
+#standings-table td { font-weight: 700; color: var(--white); }
 
 .table-wrap {
   overflow-x: auto;

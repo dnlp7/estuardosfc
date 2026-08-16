@@ -278,8 +278,14 @@
     var data = state.data;
     if (!data) return;
 
-    document.getElementById('temporada-era').textContent =
-      state.teamEra === '__all__' ? 'Balance General' : 'Temporada ' + formatEraLabel_(state.teamEra);
+    // "Balance General" still earns its own heading (nothing else on
+    // the all-time view names it), but a specific season's "Temporada
+    // X" heading was pure duplication of the dropdown right above it
+    // (which already reads "X") — hidden rather than shown empty, so
+    // it doesn't leave a stray blank heading's worth of margin.
+    var eraHeading = document.getElementById('temporada-era');
+    eraHeading.hidden = state.teamEra !== '__all__';
+    eraHeading.textContent = 'Balance General';
 
     if (state.teamEra === '__all__') {
       renderTeamBalanceTable_(data);
@@ -379,21 +385,20 @@
   function renderTemporadaSeason_(season) {
     if (!season) return;
 
-    var card = document.getElementById('standings-card');
+    // Single-row PJ/PG/PE/PP/GF/GC/DIF/PTS table — same column order as
+    // #standings-table's header in index.html and the all-time
+    // #team-balance-table (minus its leading Temporada column, implicit
+    // here from the season dropdown/heading instead).
+    var standingsBody = document.querySelector('#standings-table tbody');
     if (season.standings) {
       var s = season.standings;
-      // Grouped to mirror the real RES tab's "Torneo de Liga" box: a
-      // PJ/PG/PE/PP cluster, a GF/GC/DIF cluster, and PTS on its own.
-      var groups = [
-        [['PJ', s.pj], ['PG', s.pg], ['PE', s.pe], ['PP', s.pp]],
-        [['GF', s.gf], ['GC', s.gc], ['DIF', s.dif]],
-        [['PTS', s.pts]]
-      ];
-      card.innerHTML = groups.map(function (group) {
-        return '<div class="standings-group">' + group.map(renderStatBox).join('') + '</div>';
-      }).join('');
+      var STANDINGS_KEYS = ['pj', 'pg', 'pe', 'pp', 'gf', 'gc', 'dif', 'pts'];
+      standingsBody.innerHTML = '<tr>' + STANDINGS_KEYS.map(function (k) {
+        var v = s[k];
+        return '<td>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+      }).join('') + '</tr>';
     } else {
-      card.innerHTML = '<p style="color:#7fa3a8;margin:0;">Tabla de posiciones no disponible aún.</p>';
+      standingsBody.innerHTML = '<tr><td colspan="8" style="color:#7fa3a8;">Tabla de posiciones no disponible aún.</td></tr>';
     }
 
     var tbody = document.querySelector('#matches-table tbody');
@@ -454,11 +459,6 @@
     var mes = MESES_ES_[Number(m[2]) - 1];
     if (!mes) return iso;
     return m[3] + '/' + mes + '/' + m[1].slice(2);
-  }
-
-  function renderStatBox(b) {
-    return '<div class="stat-box"><span class="label">' + b[0] + '</span><span class="value">' +
-      (b[1] === null || b[1] === undefined || b[1] === '' ? '—' : b[1]) + '</span></div>';
   }
 
   // ---------------- Historial (leaderboards) ----------------
