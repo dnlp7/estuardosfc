@@ -176,7 +176,7 @@ main.wide { max-width: 1400px; }
 .perfil-foto { width: 180px; height: auto; display: block; flex-shrink: 0; }
 .perfil-dorsal { color: var(--accent-light); font-size: 3rem; font-weight: 700; line-height: 1; margin: 0 0 0.25rem; }
 .perfil-info h2 { margin: 0 0 0.5rem; font-size: 2rem; text-transform: uppercase; letter-spacing: 0.02em; }
-.perfil-detalle { color: var(--muted); margin: 0.15rem 0; }
+.perfil-detalle { color: var(--white); margin: 0.15rem 0; }
 
 /* Badges — a plain flex-wrap grid (unlike Plantel's fixed 4-column
    grid) since a player might have anywhere from zero to a dozen. Each
@@ -208,17 +208,21 @@ main.wide { max-width: 1400px; }
 .insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
 .insignia-temporada { color: var(--muted); font-size: 0.75rem; }
 
-/* Career totals — same single-row-table language as the season
-   standings snapshot (#standings-table): grey-free plain cells, thick
-   black grid, bold oversized values, no color scale (nothing to scale
-   a single row of career totals against). */
+/* Career stats — same table language as the Jugadores BALANCE view
+   (#leaderboard-table.balance-mode): normal table font-size (no
+   oversized-value treatment — that's only right for a single highlight
+   row like #standings-table, and badly bloated a many-row table like
+   this one), same padding, plain bold white values, thick black grid.
+   No sticky columns needed (unlike the real BALANCE table) since this
+   one is never wide enough to need horizontal scrolling in the first
+   place — just Temporada + 4 stats. */
 #perfil-stats-wrap { border: none; border-radius: 0; background: transparent; }
 #perfil-stats-table th, #perfil-stats-table td {
   border: 2px solid var(--black);
   text-align: center;
   padding: 0.6rem 1.25rem;
 }
-#perfil-stats-table td { font-weight: 700; color: var(--white); font-size: 1.35rem; }
+#perfil-stats-table td { font-weight: 700; color: var(--white); }
 
 h2 { margin-top: 0; }
 h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
@@ -735,6 +739,12 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   }
   #leaderboard-table.balance-mode th:nth-child(n+3),
   #leaderboard-table.balance-mode td:nth-child(n+3) {
+    padding: 0.45rem 0.4rem;
+  }
+  /* Same fix again for the Perfil career-stats table — same shape/issue
+     as the two above (ID-scoped desktop padding surviving the generic
+     mobile rule). */
+  #perfil-stats-table th, #perfil-stats-table td {
     padding: 0.45rem 0.4rem;
   }
 }
