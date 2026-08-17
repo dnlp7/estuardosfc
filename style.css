@@ -33,6 +33,10 @@
   --border: #444444;
   --text: var(--white);
   --muted: #9a9a9a;
+  /* A second, distinct muted tone — Perfil's secondary text (full name,
+     Debut/Cumpleaños labels) and the footer's "last updated" line only,
+     not a replacement for --muted everywhere else. */
+  --muted-alt: #668a8e;
   --accent: var(--accent-light);
   /* Win/draw/loss — used directly as the Results table's R column and
      the leaderboard's result-bar row (.result-chip-g/p/e,
@@ -178,13 +182,13 @@ main.wide { max-width: 1400px; }
 .perfil-info h2 { margin: 0 0 0.5rem; font-size: 2rem; text-transform: uppercase; letter-spacing: 0.02em; }
 /* Full name reads as a subtitle under the big nickname — muted and
    italic, clearly secondary, not competing with it. */
-.perfil-nombre-completo { color: var(--muted); font-style: italic; font-size: 1.05rem; margin: 0 0 0.7rem; }
+.perfil-nombre-completo { color: var(--muted-alt); font-style: italic; font-size: 1.05rem; margin: 0 0 0.7rem; }
 /* Debut/Cumpleaños — label (small, muted, uppercase, like a table
    header) + value (bold white, larger) instead of one flat line of
    plain text, so the actual data — 2010, Octubre 2 — is what the eye
    lands on rather than blending into its own label. */
 .perfil-detalle {
-  color: var(--muted);
+  color: var(--muted-alt);
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -739,7 +743,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 .rank-cell { color: var(--white); font-weight: 700; }
 #leaderboard-table td:nth-child(2), #leaderboard-table td:nth-child(3) { font-weight: 700; color: var(--white); }
 
-.site-footer { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 1rem; }
+.site-footer { text-align: center; color: var(--muted-alt); font-size: 0.8rem; padding: 1rem; }
 
 @media (max-width: 480px) {
   .site-header h1 { font-size: 1.5rem; }
