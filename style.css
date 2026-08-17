@@ -176,7 +176,28 @@ main.wide { max-width: 1400px; }
 .perfil-foto { width: 180px; height: auto; display: block; flex-shrink: 0; }
 .perfil-dorsal { color: var(--accent-light); font-size: 3rem; font-weight: 700; line-height: 1; margin: 0 0 0.25rem; }
 .perfil-info h2 { margin: 0 0 0.5rem; font-size: 2rem; text-transform: uppercase; letter-spacing: 0.02em; }
-.perfil-detalle { color: var(--white); margin: 0.15rem 0; }
+/* Full name reads as a subtitle under the big nickname — muted and
+   italic, clearly secondary, not competing with it. */
+.perfil-nombre-completo { color: var(--muted); font-style: italic; font-size: 1.05rem; margin: 0 0 0.7rem; }
+/* Debut/Cumpleaños — label (small, muted, uppercase, like a table
+   header) + value (bold white, larger) instead of one flat line of
+   plain text, so the actual data — 2010, Octubre 2 — is what the eye
+   lands on rather than blending into its own label. */
+.perfil-detalle {
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0.35rem 0;
+}
+.perfil-valor {
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: none;
+  letter-spacing: normal;
+  margin-left: 0.4rem;
+}
 
 /* Badges — a plain flex-wrap grid (unlike Plantel's fixed 4-column
    grid) since a player might have anywhere from zero to a dozen. Each
@@ -677,6 +698,13 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 .utility-row td { font-style: italic; color: var(--white); }
 
 .val-strong { font-weight: 700; }
+/* TOTAL row (#team-balance-table and #perfil-stats-table) — the main
+   dark grey, same as a column header, so it visually stands apart from
+   the plain season rows above it instead of blending in as just
+   another row. Class-based, so it naturally outranks both the default
+   tbody td background and the :where()-downgraded hover rule below,
+   regardless of source order. */
+.total-row td { background: var(--grey-header); }
 
 .controls {
   display: flex;

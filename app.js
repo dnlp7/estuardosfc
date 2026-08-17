@@ -387,10 +387,14 @@
       (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
     document.getElementById('perfil-nombre').textContent = nombre;
     document.getElementById('perfil-nombre-completo').textContent = datos.nombreCompleto || '';
-    document.getElementById('perfil-debut').textContent =
-      datos.debut ? 'Debut: ' + esc(datos.debut) : '';
-    document.getElementById('perfil-cumple').textContent =
-      datos.cumpleanos ? 'Cumpleaños: ' + formatCumpleanos_(datos.cumpleanos) : '';
+    // Label text ("Debut", "Cumpleaños") lives in the HTML itself — only
+    // the value span is touched here — and the whole row hides if that
+    // piece of data hasn't been entered yet, rather than showing a bare
+    // label with nothing after it.
+    document.getElementById('perfil-debut-row').hidden = !datos.debut;
+    document.getElementById('perfil-debut').textContent = datos.debut || '';
+    document.getElementById('perfil-cumple-row').hidden = !datos.cumpleanos;
+    document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '';
 
     var insigniasWrap = document.getElementById('perfil-insignias');
     if (!badges.length) {
@@ -432,7 +436,9 @@
       });
     });
 
-    var eras = (data.seasons || []).map(function (s) { return s.era; }).filter(function (era) { return byEra[era]; });
+    // Reverse chronological — most recent season first, same convention
+    // as the all-seasons team stats table (#team-balance-table).
+    var eras = (data.seasons || []).map(function (s) { return s.era; }).filter(function (era) { return byEra[era]; }).reverse();
     var tbody = document.querySelector('#perfil-stats-table tbody');
     if (!eras.length) {
       tbody.innerHTML = '<tr><td colspan="5" style="color:#7fa3a8;">Sin datos.</td></tr>';
@@ -461,7 +467,7 @@
       return '<td class="val-strong">' + (total === null || total === undefined ? '' : esc(total)) + '</td>';
     }).join('');
 
-    tbody.innerHTML = rowsHtml + '<tr><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
+    tbody.innerHTML = rowsHtml + '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
   }
 
   // ---------------- Tabs ----------------
@@ -661,7 +667,7 @@
       var total = rows.reduce(function (sum, r) { return sum + (Number(r.standings[k]) || 0); }, 0);
       return '<td class="val-strong">' + esc(total) + '</td>';
     }).join('');
-    tbody.innerHTML += '<tr><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
+    tbody.innerHTML += '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
   }
 
   /** Renders one season's standings + results — used for both the
