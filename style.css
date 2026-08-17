@@ -147,11 +147,78 @@ main.wide { max-width: 1400px; }
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
-.plantel-card { display: block; }
+.plantel-card { display: block; cursor: pointer; }
 .plantel-card img { width: 100%; height: auto; display: block; }
 @media (max-width: 640px) {
   .plantel-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Perfil — one player's profile page, reached only via a Plantel card
+   click (or a shared #jugador/<id> link), never the main nav — see
+   activateSection_/routeFromHash_ in app.js. */
+.perfil-volver {
+  background: transparent;
+  border: 2px solid var(--white);
+  border-radius: 8px;
+  color: var(--white);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+.perfil-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.perfil-foto { width: 180px; height: auto; display: block; flex-shrink: 0; }
+.perfil-info h2 { margin: 0 0 0.4rem; }
+.perfil-dorsal { color: var(--accent-light); font-size: 1.3rem; font-weight: 700; margin: 0 0 0.4rem; }
+.perfil-detalle { color: var(--muted); margin: 0.15rem 0; }
+
+/* Badges — a plain flex-wrap grid (unlike Plantel's fixed 4-column
+   grid) since a player might have anywhere from zero to a dozen. Each
+   card is self-contained: icon image (or a plain text placeholder if
+   Daniel hasn't filled in that badge's Imagen cell yet — see
+   buildLogrosJson_) plus the badge name/season underneath. */
+.insignias-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+.insignia-card {
+  width: 110px;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.6rem;
+}
+.insignia-card img { width: 100%; height: auto; display: block; }
+.insignia-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--grey-cell);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 0.3rem;
+}
+.insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
+.insignia-temporada { color: var(--muted); font-size: 0.75rem; }
+
+/* Career totals — same single-row-table language as the season
+   standings snapshot (#standings-table): grey-free plain cells, thick
+   black grid, bold oversized values, no color scale (nothing to scale
+   a single row of career totals against). */
+#perfil-stats-wrap { border: none; border-radius: 0; background: transparent; }
+#perfil-stats-table th, #perfil-stats-table td {
+  border: 2px solid var(--black);
+  text-align: center;
+  padding: 0.6rem 1.25rem;
+}
+#perfil-stats-table td { font-weight: 700; color: var(--white); font-size: 1.35rem; }
 
 h2 { margin-top: 0; }
 h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }

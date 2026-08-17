@@ -8,6 +8,9 @@
     PA: 'PARTIDOS ASISTIDOS',
     PI: 'PARTIDOS INICIADOS'
   };
+  // Shared by BALANCE mode's leaderboard columns and the Perfil page's
+  // career-totals row — one definition so the two never drift apart.
+  var STATS_ORDER = ['GOL', 'AST', 'PA', 'PI'];
 
   // Position colors shared by the PI detailed view and the Equipo tab's
   // TxJ starter pills (once that lands) — matches the real season docs'
@@ -214,6 +217,7 @@
     setupHistorialControls(data);
     renderLeaderboard();
     renderPlantel();
+    setupPerfil();
   }
 
   // ---------------- Plantel ----------------
@@ -243,34 +247,166 @@
 
     grid.innerHTML = roster.map(function (p) {
       var img = 'images/plantel/' + p.playerId + '.jpg';
-      return '<div class="plantel-card"><img src="' + img + '" alt="' + esc(p.nombre) + '" loading="lazy"></div>';
+      return '<div class="plantel-card" data-player-id="' + esc(p.playerId) + '">' +
+        '<img src="' + img + '" alt="' + esc(p.nombre) + '" loading="lazy"></div>';
     }).join('');
   }
 
-  // ---------------- Sections (Estadísticas / Plantel) ----------------
+  // ---------------- Sections (Estadísticas / Plantel / Perfil) ----------------
   // Top-level nav, one level above the Equipo/Jugadores sub-tabs. The
   // sub-tab buttons also carry the shared ".tab-btn" pill styling, so
   // this scopes its own button/click handling to ".main-tab-btn" only —
   // sharing ".tab-btn" for CSS but never for the two nav levels' click
   // wiring, which stay fully independent of each other.
+  //
+  // "perfil" (a player profile page) is a section-panel too, but has no
+  // matching .main-tab-btn — it's only ever reached via a Plantel card
+  // or a shared #jugador/<id> link, never the nav bar. Routing it
+  // through this same activateSection_ still works correctly: the "no
+  // button has data-section === 'perfil'" case just means every nav
+  // button ends up inactive, which is exactly the right look for a page
+  // that isn't one of the nav's own destinations.
+  function activateSection_(name) {
+    document.querySelectorAll('.main-tab-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.section === name);
+    });
+    document.querySelectorAll('.section-panel').forEach(function (p) {
+      p.classList.toggle('active', p.id === 'section-' + name);
+    });
+    var isEstadisticas = name === 'estadisticas';
+    // The Equipo/Jugadores sub-nav only makes sense inside Estadísticas.
+    document.getElementById('estadisticas-subnav').hidden = !isEstadisticas;
+    // Same "wide" resync reasoning as setupTabs() below — leaving
+    // Estadísticas while Jugadores' detail view is on must not keep
+    // <main> stretched on Plantel/Perfil (or vice versa, coming back).
+    var historialActive = document.querySelector('#estadisticas-subnav .tab-btn[data-tab="historial"]').classList.contains('active');
+    document.querySelector('main').classList.toggle('wide', isEstadisticas && historialActive && state.detail);
+    if (isEstadisticas) syncStickyOffsets_();
+  }
+
   function setupSections() {
     document.querySelectorAll('.main-tab-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        document.querySelectorAll('.main-tab-btn').forEach(function (b) { b.classList.remove('active'); });
-        document.querySelectorAll('.section-panel').forEach(function (p) { p.classList.remove('active'); });
-        btn.classList.add('active');
-        document.getElementById('section-' + btn.dataset.section).classList.add('active');
-        var isEstadisticas = btn.dataset.section === 'estadisticas';
-        // The Equipo/Jugadores sub-nav only makes sense inside Estadísticas.
-        document.getElementById('estadisticas-subnav').hidden = !isEstadisticas;
-        // Same "wide" resync reasoning as setupTabs() below — leaving
-        // Estadísticas while Jugadores' detail view is on must not keep
-        // <main> stretched on Plantel (or vice versa, coming back).
-        var historialActive = document.querySelector('#estadisticas-subnav .tab-btn[data-tab="historial"]').classList.contains('active');
-        document.querySelector('main').classList.toggle('wide', isEstadisticas && historialActive && state.detail);
-        if (isEstadisticas) syncStickyOffsets_();
+        // Leaving a profile page via the nav (instead of "Volver") —
+        // clear its hash too, so a later reload doesn't re-route back
+        // into it (routeFromHash_ only ever fires from an actual
+        // hashchange event, but a stale hash would still mis-route the
+        // very next page load).
+        if (location.hash) location.hash = '';
+        activateSection_(btn.dataset.section);
       });
     });
+  }
+
+  // ---------------- Perfil (player profile page) ----------------
+  var MESES_ = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+  function formatCumpleanos_(c) {
+    return c.dia + ' de ' + MESES_[c.mes - 1];
+  }
+
+  /** Click delegation on the grid (not a listener per card) — survives
+   * renderPlantel() re-rendering the grid's innerHTML, and only needs
+   * wiring up once. Sets a shareable #jugador/<id> hash AND renders
+   * immediately, rather than waiting for the resulting hashchange event
+   * — instant on click, with the hash update mainly there for deep
+   * links / refresh, not as the trigger. */
+  function setupPerfil() {
+    var grid = document.getElementById('plantel-grid');
+    if (grid) {
+      grid.addEventListener('click', function (e) {
+        var card = e.target.closest('.plantel-card');
+        if (!card || !card.dataset.playerId) return;
+        location.hash = 'jugador/' + encodeURIComponent(card.dataset.playerId);
+        renderPerfil(card.dataset.playerId);
+        activateSection_('perfil');
+      });
+    }
+    var volver = document.getElementById('perfil-volver');
+    if (volver) {
+      volver.addEventListener('click', function () {
+        if (location.hash) location.hash = '';
+        activateSection_('plantel');
+      });
+    }
+    window.addEventListener('hashchange', routeFromHash_);
+    if (location.hash) routeFromHash_();
+  }
+
+  /** #jugador/<playerId> is the only hash route this site has — matching
+   * it renders + shows the profile. Any OTHER hash value (including
+   * empty, e.g. the back button leaving a profile, or "Volver" clearing
+   * it) only matters if the profile is what's currently on screen; if
+   * some other section is already showing, there's nothing to do here —
+   * the nav-button and "Volver" handlers already handle their own
+   * section switch directly rather than depending on this firing. */
+  function routeFromHash_() {
+    var m = /^#jugador\/(.+)$/.exec(location.hash);
+    if (m) {
+      renderPerfil(decodeURIComponent(m[1]));
+      activateSection_('perfil');
+    } else if (document.getElementById('section-perfil').classList.contains('active')) {
+      activateSection_('plantel');
+    }
+  }
+
+  /** Looks a player up by playerId (data.jugadores is keyed by Nombre,
+   * not playerId — a short scan over ~36 players is cheap enough that a
+   * reverse index isn't worth maintaining) and fills in every part of
+   * the profile: photo, name, current dorsal, birthday, debut, badges
+   * (Logros), and all-time GOL/AST/PA/PI totals (read straight off the
+   * same data.stats.<STAT>.players[].total every leaderboard already
+   * uses — a player's career total IS their all-time total, no separate
+   * aggregation needed). */
+  function renderPerfil(playerId) {
+    var data = state.data;
+    if (!data) return;
+    var jugadores = data.jugadores || {};
+    var nombre = null;
+    Object.keys(jugadores).some(function (n) {
+      if (jugadores[n].playerId === playerId) { nombre = n; return true; }
+      return false;
+    });
+    if (!nombre) return;
+
+    var info = jugadores[nombre];
+    var datos = (data.datos && data.datos[nombre]) || {};
+    var badges = (data.logros && data.logros[nombre]) || [];
+    var dorsal = info.dorsalByEra && info.dorsalByEra[data.currentEra];
+
+    document.getElementById('perfil-foto').src = 'images/plantel/' + playerId + '.jpg';
+    document.getElementById('perfil-foto').alt = nombre;
+    document.getElementById('perfil-nombre').textContent = datos.nombreCompleto || nombre;
+    document.getElementById('perfil-dorsal').textContent =
+      (dorsal !== undefined && dorsal !== null && dorsal !== '') ? '#' + dorsal : '';
+    document.getElementById('perfil-cumple').textContent =
+      datos.cumpleanos ? 'Cumpleaños: ' + formatCumpleanos_(datos.cumpleanos) : '';
+    document.getElementById('perfil-debut').textContent =
+      datos.debut ? 'Debut: ' + esc(datos.debut) : '';
+
+    var insigniasWrap = document.getElementById('perfil-insignias');
+    if (!badges.length) {
+      insigniasWrap.innerHTML = '<p class="detail-message">Sin insignias todavía.</p>';
+    } else {
+      insigniasWrap.innerHTML = badges.map(function (b) {
+        var icon = b.imagen
+          ? '<img src="images/insignias/' + esc(b.imagen) + '" alt="' + esc(b.insignia) + '">'
+          : '<div class="insignia-placeholder">' + esc(b.insignia) + '</div>';
+        return '<div class="insignia-card">' + icon +
+          '<div class="insignia-label">' + esc(b.insignia) + '</div>' +
+          '<div class="insignia-temporada">' + esc(b.temporada) + '</div></div>';
+      }).join('');
+    }
+
+    var statTotals = STATS_ORDER.map(function (stat) {
+      var block = data.stats && data.stats[stat];
+      var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
+      return row ? row.total : null;
+    });
+    document.querySelector('#perfil-stats-table tbody').innerHTML = '<tr>' +
+      statTotals.map(function (v) { return '<td>' + (v === null || v === undefined ? '—' : esc(v)) + '</td>'; }).join('') +
+      '</tr>';
   }
 
   // ---------------- Tabs ----------------
@@ -835,7 +971,6 @@
   function renderBalanceLeaderboard(data) {
     setTableHead('<tr><th>N°</th><th>Jugador</th><th>GOL</th><th>AST</th><th>PA</th><th>PI</th></tr>');
 
-    var STATS_ORDER = ['GOL', 'AST', 'PA', 'PI'];
     // Union of every player appearing in ANY of the 4 stat blocks — GOL
     // alone isn't guaranteed exhaustive (e.g. a player who only ever
     // appears in PA/PI edge cases), so this doesn't assume one master list.
