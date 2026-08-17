@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T22:41:33.024Z",
+  "generatedAt": "2026-08-17T04:20:53.618Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -592,6 +592,702 @@
         "2025/26": 17
       }
     }
+  },
+  "datos": {
+    "Daniel": {
+      "nombreCompleto": "Daniel Pérez",
+      "debut": "2010",
+      "cumpleanos": {
+        "mes": 10,
+        "dia": 2
+      }
+    },
+    "Sheko": {
+      "nombreCompleto": "Sergio Molina",
+      "debut": "2010",
+      "cumpleanos": {
+        "mes": 1,
+        "dia": 25
+      }
+    },
+    "Bismark": {
+      "nombreCompleto": "Bismark López",
+      "debut": "2010",
+      "cumpleanos": null
+    },
+    "Diego": {
+      "nombreCompleto": "Diego Mercado",
+      "debut": "2010",
+      "cumpleanos": null
+    },
+    "Arthie": {
+      "nombreCompleto": "Arthie Martínez",
+      "debut": "2010",
+      "cumpleanos": null
+    },
+    "Luis": {
+      "nombreCompleto": null,
+      "debut": "2011",
+      "cumpleanos": null
+    },
+    "Sergio": {
+      "nombreCompleto": "Sergio Alarcón",
+      "debut": "2012",
+      "cumpleanos": {
+        "mes": 9,
+        "dia": 16
+      }
+    },
+    "Enrique": {
+      "nombreCompleto": "Enrique Pellat",
+      "debut": "2012",
+      "cumpleanos": null
+    },
+    "Orlando": {
+      "nombreCompleto": null,
+      "debut": "2014",
+      "cumpleanos": null
+    },
+    "Mares": {
+      "nombreCompleto": "Carlos Mares",
+      "debut": "2014",
+      "cumpleanos": {
+        "mes": 8,
+        "dia": 2
+      }
+    },
+    "Eric": {
+      "nombreCompleto": "Eric Chávez",
+      "debut": "2014",
+      "cumpleanos": {
+        "mes": 12,
+        "dia": 30
+      }
+    },
+    "Chente": {
+      "nombreCompleto": "Vicente Partida",
+      "debut": "2016",
+      "cumpleanos": {
+        "mes": 9,
+        "dia": 5
+      }
+    },
+    "Charly": {
+      "nombreCompleto": "Carlos Vargas",
+      "debut": "2016",
+      "cumpleanos": {
+        "mes": 11,
+        "dia": 7
+      }
+    },
+    "Paco": {
+      "nombreCompleto": "Francisco Bravo",
+      "debut": "2016",
+      "cumpleanos": {
+        "mes": 7,
+        "dia": 14
+      }
+    },
+    "Chuy": {
+      "nombreCompleto": "Jesús Hermosillo",
+      "debut": "2016",
+      "cumpleanos": {
+        "mes": 3,
+        "dia": 26
+      }
+    },
+    "Lanuza": {
+      "nombreCompleto": "Manuel Lanuza",
+      "debut": "2016",
+      "cumpleanos": {
+        "mes": 10,
+        "dia": 16
+      }
+    },
+    "Miguel": {
+      "nombreCompleto": "Miguel Márquez",
+      "debut": "2016",
+      "cumpleanos": {
+        "mes": 3,
+        "dia": 21
+      }
+    },
+    "Omar": {
+      "nombreCompleto": null,
+      "debut": "2017",
+      "cumpleanos": null
+    },
+    "David": {
+      "nombreCompleto": null,
+      "debut": "2017",
+      "cumpleanos": null
+    },
+    "Gabo": {
+      "nombreCompleto": null,
+      "debut": "2017",
+      "cumpleanos": null
+    },
+    "Abraham": {
+      "nombreCompleto": "Abraham Moreno",
+      "debut": "2017",
+      "cumpleanos": {
+        "mes": 3,
+        "dia": 16
+      }
+    },
+    "Mane": {
+      "nombreCompleto": "Manuel González",
+      "debut": "2017",
+      "cumpleanos": {
+        "mes": 4,
+        "dia": 2
+      }
+    },
+    "Wero": {
+      "nombreCompleto": null,
+      "debut": "2017",
+      "cumpleanos": null
+    },
+    "Irving": {
+      "nombreCompleto": null,
+      "debut": "2018",
+      "cumpleanos": null
+    },
+    "Neto": {
+      "nombreCompleto": null,
+      "debut": "2018",
+      "cumpleanos": null
+    },
+    "Antonio": {
+      "nombreCompleto": null,
+      "debut": "2018",
+      "cumpleanos": null
+    },
+    "Coco": {
+      "nombreCompleto": null,
+      "debut": "2018",
+      "cumpleanos": null
+    },
+    "Hector": {
+      "nombreCompleto": "Héctor Vázquez",
+      "debut": "2020",
+      "cumpleanos": {
+        "mes": 7,
+        "dia": 19
+      }
+    },
+    "Paquito": {
+      "nombreCompleto": null,
+      "debut": "2020",
+      "cumpleanos": null
+    },
+    "Pavel": {
+      "nombreCompleto": null,
+      "debut": "2021",
+      "cumpleanos": null
+    },
+    "Ramiro": {
+      "nombreCompleto": "Ramiro López",
+      "debut": "2021",
+      "cumpleanos": {
+        "mes": 6,
+        "dia": 11
+      }
+    },
+    "Rene": {
+      "nombreCompleto": null,
+      "debut": "2021",
+      "cumpleanos": {
+        "mes": 7,
+        "dia": 4
+      }
+    },
+    "Pablo": {
+      "nombreCompleto": null,
+      "debut": "2024",
+      "cumpleanos": null
+    },
+    "Paleta": {
+      "nombreCompleto": null,
+      "debut": "2025",
+      "cumpleanos": null
+    },
+    "Noe": {
+      "nombreCompleto": null,
+      "debut": "2026",
+      "cumpleanos": {
+        "mes": 6,
+        "dia": 11
+      }
+    },
+    "Alonso": {
+      "nombreCompleto": "Alonso Moreno",
+      "debut": "2026",
+      "cumpleanos": {
+        "mes": 2,
+        "dia": 28
+      }
+    }
+  },
+  "logros": {
+    "Daniel": [
+      {
+        "insignia": "Fundador",
+        "temporada": "2010-11-01T06:00:00.000Z",
+        "imagen": "fundador.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Sheko": [
+      {
+        "insignia": "Fundador",
+        "temporada": "2010-11-01T06:00:00.000Z",
+        "imagen": "fundador.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Bismark": [
+      {
+        "insignia": "Fundador",
+        "temporada": "2010-11-01T06:00:00.000Z",
+        "imagen": "fundador.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      }
+    ],
+    "Diego": [
+      {
+        "insignia": "Fundador",
+        "temporada": "2010-11-01T06:00:00.000Z",
+        "imagen": "fundador.png"
+      }
+    ],
+    "Arthie": [
+      {
+        "insignia": "Fundador",
+        "temporada": "2010-11-01T06:00:00.000Z",
+        "imagen": "fundador.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      }
+    ],
+    "Sergio": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Enrique": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      }
+    ],
+    "Orlando": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      }
+    ],
+    "Mares": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Eric": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Chente": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Charly": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Paco": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Chuy": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Omar": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      }
+    ],
+    "Abraham": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Mane": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Wero": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      }
+    ],
+    "Irving": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      }
+    ],
+    "Neto": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      }
+    ],
+    "Antonio": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      }
+    ],
+    "Coco": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2018/19",
+        "imagen": "recopa-2018-19.png"
+      }
+    ],
+    "Lanuza": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Hector": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Ramiro": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Pablo": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": 2024,
+        "imagen": "recopa-2024.png"
+      }
+    ],
+    "Miguel": [
+      {
+        "insignia": "Campeon Recopa",
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Noe": [
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Alonso": [
+      {
+        "insignia": "Tercer Lugar Liga",
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ]
   },
   "stats": {
     "GOL": {
