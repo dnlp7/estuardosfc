@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T04:54:00.188Z",
+  "generatedAt": "2026-08-17T05:01:44.078Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -832,8 +832,8 @@
   "logros": {
     "Daniel": [
       {
-        "insignia": "Fundador",
-        "temporada": "2010-11-01T06:00:00.000Z",
+        "insignia": "Miembro Fundador",
+        "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
@@ -848,7 +848,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -864,8 +864,8 @@
     ],
     "Sheko": [
       {
-        "insignia": "Fundador",
-        "temporada": "2010-11-01T06:00:00.000Z",
+        "insignia": "Miembro Fundador",
+        "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
@@ -880,7 +880,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -896,8 +896,8 @@
     ],
     "Bismark": [
       {
-        "insignia": "Fundador",
-        "temporada": "2010-11-01T06:00:00.000Z",
+        "insignia": "Miembro Fundador",
+        "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
@@ -908,15 +908,15 @@
     ],
     "Diego": [
       {
-        "insignia": "Fundador",
-        "temporada": "2010-11-01T06:00:00.000Z",
+        "insignia": "Miembro Fundador",
+        "temporada": "2010/11",
         "imagen": "fundador.png"
       }
     ],
     "Arthie": [
       {
-        "insignia": "Fundador",
-        "temporada": "2010-11-01T06:00:00.000Z",
+        "insignia": "Miembro Fundador",
+        "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
@@ -943,7 +943,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -972,7 +972,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       }
     ],
@@ -984,7 +984,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1006,7 +1006,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1028,7 +1028,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1050,7 +1050,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1072,7 +1072,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1094,7 +1094,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1123,7 +1123,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1145,7 +1145,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1174,7 +1174,7 @@
       },
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1207,7 +1207,7 @@
     "Lanuza": [
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1224,7 +1224,7 @@
     "Hector": [
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1241,7 +1241,7 @@
     "Ramiro": [
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
@@ -1258,7 +1258,7 @@
     "Pablo": [
       {
         "insignia": "Campeón Recopa",
-        "temporada": 2024,
+        "temporada": "2024",
         "imagen": "recopa-2024.png"
       }
     ],
