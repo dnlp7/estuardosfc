@@ -174,8 +174,8 @@ main.wide { max-width: 1400px; }
   margin-bottom: 1rem;
 }
 .perfil-foto { width: 180px; height: auto; display: block; flex-shrink: 0; }
-.perfil-info h2 { margin: 0 0 0.4rem; }
-.perfil-dorsal { color: var(--accent-light); font-size: 1.3rem; font-weight: 700; margin: 0 0 0.4rem; }
+.perfil-dorsal { color: var(--accent-light); font-size: 3rem; font-weight: 700; line-height: 1; margin: 0 0 0.25rem; }
+.perfil-info h2 { margin: 0 0 0.5rem; font-size: 2rem; text-transform: uppercase; letter-spacing: 0.02em; }
 .perfil-detalle { color: var(--muted); margin: 0.15rem 0; }
 
 /* Badges — a plain flex-wrap grid (unlike Plantel's fixed 4-column
@@ -187,7 +187,7 @@ main.wide { max-width: 1400px; }
 .insignia-card {
   width: 110px;
   text-align: center;
-  background: var(--card);
+  background: var(--grey-header);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 0.6rem;

@@ -302,8 +302,11 @@
   var MESES_ = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
+  // "Octubre 2" — month name capitalized, no year (see buildDatosJson_'s
+  // own comment on why the sheet's placeholder year never reaches here).
   function formatCumpleanos_(c) {
-    return c.dia + ' de ' + MESES_[c.mes - 1];
+    var mes = MESES_[c.mes - 1];
+    return mes.charAt(0).toUpperCase() + mes.slice(1) + ' ' + c.dia;
   }
 
   /** Click delegation on the grid (not a listener per card) — survives
@@ -375,15 +378,19 @@
     var badges = (data.logros && data.logros[nombre]) || [];
     var dorsal = info.dorsalByEra && info.dorsalByEra[data.currentEra];
 
-    document.getElementById('perfil-foto').src = 'images/plantel/' + playerId + '.jpg';
+    // images/perfiles — a separate, plain-headshot photo set from
+    // Plantel's (images/plantel), which has dorsal/name baked into the
+    // graphic itself. These don't, so the page renders that text itself.
+    document.getElementById('perfil-foto').src = 'images/perfiles/' + playerId + '.jpg';
     document.getElementById('perfil-foto').alt = nombre;
-    document.getElementById('perfil-nombre').textContent = datos.nombreCompleto || nombre;
     document.getElementById('perfil-dorsal').textContent =
-      (dorsal !== undefined && dorsal !== null && dorsal !== '') ? '#' + dorsal : '';
-    document.getElementById('perfil-cumple').textContent =
-      datos.cumpleanos ? 'Cumpleaños: ' + formatCumpleanos_(datos.cumpleanos) : '';
+      (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
+    document.getElementById('perfil-nombre').textContent = nombre;
+    document.getElementById('perfil-nombre-completo').textContent = datos.nombreCompleto || '';
     document.getElementById('perfil-debut').textContent =
       datos.debut ? 'Debut: ' + esc(datos.debut) : '';
+    document.getElementById('perfil-cumple').textContent =
+      datos.cumpleanos ? 'Cumpleaños: ' + formatCumpleanos_(datos.cumpleanos) : '';
 
     var insigniasWrap = document.getElementById('perfil-insignias');
     if (!badges.length) {
@@ -399,14 +406,62 @@
       }).join('');
     }
 
-    var statTotals = STATS_ORDER.map(function (stat) {
+    renderPerfilStats_(nombre);
+  }
+
+  /** Career stats table — same visual language as the BALANCE tab (one
+   * blue scale per stat column, grey-to-scale-best) but rows are this
+   * ONE player's seasons instead of the roster's players, plus a TOTAL
+   * row at the bottom with no scale (same convention as the all-time
+   * team balance table). Row order follows data.seasons (oldest first,
+   * the site-wide convention), filtered down to only the eras this
+   * player actually has a record in — same "blank means not rostered
+   * that era" rule used everywhere else, not the union of every era
+   * that exists. */
+  function renderPerfilStats_(nombre) {
+    var data = state.data;
+    var byEra = {};
+    STATS_ORDER.forEach(function (stat) {
       var block = data.stats && data.stats[stat];
       var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
-      return row ? row.total : null;
+      if (!row || !row.byEra) return;
+      Object.keys(row.byEra).forEach(function (era) {
+        if (row.byEra[era] === null || row.byEra[era] === undefined) return;
+        if (!byEra[era]) byEra[era] = {};
+        byEra[era][stat] = row.byEra[era];
+      });
     });
-    document.querySelector('#perfil-stats-table tbody').innerHTML = '<tr>' +
-      statTotals.map(function (v) { return '<td>' + (v === null || v === undefined ? '—' : esc(v)) + '</td>'; }).join('') +
-      '</tr>';
+
+    var eras = (data.seasons || []).map(function (s) { return s.era; }).filter(function (era) { return byEra[era]; });
+    var tbody = document.querySelector('#perfil-stats-table tbody');
+    if (!eras.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="color:#7fa3a8;">Sin datos.</td></tr>';
+      return;
+    }
+
+    var ranges = {};
+    STATS_ORDER.forEach(function (stat) {
+      var vals = eras.map(function (era) { return Number(byEra[era][stat]) || 0; });
+      ranges[stat] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
+    });
+
+    var rowsHtml = eras.map(function (era) {
+      var cells = STATS_ORDER.map(function (stat) {
+        var v = byEra[era][stat];
+        var color = (v === null || v === undefined) ? null : scaleColor_(v, ranges[stat].min, ranges[stat].max, COLORS.greyCell, COLORS.scaleBest);
+        return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+      }).join('');
+      return '<tr><td class="val-strong">' + esc(formatEraLabel_(era)) + '</td>' + cells + '</tr>';
+    }).join('');
+
+    var totalCells = STATS_ORDER.map(function (stat) {
+      var block = data.stats && data.stats[stat];
+      var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
+      var total = row ? row.total : null;
+      return '<td class="val-strong">' + (total === null || total === undefined ? '' : esc(total)) + '</td>';
+    }).join('');
+
+    tbody.innerHTML = rowsHtml + '<tr><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
   }
 
   // ---------------- Tabs ----------------
