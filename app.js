@@ -355,22 +355,55 @@
    * scorers/assisters for one match. [Default]/[Autogoles] utility
    * rows ARE included (real goals credited to the team, per the
    * project's own GOL convention) — their bracketed name is shown with
-   * the brackets stripped for a cleaner match-summary read. */
+   * the brackets stripped for a cleaner match-summary read. Carries
+   * `dorsal` straight off the same detail row (already in the JSON) so
+   * callers can sort without a second lookup. */
   function detailScorersAt_(statBlock, idx) {
     if (!statBlock || idx < 0) return [];
     return statBlock.players
-      .map(function (p) { return { nombre: String(p.nombre || '').replace(/^\[|\]$/g, ''), valor: p.byMatch[idx] }; })
+      .map(function (p) { return { nombre: String(p.nombre || '').replace(/^\[|\]$/g, ''), dorsal: p.dorsal, valor: p.byMatch[idx] }; })
       .filter(function (p) { return Number(p.valor) > 0; });
   }
 
   /** Every player with ANY non-blank byMatch value at `idx` — used for
-   * PI's Alineación (position text, not a magnitude, so this checks
-   * presence rather than a positive number). */
+   * PI's lineup (position text, not a magnitude, so this checks
+   * presence rather than a positive number). Carries `dorsal` for the
+   * same reason as detailScorersAt_. */
   function detailPresentAt_(statBlock, idx) {
     if (!statBlock || idx < 0) return [];
     return statBlock.players
-      .map(function (p) { return { nombre: p.nombre, valor: p.byMatch[idx] }; })
+      .map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, valor: p.byMatch[idx] }; })
       .filter(function (p) { return p.valor !== null && p.valor !== undefined && p.valor !== ''; });
+  }
+
+  /** Numeric sort key for a dorsal value — non-numeric/blank dorsals
+   * (utility rows like [Default]/[Autogoles], which have none) sort
+   * last rather than breaking a numeric comparison. */
+  function dorsalSortKey_(dorsal) {
+    var n = Number(dorsal);
+    return isNaN(n) ? Infinity : n;
+  }
+
+  /** [Autogoles] displays as "[Autogol]" (Daniel's own convention,
+   * singular, brackets kept) in the Goles list — everything else (a
+   * real player, or "Default") is shown exactly as detailScorersAt_
+   * already stripped it. */
+  function displayNombreGol_(nombre) {
+    return nombre === 'Autogoles' ? '[Autogol]' : nombre;
+  }
+
+  /** Goles/Asistencias as ONE comma-separated line — "Paco (3), Daniel,
+   * Abraham" — sorted by count descending, dorsal ascending within a
+   * tie. A count of 1 is shown bare (no "(1)"). */
+  function listaConConteo_(items) {
+    var sorted = items.slice().sort(function (a, b) {
+      if (Number(b.valor) !== Number(a.valor)) return Number(b.valor) - Number(a.valor);
+      return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal);
+    });
+    return sorted.map(function (p) {
+      var nombre = displayNombreGol_(p.nombre);
+      return Number(p.valor) > 1 ? nombre + ' (' + p.valor + ')' : nombre;
+    }).join(', ');
   }
 
   /** Season code ("ATS2", "SOL18", ...) for one era — data.seasons is
@@ -412,59 +445,66 @@
     return '<div class="partido-meta-row">' + items.join('') + '</div>';
   }
 
-  /** One player card inside a Goles/Asistencias/Alineación grid — photo
+  /** Color-coded position pill (POR/DEF/MED/DEL/SUP) — reuses the exact
+   * same POSITION_COLORS_ map the PI detailed leaderboard view already
+   * uses, instead of introducing a second color scheme for the same
+   * five position codes. */
+  function posicionPillHtml_(pos) {
+    var c = POSITION_COLORS_[pos];
+    var style = c ? ' style="background:' + c.bg + ';color:' + c.text + '"' : '';
+    return '<span class="jugador-card-pos"' + style + '>' + esc(pos) + '</span>';
+  }
+
+  /** One player card inside a Titulares/Suplentes grid — photo
    * (images/perfiles, looked up by playerId via the shared jugadorInfo_
    * helper, same identity lookup every other player table on the site
-   * uses) + name + an optional small caption (goal/assist count, or
-   * position code). [Default]/[Autogoles] utility "players" have no
-   * Jugadores entry at all, so they fall back to a plain text
-   * placeholder tile instead of a broken image — same fallback
-   * philosophy as renderPerfil's own badge icons. */
-  function jugadorCardHtml_(nombre, caption) {
+   * uses) + name + a color-coded position pill. A player with no
+   * Jugadores entry falls back to a plain text placeholder tile instead
+   * of a broken image — same fallback philosophy as renderPerfil's own
+   * badge icons. */
+  function jugadorCardHtml_(nombre, posicion) {
     var info = jugadorInfo_(nombre);
     var visual = info && info.playerId
       ? '<img src="images/perfiles/' + esc(info.playerId) + '.jpg" alt="' + esc(nombre) + '" loading="lazy">'
       : '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
     return '<div class="jugador-card">' + visual +
       '<div class="jugador-card-nombre">' + esc(nombre) + '</div>' +
-      (caption ? '<div class="jugador-card-caption">' + esc(caption) + '</div>' : '') +
+      posicionPillHtml_(posicion) +
       '</div>';
   }
 
-  /** One "Goles"/"Asistencias"/"Alineación" column inside the Último
-   * Partido detail block — omitted entirely (returns '') if there's
-   * nothing to show, rather than a heading over an empty grid (same
-   * convention as plantelSectionHtml_/renderPerfil's badge section).
-   * `items` is [{nombre, caption}, ...]. */
-  function partidoDetalleBlockHtml_(titulo, items) {
+  /** One Titulares/Suplentes card grid (with its own "h4" heading) —
+   * omitted entirely (returns '') if there's nothing to show, rather
+   * than a heading over an empty grid (same convention as
+   * plantelSectionHtml_/renderPerfil's badge section). `items` is
+   * [{nombre, posicion}, ...]. */
+  function partidoJugadoresGridHtml_(titulo, items) {
     if (!items.length) return '';
-    return '<div class="partido-detalle-block"><h4>' + esc(titulo) + '</h4>' +
-      '<div class="partido-jugadores-grid">' +
-      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.caption); }).join('') +
-      '</div></div>';
+    return '<h4>' + esc(titulo) + '</h4><div class="partido-jugadores-grid">' +
+      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.posicion); }).join('') +
+      '</div>';
   }
 
-  var RESULT_CHIP_CLASS_ = { g: 'result-chip-g', p: 'result-chip-p', e: 'result-chip-e' };
-
-  /** The two full-width team "bands" (name + score) that make up
+  /** The two full-width team "bands" (score + name) that make up
    * Último Partido's scoreboard — same visual idea as the Estuardos
-   * social graphics' alternating color blocks. Estuardos' own band is
-   * colored by RESULT (win/draw/loss — reusing .result-chip-g/p/e, the
-   * same win/draw/loss color language the rest of the dashboard already
-   * uses) rather than a fixed brand color, so the band itself signals
-   * the outcome at a glance. The rival's band uses their real kit
-   * colors (rivalBg/rivalText, read straight off RES's Rival cell —
-   * same convention as the Results table), falling back to the plain
-   * grey card background if that rival hasn't been colored yet. */
+   * social graphics' alternating color blocks. Estuardos' own band
+   * always uses the team's own brand color (var(--main)) — NOT a
+   * win/draw/loss result color; the score number itself already makes
+   * the outcome obvious, per Daniel's own call. The rival's band uses
+   * their real kit colors (rivalBg/rivalText, read straight off RES's
+   * Rival cell — same convention as the Results table), falling back
+   * to the plain grey card background if that rival hasn't been
+   * colored yet. Score sits to the LEFT of the name in both bands
+   * (grouped close together, not spread to opposite edges), per
+   * Daniel's own layout call. */
   function partidoMarcadorHtml_(m) {
-    var resClass = RESULT_CHIP_CLASS_[m.resultado] || '';
     var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
     return '<div class="partido-marcador">' +
-      '<div class="partido-banda partido-banda-local ' + resClass + '">' +
-        '<span class="partido-banda-nombre">Estuardos FC</span><span class="partido-banda-score">' + esc(m.gf) + '</span>' +
+      '<div class="partido-banda partido-banda-local">' +
+        '<span class="partido-banda-score">' + esc(m.gf) + '</span><span class="partido-banda-nombre">Estuardos FC</span>' +
       '</div>' +
       '<div class="partido-banda"' + rivalStyle + '>' +
-        '<span class="partido-banda-nombre">' + esc(m.rival) + '</span><span class="partido-banda-score">' + esc(m.gc) + '</span>' +
+        '<span class="partido-banda-score">' + esc(m.gc) + '</span><span class="partido-banda-nombre">' + esc(m.rival) + '</span>' +
       '</div>' +
     '</div>';
   }
@@ -472,11 +512,14 @@
   /** Último Partido — the last (chronologically) match in
    * currentSeason.matches, which is now guaranteed PLAYED-only (see
    * readMatchLog_'s GF-based split, dashboard_export.gs) — no separate
-   * "is this really played" check needed here. Individual stats (Goles/
-   * Asistencias/Alineación) are pulled from data.detail via
-   * detailColumnIndex_'s jornada join; any stat that doesn't resolve
-   * (e.g. AST detail missing) is just silently omitted from the card
-   * rather than blocking the rest of it. */
+   * "is this really played" check needed here. Individual stats are
+   * pulled from data.detail via detailColumnIndex_'s jornada join; any
+   * stat that doesn't resolve (e.g. AST detail missing) is just
+   * silently omitted from the card rather than blocking the rest of
+   * it. Below the scoreboard, the card splits into two halves — left
+   * the lineup (Titulares sorted by position then dorsal, Suplentes by
+   * dorsal), right the scoring info (Goles/Asistencias as plain
+   * comma-separated text lists) — per Daniel's own layout call. */
   function renderUltimoPartido_() {
     var data = state.data;
     var card = document.getElementById('ultimo-partido-card');
@@ -492,18 +535,34 @@
 
     var goleadores = detailScorersAt_(detail.GOL, detailColumnIndex_(detail.GOL, m.jornada));
     var asistencias = detailScorersAt_(detail.AST, detailColumnIndex_(detail.AST, m.jornada));
-    var titulares = detailPresentAt_(detail.PI, detailColumnIndex_(detail.PI, m.jornada)).filter(function (p) {
-      var v = String(p.valor).trim().toUpperCase();
-      return v === 'POR' || v === 'DEF' || v === 'MED' || v === 'DEL';
+    var presentesPI = detailPresentAt_(detail.PI, detailColumnIndex_(detail.PI, m.jornada));
+
+    var titulares = presentesPI.filter(function (p) {
+      return POSICION_ORDER_.indexOf(String(p.valor).trim().toUpperCase()) !== -1;
+    }).sort(function (a, b) {
+      var pa = POSICION_ORDER_.indexOf(String(a.valor).trim().toUpperCase());
+      var pb = POSICION_ORDER_.indexOf(String(b.valor).trim().toUpperCase());
+      if (pa !== pb) return pa - pb;
+      return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal);
     });
+    var suplentes = presentesPI.filter(function (p) {
+      return String(p.valor).trim().toUpperCase() === 'SUP';
+    }).sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
+
+    var golesHtml = goleadores.length
+      ? '<h4>Goles</h4><p class="partido-lista">' + esc(listaConConteo_(goleadores)) + '</p>' : '';
+    var asistHtml = asistencias.length
+      ? '<h4>Asistencias</h4><p class="partido-lista">' + esc(listaConConteo_(asistencias)) + '</p>' : '';
 
     var html = '<h3 class="partido-titulo">Último Partido</h3>' +
       partidoMetaHtml_(data.currentSeason.era, m.jornada, m.fecha, m.hora, m.cancha) +
       partidoMarcadorHtml_(m) +
-      '<div class="partido-detalle">' +
-        partidoDetalleBlockHtml_('Goles', goleadores.map(function (p) { return { nombre: p.nombre, caption: p.valor > 1 ? 'x' + p.valor : null }; })) +
-        partidoDetalleBlockHtml_('Asistencias', asistencias.map(function (p) { return { nombre: p.nombre, caption: p.valor > 1 ? 'x' + p.valor : null }; })) +
-        partidoDetalleBlockHtml_('Alineación', titulares.map(function (p) { return { nombre: p.nombre, caption: String(p.valor).toUpperCase() }; })) +
+      '<div class="partido-columnas">' +
+        '<div class="partido-col">' +
+          partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return { nombre: p.nombre, posicion: String(p.valor).trim().toUpperCase() }; })) +
+          partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return { nombre: p.nombre, posicion: 'SUP' }; })) +
+        '</div>' +
+        '<div class="partido-col">' + golesHtml + asistHtml + '</div>' +
       '</div>';
     card.innerHTML = html;
   }

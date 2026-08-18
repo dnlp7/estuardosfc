@@ -277,15 +277,18 @@ main.wide { max-width: 1400px; }
 .partido-meta-item { display: flex; align-items: center; gap: 0.4rem; color: var(--white); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; }
 .partido-meta-item svg { width: 16px; height: 16px; color: var(--accent-light); flex-shrink: 0; }
 
-/* Último Partido's scoreboard — two full-width bands. Estuardos' own
-   band is colored by result (.result-chip-g/p/e, same win/draw/loss
-   language as the rest of the site); the rival's band uses their real
-   kit colors read off RES's Rival cell, falling back to the plain grey
-   card background if that rival isn't colored yet. */
+/* Último Partido's scoreboard — two full-width bands, score grouped
+   close to the name on the left (not spread to opposite edges).
+   Estuardos' own band always uses the team's brand color (var(--main))
+   — not a win/draw/loss result color, since the score already makes
+   the outcome obvious. The rival's band uses their real kit colors
+   read off RES's Rival cell, falling back to the plain grey card
+   background if that rival isn't colored yet. */
 .partido-marcador { border-radius: 10px; overflow: hidden; margin-bottom: 1.75rem; }
-.partido-banda { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.5rem; color: var(--white); background: var(--grey-cell); }
-.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.05rem; }
-.partido-banda-score { font-weight: 700; font-size: 2rem; }
+.partido-banda { display: flex; align-items: center; gap: 1.25rem; padding: 0.85rem 1.5rem; color: var(--white); background: var(--grey-cell); }
+.partido-banda-local { background: var(--main); }
+.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.5rem; }
+.partido-banda-score { font-weight: 700; font-size: 2rem; min-width: 1.4em; }
 
 /* Próximo Partido's plain "ESTUARDOS FC / vs / RIVAL" centered block —
    no score yet, so no colored bands; the rival's kit color (if set)
@@ -295,11 +298,17 @@ main.wide { max-width: 1400px; }
 .partido-vs-sep { display: block; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem; margin: 0.5rem 0; }
 .partido-vs-rival { display: inline-block; padding: 0.15rem 0.9rem; border-radius: 999px; background: var(--grey-cell); }
 
-.partido-detalle { display: flex; flex-wrap: wrap; gap: 1.75rem; justify-content: center; }
-.partido-detalle-block { text-align: center; }
-.partido-detalle-block h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
-.partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; max-width: 360px; }
-.jugador-card { width: 76px; }
+/* Below the scoreboard: left half the lineup (Titulares/Suplentes card
+   grids), right half the scoring info (Goles/Asistencias — plain
+   comma-separated text lists, no photos needed there per Daniel). */
+.partido-columnas { display: flex; gap: 2rem; flex-wrap: wrap; }
+.partido-col { flex: 1 1 260px; min-width: 0; }
+.partido-col h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.partido-col h4:not(:first-child) { margin-top: 1.25rem; }
+.partido-lista { color: var(--white); font-size: 0.95rem; margin: 0; line-height: 1.5; }
+
+.partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.jugador-card { width: 76px; text-align: center; }
 .jugador-card img { width: 76px; height: 76px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); display: block; }
 .jugador-card-placeholder {
   width: 76px; height: 76px; border-radius: 8px; background: var(--grey-cell);
@@ -307,7 +316,14 @@ main.wide { max-width: 1400px; }
   color: var(--muted); font-size: 0.6rem; padding: 0.3rem; text-align: center;
 }
 .jugador-card-nombre { font-size: 0.72rem; font-weight: 700; color: var(--white); margin-top: 0.35rem; line-height: 1.2; }
-.jugador-card-caption { font-size: 0.7rem; color: var(--accent-light); font-weight: 700; }
+/* Position pill — same POSITION_COLORS_ palette (app.js) the PI
+   detailed leaderboard view already uses, reused here instead of a
+   second color scheme for the same five position codes. */
+.jugador-card-pos {
+  display: inline-block; margin-top: 0.3rem; padding: 0.1rem 0.5rem;
+  border-radius: 999px; font-size: 0.65rem; font-weight: 700;
+  background: var(--grey-cell); color: var(--muted);
+}
 
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a
