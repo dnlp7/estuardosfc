@@ -359,11 +359,12 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 
 /* Results table — every column centered except Rival, which stays
    left-aligned since it's the one variable-length text field. Column
-   order (Jornada, R, GF, GC, Rival, Fecha, Hora, Cancha) puts the most
+   order (Jornada, R, Marc., Rival, Fecha, Hora, Cancha) puts the most
    important data first so it's visible without scrolling; Rival is
-   5th, not last, hence the :not(:nth-child(5)) rather than
-   :not(:last-child). */
-#matches-table th:not(:nth-child(5)), #matches-table td:not(:nth-child(5)) {
+   4th, not last, hence the :not(:nth-child(4)) rather than
+   :not(:last-child). GF/GC merged into one "Marc." column (3rd,
+   "3 - 2" style) picks up centering for free from this same rule. */
+#matches-table th:not(:nth-child(4)), #matches-table td:not(:nth-child(4)) {
   text-align: center;
 }
 /* Cancha column — narrow, just a 1-digit court number. Now the LAST
@@ -384,9 +385,10 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 }
 #matches-table thead th { border-top: 2px solid var(--black); }
 #matches-table th:first-child, #matches-table td:first-child { border-left: 2px solid var(--black); }
-/* Rival name — bold, matching the kit-color treatment. Now the 5th
-   column (moved from last) as part of the reorder above. */
-#matches-table td:nth-child(5) { font-weight: 700; }
+/* Rival name — bold, matching the kit-color treatment. Now the 4th
+   column (moved from last, then from 5th to 4th once GF/GC merged into
+   one Marc. column). */
+#matches-table td:nth-child(4) { font-weight: 700; }
 /* Jornada column — the main dark grey (--grey-header, same as the
    column headers) with light-accent text, rather than a fixed accent
    background. Also the table's one frozen/sticky column on

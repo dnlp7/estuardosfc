@@ -747,7 +747,7 @@
     var tbody = document.querySelector('#matches-table tbody');
     var matches = season.matches || []; // chronological order: J1 first
     if (!matches.length) {
-      tbody.innerHTML = '<tr><td colspan="8" style="color:#7fa3a8;">Sin partidos jugados todavía.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" style="color:#7fa3a8;">Sin partidos jugados todavía.</td></tr>';
     } else {
       // Cancha (blue) and Hora (purple) gradients — computed from this
       // season's own played matches, low value -> light end, high -> dark.
@@ -758,9 +758,10 @@
       var horaMin = horaMins.length ? Math.min.apply(null, horaMins) : 0;
       var horaMax = horaMins.length ? Math.max.apply(null, horaMins) : 0;
 
-      // Column order: Jornada, Resultado, GF, GC, Rival, Fecha, Hora,
-      // Cancha — most important data first (visible without scrolling
-      // on a phone), with Jornada staying first/sticky throughout.
+      // Column order: Jornada, Resultado, Marc. (GF-GC merged into one
+      // "3 - 2" cell), Rival, Fecha, Hora, Cancha — most important data
+      // first (visible without scrolling on a phone), with Jornada
+      // staying first/sticky throughout.
       tbody.innerHTML = matches.map(function (m) {
         var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? 'result-chip-e' : '';
         var canchaNum = Number(m.cancha);
@@ -772,9 +773,10 @@
         // Rivales tab. A rival cell with no color set gets no inline
         // style (default cell).
         var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
+        var marcador = esc(m.gf) + ' - ' + esc(m.gc);
 
         return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
-          '<td class="val-strong">' + esc(m.gf) + '</td><td class="val-strong">' + esc(m.gc) + '</td>' +
+          '<td class="val-strong">' + marcador + '</td>' +
           '<td' + rivalStyle + '>' + esc(m.rival) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td>' +
           '<td' + styleAttr_(horaColor) + '>' + esc(m.hora) + '</td><td' + styleAttr_(canchaColor) + '>' + esc(m.cancha) + '</td></tr>';
       }).join('');
