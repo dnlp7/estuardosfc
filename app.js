@@ -394,9 +394,14 @@
 
   /** Goles/Asistencias as ONE comma-separated line — "Paco (3), Daniel,
    * Abraham" — sorted by count descending, dorsal ascending within a
-   * tie. A count of 1 is shown bare (no "(1)"). */
+   * tie. A count of 1 is shown bare (no "(1)"). Autogoles ("[Autogol]")
+   * always sorts last regardless of its count — it's not really "a
+   * player's" goal, so it doesn't compete for the top of the list the
+   * way a real scorer's count does. */
   function listaConConteo_(items) {
     var sorted = items.slice().sort(function (a, b) {
+      var aAuto = a.nombre === 'Autogoles', bAuto = b.nombre === 'Autogoles';
+      if (aAuto !== bAuto) return aAuto ? 1 : -1;
       if (Number(b.valor) !== Number(a.valor)) return Number(b.valor) - Number(a.valor);
       return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal);
     });
@@ -455,33 +460,39 @@
     return '<span class="jugador-card-pos"' + style + '>' + esc(pos) + '</span>';
   }
 
-  /** One player card inside a Titulares/Suplentes grid — photo
-   * (images/perfiles, looked up by playerId via the shared jugadorInfo_
-   * helper, same identity lookup every other player table on the site
-   * uses) + name + a color-coded position pill. A player with no
-   * Jugadores entry falls back to a plain text placeholder tile instead
-   * of a broken image — same fallback philosophy as renderPerfil's own
+  /** One player card inside a Titulares/Suplentes/Asistentes grid —
+   * photo (images/perfiles, looked up by playerId via the shared
+   * jugadorInfo_ helper, same identity lookup every other player table
+   * on the site uses) + dorsal-prefixed name ("7 Daniel", lineup cards
+   * only — the Goles/Asistencias text lists never get a dorsal prefix)
+   * + an optional color-coded position pill (omitted entirely — no
+   * empty pill — for Asistentes, the default-win case where there are
+   * no starting positions to show at all). A player with no Jugadores
+   * entry falls back to a plain text placeholder tile instead of a
+   * broken image — same fallback philosophy as renderPerfil's own
    * badge icons. */
-  function jugadorCardHtml_(nombre, posicion) {
+  function jugadorCardHtml_(nombre, dorsal, posicion) {
     var info = jugadorInfo_(nombre);
     var visual = info && info.playerId
       ? '<img src="images/perfiles/' + esc(info.playerId) + '.jpg" alt="' + esc(nombre) + '" loading="lazy">'
       : '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
+    var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal + ' ' + nombre : nombre;
     return '<div class="jugador-card">' + visual +
-      '<div class="jugador-card-nombre">' + esc(nombre) + '</div>' +
-      posicionPillHtml_(posicion) +
+      '<div class="jugador-card-nombre">' + esc(etiqueta) + '</div>' +
+      (posicion ? posicionPillHtml_(posicion) : '') +
       '</div>';
   }
 
-  /** One Titulares/Suplentes card grid (with its own "h4" heading) —
-   * omitted entirely (returns '') if there's nothing to show, rather
-   * than a heading over an empty grid (same convention as
+  /** One Titulares/Suplentes/Asistentes card grid (with its own "h4"
+   * heading) — omitted entirely (returns '') if there's nothing to
+   * show, rather than a heading over an empty grid (same convention as
    * plantelSectionHtml_/renderPerfil's badge section). `items` is
-   * [{nombre, posicion}, ...]. */
+   * [{nombre, dorsal, posicion}, ...] — posicion may be null/omitted
+   * (Asistentes). */
   function partidoJugadoresGridHtml_(titulo, items) {
     if (!items.length) return '';
     return '<h4>' + esc(titulo) + '</h4><div class="partido-jugadores-grid">' +
-      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.posicion); }).join('') +
+      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.dorsal, i.posicion); }).join('') +
       '</div>';
   }
 
@@ -519,7 +530,18 @@
    * it. Below the scoreboard, the card splits into two halves — left
    * the lineup (Titulares sorted by position then dorsal, Suplentes by
    * dorsal), right the scoring info (Goles/Asistencias as plain
-   * comma-separated text lists) — per Daniel's own layout call. */
+   * comma-separated text lists) — per Daniel's own layout call.
+   *
+   * Default-win handling: a match with genuinely no PI data at all
+   * (zero titulares AND zero suplentes — "There won't be any starting
+   * positions", per Daniel) is a win-by-default/walkover, not a real
+   * played match. In that case the left column becomes "Asistentes"
+   * (every player logged in PA for this match, dorsal ascending, no
+   * position pill — there isn't one) instead of Titulares/Suplentes,
+   * and Goles shows the fixed text "[Triunfo por default]" instead of
+   * the usual scorer breakdown (a walkover's GF isn't really "someone's
+   * goals"). Asistencias is untouched either way — it's simply empty
+   * (and omitted) for a walkover, same as any match with no assists. */
   function renderUltimoPartido_() {
     var data = state.data;
     var card = document.getElementById('ultimo-partido-card');
@@ -549,8 +571,22 @@
       return String(p.valor).trim().toUpperCase() === 'SUP';
     }).sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
 
-    var golesHtml = goleadores.length
-      ? '<h4>Goles</h4><p class="partido-lista">' + esc(listaConConteo_(goleadores)) + '</p>' : '';
+    var victoriaPorDefault = !titulares.length && !suplentes.length;
+
+    var colIzquierdaHtml;
+    if (victoriaPorDefault) {
+      var asistentes = detailPresentAt_(detail.PA, detailColumnIndex_(detail.PA, m.jornada))
+        .sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
+      colIzquierdaHtml = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: null }; }));
+    } else {
+      colIzquierdaHtml =
+        partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: String(p.valor).trim().toUpperCase() }; })) +
+        partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: 'SUP' }; }));
+    }
+
+    var golesTexto = victoriaPorDefault ? '[Triunfo por default]' : listaConConteo_(goleadores);
+    var golesHtml = (victoriaPorDefault || goleadores.length)
+      ? '<h4>Goles</h4><p class="partido-lista">' + esc(golesTexto) + '</p>' : '';
     var asistHtml = asistencias.length
       ? '<h4>Asistencias</h4><p class="partido-lista">' + esc(listaConConteo_(asistencias)) + '</p>' : '';
 
@@ -558,10 +594,7 @@
       partidoMetaHtml_(data.currentSeason.era, m.jornada, m.fecha, m.hora, m.cancha) +
       partidoMarcadorHtml_(m) +
       '<div class="partido-columnas">' +
-        '<div class="partido-col">' +
-          partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return { nombre: p.nombre, posicion: String(p.valor).trim().toUpperCase() }; })) +
-          partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return { nombre: p.nombre, posicion: 'SUP' }; })) +
-        '</div>' +
+        '<div class="partido-col">' + colIzquierdaHtml + '</div>' +
         '<div class="partido-col">' + golesHtml + asistHtml + '</div>' +
       '</div>';
     card.innerHTML = html;

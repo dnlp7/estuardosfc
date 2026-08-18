@@ -305,7 +305,7 @@ main.wide { max-width: 1400px; }
 .partido-col { flex: 1 1 260px; min-width: 0; }
 .partido-col h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
 .partido-col h4:not(:first-child) { margin-top: 1.25rem; }
-.partido-lista { color: var(--white); font-size: 0.95rem; margin: 0; line-height: 1.5; }
+.partido-lista { color: var(--white); font-size: 1.15rem; margin: 0; line-height: 1.5; }
 
 .partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .jugador-card { width: 76px; text-align: center; }
