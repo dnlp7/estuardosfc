@@ -221,35 +221,68 @@
   }
 
   // ---------------- Plantel ----------------
-  /** Current roster, sorted by dorsal ascending — same "Activo" flag
-   * (Jugadores tab) that already drives active/inactive coloring
-   * everywhere else, so no separate roster list to maintain. Each
-   * player's CURRENT dorsal comes from dorsalByEra[currentEra], not the
-   * BALANCE table's all-time "dorsal" field (which can be stale/blank
-   * for eras that predate a player, or simply wrong for someone whose
-   * number changed) — currentEra is the same value data.json's
-   * season/era controls already use. */
+  // Section order + labels for grouping the roster by main position
+  // (Datos tab's "Posicion" column) — same POR/DEF/MED/DEL codes as the
+  // PI stat, not a new vocabulary. A player with no Posicion entered
+  // yet (or a value that doesn't match one of these four) falls into a
+  // trailing "Otros" section instead of silently vanishing from Plantel.
+  var POSICION_ORDER_ = ['POR', 'DEF', 'MED', 'DEL'];
+  var POSICION_LABELS_ = { POR: 'Porteros', DEF: 'Defensas', MED: 'Medios', DEL: 'Delanteros' };
+
+  /** Current roster, grouped into position sections, each sorted by
+   * dorsal ascending within itself. Same "Activo" flag (Jugadores tab)
+   * that already drives active/inactive coloring everywhere else, so no
+   * separate roster list to maintain. Each player's CURRENT dorsal
+   * comes from dorsalByEra[currentEra], not the BALANCE table's all-time
+   * "dorsal" field (which can be stale/blank for eras that predate a
+   * player, or simply wrong for someone whose number changed) —
+   * currentEra is the same value data.json's season/era controls
+   * already use. */
   function renderPlantel() {
     var data = state.data;
     var grid = document.getElementById('plantel-grid');
     if (!data || !grid) return;
     var jugadores = data.jugadores || {};
+    var datos = data.datos || {};
     var currentEra = data.currentEra;
     var roster = Object.keys(jugadores).map(function (nombre) {
       var info = jugadores[nombre];
       var dorsal = info.dorsalByEra && info.dorsalByEra[currentEra];
-      return { nombre: nombre, playerId: info.playerId, activo: info.activo, dorsal: dorsal };
+      var posicion = (datos[nombre] && datos[nombre].posicion) || '';
+      return { nombre: nombre, playerId: info.playerId, activo: info.activo, dorsal: dorsal, posicion: posicion };
     }).filter(function (p) {
       return p.activo && p.dorsal !== undefined && p.dorsal !== null && p.dorsal !== '';
-    }).sort(function (a, b) {
-      return (Number(a.dorsal) || 0) - (Number(b.dorsal) || 0);
     });
 
-    grid.innerHTML = roster.map(function (p) {
+    var groups = {};
+    POSICION_ORDER_.forEach(function (pos) { groups[pos] = []; });
+    var otros = [];
+    roster.forEach(function (p) {
+      (groups[p.posicion] || otros).push(p);
+    });
+
+    var html = POSICION_ORDER_.map(function (pos) {
+      return plantelSectionHtml_(POSICION_LABELS_[pos], groups[pos]);
+    }).join('');
+    if (otros.length) html += plantelSectionHtml_('Otros', otros);
+
+    grid.innerHTML = html;
+  }
+
+  /** One position section: heading + its own 4-per-row card grid.
+   * Returns '' for an empty group so, e.g., a squad with no Porteros
+   * entered yet doesn't leave a heading floating over nothing. */
+  function plantelSectionHtml_(titulo, players) {
+    if (!players.length) return '';
+    var cards = players.slice().sort(function (a, b) {
+      return (Number(a.dorsal) || 0) - (Number(b.dorsal) || 0);
+    }).map(function (p) {
       var img = 'images/plantel/' + p.playerId + '.jpg';
       return '<div class="plantel-card" data-player-id="' + esc(p.playerId) + '">' +
         '<img src="' + img + '" alt="' + esc(p.nombre) + '" loading="lazy"></div>';
     }).join('');
+    return '<section class="plantel-section"><h3>' + esc(titulo) + '</h3>' +
+      '<div class="plantel-cards-grid">' + cards + '</div></section>';
   }
 
   // ---------------- Sections (Estadísticas / Plantel / Perfil) ----------------

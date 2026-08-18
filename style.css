@@ -142,11 +142,17 @@ main.wide { max-width: 1400px; }
 .section-panel { display: none; }
 .section-panel.active { display: block; }
 
-/* Plantel — roster cards, 4 per row. Each card is just the player photo
-   (dorsal/name are already baked into the image itself, same style as
-   the team's social media graphics), so there's no separate text overlay
-   to style here — just lay the images out in a grid. */
-.plantel-grid {
+/* Plantel — roster cards, grouped into Porteros/Defensas/Medios/
+   Delanteros sections (app.js's plantelSectionHtml_), 4 per row within
+   each section. Each card is just the player photo (dorsal/name are
+   already baked into the image itself, same style as the team's social
+   media graphics), so there's no separate text overlay to style here —
+   just lay the images out in a grid. #plantel-grid itself is now just a
+   vertical stack of sections; the 4-column card grid lives one level
+   down, in .plantel-cards-grid. */
+.plantel-grid { display: flex; flex-direction: column; gap: 2rem; }
+.plantel-section h3 { margin-top: 0; }
+.plantel-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
@@ -154,7 +160,7 @@ main.wide { max-width: 1400px; }
 .plantel-card { display: block; cursor: pointer; }
 .plantel-card img { width: 100%; height: auto; display: block; }
 @media (max-width: 640px) {
-  .plantel-grid { grid-template-columns: repeat(2, 1fr); }
+  .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Perfil — one player's profile page, reached only via a Plantel card
