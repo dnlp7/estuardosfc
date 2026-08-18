@@ -297,7 +297,7 @@ main.wide { max-width: 1400px; }
 .historia-card img { width: 100%; height: auto; display: block; border-radius: 8px; }
 .historia-card-title { font-weight: 700; color: var(--white); font-size: 0.85rem; margin-top: 0.5rem; }
 .historia-card-subtitle { color: var(--muted); font-size: 0.75rem; margin-top: 0.15rem; }
-#historia-jerseys .stat-selector { margin-bottom: 1rem; }
+#jerseys-tipo-selector { margin-bottom: 1rem; }
 
 /* Career stats — same table language as the Jugadores BALANCE view
    (#leaderboard-table.balance-mode): normal table font-size (no
