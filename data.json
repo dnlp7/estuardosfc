@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-18T06:23:06.939Z",
+  "generatedAt": "2026-08-18T06:46:16.615Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -3434,6 +3434,15 @@
       "gc": 29,
       "dif": -13,
       "pts": 12
+    },
+    "proximo": {
+      "jornada": "J8",
+      "cancha": 2,
+      "fecha": "2026-08-22",
+      "hora": "8:30",
+      "rival": "CHOMPIRAS",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
     }
   },
   "detail": {
