@@ -212,12 +212,28 @@
       : '';
 
     setupSections();
+    setupInicio_();
     setupTabs();
     setupEquipoControls(data);
     setupHistorialControls(data);
     renderLeaderboard();
     renderPlantel();
     setupPerfil();
+  }
+
+  // ---------------- Inicio (home page) ----------------
+  // Reached only by clicking the crest in the header — it's deliberately
+  // not one of the main-nav buttons, so activateSection_('inicio') just
+  // leaves every nav button inactive, same as landing on Perfil. Empty
+  // for now; content comes later (see project instructions).
+  function setupInicio_() {
+    var badge = document.getElementById('site-badge-btn');
+    if (badge) {
+      badge.addEventListener('click', function () {
+        if (location.hash) location.hash = '';
+        activateSection_('inicio');
+      });
+    }
   }
 
   // ---------------- Plantel ----------------

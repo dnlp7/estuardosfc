@@ -92,6 +92,18 @@ body {
   background: var(--main) url("images/Base-verde-lowRes.jpg") repeat;
   background-size: 2100px auto;
 }
+/* Wraps the badge image so it's a real, clickable/keyboard-focusable
+   control (Inicio's only entry point — see app.js setupInicio_) while
+   looking exactly like the plain image it replaced: button chrome
+   stripped back to nothing, image itself carries all the visible sizing. */
+.site-badge-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 auto;
+  display: block;
+  cursor: pointer;
+}
 .site-badge {
   height: 7.5rem;
   width: auto;
