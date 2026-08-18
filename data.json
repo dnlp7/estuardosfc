@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T06:23:06.687Z",
+  "generatedAt": "2026-08-18T02:10:33.825Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -596,6 +596,7 @@
   "datos": {
     "Daniel": {
       "nombreCompleto": "Daniel Pérez",
+      "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": {
         "mes": 10,
@@ -604,6 +605,7 @@
     },
     "Sheko": {
       "nombreCompleto": "Sergio Molina",
+      "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": {
         "mes": 1,
@@ -612,26 +614,31 @@
     },
     "Bismark": {
       "nombreCompleto": "Bismark López",
+      "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": null
     },
     "Diego": {
       "nombreCompleto": "Diego Mercado",
+      "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": null
     },
     "Arthie": {
       "nombreCompleto": "Arthie Martínez",
+      "posicion": "MED",
       "debut": "2010",
       "cumpleanos": null
     },
     "Luis": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2011",
       "cumpleanos": null
     },
     "Sergio": {
       "nombreCompleto": "Sergio Alarcón",
+      "posicion": "DEL",
       "debut": "2012",
       "cumpleanos": {
         "mes": 9,
@@ -640,16 +647,19 @@
     },
     "Enrique": {
       "nombreCompleto": "Enrique Pellat",
+      "posicion": "MED",
       "debut": "2012",
       "cumpleanos": null
     },
     "Orlando": {
       "nombreCompleto": null,
+      "posicion": "DEF",
       "debut": "2014",
       "cumpleanos": null
     },
     "Mares": {
       "nombreCompleto": "Carlos Mares",
+      "posicion": "DEF",
       "debut": "2014",
       "cumpleanos": {
         "mes": 8,
@@ -658,6 +668,7 @@
     },
     "Eric": {
       "nombreCompleto": "Eric Chávez",
+      "posicion": "DEF",
       "debut": "2014",
       "cumpleanos": {
         "mes": 12,
@@ -666,6 +677,7 @@
     },
     "Chente": {
       "nombreCompleto": "Vicente Partida",
+      "posicion": "DEF",
       "debut": "2016",
       "cumpleanos": {
         "mes": 9,
@@ -674,6 +686,7 @@
     },
     "Charly": {
       "nombreCompleto": "Carlos Vargas",
+      "posicion": "POR",
       "debut": "2016",
       "cumpleanos": {
         "mes": 11,
@@ -682,6 +695,7 @@
     },
     "Paco": {
       "nombreCompleto": "Francisco Bravo",
+      "posicion": "DEL",
       "debut": "2016",
       "cumpleanos": {
         "mes": 7,
@@ -690,6 +704,7 @@
     },
     "Chuy": {
       "nombreCompleto": "Jesús Hermosillo",
+      "posicion": "MED",
       "debut": "2016",
       "cumpleanos": {
         "mes": 3,
@@ -698,6 +713,7 @@
     },
     "Lanuza": {
       "nombreCompleto": "Manuel Lanuza",
+      "posicion": "MED",
       "debut": "2016",
       "cumpleanos": {
         "mes": 10,
@@ -706,6 +722,7 @@
     },
     "Miguel": {
       "nombreCompleto": "Miguel Márquez",
+      "posicion": "DEF",
       "debut": "2016",
       "cumpleanos": {
         "mes": 3,
@@ -714,21 +731,25 @@
     },
     "Omar": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2017",
       "cumpleanos": null
     },
     "David": {
       "nombreCompleto": null,
+      "posicion": "DEL",
       "debut": "2017",
       "cumpleanos": null
     },
     "Gabo": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2017",
       "cumpleanos": null
     },
     "Abraham": {
       "nombreCompleto": "Abraham Moreno",
+      "posicion": "DEF",
       "debut": "2017",
       "cumpleanos": {
         "mes": 3,
@@ -737,6 +758,7 @@
     },
     "Mane": {
       "nombreCompleto": "Manuel González",
+      "posicion": "DEF",
       "debut": "2017",
       "cumpleanos": {
         "mes": 4,
@@ -745,31 +767,37 @@
     },
     "Wero": {
       "nombreCompleto": null,
+      "posicion": "DEF",
       "debut": "2017",
       "cumpleanos": null
     },
     "Irving": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2018",
       "cumpleanos": null
     },
     "Neto": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2018",
       "cumpleanos": null
     },
     "Antonio": {
       "nombreCompleto": null,
+      "posicion": "DEL",
       "debut": "2018",
       "cumpleanos": null
     },
     "Coco": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2018",
       "cumpleanos": null
     },
     "Hector": {
       "nombreCompleto": "Héctor Vázquez",
+      "posicion": "MED",
       "debut": "2020",
       "cumpleanos": {
         "mes": 7,
@@ -778,16 +806,19 @@
     },
     "Paquito": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2020",
       "cumpleanos": null
     },
     "Pavel": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2021",
       "cumpleanos": null
     },
     "Ramiro": {
       "nombreCompleto": "Ramiro López",
+      "posicion": "MED",
       "debut": "2021",
       "cumpleanos": {
         "mes": 6,
@@ -796,6 +827,7 @@
     },
     "Rene": {
       "nombreCompleto": null,
+      "posicion": "POR",
       "debut": "2021",
       "cumpleanos": {
         "mes": 7,
@@ -804,16 +836,19 @@
     },
     "Pablo": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2024",
       "cumpleanos": null
     },
     "Paleta": {
       "nombreCompleto": null,
+      "posicion": "POR",
       "debut": "2025",
       "cumpleanos": null
     },
     "Noe": {
       "nombreCompleto": null,
+      "posicion": "MED",
       "debut": "2026",
       "cumpleanos": {
         "mes": 6,
@@ -822,6 +857,7 @@
     },
     "Alonso": {
       "nombreCompleto": "Alonso Moreno",
+      "posicion": "MED",
       "debut": "2026",
       "cumpleanos": {
         "mes": 2,
