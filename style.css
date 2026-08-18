@@ -251,6 +251,37 @@ main.wide { max-width: 1400px; }
 .insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
 .insignia-temporada { color: var(--muted); font-size: 0.75rem; }
 
+/* Inicio — Último Partido / Próximo Partido cards, side by side on a
+   wide screen, stacked on mobile (flex-wrap, not a fixed 2-column
+   grid, since a card can genuinely vary in height — Último Partido's
+   detail blocks make it much taller than Próximo's plain schedule
+   line, or the placeholder text in either). */
+.inicio-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.partido-card {
+  flex: 1 1 320px;
+  background: var(--grey-header);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+.partido-card h3 { margin-top: 0; }
+.partido-marcador { display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin: 1rem 0; }
+.partido-equipo { font-weight: 700; color: var(--white); font-size: 1rem; text-transform: uppercase; }
+/* Rival name pill — same kit-color convention as the Results table's
+   Rival cell (rivalBg/rivalText read straight off RES), just rendered
+   as a pill instead of a table cell. Falls back to the plain grey
+   cell background when no color is set yet (e.g. a próximo partido
+   against a rival not faced yet this season). */
+.partido-rival { padding: 0.3rem 0.75rem; border-radius: 999px; background: var(--grey-cell); }
+.partido-score { font-weight: 700; font-size: 1.75rem; color: var(--white); padding: 0.2rem 0.75rem; border-radius: 8px; background: var(--grey-cell); }
+.partido-vs-label { color: var(--muted); font-weight: 700; }
+.partido-meta { text-align: center; color: var(--muted); font-size: 0.85rem; margin: 0 0 1rem; }
+.partido-detalle { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.partido-detalle-block { flex: 1 1 140px; }
+.partido-detalle-block h4 { margin: 0 0 0.4rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.partido-detalle-block ul { list-style: none; margin: 0; padding: 0; }
+.partido-detalle-block li { color: var(--white); font-size: 0.9rem; padding: 0.15rem 0; }
+
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a
    titled block stacked vertically with breathing room between them. */

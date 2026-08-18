@@ -220,6 +220,8 @@
     // — that's the one case where landing on Inicio would be wrong.
     activateSection_('inicio');
     setupInicio_();
+    renderUltimoPartido_();
+    renderProximoPartido_();
     setupTabs();
     setupHistoria_();
     setupEquipoControls(data);
@@ -326,6 +328,136 @@
         activateSection_('inicio');
       });
     }
+  }
+
+  /** Finds a per-match detail column's index by its JORNADA CODE (the
+   * leading token of the column header — "J20 RFU" -> "J20") within one
+   * stat's detail block (data.detail.<STAT>). Used to join
+   * currentSeason.matches/proximo (keyed by RES's own jornada value)
+   * against data.detail's per-match GOL/AST/PI columns (keyed by
+   * header text) — the two are written together by the same "Cargar
+   * partido" action, so they always describe the same matches in the
+   * same order, but this joins by CONTENT (the jornada code) rather
+   * than assuming array position, since that's a weaker, riskier
+   * coupling. Returns -1 if the stat has no detail block, or the
+   * jornada genuinely isn't in it — callers treat that as "no detail
+   * available for this stat/match" rather than an error. */
+  function detailColumnIndex_(statBlock, jornada) {
+    if (!statBlock || !statBlock.columns || !jornada) return -1;
+    for (var i = 0; i < statBlock.columns.length; i++) {
+      var partido = String(statBlock.columns[i].partido || '');
+      if (partido.split(' ')[0] === jornada) return i;
+    }
+    return -1;
+  }
+
+  /** Every player with a POSITIVE byMatch value at `idx` — GOL/AST
+   * scorers/assisters for one match. [Default]/[Autogoles] utility
+   * rows ARE included (real goals credited to the team, per the
+   * project's own GOL convention) — their bracketed name is shown with
+   * the brackets stripped for a cleaner match-summary read. */
+  function detailScorersAt_(statBlock, idx) {
+    if (!statBlock || idx < 0) return [];
+    return statBlock.players
+      .map(function (p) { return { nombre: String(p.nombre || '').replace(/^\[|\]$/g, ''), valor: p.byMatch[idx] }; })
+      .filter(function (p) { return Number(p.valor) > 0; });
+  }
+
+  /** Every player with ANY non-blank byMatch value at `idx` — used for
+   * PI's Alineación (position text, not a magnitude, so this checks
+   * presence rather than a positive number). */
+  function detailPresentAt_(statBlock, idx) {
+    if (!statBlock || idx < 0) return [];
+    return statBlock.players
+      .map(function (p) { return { nombre: p.nombre, valor: p.byMatch[idx] }; })
+      .filter(function (p) { return p.valor !== null && p.valor !== undefined && p.valor !== ''; });
+  }
+
+  /** One "Goles"/"Asistencias"/"Alineación" column inside the Último
+   * Partido detail block — omitted entirely (returns '') if there's
+   * nothing to show, rather than a heading over an empty list (same
+   * convention as plantelSectionHtml_/renderPerfil's badge section). */
+  function partidoDetalleBlockHtml_(titulo, items) {
+    if (!items.length) return '';
+    return '<div class="partido-detalle-block"><h4>' + esc(titulo) + '</h4><ul>' +
+      items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul></div>';
+  }
+
+  var RESULT_CHIP_CLASS_ = { g: 'result-chip-g', p: 'result-chip-p', e: 'result-chip-e' };
+
+  /** Último Partido — the last (chronologically) match in
+   * currentSeason.matches, which is now guaranteed PLAYED-only (see
+   * readMatchLog_'s GF-based split, dashboard_export.gs) — no separate
+   * "is this really played" check needed here. Individual stats (Goles/
+   * Asistencias/Alineación) are pulled from data.detail via
+   * detailColumnIndex_'s jornada join; any stat that doesn't resolve
+   * (e.g. AST detail missing) is just silently omitted from the card
+   * rather than blocking the rest of it. */
+  function renderUltimoPartido_() {
+    var data = state.data;
+    var card = document.getElementById('ultimo-partido-card');
+    if (!card || !data || !data.currentSeason) return;
+
+    var matches = data.currentSeason.matches || [];
+    if (!matches.length) {
+      card.innerHTML = '<h3>Último Partido</h3><p class="placeholder-text">Aún no se ha jugado ningún partido esta temporada.</p>';
+      return;
+    }
+    var m = matches[matches.length - 1];
+    var detail = data.detail || {};
+
+    var goleadores = detailScorersAt_(detail.GOL, detailColumnIndex_(detail.GOL, m.jornada));
+    var asistencias = detailScorersAt_(detail.AST, detailColumnIndex_(detail.AST, m.jornada));
+    var titulares = detailPresentAt_(detail.PI, detailColumnIndex_(detail.PI, m.jornada)).filter(function (p) {
+      var v = String(p.valor).trim().toUpperCase();
+      return v === 'POR' || v === 'DEF' || v === 'MED' || v === 'DEL';
+    });
+
+    var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
+    var resClass = RESULT_CHIP_CLASS_[m.resultado] || '';
+
+    var html = '<h3>Último Partido</h3>' +
+      '<div class="partido-marcador">' +
+        '<span class="partido-equipo">Estuardos</span>' +
+        '<span class="partido-score ' + resClass + '">' + esc(m.gf) + ' - ' + esc(m.gc) + '</span>' +
+        '<span class="partido-equipo partido-rival"' + rivalStyle + '>' + esc(m.rival) + '</span>' +
+      '</div>' +
+      '<p class="partido-meta">' + esc(formatEraLabel_(data.currentSeason.era)) + ' · ' + esc(m.jornada) +
+        ' · ' + esc(formatFechaCorta_(m.fecha)) + ' · ' + esc(m.hora) + ' · Cancha ' + esc(m.cancha) + '</p>' +
+      '<div class="partido-detalle">' +
+        partidoDetalleBlockHtml_('Goles', goleadores.map(function (p) { return p.nombre + (p.valor > 1 ? ' (' + p.valor + ')' : ''); })) +
+        partidoDetalleBlockHtml_('Asistencias', asistencias.map(function (p) { return p.nombre + (p.valor > 1 ? ' (' + p.valor + ')' : ''); })) +
+        partidoDetalleBlockHtml_('Alineación', titulares.map(function (p) { return p.nombre + ' (' + String(p.valor).toUpperCase() + ')'; })) +
+      '</div>';
+    card.innerHTML = html;
+  }
+
+  /** Próximo Partido — reads straight off data.currentSeason.proximo
+   * (dashboard_export.gs's readMatchLog_: the first RES row with a real
+   * Fecha but still-blank GF). null is the normal, expected state until
+   * Daniel starts pre-filling a scheduled match ahead of time — shows a
+   * placeholder, not an error. No individual stats here (the match
+   * hasn't happened yet) and no result-color treatment on a score that
+   * doesn't exist. */
+  function renderProximoPartido_() {
+    var data = state.data;
+    var card = document.getElementById('proximo-partido-card');
+    if (!card || !data || !data.currentSeason) return;
+
+    var p = data.currentSeason.proximo;
+    if (!p) {
+      card.innerHTML = '<h3>Próximo Partido</h3><p class="placeholder-text">Aún no hay información sobre el próximo partido.</p>';
+      return;
+    }
+    var rivalStyle = p.rivalBg ? ' style="background:' + esc(p.rivalBg) + ';color:' + esc(p.rivalText || '#ffffff') + '"' : '';
+    card.innerHTML = '<h3>Próximo Partido</h3>' +
+      '<div class="partido-marcador">' +
+        '<span class="partido-equipo">Estuardos</span>' +
+        '<span class="partido-vs-label">VS</span>' +
+        '<span class="partido-equipo partido-rival"' + rivalStyle + '>' + esc(p.rival || '?') + '</span>' +
+      '</div>' +
+      '<p class="partido-meta">' + esc(formatEraLabel_(data.currentSeason.era)) + ' · ' + esc(p.jornada) +
+        ' · ' + esc(formatFechaCorta_(p.fecha)) + ' · ' + esc(p.hora) + ' · Cancha ' + esc(p.cancha) + '</p>';
   }
 
   // ---------------- Plantel ----------------
