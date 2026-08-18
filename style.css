@@ -153,8 +153,6 @@ main.wide { max-width: 1400px; }
 .tab-panel.active { display: block; }
 .section-panel { display: none; }
 .section-panel.active { display: block; }
-.historia-panel { display: none; }
-.historia-panel.active { display: block; }
 
 /* Plantel — roster cards, grouped into Porteros/Defensas/Medios/
    Delanteros sections (app.js's plantelSectionHtml_), 4 per row within
@@ -252,6 +250,13 @@ main.wide { max-width: 1400px; }
 }
 .insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
 .insignia-temporada { color: var(--muted); font-size: 0.75rem; }
+
+/* Historia — all four sections render at once now (no tab-switching:
+   Daniel wants the whole page scannable on load), so each one is just a
+   titled block stacked vertically with breathing room between them. */
+.historia-block { margin-bottom: 2.5rem; }
+.historia-block:last-child { margin-bottom: 0; }
+.historia-block h3 { margin-top: 0; }
 
 /* Historia — ¿Quiénes somos? placeholder copy. */
 .placeholder-text { color: var(--muted); font-size: 0.95rem; max-width: 640px; }

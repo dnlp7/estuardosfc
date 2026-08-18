@@ -235,28 +235,30 @@
   // to warrant a data.json pipeline like every other section on the
   // site. Chronological order is just array order, oldest first, per
   // Daniel's own list.
+  // Years only (months dropped per Daniel — the full "JUL 2010 - MAY
+  // 2017" title was wrapping to two lines on the ~160px card width).
   var ESCUDOS_ = [
-    { file: 'escudo-2010.png', title: 'JUL 2010 - MAY 2017' },
-    { file: 'escudo-2017.png', title: 'MAY 2017 - AGO 2022' },
-    { file: 'escudo-2022.png', title: 'AGO 2022 - JUL 2024' },
-    { file: 'escudo-2024.png', title: 'JUL 2024 - JUL 2026' },
-    { file: 'escudo-2026.png', title: 'JUL 2026 -' }
+    { file: 'escudo-2010.png', title: '2010 - 2017' },
+    { file: 'escudo-2017.png', title: '2017 - 2022' },
+    { file: 'escudo-2022.png', title: '2022 - 2024' },
+    { file: 'escudo-2024.png', title: '2024 - 2026' },
+    { file: 'escudo-2026.png', title: '2026 -' }
   ];
   var JERSEYS_ = [
-    { tipo: 'Jugador', file: 'jersey-2010.png', title: 'JUL 2010 - ABR 2011', subtitle: 'Anka' },
-    { tipo: 'Jugador', file: 'jersey-2011.png', title: 'ABR 2011 - FEB 2015', subtitle: 'Atletica' },
-    { tipo: 'Jugador', file: 'jersey-2015.png', title: 'FEB 2015 - FEB 2018', subtitle: 'Undo Skin' },
-    { tipo: 'Jugador', file: 'jersey-2018.png', title: 'FEB 2018 - SEP 2019', subtitle: 'Running 4U' },
-    { tipo: 'Jugador', file: 'jersey-2019.png', title: 'SEP 2019 - AGO 2022', subtitle: 'Running 4U' },
-    { tipo: 'Jugador', file: 'jersey-2022.png', title: 'AGO 2022 - JUL 2024', subtitle: 'Running 4U' },
-    { tipo: 'Jugador', file: 'jersey-2024.png', title: 'JUL 2024 - JUL 2026', subtitle: 'Running 4U' },
-    { tipo: 'Jugador', file: 'jersey-2026.png', title: 'JUL 2026 -', subtitle: 'Running 4U' },
-    { tipo: 'Portero', file: 'jerseyp-2010.png', title: 'JUL 2010 - ABR 2011', subtitle: 'Anka' },
-    { tipo: 'Portero', file: 'jerseyp-2018.png', title: 'FEB 2018 - SEP 2019', subtitle: 'Running 4U' },
-    { tipo: 'Portero', file: 'jerseyp-2019.png', title: 'SEP 2019 - AGO 2022', subtitle: 'Running 4U' },
-    { tipo: 'Portero', file: 'jerseyp-2022.png', title: 'AGO 2022 - JUL 2024', subtitle: 'Running 4U' },
-    { tipo: 'Portero', file: 'jerseyp-2024.png', title: 'JUL 2024 - JUL 2026', subtitle: 'Running 4U' },
-    { tipo: 'Portero', file: 'jerseyp-2026.png', title: 'JUL 2026 -', subtitle: 'Running 4U' }
+    { tipo: 'Jugador', file: 'jersey-2010.png', title: '2010 - 2011', subtitle: 'Anka' },
+    { tipo: 'Jugador', file: 'jersey-2011.png', title: '2011 - 2015', subtitle: 'Atletica' },
+    { tipo: 'Jugador', file: 'jersey-2015.png', title: '2015 - 2018', subtitle: 'Undo Skin' },
+    { tipo: 'Jugador', file: 'jersey-2018.png', title: '2018 - 2019', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2019.png', title: '2019 - 2022', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2022.png', title: '2022 - 2024', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2024.png', title: '2024 - 2026', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2026.png', title: '2026 -', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2010.png', title: '2010 - 2011', subtitle: 'Anka' },
+    { tipo: 'Portero', file: 'jerseyp-2018.png', title: '2018 - 2019', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2019.png', title: '2019 - 2022', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2022.png', title: '2022 - 2024', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2024.png', title: '2024 - 2026', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2026.png', title: '2026 -', subtitle: 'Running 4U' }
   ];
   var historiaJerseyTipo_ = 'Jugador'; // Jugador open by default
 
@@ -299,20 +301,13 @@
     });
   }
 
-  /** Historia's own internal sub-nav (¿Quiénes somos? / Línea de Tiempo
-   * / Escudos / Jerseys) — same click-swap pattern as setupTabs(), just
-   * scoped to #historia-subnav/.historia-panel instead of
-   * #estadisticas-subnav/.tab-panel, since the two nav levels above it
-   * already keep their own wiring independent. */
+  /** Historia — unlike Estadísticas' Equipo/Jugadores sub-tabs, all four
+   * sections (¿Quiénes somos? / Línea de Tiempo / Escudos / Jerseys)
+   * render at once as plain titled blocks (see .historia-block in
+   * style.css) rather than switching between them — Daniel wants the
+   * whole page scannable on load. The only real toggle left is Jerseys'
+   * own Jugador/Portero selector. */
   function setupHistoria_() {
-    document.querySelectorAll('#historia-subnav .tab-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('#historia-subnav .tab-btn').forEach(function (b) { b.classList.remove('active'); });
-        document.querySelectorAll('.historia-panel').forEach(function (p) { p.classList.remove('active'); });
-        btn.classList.add('active');
-        document.getElementById('historia-' + btn.dataset.historiaTab).classList.add('active');
-      });
-    });
     renderEscudos_();
     renderJerseys_();
     setupJerseysTipoSelector_();

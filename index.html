@@ -122,18 +122,13 @@
     </section>
 
     <section id="section-historia" class="section-panel">
-      <nav class="tabs sub-nav" id="historia-subnav">
-        <button class="tab-btn active" data-historia-tab="quienes">¿Quiénes somos?</button>
-        <button class="tab-btn" data-historia-tab="timeline">Línea de Tiempo</button>
-        <button class="tab-btn" data-historia-tab="escudos">Escudos</button>
-        <button class="tab-btn" data-historia-tab="jerseys">Jerseys</button>
-      </nav>
-
-      <div id="historia-quienes" class="historia-panel active">
+      <div class="historia-block">
+        <h3>¿Quiénes somos?</h3>
         <p class="placeholder-text">Texto de ejemplo — aquí irá una breve reseña de la historia del equipo. Reemplazar con el contenido real más adelante.</p>
       </div>
 
-      <div id="historia-timeline" class="historia-panel">
+      <div class="historia-block">
+        <h3>Línea de Tiempo</h3>
         <ul class="timeline">
           <li><span class="timeline-date">2010</span><p class="timeline-desc">Texto de ejemplo para este evento — reemplazar con la reseña real.</p></li>
           <li><span class="timeline-date">2017</span><p class="timeline-desc">Texto de ejemplo para este evento — reemplazar con la reseña real.</p></li>
@@ -142,11 +137,13 @@
         </ul>
       </div>
 
-      <div id="historia-escudos" class="historia-panel">
+      <div class="historia-block">
+        <h3>Escudos</h3>
         <div class="historia-cards" id="escudos-grid"></div>
       </div>
 
-      <div id="historia-jerseys" class="historia-panel">
+      <div class="historia-block">
+        <h3>Jerseys</h3>
         <div class="stat-selector" id="jerseys-tipo-selector">
           <button class="stat-btn active" data-tipo="Jugador">Jugador</button>
           <button class="stat-btn" data-tipo="Portero">Portero</button>
