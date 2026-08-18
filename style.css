@@ -251,36 +251,63 @@ main.wide { max-width: 1400px; }
 .insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
 .insignia-temporada { color: var(--muted); font-size: 0.75rem; }
 
-/* Inicio — Último Partido / Próximo Partido cards, side by side on a
-   wide screen, stacked on mobile (flex-wrap, not a fixed 2-column
-   grid, since a card can genuinely vary in height — Último Partido's
-   detail blocks make it much taller than Próximo's plain schedule
-   line, or the placeholder text in either). */
-.inicio-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+/* Inicio — Último Partido / Próximo Partido cards, stacked vertically
+   (Daniel's own call — was side by side, now one after the other so
+   neither card has to fight the other for width). Visual language
+   borrowed from the Estuardos social-media match graphics: an
+   uppercase letter-spaced title, an icon+label meta row (trophy/
+   calendar/clock/pin), and — for Último Partido — full-width colored
+   scoreboard bands instead of a plain "3 - 2" text pill. */
+.inicio-grid { display: flex; flex-direction: column; gap: 2rem; }
 .partido-card {
-  flex: 1 1 320px;
   background: var(--grey-header);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.5rem;
 }
-.partido-card h3 { margin-top: 0; }
-.partido-marcador { display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin: 1rem 0; }
-.partido-equipo { font-weight: 700; color: var(--white); font-size: 1rem; text-transform: uppercase; }
-/* Rival name pill — same kit-color convention as the Results table's
-   Rival cell (rivalBg/rivalText read straight off RES), just rendered
-   as a pill instead of a table cell. Falls back to the plain grey
-   cell background when no color is set yet (e.g. a próximo partido
-   against a rival not faced yet this season). */
-.partido-rival { padding: 0.3rem 0.75rem; border-radius: 999px; background: var(--grey-cell); }
-.partido-score { font-weight: 700; font-size: 1.75rem; color: var(--white); padding: 0.2rem 0.75rem; border-radius: 8px; background: var(--grey-cell); }
-.partido-vs-label { color: var(--muted); font-weight: 700; }
-.partido-meta { text-align: center; color: var(--muted); font-size: 0.85rem; margin: 0 0 1rem; }
-.partido-detalle { display: flex; flex-wrap: wrap; gap: 1.5rem; }
-.partido-detalle-block { flex: 1 1 140px; }
-.partido-detalle-block h4 { margin: 0 0 0.4rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
-.partido-detalle-block ul { list-style: none; margin: 0; padding: 0; }
-.partido-detalle-block li { color: var(--white); font-size: 0.9rem; padding: 0.15rem 0; }
+.partido-titulo {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent-light);
+  font-size: 1rem;
+}
+.partido-meta-row { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.partido-meta-item { display: flex; align-items: center; gap: 0.4rem; color: var(--white); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; }
+.partido-meta-item svg { width: 16px; height: 16px; color: var(--accent-light); flex-shrink: 0; }
+
+/* Último Partido's scoreboard — two full-width bands. Estuardos' own
+   band is colored by result (.result-chip-g/p/e, same win/draw/loss
+   language as the rest of the site); the rival's band uses their real
+   kit colors read off RES's Rival cell, falling back to the plain grey
+   card background if that rival isn't colored yet. */
+.partido-marcador { border-radius: 10px; overflow: hidden; margin-bottom: 1.75rem; }
+.partido-banda { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.5rem; color: var(--white); background: var(--grey-cell); }
+.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.05rem; }
+.partido-banda-score { font-weight: 700; font-size: 2rem; }
+
+/* Próximo Partido's plain "ESTUARDOS FC / vs / RIVAL" centered block —
+   no score yet, so no colored bands; the rival's kit color (if set)
+   shows as a pill behind their name instead. */
+.partido-vs { text-align: center; margin-bottom: 0.5rem; }
+.partido-vs-equipo { display: block; font-weight: 700; text-transform: uppercase; font-size: 1.6rem; letter-spacing: 0.02em; color: var(--white); }
+.partido-vs-sep { display: block; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem; margin: 0.5rem 0; }
+.partido-vs-rival { display: inline-block; padding: 0.15rem 0.9rem; border-radius: 999px; background: var(--grey-cell); }
+
+.partido-detalle { display: flex; flex-wrap: wrap; gap: 1.75rem; justify-content: center; }
+.partido-detalle-block { text-align: center; }
+.partido-detalle-block h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; max-width: 360px; }
+.jugador-card { width: 76px; }
+.jugador-card img { width: 76px; height: 76px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); display: block; }
+.jugador-card-placeholder {
+  width: 76px; height: 76px; border-radius: 8px; background: var(--grey-cell);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 0.6rem; padding: 0.3rem; text-align: center;
+}
+.jugador-card-nombre { font-size: 0.72rem; font-weight: 700; color: var(--white); margin-top: 0.35rem; line-height: 1.2; }
+.jugador-card-caption { font-size: 0.7rem; color: var(--accent-light); font-weight: 700; }
 
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a

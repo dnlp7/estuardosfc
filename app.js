@@ -373,17 +373,101 @@
       .filter(function (p) { return p.valor !== null && p.valor !== undefined && p.valor !== ''; });
   }
 
+  /** Season code ("ATS2", "SOL18", ...) for one era — data.seasons is
+   * the same {era, torneo} list the historical doc's row 2 uses (see
+   * dashboard_export.gs). Used in the meta row alongside the jornada
+   * code, matching Daniel's own social-graphic convention ("ATS2 /
+   * J20") — the raw jornada code is kept as-is rather than expanded to
+   * "JORNADA 20", since not every code cleanly expands that way (JP,
+   * CF, SF, 3R, ...). */
+  function torneoForEra_(era) {
+    var season = (state.data.seasons || []).filter(function (s) { return s.era === era; })[0];
+    return season ? season.torneo : '';
+  }
+
+  // Small outline icons (trophy/calendar/clock/pin) for the meta row —
+  // inline SVG rather than image assets, so no new upload is needed and
+  // they inherit color via CSS (currentColor) same as any text.
+  var ICON_TROFEO_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a3 3 0 0 0 3 5M17 5h3a3 3 0 0 1-3 5"/></svg>';
+  var ICON_CALENDARIO_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
+  var ICON_RELOJ_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>';
+  var ICON_PIN_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+
+  function partidoMetaItemHtml_(icon, label) {
+    return '<span class="partido-meta-item">' + icon + esc(label) + '</span>';
+  }
+
+  /** The icon+label row under a partido-card's title — torneo/jornada,
+   * fecha, hora, cancha — mirroring the Estuardos social-graphic
+   * convention (trophy/calendar/clock/pin) instead of the site's usual
+   * plain "·"-separated meta line. Any piece that's blank/unavailable
+   * is just omitted, not shown empty. */
+  function partidoMetaHtml_(era, jornada, fecha, hora, cancha) {
+    var torneo = torneoForEra_(era);
+    var items = [];
+    if (torneo || jornada) items.push(partidoMetaItemHtml_(ICON_TROFEO_, (torneo ? torneo + ' / ' : '') + jornada));
+    if (fecha) items.push(partidoMetaItemHtml_(ICON_CALENDARIO_, formatFechaCorta_(fecha)));
+    if (hora) items.push(partidoMetaItemHtml_(ICON_RELOJ_, hora));
+    if (cancha) items.push(partidoMetaItemHtml_(ICON_PIN_, 'Cancha ' + cancha));
+    return '<div class="partido-meta-row">' + items.join('') + '</div>';
+  }
+
+  /** One player card inside a Goles/Asistencias/Alineación grid — photo
+   * (images/perfiles, looked up by playerId via the shared jugadorInfo_
+   * helper, same identity lookup every other player table on the site
+   * uses) + name + an optional small caption (goal/assist count, or
+   * position code). [Default]/[Autogoles] utility "players" have no
+   * Jugadores entry at all, so they fall back to a plain text
+   * placeholder tile instead of a broken image — same fallback
+   * philosophy as renderPerfil's own badge icons. */
+  function jugadorCardHtml_(nombre, caption) {
+    var info = jugadorInfo_(nombre);
+    var visual = info && info.playerId
+      ? '<img src="images/perfiles/' + esc(info.playerId) + '.jpg" alt="' + esc(nombre) + '" loading="lazy">'
+      : '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
+    return '<div class="jugador-card">' + visual +
+      '<div class="jugador-card-nombre">' + esc(nombre) + '</div>' +
+      (caption ? '<div class="jugador-card-caption">' + esc(caption) + '</div>' : '') +
+      '</div>';
+  }
+
   /** One "Goles"/"Asistencias"/"Alineación" column inside the Último
    * Partido detail block — omitted entirely (returns '') if there's
-   * nothing to show, rather than a heading over an empty list (same
-   * convention as plantelSectionHtml_/renderPerfil's badge section). */
+   * nothing to show, rather than a heading over an empty grid (same
+   * convention as plantelSectionHtml_/renderPerfil's badge section).
+   * `items` is [{nombre, caption}, ...]. */
   function partidoDetalleBlockHtml_(titulo, items) {
     if (!items.length) return '';
-    return '<div class="partido-detalle-block"><h4>' + esc(titulo) + '</h4><ul>' +
-      items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul></div>';
+    return '<div class="partido-detalle-block"><h4>' + esc(titulo) + '</h4>' +
+      '<div class="partido-jugadores-grid">' +
+      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.caption); }).join('') +
+      '</div></div>';
   }
 
   var RESULT_CHIP_CLASS_ = { g: 'result-chip-g', p: 'result-chip-p', e: 'result-chip-e' };
+
+  /** The two full-width team "bands" (name + score) that make up
+   * Último Partido's scoreboard — same visual idea as the Estuardos
+   * social graphics' alternating color blocks. Estuardos' own band is
+   * colored by RESULT (win/draw/loss — reusing .result-chip-g/p/e, the
+   * same win/draw/loss color language the rest of the dashboard already
+   * uses) rather than a fixed brand color, so the band itself signals
+   * the outcome at a glance. The rival's band uses their real kit
+   * colors (rivalBg/rivalText, read straight off RES's Rival cell —
+   * same convention as the Results table), falling back to the plain
+   * grey card background if that rival hasn't been colored yet. */
+  function partidoMarcadorHtml_(m) {
+    var resClass = RESULT_CHIP_CLASS_[m.resultado] || '';
+    var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
+    return '<div class="partido-marcador">' +
+      '<div class="partido-banda partido-banda-local ' + resClass + '">' +
+        '<span class="partido-banda-nombre">Estuardos FC</span><span class="partido-banda-score">' + esc(m.gf) + '</span>' +
+      '</div>' +
+      '<div class="partido-banda"' + rivalStyle + '>' +
+        '<span class="partido-banda-nombre">' + esc(m.rival) + '</span><span class="partido-banda-score">' + esc(m.gc) + '</span>' +
+      '</div>' +
+    '</div>';
+  }
 
   /** Último Partido — the last (chronologically) match in
    * currentSeason.matches, which is now guaranteed PLAYED-only (see
@@ -400,7 +484,7 @@
 
     var matches = data.currentSeason.matches || [];
     if (!matches.length) {
-      card.innerHTML = '<h3>Último Partido</h3><p class="placeholder-text">Aún no se ha jugado ningún partido esta temporada.</p>';
+      card.innerHTML = '<h3 class="partido-titulo">Último Partido</h3><p class="placeholder-text">Aún no se ha jugado ningún partido esta temporada.</p>';
       return;
     }
     var m = matches[matches.length - 1];
@@ -413,21 +497,13 @@
       return v === 'POR' || v === 'DEF' || v === 'MED' || v === 'DEL';
     });
 
-    var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
-    var resClass = RESULT_CHIP_CLASS_[m.resultado] || '';
-
-    var html = '<h3>Último Partido</h3>' +
-      '<div class="partido-marcador">' +
-        '<span class="partido-equipo">Estuardos</span>' +
-        '<span class="partido-score ' + resClass + '">' + esc(m.gf) + ' - ' + esc(m.gc) + '</span>' +
-        '<span class="partido-equipo partido-rival"' + rivalStyle + '>' + esc(m.rival) + '</span>' +
-      '</div>' +
-      '<p class="partido-meta">' + esc(formatEraLabel_(data.currentSeason.era)) + ' · ' + esc(m.jornada) +
-        ' · ' + esc(formatFechaCorta_(m.fecha)) + ' · ' + esc(m.hora) + ' · Cancha ' + esc(m.cancha) + '</p>' +
+    var html = '<h3 class="partido-titulo">Último Partido</h3>' +
+      partidoMetaHtml_(data.currentSeason.era, m.jornada, m.fecha, m.hora, m.cancha) +
+      partidoMarcadorHtml_(m) +
       '<div class="partido-detalle">' +
-        partidoDetalleBlockHtml_('Goles', goleadores.map(function (p) { return p.nombre + (p.valor > 1 ? ' (' + p.valor + ')' : ''); })) +
-        partidoDetalleBlockHtml_('Asistencias', asistencias.map(function (p) { return p.nombre + (p.valor > 1 ? ' (' + p.valor + ')' : ''); })) +
-        partidoDetalleBlockHtml_('Alineación', titulares.map(function (p) { return p.nombre + ' (' + String(p.valor).toUpperCase() + ')'; })) +
+        partidoDetalleBlockHtml_('Goles', goleadores.map(function (p) { return { nombre: p.nombre, caption: p.valor > 1 ? 'x' + p.valor : null }; })) +
+        partidoDetalleBlockHtml_('Asistencias', asistencias.map(function (p) { return { nombre: p.nombre, caption: p.valor > 1 ? 'x' + p.valor : null }; })) +
+        partidoDetalleBlockHtml_('Alineación', titulares.map(function (p) { return { nombre: p.nombre, caption: String(p.valor).toUpperCase() }; })) +
       '</div>';
     card.innerHTML = html;
   }
@@ -436,9 +512,10 @@
    * (dashboard_export.gs's readMatchLog_: the first RES row with a real
    * Fecha but still-blank GF). null is the normal, expected state until
    * Daniel starts pre-filling a scheduled match ahead of time — shows a
-   * placeholder, not an error. No individual stats here (the match
-   * hasn't happened yet) and no result-color treatment on a score that
-   * doesn't exist. */
+   * placeholder, not an error. No score/individual stats here (the
+   * match hasn't happened yet), so this gets the plain centered
+   * "ESTUARDOS FC / VS / RIVAL" treatment instead of Último's colored
+   * scoreboard bands. */
   function renderProximoPartido_() {
     var data = state.data;
     var card = document.getElementById('proximo-partido-card');
@@ -446,18 +523,17 @@
 
     var p = data.currentSeason.proximo;
     if (!p) {
-      card.innerHTML = '<h3>Próximo Partido</h3><p class="placeholder-text">Aún no hay información sobre el próximo partido.</p>';
+      card.innerHTML = '<h3 class="partido-titulo">Próximo Partido</h3><p class="placeholder-text">Aún no hay información sobre el próximo partido.</p>';
       return;
     }
     var rivalStyle = p.rivalBg ? ' style="background:' + esc(p.rivalBg) + ';color:' + esc(p.rivalText || '#ffffff') + '"' : '';
-    card.innerHTML = '<h3>Próximo Partido</h3>' +
-      '<div class="partido-marcador">' +
-        '<span class="partido-equipo">Estuardos</span>' +
-        '<span class="partido-vs-label">VS</span>' +
-        '<span class="partido-equipo partido-rival"' + rivalStyle + '>' + esc(p.rival || '?') + '</span>' +
-      '</div>' +
-      '<p class="partido-meta">' + esc(formatEraLabel_(data.currentSeason.era)) + ' · ' + esc(p.jornada) +
-        ' · ' + esc(formatFechaCorta_(p.fecha)) + ' · ' + esc(p.hora) + ' · Cancha ' + esc(p.cancha) + '</p>';
+    card.innerHTML = '<h3 class="partido-titulo">Próximo Partido</h3>' +
+      partidoMetaHtml_(data.currentSeason.era, p.jornada, p.fecha, p.hora, p.cancha) +
+      '<div class="partido-vs">' +
+        '<span class="partido-vs-equipo">Estuardos FC</span>' +
+        '<span class="partido-vs-sep">vs</span>' +
+        '<span class="partido-vs-equipo partido-vs-rival"' + rivalStyle + '>' + esc(p.rival || '?') + '</span>' +
+      '</div>';
   }
 
   // ---------------- Plantel ----------------
