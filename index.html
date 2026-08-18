@@ -15,24 +15,25 @@
 
   <nav class="tabs main-nav">
     <button class="tab-btn main-tab-btn" data-section="plantel">Plantel</button>
-    <button class="tab-btn main-tab-btn active" data-section="estadisticas">Estadísticas</button>
+    <button class="tab-btn main-tab-btn" data-section="estadisticas">Estadísticas</button>
     <button class="tab-btn main-tab-btn" data-section="historia">Historia</button>
   </nav>
 
-  <nav class="tabs sub-nav" id="estadisticas-subnav">
+  <nav class="tabs sub-nav" id="estadisticas-subnav" hidden>
     <button class="tab-btn active" data-tab="temporada">Equipo</button>
     <button class="tab-btn" data-tab="historial">Jugadores</button>
   </nav>
 
   <main>
-    <!-- Home page — reached only via the badge in the header, never the
-         nav bar (see app.js setupInicio_). No matching .main-tab-btn on
-         purpose: activateSection_'s "no button matches this name" case
-         is exactly the right look here, same as Perfil. Empty for now —
-         content coming later. -->
-    <section id="section-inicio" class="section-panel"></section>
+    <!-- Home page — the site's default landing view (see init()'s
+         activateSection_('inicio') call in app.js). Also reachable
+         anytime via the badge in the header (setupInicio_). No matching
+         .main-tab-btn on purpose: activateSection_'s "no button matches
+         this name" case is exactly the right look here, same as Perfil.
+         Empty for now — content coming later. -->
+    <section id="section-inicio" class="section-panel active"></section>
 
-    <section id="section-estadisticas" class="section-panel active">
+    <section id="section-estadisticas" class="section-panel">
       <section id="tab-temporada" class="tab-panel active">
         <div class="controls">
           <select id="team-era-filter">
@@ -120,8 +121,39 @@
       <div class="plantel-grid" id="plantel-grid"></div>
     </section>
 
-    <!-- Empty for now — content coming later. -->
-    <section id="section-historia" class="section-panel"></section>
+    <section id="section-historia" class="section-panel">
+      <nav class="tabs sub-nav" id="historia-subnav">
+        <button class="tab-btn active" data-historia-tab="quienes">¿Quiénes somos?</button>
+        <button class="tab-btn" data-historia-tab="timeline">Línea de Tiempo</button>
+        <button class="tab-btn" data-historia-tab="escudos">Escudos</button>
+        <button class="tab-btn" data-historia-tab="jerseys">Jerseys</button>
+      </nav>
+
+      <div id="historia-quienes" class="historia-panel active">
+        <p class="placeholder-text">Texto de ejemplo — aquí irá una breve reseña de la historia del equipo. Reemplazar con el contenido real más adelante.</p>
+      </div>
+
+      <div id="historia-timeline" class="historia-panel">
+        <ul class="timeline">
+          <li><span class="timeline-date">2010</span><p class="timeline-desc">Texto de ejemplo para este evento — reemplazar con la reseña real.</p></li>
+          <li><span class="timeline-date">2017</span><p class="timeline-desc">Texto de ejemplo para este evento — reemplazar con la reseña real.</p></li>
+          <li><span class="timeline-date">2022</span><p class="timeline-desc">Texto de ejemplo para este evento — reemplazar con la reseña real.</p></li>
+          <li><span class="timeline-date">2026</span><p class="timeline-desc">Texto de ejemplo para este evento — reemplazar con la reseña real.</p></li>
+        </ul>
+      </div>
+
+      <div id="historia-escudos" class="historia-panel">
+        <div class="historia-cards" id="escudos-grid"></div>
+      </div>
+
+      <div id="historia-jerseys" class="historia-panel">
+        <div class="stat-selector" id="jerseys-tipo-selector">
+          <button class="stat-btn active" data-tipo="Jugador">Jugador</button>
+          <button class="stat-btn" data-tipo="Portero">Portero</button>
+        </div>
+        <div class="historia-cards" id="jerseys-grid"></div>
+      </div>
+    </section>
 
     <section id="section-perfil" class="section-panel">
       <button type="button" class="perfil-volver" id="perfil-volver">&larr; Volver al Plantel</button>

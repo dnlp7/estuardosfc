@@ -212,13 +212,110 @@
       : '';
 
     setupSections();
+    // Inicio is the site's default landing view — set here (not just in
+    // index.html's static markup) so it's driven by the same single
+    // function every other section switch uses, rather than two places
+    // that could drift apart. setupPerfil() below can still override
+    // this to Perfil if the page was opened on a #jugador/<id> deep link
+    // — that's the one case where landing on Inicio would be wrong.
+    activateSection_('inicio');
     setupInicio_();
     setupTabs();
+    setupHistoria_();
     setupEquipoControls(data);
     setupHistorialControls(data);
     renderLeaderboard();
     renderPlantel();
     setupPerfil();
+  }
+
+  // ---------------- Historia ----------------
+  // Escudos/Jerseys are a fixed, hand-maintained list — not something
+  // that changes often enough (or lives in the historical Sheet at all)
+  // to warrant a data.json pipeline like every other section on the
+  // site. Chronological order is just array order, oldest first, per
+  // Daniel's own list.
+  var ESCUDOS_ = [
+    { file: 'escudo-2010.png', title: 'JUL 2010 - MAY 2017' },
+    { file: 'escudo-2017.png', title: 'MAY 2017 - AGO 2022' },
+    { file: 'escudo-2022.png', title: 'AGO 2022 - JUL 2024' },
+    { file: 'escudo-2024.png', title: 'JUL 2024 - JUL 2026' },
+    { file: 'escudo-2026.png', title: 'JUL 2026 -' }
+  ];
+  var JERSEYS_ = [
+    { tipo: 'Jugador', file: 'jersey-2010.png', title: 'JUL 2010 - ABR 2011', subtitle: 'Anka' },
+    { tipo: 'Jugador', file: 'jersey-2011.png', title: 'ABR 2011 - FEB 2015', subtitle: 'Atletica' },
+    { tipo: 'Jugador', file: 'jersey-2015.png', title: 'FEB 2015 - FEB 2018', subtitle: 'Undo Skin' },
+    { tipo: 'Jugador', file: 'jersey-2018.png', title: 'FEB 2018 - SEP 2019', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2019.png', title: 'SEP 2019 - AGO 2022', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2022.png', title: 'AGO 2022 - JUL 2024', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2024.png', title: 'JUL 2024 - JUL 2026', subtitle: 'Running 4U' },
+    { tipo: 'Jugador', file: 'jersey-2026.png', title: 'JUL 2026 -', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2010.png', title: 'JUL 2010 - ABR 2011', subtitle: 'Anka' },
+    { tipo: 'Portero', file: 'jerseyp-2018.png', title: 'FEB 2018 - SEP 2019', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2019.png', title: 'SEP 2019 - AGO 2022', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2022.png', title: 'AGO 2022 - JUL 2024', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2024.png', title: 'JUL 2024 - JUL 2026', subtitle: 'Running 4U' },
+    { tipo: 'Portero', file: 'jerseyp-2026.png', title: 'JUL 2026 -', subtitle: 'Running 4U' }
+  ];
+  var historiaJerseyTipo_ = 'Jugador'; // Jugador open by default
+
+  function historiaCardHtml_(imgPath, title, subtitle) {
+    return '<div class="historia-card"><img src="' + imgPath + '" alt="' + esc(title) + '">' +
+      '<div class="historia-card-title">' + esc(title) + '</div>' +
+      (subtitle ? '<div class="historia-card-subtitle">' + esc(subtitle) + '</div>' : '') +
+      '</div>';
+  }
+
+  function renderEscudos_() {
+    var grid = document.getElementById('escudos-grid');
+    if (!grid) return;
+    grid.innerHTML = ESCUDOS_.map(function (e) {
+      return historiaCardHtml_('images/escudos/' + e.file, e.title, null);
+    }).join('');
+  }
+
+  function renderJerseys_() {
+    var grid = document.getElementById('jerseys-grid');
+    if (!grid) return;
+    grid.innerHTML = JERSEYS_.filter(function (j) { return j.tipo === historiaJerseyTipo_; })
+      .map(function (j) { return historiaCardHtml_('images/jerseys/' + j.file, j.title, j.subtitle); })
+      .join('');
+  }
+
+  /** Jugador/Portero switch — same look-and-wiring pattern as the
+   * Estadísticas stat-type buttons (.stat-btn / .stat-selector), just a
+   * two-way toggle instead of five stats. */
+  function setupJerseysTipoSelector_() {
+    var wrap = document.getElementById('jerseys-tipo-selector');
+    if (!wrap) return;
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('.stat-btn');
+      if (!btn) return;
+      wrap.querySelectorAll('.stat-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      historiaJerseyTipo_ = btn.dataset.tipo;
+      renderJerseys_();
+    });
+  }
+
+  /** Historia's own internal sub-nav (¿Quiénes somos? / Línea de Tiempo
+   * / Escudos / Jerseys) — same click-swap pattern as setupTabs(), just
+   * scoped to #historia-subnav/.historia-panel instead of
+   * #estadisticas-subnav/.tab-panel, since the two nav levels above it
+   * already keep their own wiring independent. */
+  function setupHistoria_() {
+    document.querySelectorAll('#historia-subnav .tab-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('#historia-subnav .tab-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('.historia-panel').forEach(function (p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('historia-' + btn.dataset.historiaTab).classList.add('active');
+      });
+    });
+    renderEscudos_();
+    renderJerseys_();
+    setupJerseysTipoSelector_();
   }
 
   // ---------------- Inicio (home page) ----------------

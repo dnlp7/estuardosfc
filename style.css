@@ -153,6 +153,8 @@ main.wide { max-width: 1400px; }
 .tab-panel.active { display: block; }
 .section-panel { display: none; }
 .section-panel.active { display: block; }
+.historia-panel { display: none; }
+.historia-panel.active { display: block; }
 
 /* Plantel — roster cards, grouped into Porteros/Defensas/Medios/
    Delanteros sections (app.js's plantelSectionHtml_), 4 per row within
@@ -250,6 +252,47 @@ main.wide { max-width: 1400px; }
 }
 .insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
 .insignia-temporada { color: var(--muted); font-size: 0.75rem; }
+
+/* Historia — ¿Quiénes somos? placeholder copy. */
+.placeholder-text { color: var(--muted); font-size: 0.95rem; max-width: 640px; }
+
+/* Historia — Línea de Tiempo. A plain vertical rail (border-left) with
+   a dot per event, same accent-light/muted color language as the rest
+   of the site rather than a new palette. */
+.timeline { list-style: none; margin: 0; padding: 0; border-left: 3px solid var(--border); }
+.timeline li { position: relative; padding: 0 0 1.5rem 1.5rem; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 0.2rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  border: 2px solid var(--bg);
+}
+.timeline-date { display: block; color: var(--accent-light); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.timeline-desc { color: var(--white); margin: 0.2rem 0 0; }
+
+/* Historia — Escudos / Jerseys. Same card language as .insignia-card
+   (badge icon + label underneath) but sized for a crest/jersey graphic
+   rather than a small achievement icon, and with an optional subtitle
+   line (Jerseys' brand name) that Escudos simply never fills in. */
+.historia-cards { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.historia-card {
+  width: 160px;
+  text-align: center;
+  background: var(--grey-header);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+.historia-card img { width: 100%; height: auto; display: block; border-radius: 8px; }
+.historia-card-title { font-weight: 700; color: var(--white); font-size: 0.85rem; margin-top: 0.5rem; }
+.historia-card-subtitle { color: var(--muted); font-size: 0.75rem; margin-top: 0.15rem; }
+#historia-jerseys .stat-selector { margin-bottom: 1rem; }
 
 /* Career stats — same table language as the Jugadores BALANCE view
    (#leaderboard-table.balance-mode): normal table font-size (no
