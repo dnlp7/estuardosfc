@@ -722,6 +722,14 @@
   };
 
   function activateSection_(name) {
+    // Every call here is a real "go to this section" action (nav click,
+    // Plantel card -> Perfil, Volver, a #jugador/<id> deep link) — a
+    // single-page app never gets the free scroll-to-top a real page
+    // navigation would. Without this, clicking a card near the bottom
+    // of a scrolled Plantel page (e.g. Delanteros) opened that player's
+    // profile already scrolled halfway down, since the browser just
+    // keeps whatever scroll position it already had.
+    window.scrollTo(0, 0);
     document.querySelectorAll('.main-tab-btn').forEach(function (b) {
       b.classList.toggle('active', b.dataset.section === name);
     });
