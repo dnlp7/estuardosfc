@@ -311,10 +311,15 @@ main.wide { max-width: 1400px; }
 .jugador-card { width: 76px; text-align: center; }
 /* No border/radius here — the images/perfiles photos already have
    their own border baked into the asset, so adding a second one on
-   top looked doubled/odd. */
-.jugador-card img { width: 76px; height: 76px; object-fit: cover; display: block; }
+   top looked doubled/odd. No fixed height/object-fit:cover either —
+   images/perfiles isn't square (300x360), so cropping it into a 76x76
+   box cut the top/bottom edge of that baked-in border off. Scaled to
+   the card's width, full image, natural aspect ratio, nothing cropped. */
+.jugador-card img { width: 100%; height: auto; display: block; }
+/* Same aspect ratio as the real images/perfiles photos (300x360) so a
+   placeholder tile lines up with real photo tiles in the same grid. */
 .jugador-card-placeholder {
-  width: 76px; height: 76px; border-radius: 8px; background: var(--grey-cell);
+  width: 100%; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
   display: flex; align-items: center; justify-content: center;
   color: var(--muted); font-size: 0.6rem; padding: 0.3rem; text-align: center;
 }
