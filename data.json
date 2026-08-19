@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-18T06:46:16.615Z",
+  "generatedAt": "2026-08-19T06:08:48.925Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -1120,6 +1120,21 @@
         "insignia": "Tercer Lugar Liga",
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "temporada": "2026",
+        "imagen": "lider-goleo-2024.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "temporada": "2025/26",
+        "imagen": "lider-goleo-2024.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "temporada": "2025",
+        "imagen": "lider-goleo-2024.png"
       }
     ],
     "Chuy": [
@@ -1289,6 +1304,11 @@
         "insignia": "Tercer Lugar Liga",
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "temporada": "2024/25",
+        "imagen": "lider-goleo-2024.png"
       }
     ],
     "Pablo": [
