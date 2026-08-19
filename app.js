@@ -707,6 +707,20 @@
   // button has data-section === 'perfil'" case just means every nav
   // button ends up inactive, which is exactly the right look for a page
   // that isn't one of the nav's own destinations.
+  // <title> per section — was stuck on "Estuardos FC — Estadísticas"
+  // everywhere. "perfil" is deliberately NOT listed here: renderPerfil
+  // always runs immediately before activateSection_('perfil') (both the
+  // Plantel-card click handler and routeFromHash_ call it in that
+  // order), setting the real "Estuardos FC — <Nombre>" title itself —
+  // giving 'perfil' a generic entry here would just clobber that right
+  // after it's set.
+  var SECTION_TITLES_ = {
+    inicio: 'Estuardos FC',
+    estadisticas: 'Estuardos FC — Estadísticas',
+    plantel: 'Estuardos FC — Plantel',
+    historia: 'Estuardos FC — Historia'
+  };
+
   function activateSection_(name) {
     document.querySelectorAll('.main-tab-btn').forEach(function (b) {
       b.classList.toggle('active', b.dataset.section === name);
@@ -714,6 +728,7 @@
     document.querySelectorAll('.section-panel').forEach(function (p) {
       p.classList.toggle('active', p.id === 'section-' + name);
     });
+    if (SECTION_TITLES_[name]) document.title = SECTION_TITLES_[name];
     var isEstadisticas = name === 'estadisticas';
     // The Equipo/Jugadores sub-nav only makes sense inside Estadísticas.
     document.getElementById('estadisticas-subnav').hidden = !isEstadisticas;
@@ -822,6 +837,7 @@
     // images/perfiles — a separate, plain-headshot photo set from
     // Plantel's (images/plantel), which has dorsal/name baked into the
     // graphic itself. These don't, so the page renders that text itself.
+    document.title = 'Estuardos FC — ' + nombre;
     document.getElementById('perfil-foto').src = 'images/perfiles/' + playerId + '.jpg';
     document.getElementById('perfil-foto').alt = nombre;
     document.getElementById('perfil-dorsal').textContent =

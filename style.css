@@ -309,7 +309,10 @@ main.wide { max-width: 1400px; }
 
 .partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .jugador-card { width: 76px; text-align: center; }
-.jugador-card img { width: 76px; height: 76px; object-fit: cover; border-radius: 8px; border: 2px solid var(--border); display: block; }
+/* No border/radius here — the images/perfiles photos already have
+   their own border baked into the asset, so adding a second one on
+   top looked doubled/odd. */
+.jugador-card img { width: 76px; height: 76px; object-fit: cover; display: block; }
 .jugador-card-placeholder {
   width: 76px; height: 76px; border-radius: 8px; background: var(--grey-cell);
   display: flex; align-items: center; justify-content: center;
