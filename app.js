@@ -316,10 +316,11 @@
   }
 
   // ---------------- Inicio (home page) ----------------
-  // Reached only by clicking the crest in the header — it's deliberately
-  // not one of the main-nav buttons, so activateSection_('inicio') just
-  // leaves every nav button inactive, same as landing on Perfil. Empty
-  // for now; content comes later (see project instructions).
+  // Reachable two ways: the home icon in the main nav (a regular
+  // .main-tab-btn, wired up by setupSections() like Plantel/Estadísticas/
+  // Historia) and the crest in the header. Both just call
+  // activateSection_('inicio') — kept as two separate entry points since
+  // Daniel wanted the header crest to remain a home shortcut too.
   function setupInicio_() {
     var badge = document.getElementById('site-badge-btn');
     if (badge) {
@@ -706,7 +707,10 @@
   // through this same activateSection_ still works correctly: the "no
   // button has data-section === 'perfil'" case just means every nav
   // button ends up inactive, which is exactly the right look for a page
-  // that isn't one of the nav's own destinations.
+  // that isn't one of the nav's own destinations. ("inicio" used to be
+  // in the same boat, reachable only via the header crest — it now also
+  // has a real nav button, the home icon, so it no longer falls into
+  // this case.)
   // <title> per section — was stuck on "Estuardos FC — Estadísticas"
   // everywhere. "perfil" is deliberately NOT listed here: renderPerfil
   // always runs immediately before activateSection_('perfil') (both the

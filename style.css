@@ -142,6 +142,12 @@ body {
   border-color: var(--white);
   font-weight: 600;
 }
+/* Home icon — first item in the main nav, reuses the site favicon
+   instead of a text label. Padding trimmed from the shared .tab-btn
+   rule since an icon needs less breathing room than a text label to
+   look balanced next to it. */
+.nav-home-btn { padding: 0.4rem 0.7rem; }
+.nav-home-icon { height: 1.4rem; width: auto; display: block; }
 
 main { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 /* Detailed leaderboard views (per-match or per-era columns) need much
