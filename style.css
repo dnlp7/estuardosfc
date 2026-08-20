@@ -229,7 +229,7 @@ main.wide { max-width: 1400px; }
 .perfil-info h2 { margin: 0 0 0.5rem; font-size: 2rem; text-transform: uppercase; letter-spacing: 0.02em; }
 /* Full name reads as a subtitle under the big nickname — muted and
    italic, clearly secondary, not competing with it. */
-.perfil-nombre-completo { color: var(--muted-alt); font-style: italic; font-size: 1.05rem; margin: 0 0 0.7rem; }
+.perfil-nombre-completo { color: var(--muted-alt); font-style: italic; font-size: 1.05rem; margin: 0 0 0.4rem; }
 /* Debut/Cumpleaños — label (small, muted, uppercase, like a table
    header) + value (bold white, larger) instead of one flat line of
    plain text, so the actual data — 2010, Octubre 2 — is what the eye
@@ -239,7 +239,7 @@ main.wide { max-width: 1400px; }
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin: 0.35rem 0;
+  margin: 0.25rem 0;
 }
 .perfil-valor {
   color: var(--white);
@@ -254,7 +254,7 @@ main.wide { max-width: 1400px; }
    smaller since this sits inline with a text-heavy column rather than
    as its own footer band. Empty (no accounts entered) collapses to
    nothing via the parent's own margin rules, no placeholder shown. */
-.perfil-social { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+.perfil-social { display: flex; gap: 0.5rem; margin-top: 0.35rem; }
 .perfil-social img { width: 28px; height: 28px; display: block; border-radius: 6px; }
 
 /* Badges — a plain flex-wrap grid (unlike Plantel's fixed 4-column
