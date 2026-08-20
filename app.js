@@ -325,7 +325,7 @@
     var badge = document.getElementById('site-badge-btn');
     if (badge) {
       badge.addEventListener('click', function () {
-        if (location.hash) location.hash = '';
+        location.hash = 'inicio';
         activateSection_('inicio');
       });
     }
@@ -755,12 +755,14 @@
   function setupSections() {
     document.querySelectorAll('.main-tab-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        // Leaving a profile page via the nav (instead of "Volver") —
-        // clear its hash too, so a later reload doesn't re-route back
-        // into it (routeFromHash_ only ever fires from an actual
-        // hashchange event, but a stale hash would still mis-route the
-        // very next page load).
-        if (location.hash) location.hash = '';
+        // Same instant-render + shareable-hash pattern as the Plantel
+        // cards below: set the hash so every main section has its own
+        // dedicated, shareable/deep-linkable URL (#inicio, #estadisticas,
+        // #plantel, #historia), but still call activateSection_ directly
+        // rather than waiting for the resulting hashchange event, so the
+        // click feels instant. This also naturally overwrites/clears any
+        // stale #jugador/<id> hash left over from a profile page.
+        location.hash = btn.dataset.section;
         activateSection_(btn.dataset.section);
       });
     });
@@ -797,7 +799,7 @@
     var volver = document.getElementById('perfil-volver');
     if (volver) {
       volver.addEventListener('click', function () {
-        if (location.hash) location.hash = '';
+        location.hash = 'plantel';
         activateSection_('plantel');
       });
     }
@@ -805,18 +807,33 @@
     if (location.hash) routeFromHash_();
   }
 
-  /** #jugador/<playerId> is the only hash route this site has — matching
-   * it renders + shows the profile. Any OTHER hash value (including
-   * empty, e.g. the back button leaving a profile, or "Volver" clearing
-   * it) only matters if the profile is what's currently on screen; if
-   * some other section is already showing, there's nothing to do here —
-   * the nav-button and "Volver" handlers already handle their own
-   * section switch directly rather than depending on this firing. */
+  // Every main section has its own dedicated hash now, same idea as
+  // #jugador/<id> — mirrors the .main-tab-btn data-section values 1:1,
+  // so any of these is a shareable/deep-linkable URL straight to that
+  // page (#inicio, #estadisticas, #plantel, #historia).
+  var SECTION_HASHES_ = ['inicio', 'estadisticas', 'plantel', 'historia'];
+
+  /** Two hash shapes matter: #jugador/<playerId> (profile) and a bare
+   * section name (#inicio/#estadisticas/#plantel/#historia). Matching
+   * either renders + shows the right page — used both on initial load
+   * (deep links) and on hashchange (back/forward, or the redundant fire
+   * after a nav click already set the hash directly, see setupSections).
+   * Any OTHER hash value (including empty, e.g. the back button leaving
+   * a profile) only matters if the profile is what's currently on
+   * screen; if some other section is already showing, there's nothing
+   * to do here — the nav-button and "Volver" handlers already handle
+   * their own section switch directly rather than depending on this
+   * firing. */
   function routeFromHash_() {
     var m = /^#jugador\/(.+)$/.exec(location.hash);
     if (m) {
       renderPerfil(decodeURIComponent(m[1]));
       activateSection_('perfil');
+      return;
+    }
+    var name = location.hash.replace(/^#/, '');
+    if (SECTION_HASHES_.indexOf(name) !== -1) {
+      activateSection_(name);
     } else if (document.getElementById('section-perfil').classList.contains('active')) {
       activateSection_('plantel');
     }

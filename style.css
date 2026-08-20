@@ -142,12 +142,35 @@ body {
   border-color: var(--white);
   font-weight: 600;
 }
+/* Main nav's active state drops the border (bold text alone is enough
+   of a marker there) — kept for the Equipo/Individuales sub-nav, which
+   still uses the shared .tab-btn.active rule above. */
+.main-nav .tab-btn.active { border-color: transparent; }
 /* Home icon — first item in the main nav, reuses the site favicon
    instead of a text label. Padding trimmed from the shared .tab-btn
    rule since an icon needs less breathing room than a text label to
    look balanced next to it. */
 .nav-home-btn { padding: 0.4rem 0.7rem; }
 .nav-home-icon { height: 1.4rem; width: auto; display: block; }
+/* Vertical dividers between main-nav items — a thin line centered in
+   each gap, not on the last item (nothing follows it). Uses
+   --grey-header (the site's main dark grey) rather than --border,
+   which is tuned for light content on a dark card, not dark-on-black
+   here. Positioned via ::before at half the .tabs gap so it sits
+   centered between two buttons regardless of each button's own width. */
+.main-nav .main-tab-btn:not(:last-child) {
+  position: relative;
+}
+.main-nav .main-tab-btn:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -0.375rem;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 1.5rem;
+  background: var(--grey-header);
+}
 
 main { max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
 /* Detailed leaderboard views (per-match or per-era columns) need much
