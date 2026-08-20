@@ -32,7 +32,8 @@
     teamEra: '__all__',      // Equipo tab's own season dropdown — independent of "era" above (Jugadores tab)
     search: '',
     detail: false,           // "Mostrar detalle" toggle — off by default
-    historyDetailPromise: null // lazy-loaded + cached data-history-detail.json fetch
+    historyDetailPromise: null, // lazy-loaded + cached data-history-detail.json fetch
+    charts: {}                // canvas id -> live Chart.js instance, see renderChart_
   };
 
   // ---------------- Color scales ----------------
@@ -91,6 +92,43 @@
   }
   function styleAttr_(hex) {
     return hex ? ' style="background:' + hex + '"' : '';
+  }
+
+  // ---------------- Charts (GF/GC, Equipo tab) ----------------
+  // Both goals charts (all-seasons + per-season-by-jornada) go through
+  // this one helper: destroys any previous Chart.js instance on that
+  // canvas first (re-rendering the same canvas without doing so throws
+  // — Chart.js doesn't allow two live instances on one <canvas>, and
+  // this fires on every era-filter change), then creates the new one.
+  // `state.charts` keys off the canvas id so the two charts' lifecycles
+  // never interfere with each other.
+  function renderChart_(canvasId, config) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === 'undefined') return; // fail open — a CDN hiccup shouldn't break the rest of the tab
+    if (state.charts[canvasId]) state.charts[canvasId].destroy();
+    state.charts[canvasId] = new Chart(canvas.getContext('2d'), config);
+  }
+
+  // Shared look for both charts — dark tooltip/legend text/grid lines to
+  // match the site's own dark theme (Chart.js defaults assume a light
+  // page). GF uses COLORS.scaleBest (blue) and GC uses COLORS.gcColor
+  // (purple) — the exact same two colors the Balance tables already use
+  // for their own GF/GC column scales, so the chart reads as the same
+  // "language" rather than introducing a new color pairing.
+  function chartBaseOptions_() {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#ffffff' } },
+        tooltip: { titleColor: '#ffffff', bodyColor: '#ffffff', backgroundColor: '#000000' }
+      },
+      scales: {
+        x: { ticks: { color: '#9a9a9a' }, grid: { color: 'rgba(255,255,255,0.08)' } },
+        y: { beginAtZero: true, ticks: { color: '#9a9a9a', precision: 0 }, grid: { color: 'rgba(255,255,255,0.08)' } }
+      }
+    };
   }
 
   /** Builds rank/total color-lookup closures for one rendered table's
@@ -1037,11 +1075,13 @@
     document.getElementById('team-message').hidden = true;
     document.getElementById('team-season-detail').hidden = false;
     document.getElementById('team-balance-wrap').hidden = true;
+    document.getElementById('team-goals-chart-wrap').hidden = true;
   }
   function showTeamBalance_() {
     document.getElementById('team-message').hidden = true;
     document.getElementById('team-season-detail').hidden = true;
     document.getElementById('team-balance-wrap').hidden = false;
+    document.getElementById('team-goals-chart-wrap').hidden = false;
   }
   function showTeamMessage_(text) {
     var msg = document.getElementById('team-message');
@@ -1049,6 +1089,7 @@
     msg.hidden = false;
     document.getElementById('team-season-detail').hidden = true;
     document.getElementById('team-balance-wrap').hidden = true;
+    document.getElementById('team-goals-chart-wrap').hidden = true;
   }
 
   /** Main Equipo dispatcher — "Todas" shows the all-time balance table
@@ -1177,6 +1218,31 @@
       return '<td class="val-strong">' + esc(total) + '</td>';
     }).join('');
     tbody.innerHTML += '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
+
+    renderTeamGoalsChart_(rows);
+  }
+
+  /** GF/GC per season — grouped bars, not a line: `rows` is a set of
+   * discrete seasons (17 possible eras, no real continuity between one
+   * and the next the way jornadas within a single season have), so a
+   * line would visually imply a trend connecting them that isn't really
+   * there. `rows` arrives newest-first (same order as the table above);
+   * reversed here so the chart reads oldest -> newest, left to right,
+   * like any normal timeline. */
+  function renderTeamGoalsChart_(rows) {
+    var chronological = rows.slice().reverse();
+    var options = chartBaseOptions_();
+    renderChart_('team-goals-chart', {
+      type: 'bar',
+      data: {
+        labels: chronological.map(function (r) { return formatEraLabel_(r.era); }),
+        datasets: [
+          { label: 'GF', data: chronological.map(function (r) { return Number(r.standings.gf) || 0; }), backgroundColor: COLORS.scaleBest },
+          { label: 'GC', data: chronological.map(function (r) { return Number(r.standings.gc) || 0; }), backgroundColor: COLORS.gcColor }
+        ]
+      },
+      options: options
+    });
   }
 
   /** Renders one season's standings + results — used for both the
@@ -1257,6 +1323,38 @@
           '<td' + styleAttr_(horaColor) + '>' + esc(m.hora) + '</td><td' + styleAttr_(canchaColor) + '>' + esc(m.cancha) + '</td></tr>';
       }).join('');
     }
+
+    renderSeasonGoalsChart_(matches);
+  }
+
+  /** GF/GC per jornada, one season — a line chart (unlike the all-seasons
+   * bar chart above), since jornadas within a single season DO form a
+   * real continuous trend. `matches` already arrives chronological
+   * (J1 first, see readMatchLog_ in dashboard_export.gs), so no
+   * reordering needed here. An empty season (no matches played yet)
+   * still renders — an empty chart, same "nothing to show yet" look as
+   * the empty-state row already in the Resultados table above it. */
+  function renderSeasonGoalsChart_(matches) {
+    // No matches played yet this season — the Resultados table above
+    // already shows its own "Sin partidos jugados todavía" row; an
+    // empty chart underneath it would just be dead space, so hide the
+    // whole chart (title included) instead of rendering one.
+    document.getElementById('season-goals-title').hidden = !matches.length;
+    document.getElementById('season-goals-chart-wrap').hidden = !matches.length;
+    if (!matches.length) return;
+
+    var options = chartBaseOptions_();
+    renderChart_('season-goals-chart', {
+      type: 'line',
+      data: {
+        labels: matches.map(function (m) { return m.jornada; }),
+        datasets: [
+          { label: 'GF', data: matches.map(function (m) { return Number(m.gf) || 0; }), borderColor: COLORS.scaleBest, backgroundColor: COLORS.scaleBest, tension: 0.2 },
+          { label: 'GC', data: matches.map(function (m) { return Number(m.gc) || 0; }), borderColor: COLORS.gcColor, backgroundColor: COLORS.gcColor, tension: 0.2 }
+        ]
+      },
+      options: options
+    });
   }
 
   /** Parses a Hora display value ("10:30") into minutes-since-midnight

@@ -505,6 +505,21 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    the most well-supported scroll pattern in CSS, no table-layout
    sizing ambiguity involved. */
 .table-wrap.compact { display: block; width: fit-content; max-width: 100%; margin: 0 auto; }
+
+/* Goals charts (Equipo tab: GF/GC per season, and per season, per
+   jornada) — same card container language as .table-wrap, but with its
+   own padding since a canvas has no built-in cell padding. Chart.js is
+   configured with maintainAspectRatio: false and fills its container,
+   so this fixed height is what actually controls the chart's height —
+   position: relative is required for Chart.js's own resize handling. */
+.chart-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1rem 1rem;
+  height: 280px;
+  position: relative;
+}
 .table-wrap.compact table { width: auto; }
 /* The leaderboard table already carries its own thick black grid —
    the wrap's soft grey card border/radius on top of that just reads as
@@ -967,6 +982,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   #team-balance-table th, #team-balance-table td {
     padding: 0.45rem 0.4rem;
   }
+  .chart-wrap { height: 220px; padding: 1rem 0.6rem 0.75rem; }
   /* Same issue on the player-side BALANCE view: the base leaderboard
      padding (0.6rem 1.25rem, ID-scoped, line 343) survives the plain
      "th, td" rule above for the same specificity reason, and BALANCE
