@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T04:03:58.631Z",
+  "generatedAt": "2026-08-20T06:13:24.277Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -601,7 +601,9 @@
       "cumpleanos": {
         "mes": 10,
         "dia": 2
-      }
+      },
+      "instagram": "dnlp_7",
+      "twitter": "dnlp7"
     },
     "Sheko": {
       "nombreCompleto": "Sergio Molina",
@@ -610,31 +612,41 @@
       "cumpleanos": {
         "mes": 1,
         "dia": 25
-      }
+      },
+      "instagram": "sheko.molina",
+      "twitter": null
     },
     "Bismark": {
       "nombreCompleto": "Bismark López",
       "posicion": "DEF",
       "debut": "2010",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": "kramsibismark",
+      "twitter": "kramsib"
     },
     "Diego": {
       "nombreCompleto": "Diego Mercado",
       "posicion": "DEF",
       "debut": "2010",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": "merkado",
+      "twitter": "merkadomerkado"
     },
     "Arthie": {
       "nombreCompleto": "Arthie Martínez",
       "posicion": "MED",
       "debut": "2010",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Luis": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2011",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Sergio": {
       "nombreCompleto": "Sergio Alarcón",
@@ -643,19 +655,25 @@
       "cumpleanos": {
         "mes": 9,
         "dia": 16
-      }
+      },
+      "instagram": "smagic10",
+      "twitter": "smagic10"
     },
     "Enrique": {
       "nombreCompleto": "Enrique Pellat",
       "posicion": "MED",
       "debut": "2012",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Orlando": {
       "nombreCompleto": null,
       "posicion": "DEF",
       "debut": "2014",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Mares": {
       "nombreCompleto": "Carlos Mares",
@@ -664,7 +682,9 @@
       "cumpleanos": {
         "mes": 8,
         "dia": 2
-      }
+      },
+      "instagram": "black_dja",
+      "twitter": null
     },
     "Eric": {
       "nombreCompleto": "Eric Chávez",
@@ -673,7 +693,9 @@
       "cumpleanos": {
         "mes": 12,
         "dia": 30
-      }
+      },
+      "instagram": null,
+      "twitter": null
     },
     "Chente": {
       "nombreCompleto": "Vicente Partida",
@@ -682,7 +704,9 @@
       "cumpleanos": {
         "mes": 9,
         "dia": 5
-      }
+      },
+      "instagram": null,
+      "twitter": null
     },
     "Charly": {
       "nombreCompleto": "Carlos Vargas",
@@ -691,7 +715,9 @@
       "cumpleanos": {
         "mes": 11,
         "dia": 7
-      }
+      },
+      "instagram": "carlosenrique.vargas.52",
+      "twitter": null
     },
     "Paco": {
       "nombreCompleto": "Francisco Bravo",
@@ -700,7 +726,9 @@
       "cumpleanos": {
         "mes": 7,
         "dia": 14
-      }
+      },
+      "instagram": "fcobr14",
+      "twitter": null
     },
     "Chuy": {
       "nombreCompleto": "Jesús Hermosillo",
@@ -709,7 +737,9 @@
       "cumpleanos": {
         "mes": 3,
         "dia": 26
-      }
+      },
+      "instagram": "hermosillo2918",
+      "twitter": null
     },
     "Lanuza": {
       "nombreCompleto": "Manuel Lanuza",
@@ -718,7 +748,9 @@
       "cumpleanos": {
         "mes": 10,
         "dia": 16
-      }
+      },
+      "instagram": "manuel.lanuza",
+      "twitter": null
     },
     "Miguel": {
       "nombreCompleto": "Miguel Márquez",
@@ -727,25 +759,33 @@
       "cumpleanos": {
         "mes": 3,
         "dia": 21
-      }
+      },
+      "instagram": null,
+      "twitter": null
     },
     "Omar": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2017",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "David": {
       "nombreCompleto": null,
       "posicion": "DEL",
       "debut": "2017",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Gabo": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2017",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Abraham": {
       "nombreCompleto": "Abraham Moreno",
@@ -754,7 +794,9 @@
       "cumpleanos": {
         "mes": 3,
         "dia": 16
-      }
+      },
+      "instagram": "abmoreno_16",
+      "twitter": "Abraham_Moreno"
     },
     "Mane": {
       "nombreCompleto": "Manuel González",
@@ -763,37 +805,49 @@
       "cumpleanos": {
         "mes": 4,
         "dia": 2
-      }
+      },
+      "instagram": "manedin",
+      "twitter": "manestyle"
     },
     "Wero": {
       "nombreCompleto": null,
       "posicion": "DEF",
       "debut": "2017",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Irving": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2018",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Neto": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2018",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Antonio": {
       "nombreCompleto": null,
       "posicion": "DEL",
       "debut": "2018",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Coco": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2018",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Hector": {
       "nombreCompleto": "Héctor Vázquez",
@@ -802,19 +856,25 @@
       "cumpleanos": {
         "mes": 7,
         "dia": 19
-      }
+      },
+      "instagram": "hectorvazc",
+      "twitter": null
     },
     "Paquito": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2020",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Pavel": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2021",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Ramiro": {
       "nombreCompleto": "Ramiro López",
@@ -823,7 +883,9 @@
       "cumpleanos": {
         "mes": 6,
         "dia": 11
-      }
+      },
+      "instagram": "ramsuzer_711",
+      "twitter": null
     },
     "Rene": {
       "nombreCompleto": null,
@@ -832,19 +894,25 @@
       "cumpleanos": {
         "mes": 7,
         "dia": 4
-      }
+      },
+      "instagram": null,
+      "twitter": null
     },
     "Pablo": {
       "nombreCompleto": null,
       "posicion": "MED",
       "debut": "2024",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Paleta": {
       "nombreCompleto": null,
       "posicion": "POR",
       "debut": "2025",
-      "cumpleanos": null
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Noe": {
       "nombreCompleto": null,
@@ -853,7 +921,9 @@
       "cumpleanos": {
         "mes": 6,
         "dia": 11
-      }
+      },
+      "instagram": null,
+      "twitter": null
     },
     "Alonso": {
       "nombreCompleto": "Alonso Moreno",
@@ -862,7 +932,9 @@
       "cumpleanos": {
         "mes": 2,
         "dia": 28
-      }
+      },
+      "instagram": null,
+      "twitter": null
     }
   },
   "logros": {
