@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T03:51:49.075Z",
+  "generatedAt": "2026-08-20T04:03:58.631Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -869,31 +869,37 @@
     "Daniel": [
       {
         "insignia": "Miembro Fundador",
+        "nivel": 1,
         "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2012/13",
         "imagen": "recopa-2012-13.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -901,31 +907,37 @@
     "Sheko": [
       {
         "insignia": "Miembro Fundador",
+        "nivel": 1,
         "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2012/13",
         "imagen": "recopa-2012-13.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -933,11 +945,13 @@
     "Bismark": [
       {
         "insignia": "Miembro Fundador",
+        "nivel": 1,
         "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2012/13",
         "imagen": "recopa-2012-13.png"
       }
@@ -945,6 +959,7 @@
     "Diego": [
       {
         "insignia": "Miembro Fundador",
+        "nivel": 1,
         "temporada": "2010/11",
         "imagen": "fundador.png"
       }
@@ -952,16 +967,19 @@
     "Arthie": [
       {
         "insignia": "Miembro Fundador",
+        "nivel": 1,
         "temporada": "2010/11",
         "imagen": "fundador.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2012/13",
         "imagen": "recopa-2012-13.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       }
@@ -969,26 +987,31 @@
     "Sergio": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2012/13",
         "imagen": "recopa-2012-13.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -996,6 +1019,7 @@
     "Enrique": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       }
@@ -1003,11 +1027,13 @@
     "Orlando": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       }
@@ -1015,21 +1041,25 @@
     "Mares": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1037,21 +1067,25 @@
     "Eric": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1059,21 +1093,25 @@
     "Chente": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1081,21 +1119,25 @@
     "Charly": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1103,36 +1145,43 @@
     "Paco": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       },
       {
         "insignia": "Lider Goleo",
+        "nivel": 3,
         "temporada": "2026",
         "imagen": "lider-goleo-2024.png"
       },
       {
         "insignia": "Lider Goleo",
+        "nivel": 3,
         "temporada": "2025/26",
         "imagen": "lider-goleo-2024.png"
       },
       {
         "insignia": "Lider Goleo",
+        "nivel": 3,
         "temporada": "2025",
         "imagen": "lider-goleo-2024.png"
       }
@@ -1140,21 +1189,25 @@
     "Chuy": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1162,6 +1215,7 @@
     "Omar": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       }
@@ -1169,21 +1223,25 @@
     "Abraham": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1191,21 +1249,25 @@
     "Mane": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1213,6 +1275,7 @@
     "Wero": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       }
@@ -1220,16 +1283,19 @@
     "Irving": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       }
@@ -1237,6 +1303,7 @@
     "Neto": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       }
@@ -1244,6 +1311,7 @@
     "Antonio": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       }
@@ -1251,6 +1319,7 @@
     "Coco": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
       }
@@ -1258,16 +1327,19 @@
     "Lanuza": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1275,16 +1347,19 @@
     "Hector": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1292,21 +1367,25 @@
     "Ramiro": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       },
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       },
       {
         "insignia": "Lider Goleo",
+        "nivel": 3,
         "temporada": "2024/25",
         "imagen": "lider-goleo-2024.png"
       }
@@ -1314,6 +1393,7 @@
     "Pablo": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
       }
@@ -1321,11 +1401,13 @@
     "Miguel": [
       {
         "insignia": "Campeón Recopa",
+        "nivel": 2,
         "temporada": "2024/25",
         "imagen": "recopa-2024-25.png"
       },
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1333,6 +1415,7 @@
     "Noe": [
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
@@ -1340,6 +1423,7 @@
     "Alonso": [
       {
         "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
       }
