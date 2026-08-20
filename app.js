@@ -1225,23 +1225,20 @@
     renderTeamGoalsChart_(rows);
   }
 
-  /** GF/GC per season — grouped bars, not a line: `rows` is a set of
-   * discrete seasons (17 possible eras, no real continuity between one
-   * and the next the way jornadas within a single season have), so a
-   * line would visually imply a trend connecting them that isn't really
-   * there. `rows` arrives newest-first (same order as the table above);
-   * reversed here so the chart reads oldest -> newest, left to right,
-   * like any normal timeline. */
+  /** GF/GC per season — a line chart, same visual language as the
+   * per-season by-jornada chart below. `rows` arrives newest-first (same
+   * order as the table above); reversed here so the chart reads
+   * oldest -> newest, left to right, like any normal timeline. */
   function renderTeamGoalsChart_(rows) {
     var chronological = rows.slice().reverse();
     var options = chartBaseOptions_();
     renderChart_('team-goals-chart', {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: chronological.map(function (r) { return formatEraLabel_(r.era); }),
         datasets: [
-          { label: 'GF', data: chronological.map(function (r) { return Number(r.standings.gf) || 0; }), backgroundColor: COLORS.scaleBest },
-          { label: 'GC', data: chronological.map(function (r) { return Number(r.standings.gc) || 0; }), backgroundColor: COLORS.gcColor }
+          { label: 'GF', data: chronological.map(function (r) { return Number(r.standings.gf) || 0; }), borderColor: COLORS.scaleBest, backgroundColor: COLORS.scaleBest, tension: 0.2 },
+          { label: 'GC', data: chronological.map(function (r) { return Number(r.standings.gc) || 0; }), borderColor: COLORS.gcColor, backgroundColor: COLORS.gcColor, tension: 0.2 }
         ]
       },
       options: options

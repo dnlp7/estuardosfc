@@ -513,7 +513,7 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    so this fixed height is what actually controls the chart's height —
    position: relative is required for Chart.js's own resize handling. */
 .chart-wrap {
-  background: var(--card);
+  background: var(--grey-header);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem 1rem 1rem;
