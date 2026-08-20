@@ -861,11 +861,23 @@
     document.getElementById('perfil-cumple-row').hidden = !datos.cumpleanos;
     document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '';
 
+    // Nivel ascending, then Temporada ascending — Daniel's own Logros
+    // column (e.g. every Nivel-1 "Miembro Fundador" before any Nivel-2
+    // "Campeón Recopa", oldest season first within the same Nivel). A
+    // badge with no Nivel entered yet (null) sorts to the very end
+    // rather than being guessed into a position.
+    var badgesSorted = badges.slice().sort(function (a, b) {
+      var na = (a.nivel === null || a.nivel === undefined) ? Infinity : a.nivel;
+      var nb = (b.nivel === null || b.nivel === undefined) ? Infinity : b.nivel;
+      if (na !== nb) return na - nb;
+      return String(a.temporada || '').localeCompare(String(b.temporada || ''));
+    });
+
     var insigniasWrap = document.getElementById('perfil-insignias');
-    if (!badges.length) {
+    if (!badgesSorted.length) {
       insigniasWrap.innerHTML = '<p class="detail-message">Sin insignias todavía.</p>';
     } else {
-      insigniasWrap.innerHTML = badges.map(function (b) {
+      insigniasWrap.innerHTML = badgesSorted.map(function (b) {
         var icon = b.imagen
           ? '<img src="images/insignias/' + esc(b.imagen) + '" alt="' + esc(b.insignia) + '">'
           : '<div class="insignia-placeholder">' + esc(b.insignia) + '</div>';
