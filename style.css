@@ -249,6 +249,13 @@ main.wide { max-width: 1400px; }
   letter-spacing: normal;
   margin-left: 0.4rem;
 }
+/* Social links — left-aligned under the info column (not centered like
+   the footer's), same icon assets/sizing as .social-links but a touch
+   smaller since this sits inline with a text-heavy column rather than
+   as its own footer band. Empty (no accounts entered) collapses to
+   nothing via the parent's own margin rules, no placeholder shown. */
+.perfil-social { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+.perfil-social img { width: 28px; height: 28px; display: block; border-radius: 6px; }
 
 /* Badges — a plain flex-wrap grid (unlike Plantel's fixed 4-column
    grid) since a player might have anywhere from zero to a dozen. Each

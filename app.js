@@ -882,6 +882,17 @@
     document.getElementById('perfil-cumple-row').hidden = !datos.cumpleanos;
     document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '';
 
+    // Social links — one icon per site, shown only when that player has
+    // a real handle entered in Datos (see socialHandle_ in
+    // dashboard_export.gs); no account, no icon. Same icon assets and
+    // URL domains as the footer's own team-account links.
+    var socialLinks = [];
+    if (datos.instagram) socialLinks.push({ href: 'https://www.instagram.com/' + encodeURIComponent(datos.instagram), icon: 'instagram.png', label: 'Instagram' });
+    if (datos.twitter) socialLinks.push({ href: 'https://x.com/' + encodeURIComponent(datos.twitter), icon: 'twitter.png', label: 'Twitter' });
+    document.getElementById('perfil-social').innerHTML = socialLinks.map(function (s) {
+      return '<a href="' + esc(s.href) + '" target="_blank" rel="noopener noreferrer"><img src="images/social/' + s.icon + '" alt="' + esc(s.label) + '"></a>';
+    }).join('');
+
     // Nivel ascending, then Temporada ascending — Daniel's own Logros
     // column (e.g. every Nivel-1 "Miembro Fundador" before any Nivel-2
     // "Campeón Recopa", oldest season first within the same Nivel). A
