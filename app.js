@@ -1075,12 +1075,14 @@
     document.getElementById('team-message').hidden = true;
     document.getElementById('team-season-detail').hidden = false;
     document.getElementById('team-balance-wrap').hidden = true;
+    document.getElementById('team-goals-title').hidden = true;
     document.getElementById('team-goals-chart-wrap').hidden = true;
   }
   function showTeamBalance_() {
     document.getElementById('team-message').hidden = true;
     document.getElementById('team-season-detail').hidden = true;
     document.getElementById('team-balance-wrap').hidden = false;
+    document.getElementById('team-goals-title').hidden = false;
     document.getElementById('team-goals-chart-wrap').hidden = false;
   }
   function showTeamMessage_(text) {
@@ -1089,6 +1091,7 @@
     msg.hidden = false;
     document.getElementById('team-season-detail').hidden = true;
     document.getElementById('team-balance-wrap').hidden = true;
+    document.getElementById('team-goals-title').hidden = true;
     document.getElementById('team-goals-chart-wrap').hidden = true;
   }
 
