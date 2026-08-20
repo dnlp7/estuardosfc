@@ -196,6 +196,14 @@
       <div class="insignias-grid" id="perfil-insignias"></div>
 
       <h3>Estadísticas</h3>
+      <div class="stat-selector" id="perfil-stat-selector">
+        <button class="stat-btn active" data-stat="BALANCE">BALANCE</button>
+        <button class="stat-btn" data-stat="GOL">GOL</button>
+        <button class="stat-btn" data-stat="AST">AST</button>
+        <button class="stat-btn" data-stat="PA">PA</button>
+        <button class="stat-btn" data-stat="PI">PI</button>
+      </div>
+
       <div class="table-wrap compact" id="perfil-stats-wrap">
         <table id="perfil-stats-table">
           <thead>
@@ -203,6 +211,11 @@
           </thead>
           <tbody></tbody>
         </table>
+      </div>
+
+      <p id="perfil-stat-message" class="detail-message" hidden></p>
+      <div class="chart-wrap" id="perfil-stat-chart-wrap" hidden>
+        <canvas id="perfil-stat-chart"></canvas>
       </div>
     </section>
   </main>

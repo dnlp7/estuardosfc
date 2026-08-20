@@ -33,7 +33,9 @@
     search: '',
     detail: false,           // "Mostrar detalle" toggle — off by default
     historyDetailPromise: null, // lazy-loaded + cached data-history-detail.json fetch
-    charts: {}                // canvas id -> live Chart.js instance, see renderChart_
+    charts: {},               // canvas id -> live Chart.js instance, see renderChart_
+    perfilNombre: null,       // whichever player's profile is currently rendered — lets the stat selector re-render without needing playerId passed back in
+    perfilStat: 'BALANCE'     // Perfil page's own BALANCE/GOL/AST/PA/PI selector — independent of "stat" above (the Individuales tab's own selector)
   };
 
   // ---------------- Color scales ----------------
@@ -824,6 +826,7 @@
    * — instant on click, with the hash update mainly there for deep
    * links / refresh, not as the trigger. */
   function setupPerfil() {
+    setupPerfilStatSelector_();
     var grid = document.getElementById('plantel-grid');
     if (grid) {
       grid.addEventListener('click', function (e) {
@@ -957,7 +960,51 @@
       }).join('');
     }
 
-    renderPerfilStats_(nombre);
+    // Every fresh profile load resets back to BALANCE — switching
+    // players while a GOL chart is showing would otherwise carry that
+    // selection over to someone whose GOL history looks completely
+    // different, with no visual cue anything changed underneath them.
+    state.perfilNombre = nombre;
+    state.perfilStat = 'BALANCE';
+    resetPerfilStatSelector_();
+    renderPerfilStatsView_(nombre);
+  }
+
+  /** BALANCE shows the existing table; GOL/AST/PA/PI each show a line
+   * chart of that one stat instead — same selector, same #stat-btn
+   * markup as the Estadísticas > Individuales tab, just scoped to its
+   * own #perfil-stat-selector (see setupPerfilStatSelector_). */
+  function renderPerfilStatsView_(nombre) {
+    var isBalance = state.perfilStat === 'BALANCE';
+    document.getElementById('perfil-stats-wrap').hidden = !isBalance;
+    document.getElementById('perfil-stat-chart-wrap').hidden = true; // renderPerfilStatChart_ un-hides it if there's data to show
+    document.getElementById('perfil-stat-message').hidden = true;
+    if (isBalance) {
+      renderPerfilStatsTable_(nombre);
+    } else {
+      renderPerfilStatChart_(nombre, state.perfilStat);
+    }
+  }
+
+  function setupPerfilStatSelector_() {
+    var wrap = document.getElementById('perfil-stat-selector');
+    if (!wrap) return;
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('.stat-btn');
+      if (!btn) return;
+      wrap.querySelectorAll('.stat-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      state.perfilStat = btn.dataset.stat;
+      if (state.perfilNombre) renderPerfilStatsView_(state.perfilNombre);
+    });
+  }
+
+  function resetPerfilStatSelector_() {
+    var wrap = document.getElementById('perfil-stat-selector');
+    if (!wrap) return;
+    wrap.querySelectorAll('.stat-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.stat === 'BALANCE');
+    });
   }
 
   /** Career stats table — same visual language as the BALANCE tab (one
@@ -969,7 +1016,7 @@
    * player actually has a record in — same "blank means not rostered
    * that era" rule used everywhere else, not the union of every era
    * that exists. */
-  function renderPerfilStats_(nombre) {
+  function renderPerfilStatsTable_(nombre) {
     var data = state.data;
     var byEra = {};
     STATS_ORDER.forEach(function (stat) {
@@ -1015,6 +1062,46 @@
     }).join('');
 
     tbody.innerHTML = rowsHtml + '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
+  }
+
+  /** One-line chart of this player's own value for a single stat, one
+   * season at a time — chronological oldest -> newest (data.seasons'
+   * own order, NOT reversed like the table above, since a trend line
+   * reads left-to-right). Same "blank means not rostered that era"
+   * filter as the table. A player with literally no data for this stat
+   * (e.g. AST for someone who only ever played pre-2022/23) gets a
+   * message instead of an empty chart, same pattern as the Equipo tab's
+   * season-goals chart. */
+  function renderPerfilStatChart_(nombre, stat) {
+    var data = state.data;
+    var block = data.stats && data.stats[stat];
+    var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
+    var byEra = (row && row.byEra) || {};
+    var eras = (data.seasons || []).map(function (s) { return s.era; })
+      .filter(function (era) { return byEra[era] !== null && byEra[era] !== undefined; });
+
+    if (!eras.length) {
+      var msg = document.getElementById('perfil-stat-message');
+      msg.textContent = 'Sin datos de ' + (STAT_TITLES[stat] || stat).toLowerCase() + ' para este jugador.';
+      msg.hidden = false;
+      return;
+    }
+
+    document.getElementById('perfil-stat-chart-wrap').hidden = false;
+    renderChart_('perfil-stat-chart', {
+      type: 'line',
+      data: {
+        labels: eras.map(function (era) { return formatEraLabel_(era); }),
+        datasets: [{
+          label: STAT_TITLES[stat] || stat,
+          data: eras.map(function (era) { return Number(byEra[era]) || 0; }),
+          borderColor: COLORS.scaleBest,
+          backgroundColor: COLORS.scaleBest,
+          tension: 0.2
+        }]
+      },
+      options: chartBaseOptions_()
+    });
   }
 
   // ---------------- Tabs ----------------
@@ -1381,10 +1468,16 @@
   }
 
   // ---------------- Historial (leaderboards) ----------------
+  // Scoped to #stat-selector specifically (not a bare global ".stat-btn"
+  // query) — that class is shared with two OTHER, unrelated selectors
+  // (Historia's Jerseys Jugador/Portero toggle, and Perfil's own stat
+  // selector below), which would otherwise also get wired to this exact
+  // handler and have their clicks silently corrupt state.stat/#stat-title
+  // for a page/section they don't even belong to.
   function setupHistorialControls(data) {
-    document.querySelectorAll('.stat-btn').forEach(function (btn) {
+    document.querySelectorAll('#stat-selector .stat-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        document.querySelectorAll('.stat-btn').forEach(function (b) { b.classList.remove('active'); });
+        document.querySelectorAll('#stat-selector .stat-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         state.stat = btn.dataset.stat;
         document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;

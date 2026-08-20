@@ -919,6 +919,11 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   margin-bottom: 1rem;
 }
 .stat-selector { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+/* Perfil page's own stat selector (BALANCE/GOL/AST/PA/PI) sits directly
+   under the "Estadísticas" h3 with no .controls wrapper around it (that
+   class also carries a search box/era filter/toggle this page doesn't
+   have) — just its own bottom margin before the table/chart below. */
+#perfil-stat-selector { margin-bottom: 1rem; }
 .stat-btn {
   background: var(--grey-header);
   border: 1px solid var(--border);
