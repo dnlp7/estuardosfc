@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T06:23:55.078Z",
+  "generatedAt": "2026-08-20T07:49:48.056Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -974,6 +974,72 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2019/20",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2021",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2022",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2022/23",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2023",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2023/24",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2024/25",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2025",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2025/26",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2026",
+        "imagen": "lider-partidos-2024.png"
       }
     ],
     "Sheko": [
@@ -1012,6 +1078,12 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2021",
+        "imagen": "lider-partidos-2019.png"
       }
     ],
     "Bismark": [
@@ -1054,6 +1126,24 @@
         "nivel": 2,
         "temporada": "2018/19",
         "imagen": "recopa-2018-19.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-goleo-2019.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2021",
+        "imagen": "lider-goleo-2019.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-titularidades-2019.png"
       }
     ],
     "Sergio": [
@@ -1086,6 +1176,24 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2022",
+        "imagen": "lider-goleo-2019.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2022/23",
+        "imagen": "lider-goleo-2022.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2023",
+        "imagen": "lider-asistencias-2022.png"
       }
     ],
     "Enrique": [
@@ -1108,6 +1216,12 @@
         "nivel": 2,
         "temporada": "2024",
         "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-titularidades-2019.png"
       }
     ],
     "Mares": [
@@ -1134,6 +1248,24 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2025/26",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2026",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2021",
+        "imagen": "lider-titularidades-2019.png"
       }
     ],
     "Eric": [
@@ -1160,6 +1292,24 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2023/24",
+        "imagen": "lider-titularidades-2022.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2024",
+        "imagen": "lider-titularidades-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2024/25",
+        "imagen": "lider-titularidades-2024.png"
       }
     ],
     "Chente": [
@@ -1212,6 +1362,36 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2024",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-titularidades-2019.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2024/25",
+        "imagen": "lider-titularidades-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2025/26",
+        "imagen": "lider-titularidades-2024.png"
       }
     ],
     "Paco": [
@@ -1242,7 +1422,55 @@
       {
         "insignia": "Lider Goleo",
         "nivel": 3,
-        "temporada": "2026",
+        "temporada": "2017/18",
+        "imagen": "lider-goleo-2018.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2018/19",
+        "imagen": "lider-goleo-2018.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2019",
+        "imagen": "lider-goleo-2018.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2019/20",
+        "imagen": "lider-goleo-2019.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2021/22",
+        "imagen": "lider-goleo-2019.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2023",
+        "imagen": "lider-goleo-2022.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2023/24",
+        "imagen": "lider-goleo-2022.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2024",
+        "imagen": "lider-goleo-2024.png"
+      },
+      {
+        "insignia": "Lider Goleo",
+        "nivel": 3,
+        "temporada": "2025",
         "imagen": "lider-goleo-2024.png"
       },
       {
@@ -1254,8 +1482,32 @@
       {
         "insignia": "Lider Goleo",
         "nivel": 3,
-        "temporada": "2025",
+        "temporada": "2026",
         "imagen": "lider-goleo-2024.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2022/23",
+        "imagen": "lider-asistencias-2022.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2024",
+        "imagen": "lider-asistencias-2024.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2025",
+        "imagen": "lider-asistencias-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2024",
+        "imagen": "lider-titularidades-2024.png"
       }
     ],
     "Chuy": [
@@ -1282,6 +1534,12 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2024/25",
+        "imagen": "lider-asistencias-2024.png"
       }
     ],
     "Omar": [
@@ -1316,6 +1574,48 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2025/26",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2026",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2019/20",
+        "imagen": "lider-titularidades-2019.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2021/22",
+        "imagen": "lider-titularidades-2019.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2023",
+        "imagen": "lider-titularidades-2022.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2025",
+        "imagen": "lider-titularidades-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2026",
+        "imagen": "lider-titularidades-2024.png"
       }
     ],
     "Mane": [
@@ -1342,6 +1642,24 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Lider Partidos",
+        "nivel": 3,
+        "temporada": "2021/22",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2022",
+        "imagen": "lider-titularidades-2019.png"
       }
     ],
     "Wero": [
@@ -1460,6 +1778,42 @@
         "nivel": 3,
         "temporada": "2024/25",
         "imagen": "lider-goleo-2024.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2023/24",
+        "imagen": "lider-asistencias-2022.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2024",
+        "imagen": "lider-asistencias-2024.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2024/25",
+        "imagen": "lider-asistencias-2024.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2025/26",
+        "imagen": "lider-asistencias-2024.png"
+      },
+      {
+        "insignia": "Lider Asistencias",
+        "nivel": 3,
+        "temporada": "2026",
+        "imagen": "lider-asistencias-2024.png"
+      },
+      {
+        "insignia": "Lider Titularidades",
+        "nivel": 3,
+        "temporada": "2022/23",
+        "imagen": "lider-titularidades-2022.png"
       }
     ],
     "Pablo": [
