@@ -233,6 +233,7 @@ main.wide { max-width: 1400px; }
 .plantel-card img { width: 100%; height: auto; display: block; }
 @media (max-width: 640px) {
   .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; }
 }
 
 /* Perfil — one player's profile page, reached only via a Plantel card
@@ -558,16 +559,23 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 #leaderboard-wrap { border: none; border-radius: 0; background: transparent; }
 
 /* Récords tab — Líderes Históricos: one column per stat (GOL/AST/PA/PI),
-   each a short top-5 list, wrapping to fewer columns on a narrow screen
-   the same way .historia-cards does. */
-.records-leaders-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+   short top-5 lists. A plain 2-column grid (not flex-wrap) so it stays
+   visually even regardless of how many cards there are — flex-wrap with
+   a min-width let 3 fit on one row and stranded the 4th alone on its
+   own, which read as lopsided. Same grid reused for .records-highlights-
+   grid below, now that it holds up to 4 cards per group too. */
+.records-leaders-grid, .records-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.records-leaders-grid { margin-bottom: 2.5rem; }
 .record-leader-col {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem 1.25rem;
-  min-width: 200px;
-  flex: 1 1 200px;
 }
 .record-leader-col h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .record-leader-row {
@@ -583,21 +591,23 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 .record-leader-nombre { flex: 1; color: var(--white); }
 .record-leader-total { color: var(--accent-light); font-weight: 700; }
 
-/* Récords tab — the two highlight cards (Goles en un Partido, Racha de
-   Victorias). Same card language as .record-leader-col above, just a
-   two-up grid instead of four, and a bigger headline number since each
+/* Récords tab — "Individuales"/"Equipo" group headers, one step down
+   from the tab's own h3 (which already applies to "Récords" itself). */
+.records-subheading { margin: 1.5rem 0 0.75rem; color: var(--muted-alt); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.records-subheading:first-child { margin-top: 0; }
+
+/* Récords tab — the 8 highlight cards (goals/assists per match/season,
+   individual and team, plus the two streaks). Same card language as
+   .record-leader-col above, just a bigger headline number since each
    card only has one thing to say. */
-.records-highlights-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; }
 .record-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
-  flex: 1 1 280px;
 }
-.record-card h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
-.record-highlight-value { font-size: 2.5rem; font-weight: 700; color: var(--white); line-height: 1; }
-.record-highlight-label { color: var(--muted); font-size: 0.85rem; margin: 0.3rem 0 0.75rem; }
+.record-card h5 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.record-highlight-value { font-size: 2.5rem; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 0.75rem; }
 .record-highlight-entry { font-size: 0.9rem; color: var(--white); padding: 0.35rem 0; border-top: 1px solid var(--border); }
 .record-highlight-entry:first-of-type { border-top: none; }
 .record-highlight-entry .record-highlight-meta { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 0.1rem; }

@@ -1775,7 +1775,10 @@
    * data.stats[stat].players already arrives sorted by all-time total
    * (dorsal-ascending tiebreak) straight from the Apps Script export
    * (writeStatTab_ physically re-sorts the historical doc's own tabs on
-   * every write) — this just takes the first 5 rows as-is. */
+   * every write) — this just takes the first 5 rows as-is. Dorsal isn't
+   * shown here (Daniel: unnecessary, can even be misleading — a
+   * player's dorsal has changed across eras, so printing whichever one
+   * happens to be "current" next to an ALL-TIME total reads oddly). */
   function renderRecordsLeaders_() {
     var data = state.data;
     var wrap = document.getElementById('records-leaders');
@@ -1786,7 +1789,7 @@
       var rowsHtml = top.length
         ? top.map(function (p, i) {
             return '<div class="record-leader-row"><span class="record-leader-rank">' + (i + 1) + '</span>' +
-              '<span class="record-leader-nombre">' + esc(p.dorsal) + ' ' + esc(p.nombre) + '</span>' +
+              '<span class="record-leader-nombre">' + esc(p.nombre) + '</span>' +
               '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
           }).join('')
         : '<p class="detail-message">Sin datos.</p>';
@@ -1797,7 +1800,9 @@
   /** Every era's own match log (RES), keyed by era — current season's
    * straight from data.json, every older era's from the lazily-fetched
    * historyData.equipo (no entry at all for the 3 legacy-only eras,
-   * which never had a season doc / RES tab to begin with). */
+   * which never had a season doc / RES tab to begin with). Shared by
+   * every match-level record below (team goals, both streaks) and the
+   * Equipo tab's own all-time balance table. */
   function allEraMatches_(historyData) {
     var data = state.data;
     var byEra = {};
@@ -1813,42 +1818,44 @@
     return byEra;
   }
 
-  /** Every era's own GOL match-detail block (columns + per-player
-   * byMatch), keyed by era — current season's from data.detail, every
-   * older era's (the 3 legacy-only eras included — GOL is the one stat
-   * that covers those) from the lazily-fetched historyData.eras. */
-  function allEraGolDetail_(historyData) {
+  /** Every era's own per-match detail block for one stat (columns +
+   * per-player byMatch) — GOL or AST, keyed by era. Current season's
+   * from data.detail[stat], every older era's from the lazily-fetched
+   * historyData.eras[era][stat] (GOL only for the 3 legacy-only eras —
+   * AST simply has no entry there, same as everywhere else in this
+   * project AST predates 2022/23). */
+  function allEraStatDetail_(historyData, stat) {
     var data = state.data;
     var byEra = {};
     (data.seasons || []).forEach(function (s) {
       var era = s.era;
-      if (data.currentSeason && era === data.currentSeason.era && data.detail && data.detail.GOL) {
-        byEra[era] = data.detail.GOL;
+      if (data.currentSeason && era === data.currentSeason.era && data.detail && data.detail[stat]) {
+        byEra[era] = data.detail[stat];
         return;
       }
-      var e = historyData && historyData.eras && historyData.eras[era] && historyData.eras[era].GOL;
+      var e = historyData && historyData.eras && historyData.eras[era] && historyData.eras[era][stat];
       if (e) byEra[era] = e;
     });
     return byEra;
   }
 
-  /** Highest single-match GOL value across every era, every real player
-   * ([Default]/[Autogoles] utility rows excluded — a team-credit goal
-   * isn't a player's own record). Every tie at the max gets its own
-   * entry. Match context (rival/fecha) comes from a jornada-prefix join
-   * against that era's own RES matches (allEraMatches_, same join
-   * convention detailColumnIndex_ already uses elsewhere) — falls back
-   * to the raw "J1 MAP"-style column text when there's no matches list
-   * to join against at all (the 3 legacy-only eras, which have GOL
-   * detail but never had a RES tab). */
-  function mostGoalsInMatchRecord_(historyData) {
-    var golByEra = allEraGolDetail_(historyData);
+  /** Highest single-match value for one player stat (GOL or AST) across
+   * every era, every real player ([Default]/[Autogoles] utility rows
+   * excluded — a team-credit goal isn't a player's own record). Every
+   * tie at the max gets its own entry. Match context (rival/fecha) comes
+   * from a jornada-prefix join against that era's own RES matches
+   * (allEraMatches_, same join convention detailColumnIndex_ already
+   * uses elsewhere) — falls back to the raw "J1 MAP"-style column text
+   * when there's no matches list to join against at all (GOL's 3
+   * legacy-only eras, which have match detail but never had a RES tab). */
+  function mostStatInMatchRecord_(historyData, stat) {
+    var detailByEra = allEraStatDetail_(historyData, stat);
     var matchesByEra = allEraMatches_(historyData);
-    var best = []; // [{nombre, dorsal, era, valor, columnIdx}]
+    var best = []; // [{nombre, era, valor, columnIdx}]
     var max = 0;
 
-    Object.keys(golByEra).forEach(function (era) {
-      var block = golByEra[era];
+    Object.keys(detailByEra).forEach(function (era) {
+      var block = detailByEra[era];
       if (!block || !block.columns || !block.players) return;
       block.players.forEach(function (p) {
         if (p.isUtility) return;
@@ -1856,7 +1863,7 @@
           var n = Number(v);
           if (!n || isNaN(n)) return;
           if (n > max) { max = n; best = []; }
-          if (n === max) best.push({ nombre: p.nombre, dorsal: p.dorsal, era: era, valor: n, columnIdx: idx });
+          if (n === max) best.push({ nombre: p.nombre, era: era, valor: n, columnIdx: idx });
         });
       });
     });
@@ -1864,23 +1871,94 @@
     return {
       max: max,
       entries: best.map(function (b) {
-        var column = golByEra[b.era].columns[b.columnIdx];
+        var column = detailByEra[b.era].columns[b.columnIdx];
         var jornada = String(column.partido || '').split(' ')[0];
         var matches = matchesByEra[b.era] || [];
         var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
         var label = match ? ('vs ' + match.rival + ' — ' + formatFechaCorta_(match.fecha)) : column.partido;
-        return { nombre: b.nombre, dorsal: b.dorsal, era: b.era, valor: b.valor, matchLabel: label };
+        return { nombre: b.nombre, era: b.era, valor: b.valor, matchLabel: label };
       })
     };
   }
 
-  /** Longest run of consecutive wins ('g') across the FULL chronological
-   * match history — every era in data.seasons order, each era's own
-   * matches already jornada-ordered (the 3 legacy-only eras contribute
-   * nothing, allEraMatches_ never has a real entry for them). Every
-   * streak tied at the max length gets its own entry, not just the
-   * first/most recent one found. */
-  function longestWinStreakRecord_(historyData) {
+  /** Highest SEASON total for one player stat (GOL or AST) — this one
+   * needs no historical-detail fetch at all, data.stats[stat].players[]
+   * .byEra already holds every era's totals straight from the main
+   * data.json. Computed alongside the fetch-dependent records anyway
+   * (see renderRecordsHighlights_) purely so the whole Récords section
+   * pops in together instead of some cards appearing before others. */
+  function mostStatInSeasonRecord_(stat) {
+    var data = state.data;
+    var block = data.stats && data.stats[stat];
+    var best = []; // [{nombre, era, valor}]
+    var max = 0;
+    if (block) {
+      block.players.forEach(function (p) {
+        Object.keys(p.byEra || {}).forEach(function (era) {
+          var n = Number(p.byEra[era]);
+          if (!n || isNaN(n)) return;
+          if (n > max) { max = n; best = []; }
+          if (n === max) best.push({ nombre: p.nombre, era: era, valor: n });
+        });
+      });
+    }
+    return { max: max, entries: best.map(function (b) { return { nombre: b.nombre, era: b.era }; }) };
+  }
+
+  /** Highest single-match team GF across every era — same join as
+   * mostStatInMatchRecord_ but reading straight off each match's own gf
+   * field (allEraMatches_), no per-player detail involved. */
+  function mostTeamGoalsInMatchRecord_(historyData) {
+    var matchesByEra = allEraMatches_(historyData);
+    var best = []; // [{era, match}]
+    var max = 0;
+    Object.keys(matchesByEra).forEach(function (era) {
+      matchesByEra[era].forEach(function (m) {
+        var n = Number(m.gf);
+        if (!n || isNaN(n)) return;
+        if (n > max) { max = n; best = []; }
+        if (n === max) best.push({ era: era, match: m });
+      });
+    });
+    return {
+      max: max,
+      entries: best.map(function (b) {
+        return { era: b.era, matchLabel: 'vs ' + b.match.rival + ' — ' + formatFechaCorta_(b.match.fecha) };
+      })
+    };
+  }
+
+  /** Highest SEASON team GF total — reuses buildTeamBalanceRows_ (the
+   * exact same all-time-balance computation the Equipo tab's own "Todas
+   * las temporadas" table already does), rather than re-deriving
+   * standings a second way. */
+  function mostTeamGoalsInSeasonRecord_(historyData) {
+    var data = state.data;
+    var eras = (data.stats.PA ? data.stats.PA.eras : []).slice().reverse();
+    var rows = buildTeamBalanceRows_(data, eras, historyData);
+    var best = []; // [era, ...]
+    var max = 0;
+    rows.forEach(function (r) {
+      var n = Number(r.standings.gf);
+      if (!n || isNaN(n)) return;
+      if (n > max) { max = n; best = []; }
+      if (n === max) best.push(r.era);
+    });
+    return { max: max, entries: best.map(function (era) { return { era: era }; }) };
+  }
+
+  /** Longest run of consecutive matches satisfying `matchOk` (a function
+   * of the resultado letter) across the FULL chronological match history
+   * — every era in data.seasons order, each era's own matches already
+   * jornada-ordered (the 3 legacy-only eras contribute nothing,
+   * allEraMatches_ never has a real entry for them). Every streak tied
+   * at the max length gets its own entry, not just the first/most recent
+   * one found. Shared by the win-streak and unbeaten-streak records
+   * below — rival names deliberately left out of the range label
+   * (Daniel: showing just the two EDGE matches' rivals doesn't convey
+   * anything about the whole streak and just clutters the read), so it's
+   * only ever era + jornada. */
+  function longestStreakRecord_(historyData, matchOk) {
     var data = state.data;
     var matchesByEra = allEraMatches_(historyData);
     var all = [];
@@ -1891,7 +1969,7 @@
     var streaks = [];
     var current = null;
     all.forEach(function (entry) {
-      if (entry.match.resultado === 'g') {
+      if (matchOk(entry.match.resultado)) {
         if (!current) current = { length: 0, start: entry };
         current.length++;
         current.end = entry;
@@ -1908,18 +1986,28 @@
     return {
       max: max,
       entries: top.map(function (s) {
-        var startLabel = formatEraLabel_(s.start.era) + ' · ' + s.start.match.jornada + ' vs ' + s.start.match.rival;
-        var endLabel = formatEraLabel_(s.end.era) + ' · ' + s.end.match.jornada + ' vs ' + s.end.match.rival;
+        var startLabel = formatEraLabel_(s.start.era) + ' · ' + s.start.match.jornada;
+        var endLabel = formatEraLabel_(s.end.era) + ' · ' + s.end.match.jornada;
         return { length: s.length, rangeLabel: s.start === s.end ? startLabel : (startLabel + ' → ' + endLabel) };
       })
     };
   }
 
-  /** The two highlight cards — needs the full historical detail
-   * (data-history-detail.json), lazily fetched (and cached) the same
-   * way the Equipo tab's all-time balance / Individuales' older-era
-   * detail view already do. Shows a loading message meanwhile; Líderes
-   * Históricos above it doesn't depend on this at all (see
+  function longestWinStreakRecord_(historyData) {
+    return longestStreakRecord_(historyData, function (r) { return r === 'g'; });
+  }
+  function longestUnbeatenStreakRecord_(historyData) {
+    return longestStreakRecord_(historyData, function (r) { return r !== 'p'; });
+  }
+
+  /** All 8 highlight cards — the team/season records and both streaks
+   * need the full historical detail (data-history-detail.json), lazily
+   * fetched (and cached) the same way the Equipo tab's all-time balance
+   * / Individuales' older-era detail view already do; the two season-
+   * total player records don't strictly need it (see
+   * mostStatInSeasonRecord_) but are computed here too anyway so the
+   * whole section renders together rather than in two visible waves.
+   * Líderes Históricos above all this doesn't depend on any of it (see
    * renderRecordsLeaders_, called once at init()), so it's already on
    * screen while this is still loading. */
   function renderRecordsHighlights_() {
@@ -1932,23 +2020,26 @@
 
     fetchHistoryDetail()
       .then(function (historyData) {
-        var goles = mostGoalsInMatchRecord_(historyData);
-        var racha = longestWinStreakRecord_(historyData);
-
-        document.getElementById('record-goles-partido').innerHTML = goles.max
-          ? '<div class="record-highlight-value">' + esc(goles.max) + '</div>' +
-            '<p class="record-highlight-label">goles en un partido</p>' +
-            goles.entries.map(function (e) {
-              return '<div class="record-highlight-entry">' + esc(e.dorsal) + ' ' + esc(e.nombre) +
-                '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' — ' + esc(e.matchLabel) + '</span></div>';
-            }).join('')
-          : '<p class="detail-message">Sin datos.</p>';
-
-        document.getElementById('record-racha').innerHTML = racha.max
-          ? '<div class="record-highlight-value">' + esc(racha.max) + '</div>' +
-            '<p class="record-highlight-label">' + (racha.max === 1 ? 'triunfo consecutivo' : 'triunfos consecutivos') + '</p>' +
-            racha.entries.map(function (e) { return '<div class="record-highlight-entry">' + esc(e.rangeLabel) + '</div>'; }).join('')
-          : '<p class="detail-message">Sin datos.</p>';
+        renderRecordCard_('record-goles-partido', mostStatInMatchRecord_(historyData, 'GOL'), function (e) {
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' — ' + esc(e.matchLabel) + '</span>';
+        });
+        renderRecordCard_('record-goles-temporada', mostStatInSeasonRecord_('GOL'), function (e) {
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+        });
+        renderRecordCard_('record-asistencias-partido', mostStatInMatchRecord_(historyData, 'AST'), function (e) {
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' — ' + esc(e.matchLabel) + '</span>';
+        });
+        renderRecordCard_('record-asistencias-temporada', mostStatInSeasonRecord_('AST'), function (e) {
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+        });
+        renderRecordCard_('record-goles-partido-equipo', mostTeamGoalsInMatchRecord_(historyData), function (e) {
+          return esc(formatEraLabel_(e.era)) + ' — ' + esc(e.matchLabel);
+        });
+        renderRecordCard_('record-goles-temporada-equipo', mostTeamGoalsInSeasonRecord_(historyData), function (e) {
+          return esc(formatEraLabel_(e.era));
+        });
+        renderRecordCard_('record-racha', longestWinStreakRecord_(historyData), function (e) { return esc(e.rangeLabel); });
+        renderRecordCard_('record-invicto', longestUnbeatenStreakRecord_(historyData), function (e) { return esc(e.rangeLabel); });
 
         msg.hidden = true;
         grid.hidden = false;
@@ -1957,6 +2048,20 @@
         msg.textContent = 'No se pudo cargar el detalle histórico.';
         console.error(err);
       });
+  }
+
+  /** Shared renderer for one record card's content: the big headline
+   * number, then one .record-highlight-entry per tied record-holder (via
+   * `entryHtml`) — no separate "goles en un partido"-style label under
+   * the number, since the card's own <h5> title already says exactly
+   * that (Daniel: redundant). */
+  function renderRecordCard_(elId, record, entryHtml) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    el.innerHTML = record.max
+      ? '<div class="record-highlight-value">' + esc(record.max) + '</div>' +
+        record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')
+      : '<p class="detail-message">Sin datos.</p>';
   }
 
   /** BALANCE — a fifth, always-simple view: every player's total across
