@@ -1,0 +1,22 @@
+{
+  "name": "Estuardos FC",
+  "short_name": "Estuardos FC",
+  "description": "Estadísticas, resultados y plantel de Estuardos FC.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#062225",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "images/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
