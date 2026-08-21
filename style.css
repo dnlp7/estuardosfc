@@ -32,11 +32,18 @@
   --card: var(--grey-cell);
   --border: #444444;
   --text: var(--white);
-  --muted: #9a9a9a;
+  /* Both muted tones nudged slightly lighter than their original values
+     (#9a9a9a / #668a8e) after a contrast audit — the originals sat just
+     under 4.5:1 (WCAG AA for normal-size text) against their real
+     backgrounds (muted on --card, muted-alt on --bg), close enough to
+     read fine but not quite passing. These clear 4.5:1 with real margin
+     against every background they're actually used on, at a difference
+     small enough not to change the look. */
+  --muted: #9e9e9e;
   /* A second, distinct muted tone — Perfil's secondary text (full name,
      Debut/Cumpleaños labels) and the footer's "last updated" line only,
      not a replacement for --muted everywhere else. */
-  --muted-alt: #668a8e;
+  --muted-alt: #6f9599;
   --accent: var(--accent-light);
   /* Win/draw/loss — used directly as the Results table's R column and
      the leaderboard's result-bar row (.result-chip-g/p/e,
@@ -229,7 +236,20 @@ main.wide { max-width: 1400px; }
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
-.plantel-card { display: block; cursor: pointer; }
+/* A real <button> now (see app.js) — reset back to the plain, unstyled
+   look it had as a <div>, since none of a button's default chrome
+   (background, border, padding, centered text) is wanted here. */
+.plantel-card {
+  display: block;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  width: 100%;
+  font: inherit;
+}
 .plantel-card img { width: 100%; height: auto; display: block; }
 @media (max-width: 640px) {
   .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
@@ -374,6 +394,21 @@ main.wide { max-width: 1400px; }
 .partido-col h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
 .partido-col h4:not(:first-child) { margin-top: 1.25rem; }
 .partido-lista { color: var(--white); font-size: 1.15rem; margin: 0; line-height: 1.5; }
+
+/* "Ver todos los resultados" — Último Partido's own link into the
+   Equipo tab for this season (see renderUltimoPartido_). Right-aligned
+   under the two columns, small and secondary — this card's own content
+   is still the main event, this is just a way out of it. */
+.partido-ver-todos {
+  display: block;
+  text-align: right;
+  margin-top: 1.25rem;
+  color: var(--accent-light);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.partido-ver-todos:hover { text-decoration: underline; }
 
 .partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .jugador-card { width: 76px; text-align: center; }

@@ -316,7 +316,7 @@
   var historiaJerseyTipo_ = 'Jugador'; // Jugador open by default
 
   function historiaCardHtml_(imgPath, title, subtitle) {
-    return '<div class="historia-card"><img src="' + imgPath + '" alt="' + esc(title) + '">' +
+    return '<div class="historia-card"><img src="' + imgPath + '" alt="' + esc(title) + '" loading="lazy">' +
       '<div class="historia-card-title">' + esc(title) + '</div>' +
       (subtitle ? '<div class="historia-card-subtitle">' + esc(subtitle) + '</div>' : '') +
       '</div>';
@@ -648,8 +648,31 @@
       '<div class="partido-columnas">' +
         '<div class="partido-col">' + colIzquierdaHtml + '</div>' +
         '<div class="partido-col">' + golesHtml + asistHtml + '</div>' +
-      '</div>';
+      '</div>' +
+      '<a href="#estadisticas" class="partido-ver-todos" id="ultimo-partido-ver-todos">Ver todos los resultados →</a>';
     card.innerHTML = html;
+
+    // A real <a href="#estadisticas"> — works with no JS at all (lands
+    // on the right top-level section via routeFromHash_) and is
+    // keyboard/middle-click friendly. The click handler layers the
+    // extra state routeFromHash_ doesn't know about on top: which
+    // Estadísticas sub-tab (Equipo) and which season (this card's own
+    // era) to land on — same "drive it directly, hash is for deep-
+    // link/refresh" pattern used by the Plantel cards and main nav.
+    var verTodosLink = document.getElementById('ultimo-partido-ver-todos');
+    if (verTodosLink) {
+      verTodosLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        var era = data.currentSeason.era;
+        var select = document.getElementById('team-era-filter');
+        if (select) select.value = era;
+        state.teamEra = era;
+        renderEquipo();
+        activateEstadisticasTab_('temporada');
+        location.hash = 'estadisticas';
+        activateSection_('estadisticas');
+      });
+    }
   }
 
   /** Próximo Partido — reads straight off data.currentSeason.proximo
@@ -738,8 +761,11 @@
       return (Number(a.dorsal) || 0) - (Number(b.dorsal) || 0);
     }).map(function (p) {
       var img = 'images/plantel/' + p.playerId + '.jpg';
-      return '<div class="plantel-card" data-player-id="' + esc(p.playerId) + '">' +
-        '<img src="' + img + '" alt="' + esc(p.nombre) + '" loading="lazy"></div>';
+      // A real <button>, not a clickable <div> — free keyboard focus/
+      // activation (Tab + Enter/Space) and correct screen-reader role,
+      // rather than needing a hand-rolled tabindex + keydown handler.
+      return '<button type="button" class="plantel-card" data-player-id="' + esc(p.playerId) + '" aria-label="Ver perfil de ' + esc(p.nombre) + '">' +
+        '<img src="' + img + '" alt="" loading="lazy"></button>';
     }).join('');
     return '<section class="plantel-section"><h3>' + esc(titulo) + '</h3>' +
       '<div class="plantel-cards-grid">' + cards + '</div></section>';
@@ -963,7 +989,7 @@
     } else {
       insigniasWrap.innerHTML = badgesSorted.map(function (b) {
         var icon = b.imagen
-          ? '<img src="images/insignias/' + esc(b.imagen) + '" alt="' + esc(b.insignia) + '">'
+          ? '<img src="images/insignias/' + esc(b.imagen) + '" alt="' + esc(b.insignia) + '" loading="lazy">'
           : '<div class="insignia-placeholder">' + esc(b.insignia) + '</div>';
         return '<div class="insignia-card">' + icon +
           '<div class="insignia-label">' + esc(b.insignia) + '</div>' +
@@ -1140,42 +1166,50 @@
   }
 
   // ---------------- Tabs ----------------
+  /** Switches the Estadísticas sub-nav to `tab` ('temporada'/'historial'/
+   * 'records') — pulled out of setupTabs()'s click handler so anything
+   * else that needs to land on a specific sub-tab programmatically (see
+   * the Inicio card's "Ver todos los resultados" link) can call this
+   * directly instead of having to simulate a click on the right button. */
+  function activateEstadisticasTab_(tab) {
+    document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+    document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+    document.getElementById('tab-' + tab).classList.add('active');
+    // The "wide" layout (setWideLayout, called from renderLeaderboard)
+    // lives on <main> — shared by both tab panels, since a panel can
+    // never render wider than its own parent — rather than scoped to
+    // #tab-historial specifically. It's only ever meant for the
+    // Jugadores detail view, so switching tabs must explicitly
+    // resync it: otherwise leaving "Mostrar detalle" enabled on
+    // Jugadores keeps <main> stretched to 1400px even after
+    // switching to Equipo, stretching its tables/gaps too. Same
+    // boolean renderLeaderboard() itself uses for setWideLayout.
+    document.querySelector('main').classList.toggle('wide', tab === 'historial' && state.detail);
+    // The leaderboard's very first render happens in init(), before
+    // the user has clicked any tab — if "Jugadores" isn't the
+    // default active tab, that render happens while it's still
+    // display: none, so syncStickyOffsets_'s width measurement
+    // returns 0 (see its own visibility guard) and never gets a
+    // real value. Re-measuring now that this tab is actually
+    // visible catches that case, and is a harmless no-op otherwise
+    // (re-measuring an already-correct value doesn't change it).
+    syncStickyOffsets_();
+
+    // Récords' two highlight cards need the full historical detail
+    // (data-history-detail.json) — lazily fetched (and cached) the
+    // same way as the Equipo tab's all-time balance / Individuales'
+    // "Mostrar detalle" older-era view. Líderes Históricos above it
+    // doesn't need this fetch at all (already rendered once at
+    // init(), see renderRecordsLeaders_) so it shows instantly even
+    // while this one's still loading.
+    if (tab === 'records') renderRecordsHighlights_();
+  }
+
   function setupTabs() {
     document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (b) { b.classList.remove('active'); });
-        document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
-        btn.classList.add('active');
-        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        // The "wide" layout (setWideLayout, called from renderLeaderboard)
-        // lives on <main> — shared by both tab panels, since a panel can
-        // never render wider than its own parent — rather than scoped to
-        // #tab-historial specifically. It's only ever meant for the
-        // Jugadores detail view, so switching tabs must explicitly
-        // resync it: otherwise leaving "Mostrar detalle" enabled on
-        // Jugadores keeps <main> stretched to 1400px even after
-        // switching to Equipo, stretching its tables/gaps too. Same
-        // boolean renderLeaderboard() itself uses for setWideLayout.
-        document.querySelector('main').classList.toggle('wide', btn.dataset.tab === 'historial' && state.detail);
-        // The leaderboard's very first render happens in init(), before
-        // the user has clicked any tab — if "Jugadores" isn't the
-        // default active tab, that render happens while it's still
-        // display: none, so syncStickyOffsets_'s width measurement
-        // returns 0 (see its own visibility guard) and never gets a
-        // real value. Re-measuring now that this tab is actually
-        // visible catches that case, and is a harmless no-op otherwise
-        // (re-measuring an already-correct value doesn't change it).
-        syncStickyOffsets_();
-
-        // Récords' two highlight cards need the full historical detail
-        // (data-history-detail.json) — lazily fetched (and cached) the
-        // same way as the Equipo tab's all-time balance / Individuales'
-        // "Mostrar detalle" older-era view. Líderes Históricos above it
-        // doesn't need this fetch at all (already rendered once at
-        // init(), see renderRecordsLeaders_) so it shows instantly even
-        // while this one's still loading.
-        if (btn.dataset.tab === 'records') renderRecordsHighlights_();
-      });
+      btn.addEventListener('click', function () { activateEstadisticasTab_(btn.dataset.tab); });
     });
   }
 
