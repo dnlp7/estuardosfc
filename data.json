@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T07:56:24.684Z",
+  "generatedAt": "2026-08-21T04:34:28.950Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -1616,6 +1616,12 @@
         "nivel": 3,
         "temporada": "2026",
         "imagen": "lider-titularidades-2024.png"
+      },
+      {
+        "insignia": "Capitán",
+        "nivel": 1,
+        "temporada": "",
+        "imagen": "capitan.png"
       }
     ],
     "Mane": [
