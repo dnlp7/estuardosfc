@@ -970,10 +970,12 @@
     renderPerfilStatsView_(nombre);
   }
 
-  /** BALANCE shows the existing table; GOL/AST/PA/PI each show a line
-   * chart of that one stat instead — same selector, same #stat-btn
-   * markup as the Estadísticas > Individuales tab, just scoped to its
-   * own #perfil-stat-selector (see setupPerfilStatSelector_). */
+  /** BALANCE shows the existing table; GOL_AST and PA_PI each show a
+   * two-line chart of that pair instead (goals+assists, attendance+
+   * starts — related numbers worth comparing side by side) — same
+   * selector look, same .stat-btn markup as the Estadísticas >
+   * Individuales tab, just scoped to its own #perfil-stat-selector (see
+   * setupPerfilStatSelector_). */
   function renderPerfilStatsView_(nombre) {
     var isBalance = state.perfilStat === 'BALANCE';
     document.getElementById('perfil-stats-wrap').hidden = !isBalance;
@@ -982,7 +984,11 @@
     if (isBalance) {
       renderPerfilStatsTable_(nombre);
     } else {
-      renderPerfilStatChart_(nombre, state.perfilStat);
+      // "GOL_AST" / "PA_PI" -> ['GOL','AST'] / ['PA','PI'] — the two
+      // pairs are shown together (one line each) since they're related
+      // numbers a player/coach would naturally want to compare, rather
+      // than as four separate single-line tabs.
+      renderPerfilStatChart_(nombre, state.perfilStat.split('_'));
     }
   }
 
@@ -1064,25 +1070,39 @@
     tbody.innerHTML = rowsHtml + '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
   }
 
-  /** One-line chart of this player's own value for a single stat, one
-   * season at a time — chronological oldest -> newest (data.seasons'
-   * own order, NOT reversed like the table above, since a trend line
-   * reads left-to-right). Same "blank means not rostered that era"
-   * filter as the table. A player with literally no data for this stat
-   * (e.g. AST for someone who only ever played pre-2022/23) gets a
-   * message instead of an empty chart, same pattern as the Equipo tab's
-   * season-goals chart. */
-  function renderPerfilStatChart_(nombre, stat) {
+  // Same blue/purple pairing GF/GC already use everywhere else on the
+  // site — first stat in the pair gets blue, second gets purple, so the
+  // "two related lines together" visual language stays consistent site-
+  // wide rather than inventing a new color pairing just for this chart.
+  var PERFIL_CHART_COLORS_ = [COLORS.scaleBest, COLORS.gcColor];
+
+  /** Line chart of this player's own value across seasons, one line per
+   * stat in `stats` (1 or 2 codes, e.g. ['GOL','AST']) — chronological
+   * oldest -> newest (data.seasons' own order, NOT reversed like the
+   * table above, since a trend line reads left-to-right). The x-axis is
+   * the UNION of eras either stat has real data for, so e.g. GOL's full
+   * history still shows even though AST only starts at 2022/23 — a stat
+   * with no value for a given era is plotted as null (a real gap in
+   * that line, not a false 0), same "blank means not rostered that era"
+   * rule as the table. A pair with NO data at all for either stat gets
+   * a message instead of an empty chart, same pattern as the Equipo
+   * tab's season-goals chart. */
+  function renderPerfilStatChart_(nombre, stats) {
     var data = state.data;
-    var block = data.stats && data.stats[stat];
-    var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
-    var byEra = (row && row.byEra) || {};
+    var byEraPerStat = stats.map(function (stat) {
+      var block = data.stats && data.stats[stat];
+      var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
+      return (row && row.byEra) || {};
+    });
+
     var eras = (data.seasons || []).map(function (s) { return s.era; })
-      .filter(function (era) { return byEra[era] !== null && byEra[era] !== undefined; });
+      .filter(function (era) {
+        return byEraPerStat.some(function (byEra) { return byEra[era] !== null && byEra[era] !== undefined; });
+      });
 
     if (!eras.length) {
       var msg = document.getElementById('perfil-stat-message');
-      msg.textContent = 'Sin datos de ' + (STAT_TITLES[stat] || stat).toLowerCase() + ' para este jugador.';
+      msg.textContent = 'Sin datos de ' + stats.join('/') + ' para este jugador.';
       msg.hidden = false;
       return;
     }
@@ -1092,13 +1112,17 @@
       type: 'line',
       data: {
         labels: eras.map(function (era) { return formatEraLabel_(era); }),
-        datasets: [{
-          label: STAT_TITLES[stat] || stat,
-          data: eras.map(function (era) { return Number(byEra[era]) || 0; }),
-          borderColor: COLORS.scaleBest,
-          backgroundColor: COLORS.scaleBest,
-          tension: 0.2
-        }]
+        datasets: stats.map(function (stat, i) {
+          var byEra = byEraPerStat[i];
+          var color = PERFIL_CHART_COLORS_[i] || COLORS.scaleBest;
+          return {
+            label: stat,
+            data: eras.map(function (era) { return byEra[era] === null || byEra[era] === undefined ? null : Number(byEra[era]) || 0; }),
+            borderColor: color,
+            backgroundColor: color,
+            tension: 0.2
+          };
+        })
       },
       options: chartBaseOptions_()
     });
