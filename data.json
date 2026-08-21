@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T04:34:28.950Z",
+  "generatedAt": "2026-08-21T06:25:11.197Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -620,7 +620,10 @@
       "nombreCompleto": "Bismark López",
       "posicion": "DEF",
       "debut": "2010",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 6,
+        "dia": 8
+      },
       "instagram": "kramsibismark",
       "twitter": "kramsib"
     },
@@ -628,7 +631,10 @@
       "nombreCompleto": "Diego Mercado",
       "posicion": "DEF",
       "debut": "2010",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 4,
+        "dia": 8
+      },
       "instagram": "merkado",
       "twitter": "merkadomerkado"
     },
@@ -636,15 +642,21 @@
       "nombreCompleto": "Arthie Martínez",
       "posicion": "MED",
       "debut": "2010",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 12,
+        "dia": 8
+      },
       "instagram": null,
       "twitter": null
     },
     "Luis": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Luis Jesús",
       "posicion": "MED",
       "debut": "2011",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 11,
+        "dia": 13
+      },
       "instagram": null,
       "twitter": null
     },
@@ -668,10 +680,13 @@
       "twitter": null
     },
     "Orlando": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Orlando Guzmán",
       "posicion": "DEF",
       "debut": "2014",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 2,
+        "dia": 21
+      },
       "instagram": null,
       "twitter": null
     },
@@ -764,7 +779,7 @@
       "twitter": null
     },
     "Omar": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Omar Rojas",
       "posicion": "MED",
       "debut": "2017",
       "cumpleanos": null,
@@ -772,7 +787,7 @@
       "twitter": null
     },
     "David": {
-      "nombreCompleto": null,
+      "nombreCompleto": "David Clifton",
       "posicion": "DEL",
       "debut": "2017",
       "cumpleanos": null,
@@ -780,10 +795,13 @@
       "twitter": null
     },
     "Gabo": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Gabriel Gómez",
       "posicion": "MED",
       "debut": "2017",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 6,
+        "dia": 1
+      },
       "instagram": null,
       "twitter": null
     },
@@ -810,7 +828,7 @@
       "twitter": "manestyle"
     },
     "Wero": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Carlos Godínez",
       "posicion": "DEF",
       "debut": "2017",
       "cumpleanos": null,
@@ -818,15 +836,18 @@
       "twitter": null
     },
     "Irving": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Irving Talamantes",
       "posicion": "MED",
       "debut": "2018",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 8,
+        "dia": 26
+      },
       "instagram": null,
       "twitter": null
     },
     "Neto": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Ernesto Vargas",
       "posicion": "MED",
       "debut": "2018",
       "cumpleanos": null,
@@ -834,7 +855,7 @@
       "twitter": null
     },
     "Antonio": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Antonio Vivar",
       "posicion": "DEL",
       "debut": "2018",
       "cumpleanos": null,
@@ -842,10 +863,13 @@
       "twitter": null
     },
     "Coco": {
-      "nombreCompleto": null,
+      "nombreCompleto": "César Sobrino",
       "posicion": "MED",
       "debut": "2018",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 4,
+        "dia": 29
+      },
       "instagram": null,
       "twitter": null
     },
@@ -861,18 +885,24 @@
       "twitter": null
     },
     "Paquito": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Francisco Sandoval",
       "posicion": "MED",
       "debut": "2020",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 12,
+        "dia": 2
+      },
       "instagram": null,
       "twitter": null
     },
     "Pavel": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Javier Paván",
       "posicion": "MED",
       "debut": "2021",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 9,
+        "dia": 29
+      },
       "instagram": null,
       "twitter": null
     },
@@ -888,7 +918,7 @@
       "twitter": null
     },
     "Rene": {
-      "nombreCompleto": null,
+      "nombreCompleto": "René Benavides",
       "posicion": "POR",
       "debut": "2021",
       "cumpleanos": {
@@ -907,15 +937,18 @@
       "twitter": null
     },
     "Paleta": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Erik Aviña",
       "posicion": "POR",
       "debut": "2025",
-      "cumpleanos": null,
+      "cumpleanos": {
+        "mes": 5,
+        "dia": 24
+      },
       "instagram": null,
       "twitter": null
     },
     "Noe": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Noé Pérez",
       "posicion": "MED",
       "debut": "2026",
       "cumpleanos": {
