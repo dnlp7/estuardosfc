@@ -81,6 +81,37 @@ body {
   line-height: 1.5;
 }
 
+/* Loading overlay — shown while data.json is still fetching (see app.js:
+   hidden right when the fetch resolves, whether that's a successful
+   init() or the error path). Covers the whole viewport rather than just
+   <main> since the header/nav would otherwise render immediately with
+   nothing underneath them to click yet. Removed from view entirely via
+   display:none (not just visually faded) so it can't block clicks on
+   the real page once hidden. */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.loading-overlay p { color: var(--muted); margin: 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--grey-header);
+  border-top-color: var(--accent-light);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .site-header {
   text-align: center;
   padding: 1.5rem 1rem;
@@ -525,6 +556,51 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    the wrap's soft grey card border/radius on top of that just reads as
    a stray outline, so it's dropped for this one table specifically. */
 #leaderboard-wrap { border: none; border-radius: 0; background: transparent; }
+
+/* Récords tab — Líderes Históricos: one column per stat (GOL/AST/PA/PI),
+   each a short top-5 list, wrapping to fewer columns on a narrow screen
+   the same way .historia-cards does. */
+.records-leaders-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.record-leader-col {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  min-width: 200px;
+  flex: 1 1 200px;
+}
+.record-leader-col h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.record-leader-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.record-leader-row:last-child { border-bottom: none; }
+.record-leader-rank { color: var(--muted); font-weight: 700; width: 1.2rem; flex-shrink: 0; }
+.record-leader-nombre { flex: 1; color: var(--white); }
+.record-leader-total { color: var(--accent-light); font-weight: 700; }
+
+/* Récords tab — the two highlight cards (Goles en un Partido, Racha de
+   Victorias). Same card language as .record-leader-col above, just a
+   two-up grid instead of four, and a bigger headline number since each
+   card only has one thing to say. */
+.records-highlights-grid { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.record-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  flex: 1 1 280px;
+}
+.record-card h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.record-highlight-value { font-size: 2.5rem; font-weight: 700; color: var(--white); line-height: 1; }
+.record-highlight-label { color: var(--muted); font-size: 0.85rem; margin: 0.3rem 0 0.75rem; }
+.record-highlight-entry { font-size: 0.9rem; color: var(--white); padding: 0.35rem 0; border-top: 1px solid var(--border); }
+.record-highlight-entry:first-of-type { border-top: none; }
+.record-highlight-entry .record-highlight-meta { display: block; color: var(--muted); font-size: 0.8rem; margin-top: 0.1rem; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 /* These three tables use border-collapse: separate instead — required

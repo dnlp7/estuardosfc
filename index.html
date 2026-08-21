@@ -35,6 +35,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.1/chart.umd.min.js"></script>
 </head>
 <body>
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <p>Cargando...</p>
+  </div>
+
   <header class="site-header">
     <button type="button" class="site-badge-btn" id="site-badge-btn" aria-label="Inicio">
       <img src="images/Escudo.png" alt="Estuardos FC" class="site-badge">
@@ -53,6 +58,7 @@
   <nav class="tabs sub-nav" id="estadisticas-subnav" hidden>
     <button class="tab-btn active" data-tab="temporada">Equipo</button>
     <button class="tab-btn" data-tab="historial">Individuales</button>
+    <button class="tab-btn" data-tab="records">Récords</button>
   </nav>
 
   <main>
@@ -159,6 +165,24 @@
             </thead>
             <tbody></tbody>
           </table>
+        </div>
+      </section>
+
+      <section id="tab-records" class="tab-panel">
+        <h3>Líderes Históricos</h3>
+        <div class="records-leaders-grid" id="records-leaders"></div>
+
+        <h3>Récords</h3>
+        <p id="records-message" class="detail-message" hidden></p>
+        <div class="records-highlights-grid" id="records-highlights" hidden>
+          <div class="record-card">
+            <h4>Goles en un Partido</h4>
+            <div id="record-goles-partido"></div>
+          </div>
+          <div class="record-card">
+            <h4>Racha de Victorias</h4>
+            <div id="record-racha"></div>
+          </div>
         </div>
       </section>
     </section>
