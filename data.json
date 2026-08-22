@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T06:23:14.098Z",
+  "generatedAt": "2026-08-22T07:47:33.057Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -72,8 +72,8 @@
     }
   ],
   "jugadores": {
-    "Daniel": {
-      "playerId": "P001",
+    "P001": {
+      "nombre": "Daniel",
       "activo": true,
       "dorsalByEra": {
         "2019": 7,
@@ -95,8 +95,8 @@
         "2017/18": 7
       }
     },
-    "Sheko": {
-      "playerId": "P002",
+    "P002": {
+      "nombre": "Sheko",
       "activo": true,
       "dorsalByEra": {
         "2019": 3,
@@ -118,20 +118,22 @@
         "2017/18": 3
       }
     },
-    "Bismark": {
-      "playerId": "P003",
+    "P003": {
+      "nombre": "Bismark",
       "activo": false,
       "dorsalByEra": {
         "2022/23": 8
       }
     },
-    "Diego": {
-      "playerId": "P044",
+    "P004": {
+      "nombre": "Diego",
       "activo": false,
-      "dorsalByEra": {}
+      "dorsalByEra": {
+        "2018/19": 94
+      }
     },
-    "Arthie": {
-      "playerId": "P005",
+    "P005": {
+      "nombre": "Arthie",
       "activo": false,
       "dorsalByEra": {
         "2019": 24,
@@ -144,8 +146,8 @@
         "2017/18": 24
       }
     },
-    "Luis": {
-      "playerId": "P006",
+    "P006": {
+      "nombre": "Luis",
       "activo": false,
       "dorsalByEra": {
         "2021": 6,
@@ -155,8 +157,8 @@
         "2021/22": 6
       }
     },
-    "Sergio": {
-      "playerId": "P007",
+    "P007": {
+      "nombre": "Sergio",
       "activo": true,
       "dorsalByEra": {
         "2019": 100,
@@ -177,8 +179,8 @@
         "2018/19": 100
       }
     },
-    "Enrique": {
-      "playerId": "P008",
+    "P008": {
+      "nombre": "Enrique",
       "activo": false,
       "dorsalByEra": {
         "2019": 23,
@@ -187,8 +189,8 @@
         "2017/18": 23
       }
     },
-    "Orlando": {
-      "playerId": "P009",
+    "P009": {
+      "nombre": "Orlando",
       "activo": false,
       "dorsalByEra": {
         "2019": 21,
@@ -204,8 +206,8 @@
         "2017/18": 21
       }
     },
-    "Mares": {
-      "playerId": "P010",
+    "P010": {
+      "nombre": "Mares",
       "activo": true,
       "dorsalByEra": {
         "2019": 4,
@@ -227,8 +229,8 @@
         "2017/18": 4
       }
     },
-    "Eric": {
-      "playerId": "P011",
+    "P011": {
+      "nombre": "Eric",
       "activo": true,
       "dorsalByEra": {
         "2019": 31,
@@ -250,13 +252,31 @@
         "2017/18": 14
       }
     },
-    "Chente": {
-      "playerId": "P046",
-      "activo": false,
-      "dorsalByEra": {}
+    "P012": {
+      "nombre": "Chente",
+      "activo": true,
+      "dorsalByEra": {
+        "2019": 12,
+        "2020": 12,
+        "2021": 12,
+        "2022": 12,
+        "2023": 12,
+        "2024": 12,
+        "2025": 12,
+        "2026": 12,
+        "2026/27": 12,
+        "2025/26": 12,
+        "2024/25": 12,
+        "2023/24": 12,
+        "2022/23": 12,
+        "2021/22": 12,
+        "2019/20": 12,
+        "2018/19": 12,
+        "2017/18": 12
+      }
     },
-    "Charly": {
-      "playerId": "P013",
+    "P013": {
+      "nombre": "Charly",
       "activo": true,
       "dorsalByEra": {
         "2019": 5,
@@ -278,8 +298,8 @@
         "2017/18": 5
       }
     },
-    "Paco": {
-      "playerId": "P014",
+    "P014": {
+      "nombre": "Paco",
       "activo": true,
       "dorsalByEra": {
         "2019": 10,
@@ -301,8 +321,8 @@
         "2017/18": 10
       }
     },
-    "Chuy": {
-      "playerId": "P015",
+    "P015": {
+      "nombre": "Chuy",
       "activo": true,
       "dorsalByEra": {
         "2023": 5,
@@ -317,8 +337,8 @@
         "2017/18": 27
       }
     },
-    "Lanuza": {
-      "playerId": "P016",
+    "P016": {
+      "nombre": "Lanuza",
       "activo": true,
       "dorsalByEra": {
         "2024": 16,
@@ -329,8 +349,8 @@
         "2024/25": 16
       }
     },
-    "Miguel": {
-      "playerId": "P017",
+    "P017": {
+      "nombre": "Miguel",
       "activo": false,
       "dorsalByEra": {
         "2025": 18,
@@ -338,8 +358,8 @@
         "2024/25": 18
       }
     },
-    "Omar": {
-      "playerId": "P018",
+    "P018": {
+      "nombre": "Omar",
       "activo": false,
       "dorsalByEra": {
         "2019": 55,
@@ -349,16 +369,16 @@
         "2017/18": 55
       }
     },
-    "David": {
-      "playerId": "P019",
+    "P019": {
+      "nombre": "David",
       "activo": false,
       "dorsalByEra": {
         "2018/19": 13,
         "2017/18": 13
       }
     },
-    "Gabo": {
-      "playerId": "P020",
+    "P020": {
+      "nombre": "Gabo",
       "activo": false,
       "dorsalByEra": {
         "2019": 19,
@@ -369,8 +389,8 @@
         "2017/18": 19
       }
     },
-    "Abraham": {
-      "playerId": "P021",
+    "P021": {
+      "nombre": "Abraham",
       "activo": true,
       "dorsalByEra": {
         "2019": 20,
@@ -392,8 +412,8 @@
         "2017/18": 20
       }
     },
-    "Mane": {
-      "playerId": "P022",
+    "P022": {
+      "nombre": "Mane",
       "activo": true,
       "dorsalByEra": {
         "2019": 28,
@@ -415,16 +435,16 @@
         "2017/18": 28
       }
     },
-    "Wero": {
-      "playerId": "P023",
+    "P023": {
+      "nombre": "Wero",
       "activo": false,
       "dorsalByEra": {
         "2018/19": 17,
         "2017/18": 17
       }
     },
-    "Irving": {
-      "playerId": "P024",
+    "P024": {
+      "nombre": "Irving",
       "activo": false,
       "dorsalByEra": {
         "2019": 11,
@@ -442,8 +462,8 @@
         "2017/18": 11
       }
     },
-    "Neto": {
-      "playerId": "P025",
+    "P025": {
+      "nombre": "Neto",
       "activo": false,
       "dorsalByEra": {
         "2019": 30,
@@ -452,15 +472,15 @@
         "2017/18": 30
       }
     },
-    "Antonio": {
-      "playerId": "P026",
+    "P026": {
+      "nombre": "Antonio",
       "activo": false,
       "dorsalByEra": {
         "2018/19": 6
       }
     },
-    "Coco": {
-      "playerId": "P027",
+    "P027": {
+      "nombre": "Coco",
       "activo": false,
       "dorsalByEra": {
         "2019": 32,
@@ -470,8 +490,8 @@
         "2018/19": 32
       }
     },
-    "Hector": {
-      "playerId": "P028",
+    "P028": {
+      "nombre": "Hector",
       "activo": true,
       "dorsalByEra": {
         "2020": 36,
@@ -489,8 +509,8 @@
         "2021/22": 36
       }
     },
-    "Paquito": {
-      "playerId": "P029",
+    "P029": {
+      "nombre": "Paquito",
       "activo": false,
       "dorsalByEra": {
         "2020": 33,
@@ -499,8 +519,8 @@
         "2022/23": 18
       }
     },
-    "Pavel": {
-      "playerId": "P030",
+    "P030": {
+      "nombre": "Pavel",
       "activo": false,
       "dorsalByEra": {
         "2020": 25,
@@ -511,8 +531,8 @@
         "2021/22": 25
       }
     },
-    "Ramiro": {
-      "playerId": "P031",
+    "P031": {
+      "nombre": "Ramiro",
       "activo": true,
       "dorsalByEra": {
         "2021": 29,
@@ -529,8 +549,8 @@
         "2021/22": 29
       }
     },
-    "Rene": {
-      "playerId": "P032",
+    "P032": {
+      "nombre": "Rene",
       "activo": false,
       "dorsalByEra": {
         "2022": 31,
@@ -540,29 +560,31 @@
         "2021/22": 31
       }
     },
-    "Pablo": {
-      "playerId": "P045",
+    "P033": {
+      "nombre": "Pablo",
       "activo": false,
-      "dorsalByEra": {}
+      "dorsalByEra": {
+        "2024": 5
+      }
     },
-    "Paleta": {
-      "playerId": "P034",
+    "P034": {
+      "nombre": "Paleta",
       "activo": false,
       "dorsalByEra": {
         "2025": 22,
         "2025/26": 22
       }
     },
-    "Noe": {
-      "playerId": "P035",
+    "P035": {
+      "nombre": "Noe",
       "activo": false,
       "dorsalByEra": {
         "2026": 13,
         "2025/26": 13
       }
     },
-    "Alonso": {
-      "playerId": "P036",
+    "P036": {
+      "nombre": "Alonso",
       "activo": true,
       "dorsalByEra": {
         "2026": 17,
@@ -570,59 +592,74 @@
         "2025/26": 17
       }
     },
-    "Pepe": {
-      "playerId": "P037",
+    "P037": {
+      "nombre": "Pepe",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Lupe": {
-      "playerId": "P038",
+    "P038": {
+      "nombre": "Lupe",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Juan Pablo": {
-      "playerId": "P039",
+    "P039": {
+      "nombre": "Juan Pablo",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Mauricio": {
-      "playerId": "P040",
+    "P040": {
+      "nombre": "Mauricio",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Grillo": {
-      "playerId": "P041",
+    "P041": {
+      "nombre": "Grillo",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Mirmo": {
-      "playerId": "P042",
+    "P042": {
+      "nombre": "Mirmo",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Oso": {
-      "playerId": "P043",
+    "P043": {
+      "nombre": "Oso",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Glenn": {
-      "playerId": "P047",
+    "P044": {
+      "nombre": "Diego",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Memo": {
-      "playerId": "P048",
+    "P045": {
+      "nombre": "Pablo",
       "activo": false,
       "dorsalByEra": {}
     },
-    "Koch": {
-      "playerId": "P049",
+    "P046": {
+      "nombre": "Chente",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "P047": {
+      "nombre": "Glenn",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "P048": {
+      "nombre": "Memo",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "P049": {
+      "nombre": "Koch",
       "activo": false,
       "dorsalByEra": {}
     }
   },
   "datos": {
-    "Daniel": {
+    "P001": {
       "nombreCompleto": "Daniel Pérez",
       "posicion": "DEL",
       "debut": "2010",
@@ -634,7 +671,7 @@
       "twitter": "dnlp7",
       "dorsal": 7
     },
-    "Sheko": {
+    "P002": {
       "nombreCompleto": "Sergio Molina",
       "posicion": "DEF",
       "debut": "2010",
@@ -646,8 +683,8 @@
       "twitter": null,
       "dorsal": 3
     },
-    "Bismark": {
-      "nombreCompleto": "Bismark López",
+    "P003": {
+      "nombreCompleto": "Bismark Estuardo López",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": {
@@ -658,16 +695,19 @@
       "twitter": "kramsib",
       "dorsal": 8
     },
-    "Diego": {
-      "nombreCompleto": "Diego Gudiño",
+    "P004": {
+      "nombreCompleto": "Diego Mercado",
       "posicion": "DEF",
-      "debut": "2014",
-      "cumpleanos": null,
-      "instagram": null,
-      "twitter": null,
-      "dorsal": 17
+      "debut": "2010",
+      "cumpleanos": {
+        "mes": 4,
+        "dia": 8
+      },
+      "instagram": "merkado",
+      "twitter": "merkadomerkado",
+      "dorsal": 94
     },
-    "Arthie": {
+    "P005": {
       "nombreCompleto": "Arthie Martínez",
       "posicion": "MED",
       "debut": "2010",
@@ -679,7 +719,7 @@
       "twitter": null,
       "dorsal": 24
     },
-    "Luis": {
+    "P006": {
       "nombreCompleto": "Luis Jesús Quiñones",
       "posicion": "MED",
       "debut": "2011",
@@ -691,7 +731,7 @@
       "twitter": null,
       "dorsal": 2
     },
-    "Sergio": {
+    "P007": {
       "nombreCompleto": "Sergio Alarcón",
       "posicion": "DEL",
       "debut": "2012",
@@ -703,7 +743,7 @@
       "twitter": "smagic10",
       "dorsal": 23
     },
-    "Enrique": {
+    "P008": {
       "nombreCompleto": "Enrique Pellat",
       "posicion": "MED",
       "debut": "2012",
@@ -712,7 +752,7 @@
       "twitter": null,
       "dorsal": 23
     },
-    "Orlando": {
+    "P009": {
       "nombreCompleto": "Orlando Guzmán",
       "posicion": "DEF",
       "debut": "2014",
@@ -724,7 +764,7 @@
       "twitter": null,
       "dorsal": 21
     },
-    "Mares": {
+    "P010": {
       "nombreCompleto": "Carlos Mares",
       "posicion": "DEF",
       "debut": "2014",
@@ -736,7 +776,7 @@
       "twitter": null,
       "dorsal": 4
     },
-    "Eric": {
+    "P011": {
       "nombreCompleto": "Eric Chávez",
       "posicion": "DEF",
       "debut": "2014",
@@ -748,16 +788,19 @@
       "twitter": null,
       "dorsal": 14
     },
-    "Chente": {
-      "nombreCompleto": "Vicente Perales",
+    "P012": {
+      "nombreCompleto": "Vicente Partida",
       "posicion": "DEF",
-      "debut": "2010",
-      "cumpleanos": null,
+      "debut": "2016",
+      "cumpleanos": {
+        "mes": 9,
+        "dia": 5
+      },
       "instagram": null,
       "twitter": null,
-      "dorsal": 90
+      "dorsal": 12
     },
-    "Charly": {
+    "P013": {
       "nombreCompleto": "Carlos Vargas",
       "posicion": "POR",
       "debut": "2016",
@@ -769,7 +812,7 @@
       "twitter": null,
       "dorsal": 1
     },
-    "Paco": {
+    "P014": {
       "nombreCompleto": "Francisco Bravo",
       "posicion": "DEL",
       "debut": "2016",
@@ -781,7 +824,7 @@
       "twitter": null,
       "dorsal": 10
     },
-    "Chuy": {
+    "P015": {
       "nombreCompleto": "Jesús Hermosillo",
       "posicion": "MED",
       "debut": "2016",
@@ -793,7 +836,7 @@
       "twitter": null,
       "dorsal": 27
     },
-    "Lanuza": {
+    "P016": {
       "nombreCompleto": "Manuel Lanuza",
       "posicion": "MED",
       "debut": "2016",
@@ -805,7 +848,7 @@
       "twitter": null,
       "dorsal": 6
     },
-    "Miguel": {
+    "P017": {
       "nombreCompleto": "Miguel Márquez",
       "posicion": "DEF",
       "debut": "2016",
@@ -817,7 +860,7 @@
       "twitter": null,
       "dorsal": 18
     },
-    "Omar": {
+    "P018": {
       "nombreCompleto": "Omar Rojas",
       "posicion": "MED",
       "debut": "2017",
@@ -826,7 +869,7 @@
       "twitter": null,
       "dorsal": 55
     },
-    "David": {
+    "P019": {
       "nombreCompleto": "David Clifton",
       "posicion": "DEL",
       "debut": "2017",
@@ -835,7 +878,7 @@
       "twitter": null,
       "dorsal": 13
     },
-    "Gabo": {
+    "P020": {
       "nombreCompleto": "Gabriel Gómez",
       "posicion": "MED",
       "debut": "2017",
@@ -847,7 +890,7 @@
       "twitter": null,
       "dorsal": 16
     },
-    "Abraham": {
+    "P021": {
       "nombreCompleto": "Abraham Moreno",
       "posicion": "DEF",
       "debut": "2017",
@@ -859,7 +902,7 @@
       "twitter": "Abraham_Moreno",
       "dorsal": 20
     },
-    "Mane": {
+    "P022": {
       "nombreCompleto": "Manuel González",
       "posicion": "DEF",
       "debut": "2017",
@@ -871,7 +914,7 @@
       "twitter": "manestyle",
       "dorsal": 28
     },
-    "Wero": {
+    "P023": {
       "nombreCompleto": "Carlos Godínez",
       "posicion": "DEF",
       "debut": "2017",
@@ -880,7 +923,7 @@
       "twitter": null,
       "dorsal": 17
     },
-    "Irving": {
+    "P024": {
       "nombreCompleto": "Irving Talamantes",
       "posicion": "MED",
       "debut": "2018",
@@ -892,7 +935,7 @@
       "twitter": null,
       "dorsal": 8
     },
-    "Neto": {
+    "P025": {
       "nombreCompleto": "Ernesto Vargas",
       "posicion": "MED",
       "debut": "2018",
@@ -901,7 +944,7 @@
       "twitter": null,
       "dorsal": 30
     },
-    "Antonio": {
+    "P026": {
       "nombreCompleto": "Antonio Vivar",
       "posicion": "DEL",
       "debut": "2018",
@@ -910,7 +953,7 @@
       "twitter": null,
       "dorsal": 6
     },
-    "Coco": {
+    "P027": {
       "nombreCompleto": "César Sobrino",
       "posicion": "MED",
       "debut": "2018",
@@ -922,7 +965,7 @@
       "twitter": null,
       "dorsal": 9
     },
-    "Hector": {
+    "P028": {
       "nombreCompleto": "Héctor Vázquez",
       "posicion": "MED",
       "debut": "2020",
@@ -934,7 +977,7 @@
       "twitter": null,
       "dorsal": 9
     },
-    "Paquito": {
+    "P029": {
       "nombreCompleto": "Francisco Sandoval",
       "posicion": "MED",
       "debut": "2020",
@@ -946,7 +989,7 @@
       "twitter": null,
       "dorsal": 18
     },
-    "Pavel": {
+    "P030": {
       "nombreCompleto": "Javier Paván",
       "posicion": "MED",
       "debut": "2021",
@@ -958,7 +1001,7 @@
       "twitter": null,
       "dorsal": 11
     },
-    "Ramiro": {
+    "P031": {
       "nombreCompleto": "Ramiro López",
       "posicion": "MED",
       "debut": "2021",
@@ -970,7 +1013,7 @@
       "twitter": null,
       "dorsal": 11
     },
-    "Rene": {
+    "P032": {
       "nombreCompleto": "René Benavides",
       "posicion": "POR",
       "debut": "2021",
@@ -982,16 +1025,16 @@
       "twitter": null,
       "dorsal": 43
     },
-    "Pablo": {
-      "nombreCompleto": "Pablo Pellat",
+    "P033": {
+      "nombreCompleto": "Pablo Vargas",
       "posicion": "MED",
-      "debut": "2015",
+      "debut": "2024",
       "cumpleanos": null,
       "instagram": null,
       "twitter": null,
-      "dorsal": 88
+      "dorsal": 5
     },
-    "Paleta": {
+    "P034": {
       "nombreCompleto": "Erik Aviña",
       "posicion": "POR",
       "debut": "2025",
@@ -1003,7 +1046,7 @@
       "twitter": null,
       "dorsal": 22
     },
-    "Noe": {
+    "P035": {
       "nombreCompleto": "Noé Pérez",
       "posicion": "MED",
       "debut": "2026",
@@ -1015,7 +1058,7 @@
       "twitter": null,
       "dorsal": 13
     },
-    "Alonso": {
+    "P036": {
       "nombreCompleto": "Alonso Moreno",
       "posicion": "MED",
       "debut": "2026",
@@ -1027,7 +1070,7 @@
       "twitter": null,
       "dorsal": 5
     },
-    "Pepe": {
+    "P037": {
       "nombreCompleto": "José Carlos López",
       "posicion": "DEF",
       "debut": "2010",
@@ -1039,7 +1082,7 @@
       "twitter": "yatodota",
       "dorsal": 4
     },
-    "Lupe": {
+    "P038": {
       "nombreCompleto": "Guadalupe Mariscal",
       "posicion": "POR",
       "debut": "2012",
@@ -1048,7 +1091,7 @@
       "twitter": null,
       "dorsal": 1
     },
-    "Juan Pablo": {
+    "P039": {
       "nombreCompleto": "Juan Pablo de Alba",
       "posicion": "MED",
       "debut": "2010",
@@ -1060,7 +1103,7 @@
       "twitter": null,
       "dorsal": 8
     },
-    "Mauricio": {
+    "P040": {
       "nombreCompleto": "Mauricio Polanco",
       "posicion": "DEF",
       "debut": "2010",
@@ -1072,7 +1115,7 @@
       "twitter": null,
       "dorsal": 15
     },
-    "Grillo": {
+    "P041": {
       "nombreCompleto": "José Loera",
       "posicion": "DEL",
       "debut": "2010",
@@ -1081,7 +1124,7 @@
       "twitter": null,
       "dorsal": 11
     },
-    "Mirmo": {
+    "P042": {
       "nombreCompleto": "Daniel Soto",
       "posicion": "POR",
       "debut": "2010",
@@ -1090,7 +1133,7 @@
       "twitter": null,
       "dorsal": 13
     },
-    "Oso": {
+    "P043": {
       "nombreCompleto": "Andrés Limón",
       "posicion": "DEL",
       "debut": "2010",
@@ -1099,7 +1142,34 @@
       "twitter": null,
       "dorsal": 13
     },
-    "Glenn": {
+    "P044": {
+      "nombreCompleto": "Diego Gudiño",
+      "posicion": "DEF",
+      "debut": "2014",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 17
+    },
+    "P045": {
+      "nombreCompleto": "Pablo Pellat",
+      "posicion": "MED",
+      "debut": "2015",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 88
+    },
+    "P046": {
+      "nombreCompleto": "Vicente Perales",
+      "posicion": "DEF",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 90
+    },
+    "P047": {
       "nombreCompleto": "Glenn Martínez",
       "posicion": "MED",
       "debut": "2010",
@@ -1108,7 +1178,7 @@
       "twitter": null,
       "dorsal": 25
     },
-    "Memo": {
+    "P048": {
       "nombreCompleto": "Guillermo Alonso",
       "posicion": "MED",
       "debut": "2014",
@@ -1117,7 +1187,7 @@
       "twitter": null,
       "dorsal": 11
     },
-    "Koch": {
+    "P049": {
       "nombreCompleto": "José Luis Rodríguez",
       "posicion": "MED",
       "debut": "2012",
@@ -1128,7 +1198,7 @@
     }
   },
   "logros": {
-    "Daniel": [
+    "P001": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -1232,7 +1302,7 @@
         "imagen": "lider-partidos-2024.png"
       }
     ],
-    "Sheko": [
+    "P002": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -1276,7 +1346,7 @@
         "imagen": "lider-partidos-2019.png"
       }
     ],
-    "Bismark": [
+    "P003": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -1290,7 +1360,7 @@
         "imagen": "recopa-2012-13.png"
       }
     ],
-    "Diego": [
+    "P004": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -1298,7 +1368,7 @@
         "imagen": "fundador.png"
       }
     ],
-    "Arthie": [
+    "P005": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -1336,7 +1406,7 @@
         "imagen": "lider-titularidades-2019.png"
       }
     ],
-    "Sergio": [
+    "P007": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1386,7 +1456,7 @@
         "imagen": "lider-asistencias-2022.png"
       }
     ],
-    "Enrique": [
+    "P008": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1394,7 +1464,7 @@
         "imagen": "recopa-2018-19.png"
       }
     ],
-    "Orlando": [
+    "P009": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1414,7 +1484,7 @@
         "imagen": "lider-titularidades-2019.png"
       }
     ],
-    "Mares": [
+    "P010": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1458,7 +1528,7 @@
         "imagen": "lider-titularidades-2019.png"
       }
     ],
-    "Eric": [
+    "P011": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1502,7 +1572,7 @@
         "imagen": "lider-titularidades-2024.png"
       }
     ],
-    "Chente": [
+    "P012": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1526,15 +1596,9 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
-      },
-      {
-        "insignia": "Miembro Fundador",
-        "nivel": 1,
-        "temporada": "2010/11",
-        "imagen": "fundador.png"
       }
     ],
-    "Charly": [
+    "P013": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1590,7 +1654,7 @@
         "imagen": "lider-titularidades-2024.png"
       }
     ],
-    "Paco": [
+    "P014": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1706,7 +1770,7 @@
         "imagen": "lider-titularidades-2024.png"
       }
     ],
-    "Chuy": [
+    "P015": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1738,7 +1802,7 @@
         "imagen": "lider-asistencias-2024.png"
       }
     ],
-    "Omar": [
+    "P018": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1746,7 +1810,7 @@
         "imagen": "recopa-2018-19.png"
       }
     ],
-    "Abraham": [
+    "P021": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1820,7 +1884,7 @@
         "imagen": "capitan.png"
       }
     ],
-    "Mane": [
+    "P022": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1864,7 +1928,7 @@
         "imagen": "lider-titularidades-2019.png"
       }
     ],
-    "Wero": [
+    "P023": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1872,7 +1936,7 @@
         "imagen": "recopa-2018-19.png"
       }
     ],
-    "Irving": [
+    "P024": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1892,7 +1956,7 @@
         "imagen": "recopa-2024-25.png"
       }
     ],
-    "Neto": [
+    "P025": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1900,7 +1964,7 @@
         "imagen": "recopa-2018-19.png"
       }
     ],
-    "Antonio": [
+    "P026": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1908,7 +1972,7 @@
         "imagen": "recopa-2018-19.png"
       }
     ],
-    "Coco": [
+    "P027": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1916,27 +1980,7 @@
         "imagen": "recopa-2018-19.png"
       }
     ],
-    "Lanuza": [
-      {
-        "insignia": "Campeón Recopa",
-        "nivel": 2,
-        "temporada": "2024",
-        "imagen": "recopa-2024.png"
-      },
-      {
-        "insignia": "Campeón Recopa",
-        "nivel": 2,
-        "temporada": "2024/25",
-        "imagen": "recopa-2024-25.png"
-      },
-      {
-        "insignia": "Tercer Lugar Liga",
-        "nivel": 2,
-        "temporada": "2025/26",
-        "imagen": "tercer-lugar-2025-26.png"
-      }
-    ],
-    "Hector": [
+    "P016": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -1956,7 +2000,27 @@
         "imagen": "tercer-lugar-2025-26.png"
       }
     ],
-    "Ramiro": [
+    "P028": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2024",
+        "imagen": "recopa-2024.png"
+      },
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2024/25",
+        "imagen": "recopa-2024-25.png"
+      },
+      {
+        "insignia": "Tercer Lugar Liga",
+        "nivel": 2,
+        "temporada": "2025/26",
+        "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "P031": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -2018,7 +2082,7 @@
         "imagen": "lider-titularidades-2022.png"
       }
     ],
-    "Pablo": [
+    "P033": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -2026,7 +2090,7 @@
         "imagen": "recopa-2024.png"
       }
     ],
-    "Miguel": [
+    "P017": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -2040,7 +2104,7 @@
         "imagen": "tercer-lugar-2025-26.png"
       }
     ],
-    "Noe": [
+    "P035": [
       {
         "insignia": "Tercer Lugar Liga",
         "nivel": 2,
@@ -2048,7 +2112,7 @@
         "imagen": "tercer-lugar-2025-26.png"
       }
     ],
-    "Alonso": [
+    "P036": [
       {
         "insignia": "Tercer Lugar Liga",
         "nivel": 2,
@@ -2056,7 +2120,7 @@
         "imagen": "tercer-lugar-2025-26.png"
       }
     ],
-    "Pepe": [
+    "P037": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -2064,7 +2128,7 @@
         "imagen": "fundador.png"
       }
     ],
-    "Juan Pablo": [
+    "P039": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -2072,7 +2136,7 @@
         "imagen": "fundador.png"
       }
     ],
-    "Mauricio": [
+    "P040": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -2080,7 +2144,7 @@
         "imagen": "fundador.png"
       }
     ],
-    "Grillo": [
+    "P041": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -2088,7 +2152,7 @@
         "imagen": "fundador.png"
       }
     ],
-    "Mirmo": [
+    "P042": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -2096,7 +2160,7 @@
         "imagen": "fundador.png"
       }
     ],
-    "Oso": [
+    "P043": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -2104,7 +2168,15 @@
         "imagen": "fundador.png"
       }
     ],
-    "Glenn": [
+    "P046": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "P047": [
       {
         "insignia": "Miembro Fundador",
         "nivel": 1,
@@ -2136,6 +2208,7 @@
       ],
       "players": [
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 283,
@@ -2160,6 +2233,7 @@
           }
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 129,
@@ -2183,6 +2257,7 @@
           }
         },
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 109,
@@ -2202,6 +2277,7 @@
           }
         },
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 99,
@@ -2226,6 +2302,7 @@
           }
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 98,
@@ -2243,6 +2320,7 @@
           }
         },
         {
+          "playerId": "P005",
           "dorsal": 24,
           "nombre": "Arthie",
           "total": 74,
@@ -2258,6 +2336,7 @@
           }
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 65,
@@ -2278,6 +2357,7 @@
           }
         },
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 52,
@@ -2302,6 +2382,7 @@
           }
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 39,
@@ -2326,6 +2407,7 @@
           }
         },
         {
+          "playerId": "P009",
           "dorsal": 21,
           "nombre": "Orlando",
           "total": 23,
@@ -2344,6 +2426,7 @@
           }
         },
         {
+          "playerId": "P006",
           "dorsal": 2,
           "nombre": "Luis",
           "total": 19,
@@ -2356,6 +2439,7 @@
           }
         },
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 19,
@@ -2380,6 +2464,7 @@
           }
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 18,
@@ -2404,6 +2489,7 @@
           }
         },
         {
+          "playerId": "P018",
           "dorsal": 55,
           "nombre": "Omar",
           "total": 12,
@@ -2416,6 +2502,7 @@
           }
         },
         {
+          "playerId": "P030",
           "dorsal": 11,
           "nombre": "Pavel",
           "total": 11,
@@ -2429,6 +2516,7 @@
           }
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 11,
@@ -2453,6 +2541,7 @@
           }
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 10,
@@ -2466,6 +2555,7 @@
           }
         },
         {
+          "playerId": "P035",
           "dorsal": 13,
           "nombre": "Noe",
           "total": 9,
@@ -2475,6 +2565,7 @@
           }
         },
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 6,
@@ -2485,6 +2576,7 @@
           }
         },
         {
+          "playerId": "P027",
           "dorsal": 9,
           "nombre": "Coco",
           "total": 6,
@@ -2497,6 +2589,7 @@
           }
         },
         {
+          "playerId": "P025",
           "dorsal": 30,
           "nombre": "Neto",
           "total": 6,
@@ -2508,6 +2601,7 @@
           }
         },
         {
+          "playerId": "P008",
           "dorsal": 23,
           "nombre": "Enrique",
           "total": 5,
@@ -2519,6 +2613,7 @@
           }
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 4,
@@ -2543,6 +2638,7 @@
           }
         },
         {
+          "playerId": "P026",
           "dorsal": 6,
           "nombre": "Antonio",
           "total": 4,
@@ -2551,6 +2647,7 @@
           }
         },
         {
+          "playerId": "P024",
           "dorsal": 8,
           "nombre": "Irving",
           "total": 4,
@@ -2571,6 +2668,7 @@
           }
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 4,
@@ -2595,6 +2693,7 @@
           }
         },
         {
+          "playerId": "P029",
           "dorsal": 18,
           "nombre": "Paquito",
           "total": 3,
@@ -2606,6 +2705,7 @@
           }
         },
         {
+          "playerId": "P019",
           "dorsal": 13,
           "nombre": "David",
           "total": 2,
@@ -2615,6 +2715,7 @@
           }
         },
         {
+          "playerId": "P020",
           "dorsal": 16,
           "nombre": "Gabo",
           "total": 2,
@@ -2628,6 +2729,7 @@
           }
         },
         {
+          "playerId": "P017",
           "dorsal": 18,
           "nombre": "Miguel",
           "total": 1,
@@ -2638,84 +2740,98 @@
           }
         },
         {
+          "playerId": "P037",
           "dorsal": "",
           "nombre": "Pepe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P038",
           "dorsal": "",
           "nombre": "Lupe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P039",
           "dorsal": "",
           "nombre": "Juan Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P040",
           "dorsal": "",
           "nombre": "Mauricio",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P041",
           "dorsal": "",
           "nombre": "Grillo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P042",
           "dorsal": "",
           "nombre": "Mirmo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P043",
           "dorsal": "",
           "nombre": "Oso",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P044",
           "dorsal": "",
           "nombre": "Diego",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P045",
           "dorsal": "",
           "nombre": "Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P046",
           "dorsal": "",
           "nombre": "Chente",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P047",
           "dorsal": "",
           "nombre": "Glenn",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P048",
           "dorsal": "",
           "nombre": "Memo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P049",
           "dorsal": "",
           "nombre": "Koch",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P033",
           "dorsal": 5,
           "nombre": "Pablo",
           "total": 0,
@@ -2724,6 +2840,7 @@
           }
         },
         {
+          "playerId": "P003",
           "dorsal": 8,
           "nombre": "Bismark",
           "total": 0,
@@ -2732,6 +2849,7 @@
           }
         },
         {
+          "playerId": "P023",
           "dorsal": 17,
           "nombre": "Wero",
           "total": 0,
@@ -2741,6 +2859,7 @@
           }
         },
         {
+          "playerId": "P034",
           "dorsal": 22,
           "nombre": "Paleta",
           "total": 0,
@@ -2750,6 +2869,7 @@
           }
         },
         {
+          "playerId": "P032",
           "dorsal": 43,
           "nombre": "Rene",
           "total": 0,
@@ -2762,6 +2882,7 @@
           }
         },
         {
+          "playerId": "P004",
           "dorsal": 94,
           "nombre": "Diego",
           "total": 0,
@@ -2785,6 +2906,7 @@
       ],
       "players": [
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 94,
@@ -2801,6 +2923,7 @@
           }
         },
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 89,
@@ -2817,6 +2940,7 @@
           }
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 55,
@@ -2832,6 +2956,7 @@
           }
         },
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 47,
@@ -2848,6 +2973,7 @@
           }
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 34,
@@ -2864,6 +2990,7 @@
           }
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 26,
@@ -2880,6 +3007,7 @@
           }
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 21,
@@ -2896,6 +3024,7 @@
           }
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 15,
@@ -2912,6 +3041,7 @@
           }
         },
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 11,
@@ -2928,6 +3058,7 @@
           }
         },
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 10,
@@ -2944,6 +3075,7 @@
           }
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 9,
@@ -2957,6 +3089,7 @@
           }
         },
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 7,
@@ -2967,6 +3100,7 @@
           }
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 7,
@@ -2983,6 +3117,7 @@
           }
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 5,
@@ -2999,6 +3134,7 @@
           }
         },
         {
+          "playerId": "P035",
           "dorsal": 13,
           "nombre": "Noe",
           "total": 5,
@@ -3008,6 +3144,7 @@
           }
         },
         {
+          "playerId": "P009",
           "dorsal": 21,
           "nombre": "Orlando",
           "total": 3,
@@ -3018,6 +3155,7 @@
           }
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 3,
@@ -3034,6 +3172,7 @@
           }
         },
         {
+          "playerId": "P024",
           "dorsal": 8,
           "nombre": "Irving",
           "total": 1,
@@ -3046,6 +3185,7 @@
           }
         },
         {
+          "playerId": "P030",
           "dorsal": 11,
           "nombre": "Pavel",
           "total": 1,
@@ -3055,6 +3195,7 @@
           }
         },
         {
+          "playerId": "P017",
           "dorsal": 18,
           "nombre": "Miguel",
           "total": 1,
@@ -3065,6 +3206,7 @@
           }
         },
         {
+          "playerId": "P029",
           "dorsal": 18,
           "nombre": "Paquito",
           "total": 1,
@@ -3073,84 +3215,98 @@
           }
         },
         {
+          "playerId": "P037",
           "dorsal": "",
           "nombre": "Pepe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P038",
           "dorsal": "",
           "nombre": "Lupe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P039",
           "dorsal": "",
           "nombre": "Juan Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P040",
           "dorsal": "",
           "nombre": "Mauricio",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P041",
           "dorsal": "",
           "nombre": "Grillo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P042",
           "dorsal": "",
           "nombre": "Mirmo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P043",
           "dorsal": "",
           "nombre": "Oso",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P044",
           "dorsal": "",
           "nombre": "Diego",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P045",
           "dorsal": "",
           "nombre": "Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P046",
           "dorsal": "",
           "nombre": "Chente",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P047",
           "dorsal": "",
           "nombre": "Glenn",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P048",
           "dorsal": "",
           "nombre": "Memo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P049",
           "dorsal": "",
           "nombre": "Koch",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P006",
           "dorsal": 2,
           "nombre": "Luis",
           "total": 0,
@@ -3160,6 +3316,7 @@
           }
         },
         {
+          "playerId": "P033",
           "dorsal": 5,
           "nombre": "Pablo",
           "total": 0,
@@ -3168,12 +3325,14 @@
           }
         },
         {
+          "playerId": "P026",
           "dorsal": 6,
           "nombre": "Antonio",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P003",
           "dorsal": 8,
           "nombre": "Bismark",
           "total": 0,
@@ -3182,30 +3341,35 @@
           }
         },
         {
+          "playerId": "P027",
           "dorsal": 9,
           "nombre": "Coco",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P019",
           "dorsal": 13,
           "nombre": "David",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P020",
           "dorsal": 16,
           "nombre": "Gabo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P023",
           "dorsal": 17,
           "nombre": "Wero",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P034",
           "dorsal": 22,
           "nombre": "Paleta",
           "total": 0,
@@ -3215,24 +3379,28 @@
           }
         },
         {
+          "playerId": "P008",
           "dorsal": 23,
           "nombre": "Enrique",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P005",
           "dorsal": 24,
           "nombre": "Arthie",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P025",
           "dorsal": 30,
           "nombre": "Neto",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P032",
           "dorsal": 43,
           "nombre": "Rene",
           "total": 0,
@@ -3243,12 +3411,14 @@
           }
         },
         {
+          "playerId": "P018",
           "dorsal": 55,
           "nombre": "Omar",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P004",
           "dorsal": 94,
           "nombre": "Diego",
           "total": 0,
@@ -3275,6 +3445,7 @@
       ],
       "players": [
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 285,
@@ -3296,6 +3467,7 @@
           }
         },
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 261,
@@ -3317,6 +3489,7 @@
           }
         },
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 233,
@@ -3338,6 +3511,7 @@
           }
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 216,
@@ -3359,6 +3533,7 @@
           }
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 215,
@@ -3380,6 +3555,7 @@
           }
         },
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 208,
@@ -3401,6 +3577,7 @@
           }
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 199,
@@ -3422,6 +3599,7 @@
           }
         },
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 196,
@@ -3441,6 +3619,7 @@
           }
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 194,
@@ -3461,6 +3640,7 @@
           }
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 181,
@@ -3482,6 +3662,7 @@
           }
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 157,
@@ -3503,6 +3684,7 @@
           }
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 145,
@@ -3524,6 +3706,7 @@
           }
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 111,
@@ -3539,6 +3722,7 @@
           }
         },
         {
+          "playerId": "P009",
           "dorsal": 21,
           "nombre": "Orlando",
           "total": 85,
@@ -3554,6 +3738,7 @@
           }
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 73,
@@ -3567,6 +3752,7 @@
           }
         },
         {
+          "playerId": "P005",
           "dorsal": 24,
           "nombre": "Arthie",
           "total": 57,
@@ -3579,6 +3765,7 @@
           }
         },
         {
+          "playerId": "P030",
           "dorsal": 11,
           "nombre": "Pavel",
           "total": 50,
@@ -3592,6 +3779,7 @@
           }
         },
         {
+          "playerId": "P006",
           "dorsal": 2,
           "nombre": "Luis",
           "total": 48,
@@ -3604,6 +3792,7 @@
           }
         },
         {
+          "playerId": "P032",
           "dorsal": 43,
           "nombre": "Rene",
           "total": 42,
@@ -3616,6 +3805,7 @@
           }
         },
         {
+          "playerId": "P017",
           "dorsal": 18,
           "nombre": "Miguel",
           "total": 35,
@@ -3626,6 +3816,7 @@
           }
         },
         {
+          "playerId": "P024",
           "dorsal": 8,
           "nombre": "Irving",
           "total": 34,
@@ -3643,6 +3834,7 @@
           }
         },
         {
+          "playerId": "P034",
           "dorsal": 22,
           "nombre": "Paleta",
           "total": 25,
@@ -3652,6 +3844,7 @@
           }
         },
         {
+          "playerId": "P029",
           "dorsal": 18,
           "nombre": "Paquito",
           "total": 16,
@@ -3663,6 +3856,7 @@
           }
         },
         {
+          "playerId": "P035",
           "dorsal": 13,
           "nombre": "Noe",
           "total": 14,
@@ -3672,6 +3866,7 @@
           }
         },
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 13,
@@ -3682,6 +3877,7 @@
           }
         },
         {
+          "playerId": "P027",
           "dorsal": 9,
           "nombre": "Coco",
           "total": 13,
@@ -3692,6 +3888,7 @@
           }
         },
         {
+          "playerId": "P020",
           "dorsal": 16,
           "nombre": "Gabo",
           "total": 9,
@@ -3702,6 +3899,7 @@
           }
         },
         {
+          "playerId": "P008",
           "dorsal": 23,
           "nombre": "Enrique",
           "total": 6,
@@ -3710,6 +3908,7 @@
           }
         },
         {
+          "playerId": "P018",
           "dorsal": 55,
           "nombre": "Omar",
           "total": 6,
@@ -3719,6 +3918,7 @@
           }
         },
         {
+          "playerId": "P003",
           "dorsal": 8,
           "nombre": "Bismark",
           "total": 3,
@@ -3727,6 +3927,7 @@
           }
         },
         {
+          "playerId": "P025",
           "dorsal": 30,
           "nombre": "Neto",
           "total": 3,
@@ -3735,6 +3936,7 @@
           }
         },
         {
+          "playerId": "P033",
           "dorsal": 5,
           "nombre": "Pablo",
           "total": 2,
@@ -3743,102 +3945,119 @@
           }
         },
         {
+          "playerId": "P037",
           "dorsal": "",
           "nombre": "Pepe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P038",
           "dorsal": "",
           "nombre": "Lupe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P039",
           "dorsal": "",
           "nombre": "Juan Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P040",
           "dorsal": "",
           "nombre": "Mauricio",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P041",
           "dorsal": "",
           "nombre": "Grillo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P042",
           "dorsal": "",
           "nombre": "Mirmo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P043",
           "dorsal": "",
           "nombre": "Oso",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P044",
           "dorsal": "",
           "nombre": "Diego",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P045",
           "dorsal": "",
           "nombre": "Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P046",
           "dorsal": "",
           "nombre": "Chente",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P047",
           "dorsal": "",
           "nombre": "Glenn",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P048",
           "dorsal": "",
           "nombre": "Memo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P049",
           "dorsal": "",
           "nombre": "Koch",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P026",
           "dorsal": 6,
           "nombre": "Antonio",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P019",
           "dorsal": 13,
           "nombre": "David",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P023",
           "dorsal": 17,
           "nombre": "Wero",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P004",
           "dorsal": 94,
           "nombre": "Diego",
           "total": 0,
@@ -3865,6 +4084,7 @@
       ],
       "players": [
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 214,
@@ -3886,6 +4106,7 @@
           }
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 171,
@@ -3907,6 +4128,7 @@
           }
         },
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 167,
@@ -3928,6 +4150,7 @@
           }
         },
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 158,
@@ -3947,6 +4170,7 @@
           }
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 157,
@@ -3968,6 +4192,7 @@
           }
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 125,
@@ -3989,6 +4214,7 @@
           }
         },
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 123,
@@ -4010,6 +4236,7 @@
           }
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 108,
@@ -4030,6 +4257,7 @@
           }
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 106,
@@ -4051,6 +4279,7 @@
           }
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 88,
@@ -4066,6 +4295,7 @@
           }
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 84,
@@ -4087,6 +4317,7 @@
           }
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 74,
@@ -4108,6 +4339,7 @@
           }
         },
         {
+          "playerId": "P009",
           "dorsal": 21,
           "nombre": "Orlando",
           "total": 66,
@@ -4123,6 +4355,7 @@
           }
         },
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 49,
@@ -4144,6 +4377,7 @@
           }
         },
         {
+          "playerId": "P005",
           "dorsal": 24,
           "nombre": "Arthie",
           "total": 39,
@@ -4156,6 +4390,7 @@
           }
         },
         {
+          "playerId": "P032",
           "dorsal": 43,
           "nombre": "Rene",
           "total": 36,
@@ -4168,6 +4403,7 @@
           }
         },
         {
+          "playerId": "P006",
           "dorsal": 2,
           "nombre": "Luis",
           "total": 34,
@@ -4180,6 +4416,7 @@
           }
         },
         {
+          "playerId": "P030",
           "dorsal": 11,
           "nombre": "Pavel",
           "total": 34,
@@ -4193,6 +4430,7 @@
           }
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 13,
@@ -4206,6 +4444,7 @@
           }
         },
         {
+          "playerId": "P035",
           "dorsal": 13,
           "nombre": "Noe",
           "total": 11,
@@ -4215,6 +4454,7 @@
           }
         },
         {
+          "playerId": "P017",
           "dorsal": 18,
           "nombre": "Miguel",
           "total": 11,
@@ -4225,6 +4465,7 @@
           }
         },
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 9,
@@ -4235,6 +4476,7 @@
           }
         },
         {
+          "playerId": "P024",
           "dorsal": 8,
           "nombre": "Irving",
           "total": 8,
@@ -4252,6 +4494,7 @@
           }
         },
         {
+          "playerId": "P034",
           "dorsal": 22,
           "nombre": "Paleta",
           "total": 8,
@@ -4261,6 +4504,7 @@
           }
         },
         {
+          "playerId": "P027",
           "dorsal": 9,
           "nombre": "Coco",
           "total": 6,
@@ -4271,6 +4515,7 @@
           }
         },
         {
+          "playerId": "P029",
           "dorsal": 18,
           "nombre": "Paquito",
           "total": 6,
@@ -4282,6 +4527,7 @@
           }
         },
         {
+          "playerId": "P008",
           "dorsal": 23,
           "nombre": "Enrique",
           "total": 2,
@@ -4290,6 +4536,7 @@
           }
         },
         {
+          "playerId": "P018",
           "dorsal": 55,
           "nombre": "Omar",
           "total": 2,
@@ -4299,6 +4546,7 @@
           }
         },
         {
+          "playerId": "P020",
           "dorsal": 16,
           "nombre": "Gabo",
           "total": 1,
@@ -4309,6 +4557,7 @@
           }
         },
         {
+          "playerId": "P025",
           "dorsal": 30,
           "nombre": "Neto",
           "total": 1,
@@ -4317,84 +4566,98 @@
           }
         },
         {
+          "playerId": "P037",
           "dorsal": "",
           "nombre": "Pepe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P038",
           "dorsal": "",
           "nombre": "Lupe",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P039",
           "dorsal": "",
           "nombre": "Juan Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P040",
           "dorsal": "",
           "nombre": "Mauricio",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P041",
           "dorsal": "",
           "nombre": "Grillo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P042",
           "dorsal": "",
           "nombre": "Mirmo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P043",
           "dorsal": "",
           "nombre": "Oso",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P044",
           "dorsal": "",
           "nombre": "Diego",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P045",
           "dorsal": "",
           "nombre": "Pablo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P046",
           "dorsal": "",
           "nombre": "Chente",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P047",
           "dorsal": "",
           "nombre": "Glenn",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P048",
           "dorsal": "",
           "nombre": "Memo",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P049",
           "dorsal": "",
           "nombre": "Koch",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P033",
           "dorsal": 5,
           "nombre": "Pablo",
           "total": 0,
@@ -4403,12 +4666,14 @@
           }
         },
         {
+          "playerId": "P026",
           "dorsal": 6,
           "nombre": "Antonio",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P003",
           "dorsal": 8,
           "nombre": "Bismark",
           "total": 0,
@@ -4417,18 +4682,21 @@
           }
         },
         {
+          "playerId": "P019",
           "dorsal": 13,
           "nombre": "David",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P023",
           "dorsal": 17,
           "nombre": "Wero",
           "total": 0,
           "byEra": {}
         },
         {
+          "playerId": "P004",
           "dorsal": 94,
           "nombre": "Diego",
           "total": 0,
@@ -4580,6 +4848,7 @@
       ],
       "players": [
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 3,
@@ -4595,6 +4864,7 @@
           ]
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 3,
@@ -4610,6 +4880,7 @@
           ]
         },
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 2,
@@ -4625,6 +4896,7 @@
           ]
         },
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 2,
@@ -4640,6 +4912,7 @@
           ]
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 2,
@@ -4655,6 +4928,7 @@
           ]
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 1,
@@ -4670,6 +4944,7 @@
           ]
         },
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 1,
@@ -4685,6 +4960,7 @@
           ]
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 1,
@@ -4700,6 +4976,7 @@
           ]
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 0,
@@ -4715,6 +4992,7 @@
           ]
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 0,
@@ -4730,6 +5008,7 @@
           ]
         },
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 0,
@@ -4745,6 +5024,7 @@
           ]
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 0,
@@ -4760,6 +5040,7 @@
           ]
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 0,
@@ -4775,6 +5056,7 @@
           ]
         },
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 0,
@@ -4790,6 +5072,7 @@
           ]
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 0,
@@ -4805,6 +5088,7 @@
           ]
         },
         {
+          "playerId": null,
           "dorsal": "",
           "nombre": "[Default]",
           "total": 0,
@@ -4820,6 +5104,7 @@
           ]
         },
         {
+          "playerId": null,
           "dorsal": "",
           "nombre": "[Autogoles]",
           "total": 1,
@@ -4869,6 +5154,7 @@
       ],
       "players": [
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 4,
@@ -4884,6 +5170,7 @@
           ]
         },
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 4,
@@ -4899,6 +5186,7 @@
           ]
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 1,
@@ -4914,6 +5202,7 @@
           ]
         },
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 1,
@@ -4929,6 +5218,7 @@
           ]
         },
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 1,
@@ -4944,6 +5234,7 @@
           ]
         },
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 1,
@@ -4959,6 +5250,7 @@
           ]
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 1,
@@ -4974,6 +5266,7 @@
           ]
         },
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 1,
@@ -4989,6 +5282,7 @@
           ]
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 1,
@@ -5004,6 +5298,7 @@
           ]
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 0,
@@ -5019,6 +5314,7 @@
           ]
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 0,
@@ -5034,6 +5330,7 @@
           ]
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 0,
@@ -5049,6 +5346,7 @@
           ]
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 0,
@@ -5064,6 +5362,7 @@
           ]
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 0,
@@ -5079,6 +5378,7 @@
           ]
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 0,
@@ -5128,6 +5428,7 @@
       ],
       "players": [
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 7,
@@ -5143,6 +5444,7 @@
           ]
         },
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 7,
@@ -5158,6 +5460,7 @@
           ]
         },
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 7,
@@ -5173,6 +5476,7 @@
           ]
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 7,
@@ -5188,6 +5492,7 @@
           ]
         },
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 7,
@@ -5203,6 +5508,7 @@
           ]
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 6,
@@ -5218,6 +5524,7 @@
           ]
         },
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 6,
@@ -5233,6 +5540,7 @@
           ]
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 6,
@@ -5248,6 +5556,7 @@
           ]
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 6,
@@ -5263,6 +5572,7 @@
           ]
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 5,
@@ -5278,6 +5588,7 @@
           ]
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 4,
@@ -5293,6 +5604,7 @@
           ]
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 4,
@@ -5308,6 +5620,7 @@
           ]
         },
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 3,
@@ -5323,6 +5636,7 @@
           ]
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 3,
@@ -5338,6 +5652,7 @@
           ]
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 1,
@@ -5387,6 +5702,7 @@
       ],
       "players": [
         {
+          "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
           "total": 7,
@@ -5402,6 +5718,7 @@
           ]
         },
         {
+          "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
           "total": 7,
@@ -5417,6 +5734,7 @@
           ]
         },
         {
+          "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
           "total": 6,
@@ -5432,6 +5750,7 @@
           ]
         },
         {
+          "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
           "total": 6,
@@ -5447,6 +5766,7 @@
           ]
         },
         {
+          "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
           "total": 5,
@@ -5462,6 +5782,7 @@
           ]
         },
         {
+          "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
           "total": 5,
@@ -5477,6 +5798,7 @@
           ]
         },
         {
+          "playerId": "P028",
           "dorsal": 9,
           "nombre": "Hector",
           "total": 4,
@@ -5492,6 +5814,7 @@
           ]
         },
         {
+          "playerId": "P015",
           "dorsal": 27,
           "nombre": "Chuy",
           "total": 3,
@@ -5507,6 +5830,7 @@
           ]
         },
         {
+          "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
           "total": 2,
@@ -5522,6 +5846,7 @@
           ]
         },
         {
+          "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
           "total": 1,
@@ -5537,6 +5862,7 @@
           ]
         },
         {
+          "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
           "total": 1,
@@ -5552,6 +5878,7 @@
           ]
         },
         {
+          "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
           "total": 1,
@@ -5567,6 +5894,7 @@
           ]
         },
         {
+          "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
           "total": 0,
@@ -5582,6 +5910,7 @@
           ]
         },
         {
+          "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
           "total": 0,
@@ -5597,6 +5926,7 @@
           ]
         },
         {
+          "playerId": "P022",
           "dorsal": 28,
           "nombre": "Mane",
           "total": 0,
