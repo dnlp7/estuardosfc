@@ -1185,16 +1185,24 @@
 
   /** Finds one player's own row inside a stats block (data.stats.<STAT>),
    * preferring a playerId match (unambiguous even if two players share a
-   * Nombre) and falling back to Nombre matching only if the block's rows
-   * don't have a playerId yet — a historical stat tab that hasn't had a
-   * full rebuild (crearEstructura) since PlayerID was added to it, see
-   * dashboard_export.gs's schema comment. Two players sharing a Nombre
-   * only remain genuinely ambiguous in that transitional window. */
+   * Nombre). Nombre matching is ONLY a fallback for a stat tab that
+   * hasn't had a full rebuild (crearEstructura) since PlayerID was added
+   * to it — detected by checking whether ANY row in the block carries a
+   * playerId at all, not just whether THIS player's row does. A block
+   * that IS playerId-aware but has no row for this specific playerId
+   * means exactly what it looks like: this player has no real recorded
+   * data for this stat (e.g. buildStatsJson_ omits players with an
+   * entirely empty byEra) — falling back to Nombre there was the actual
+   * bug (two players sharing a Nombre, e.g. two "Chente"s, silently
+   * showed one player's real stats on the other's profile whenever the
+   * other genuinely had none). */
   function statRowForPlayer_(block, playerId, nombre) {
     if (!block) return null;
     if (playerId) {
       var byId = block.players.filter(function (p) { return p.playerId === playerId; })[0];
       if (byId) return byId;
+      var blockHasAnyPlayerId = block.players.some(function (p) { return !!p.playerId; });
+      if (blockHasAnyPlayerId) return null;
     }
     return block.players.filter(function (p) { return p.nombre === nombre; })[0] || null;
   }
