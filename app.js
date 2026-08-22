@@ -34,7 +34,8 @@
     detail: false,           // "Mostrar detalle" toggle — off by default
     historyDetailPromise: null, // lazy-loaded + cached data-history-detail.json fetch
     charts: {},               // canvas id -> live Chart.js instance, see renderChart_
-    perfilNombre: null,       // whichever player's profile is currently rendered — lets the stat selector re-render without needing playerId passed back in
+    perfilPlayerId: null,     // whichever player's profile is currently rendered — lets the stat selector re-render without playerId being passed back in
+    perfilNombre: null,       // same player's Nombre — kept alongside playerId as a fallback for a stats row that hasn't been through a full historical-doc rebuild since PlayerID was added yet (see statRowForPlayer_)
     perfilStat: 'BALANCE'     // Perfil page's own BALANCE/GOL/AST/PA/PI selector — independent of "stat" above (the Individuales tab's own selector)
   };
 
@@ -185,16 +186,44 @@
     return ' style="background:' + style.bg + (style.text ? ';color:' + style.text : '') + '"';
   }
 
-  /** Looks up one player's Jugadores entry (activo + dorsalByEra) by
-   * Nombre — the shared identity lookup lives once in data.json
-   * ("jugadores") and is reused for every player table, regardless of
-   * which JSON file supplied that table's actual rows (main data.json
-   * or the lazily-fetched data-history-detail.json). Returns null if
-   * the player isn't listed (fail open — caller treats that as active,
-   * no era-specific dorsal). */
+  /** Reverse Nombre -> PlayerID index over data.jugadores (which is
+   * itself keyed by PlayerID — see dashboard_export.gs). Built once and
+   * cached, since state.data never changes after the initial load.
+   * Needed anywhere the caller only has a Nombre in hand — match/stat
+   * detail rows (GOL/AST/PA/PI, current-match lineups) come straight
+   * from the season docs, which have no PlayerID column at all, only
+   * ever a Nombre. If two players share a Nombre, the FIRST one found
+   * wins here — a real limitation, but only for two same-named players
+   * who both have real recorded stats (this index is never consulted by
+   * the Jugadores roster/profile pages, which iterate PlayerID directly
+   * — see buildRoster_/renderPerfil). */
+  var nombreToPlayerIdIndex_ = null;
+  function nombreToPlayerId_(nombre) {
+    if (!nombreToPlayerIdIndex_) {
+      nombreToPlayerIdIndex_ = {};
+      var jugadores = (state.data && state.data.jugadores) || {};
+      Object.keys(jugadores).forEach(function (playerId) {
+        var n = jugadores[playerId].nombre;
+        if (n !== undefined && !(n in nombreToPlayerIdIndex_)) nombreToPlayerIdIndex_[n] = playerId;
+      });
+    }
+    return nombreToPlayerIdIndex_[nombre];
+  }
+
+  /** Looks up one player's Jugadores entry (playerId + activo +
+   * dorsalByEra) by Nombre, via the reverse index above — the shared
+   * identity lookup lives once in data.json ("jugadores") and is reused
+   * for every player table, regardless of which JSON file supplied that
+   * table's actual rows (main data.json or the lazily-fetched
+   * data-history-detail.json). Returns null if the player isn't listed
+   * (fail open — caller treats that as active, no era-specific dorsal). */
   function jugadorInfo_(nombre) {
     var jugadores = state.data && state.data.jugadores;
-    return (jugadores && jugadores[nombre]) || null;
+    if (!jugadores) return null;
+    var playerId = nombreToPlayerId_(nombre);
+    if (!playerId || !jugadores[playerId]) return null;
+    var info = jugadores[playerId];
+    return { playerId: playerId, nombre: info.nombre, activo: info.activo, dorsalByEra: info.dorsalByEra };
   }
 
   /** Dorsal/name cell background — main-color for a current roster
@@ -748,10 +777,11 @@
    * when a stray real dorsalByEra record also exists. Falls back to
    * mostRecentDorsal_ only while Datos!Dorsal hasn't been filled in yet
    * for someone, and finally to undefined (omitted, same as any other
-   * missing field here) if neither source has anything. */
-  function formerPlayerDorsal_(nombre, info) {
+   * missing field here) if neither source has anything. Keyed by
+   * playerId (datos is playerId-keyed, see dashboard_export.gs). */
+  function formerPlayerDorsal_(playerId, info) {
     var datos = state.data.datos || {};
-    var datosDorsal = datos[nombre] && datos[nombre].dorsal;
+    var datosDorsal = datos[playerId] && datos[playerId].dorsal;
     if (datosDorsal !== undefined && datosDorsal !== null && datosDorsal !== '') return datosDorsal;
     return mostRecentDorsal_(info, erasNewestFirst_());
   }
@@ -763,19 +793,24 @@
    * show up yet); a former player has no such requirement, since a
    * dorsal isn't what makes them "former" — the Activo checkbox alone
    * does, and some former players (pre-2017 departures) have no dorsal
-   * on record for any era at all. */
+   * on record for any era at all.
+   *
+   * Iterates jugadores' own PlayerID keys (not Nombre) — this is what
+   * actually fixes two players sharing a Nombre (e.g. two former
+   * players both called "Diego") from colliding into one roster card;
+   * see the schema comment in dashboard_export.gs for the full story. */
   function buildRoster_(activoWanted) {
     var data = state.data;
     var jugadores = data.jugadores || {};
     var datos = data.datos || {};
     var currentEra = data.currentEra;
-    return Object.keys(jugadores).map(function (nombre) {
-      var info = jugadores[nombre];
+    return Object.keys(jugadores).map(function (playerId) {
+      var info = jugadores[playerId];
       var dorsal = activoWanted
         ? (info.dorsalByEra && info.dorsalByEra[currentEra])
-        : formerPlayerDorsal_(nombre, info);
-      var posicion = (datos[nombre] && datos[nombre].posicion) || '';
-      return { nombre: nombre, playerId: info.playerId, activo: info.activo, dorsal: dorsal, posicion: posicion };
+        : formerPlayerDorsal_(playerId, info);
+      var posicion = (datos[playerId] && datos[playerId].posicion) || '';
+      return { nombre: info.nombre, playerId: playerId, activo: info.activo, dorsal: dorsal, posicion: posicion };
     }).filter(function (p) {
       if (activoWanted) return p.activo && p.dorsal !== undefined && p.dorsal !== null && p.dorsal !== '';
       return !p.activo;
@@ -1013,28 +1048,30 @@
     }
   }
 
-  /** Looks a player up by playerId (data.jugadores is keyed by Nombre,
-   * not playerId — a short scan over ~36 players is cheap enough that a
-   * reverse index isn't worth maintaining) and fills in every part of
-   * the profile: photo, name, current dorsal, birthday, debut, badges
-   * (Logros), and all-time GOL/AST/PA/PI totals (read straight off the
-   * same data.stats.<STAT>.players[].total every leaderboard already
-   * uses — a player's career total IS their all-time total, no separate
-   * aggregation needed). */
+  /** Looks a player up by playerId (data.jugadores/datos/logros are all
+   * keyed by playerId — a direct lookup, no scan needed) and fills in
+   * every part of the profile: photo, name, current dorsal, birthday,
+   * debut, badges (Logros), and all-time GOL/AST/PA/PI totals (read
+   * straight off the same data.stats.<STAT>.players[].total every
+   * leaderboard already uses — a player's career total IS their
+   * all-time total, no separate aggregation needed; those blocks are
+   * still Nombre-keyed at the source, see nombreToPlayerId_'s comment). */
   function renderPerfil(playerId) {
     var data = state.data;
     if (!data) return;
+    // Direct lookup now that jugadores is keyed by PlayerID — no more
+    // scanning for a matching playerId. This is also what actually
+    // fixes two players sharing a Nombre (e.g. two former players both
+    // called "Diego") from clobbering each other's profile: each
+    // playerId always resolves to its own distinct entry, regardless of
+    // what Nombre either of them displays.
     var jugadores = data.jugadores || {};
-    var nombre = null;
-    Object.keys(jugadores).some(function (n) {
-      if (jugadores[n].playerId === playerId) { nombre = n; return true; }
-      return false;
-    });
-    if (!nombre) return;
+    var info = jugadores[playerId];
+    if (!info) return;
+    var nombre = info.nombre;
 
-    var info = jugadores[nombre];
-    var datos = (data.datos && data.datos[nombre]) || {};
-    var badges = (data.logros && data.logros[nombre]) || [];
+    var datos = (data.datos && data.datos[playerId]) || {};
+    var badges = (data.logros && data.logros[playerId]) || [];
     // A current player's dorsal is currentEra's own — a former member
     // has no entry there by definition, so this falls back to the same
     // Datos!Dorsal-first lookup the Miembros Previos grid uses. Some
@@ -1044,7 +1081,7 @@
     // below is simply left blank.
     var dorsal = info.activo
       ? (info.dorsalByEra && info.dorsalByEra[data.currentEra])
-      : formerPlayerDorsal_(nombre, info);
+      : formerPlayerDorsal_(playerId, info);
 
     // images/perfiles — a separate, plain-headshot photo set from
     // Plantel's (images/plantel), which has dorsal/name baked into the
@@ -1130,10 +1167,27 @@
     // players while a GOL chart is showing would otherwise carry that
     // selection over to someone whose GOL history looks completely
     // different, with no visual cue anything changed underneath them.
+    state.perfilPlayerId = playerId;
     state.perfilNombre = nombre;
     state.perfilStat = 'BALANCE';
     resetPerfilStatSelector_();
-    renderPerfilStatsView_(nombre);
+    renderPerfilStatsView_(playerId, nombre);
+  }
+
+  /** Finds one player's own row inside a stats block (data.stats.<STAT>),
+   * preferring a playerId match (unambiguous even if two players share a
+   * Nombre) and falling back to Nombre matching only if the block's rows
+   * don't have a playerId yet — a historical stat tab that hasn't had a
+   * full rebuild (crearEstructura) since PlayerID was added to it, see
+   * dashboard_export.gs's schema comment. Two players sharing a Nombre
+   * only remain genuinely ambiguous in that transitional window. */
+  function statRowForPlayer_(block, playerId, nombre) {
+    if (!block) return null;
+    if (playerId) {
+      var byId = block.players.filter(function (p) { return p.playerId === playerId; })[0];
+      if (byId) return byId;
+    }
+    return block.players.filter(function (p) { return p.nombre === nombre; })[0] || null;
   }
 
   /** BALANCE shows the existing table; GOL_AST and PA_PI each show a
@@ -1142,19 +1196,19 @@
    * selector look, same .stat-btn markup as the Estadísticas >
    * Individuales tab, just scoped to its own #perfil-stat-selector (see
    * setupPerfilStatSelector_). */
-  function renderPerfilStatsView_(nombre) {
+  function renderPerfilStatsView_(playerId, nombre) {
     var isBalance = state.perfilStat === 'BALANCE';
     document.getElementById('perfil-stats-wrap').hidden = !isBalance;
     document.getElementById('perfil-stat-chart-wrap').hidden = true; // renderPerfilStatChart_ un-hides it if there's data to show
     document.getElementById('perfil-stat-message').hidden = true;
     if (isBalance) {
-      renderPerfilStatsTable_(nombre);
+      renderPerfilStatsTable_(playerId, nombre);
     } else {
       // "GOL_AST" / "PA_PI" -> ['GOL','AST'] / ['PA','PI'] — the two
       // pairs are shown together (one line each) since they're related
       // numbers a player/coach would naturally want to compare, rather
       // than as four separate single-line tabs.
-      renderPerfilStatChart_(nombre, state.perfilStat.split('_'));
+      renderPerfilStatChart_(playerId, nombre, state.perfilStat.split('_'));
     }
   }
 
@@ -1167,7 +1221,7 @@
       wrap.querySelectorAll('.stat-btn').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
       state.perfilStat = btn.dataset.stat;
-      if (state.perfilNombre) renderPerfilStatsView_(state.perfilNombre);
+      if (state.perfilNombre) renderPerfilStatsView_(state.perfilPlayerId, state.perfilNombre);
     });
   }
 
@@ -1188,12 +1242,12 @@
    * player actually has a record in — same "blank means not rostered
    * that era" rule used everywhere else, not the union of every era
    * that exists. */
-  function renderPerfilStatsTable_(nombre) {
+  function renderPerfilStatsTable_(playerId, nombre) {
     var data = state.data;
     var byEra = {};
     STATS_ORDER.forEach(function (stat) {
       var block = data.stats && data.stats[stat];
-      var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
+      var row = statRowForPlayer_(block, playerId, nombre);
       if (!row || !row.byEra) return;
       Object.keys(row.byEra).forEach(function (era) {
         if (row.byEra[era] === null || row.byEra[era] === undefined) return;
@@ -1228,7 +1282,7 @@
 
     var totalCells = STATS_ORDER.map(function (stat) {
       var block = data.stats && data.stats[stat];
-      var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
+      var row = statRowForPlayer_(block, playerId, nombre);
       var total = row ? row.total : null;
       return '<td class="val-strong">' + (total === null || total === undefined ? '' : esc(total)) + '</td>';
     }).join('');
@@ -1253,11 +1307,11 @@
    * rule as the table. A pair with NO data at all for either stat gets
    * a message instead of an empty chart, same pattern as the Equipo
    * tab's season-goals chart. */
-  function renderPerfilStatChart_(nombre, stats) {
+  function renderPerfilStatChart_(playerId, nombre, stats) {
     var data = state.data;
     var byEraPerStat = stats.map(function (stat) {
       var block = data.stats && data.stats[stat];
-      var row = block && block.players.filter(function (p) { return p.nombre === nombre; })[0];
+      var row = statRowForPlayer_(block, playerId, nombre);
       return (row && row.byEra) || {};
     });
 
@@ -2260,19 +2314,27 @@
     // Union of every player appearing in ANY of the 4 stat blocks — GOL
     // alone isn't guaranteed exhaustive (e.g. a player who only ever
     // appears in PA/PI edge cases), so this doesn't assume one master list.
-    var byName = {};
+    // Grouped by playerId, NOT Nombre — two players sharing a Nombre
+    // (e.g. two former players both called "Diego") would otherwise get
+    // their GOL/AST/PA/PI rows silently merged into one fabricated
+    // combined row here. Falls back to a Nombre-based key only for a
+    // stat block that hasn't had a full historical-doc rebuild since
+    // PlayerID was added yet (see dashboard_export.gs) — same
+    // transitional-only caveat as statRowForPlayer_.
+    var byPlayer = {};
     STATS_ORDER.forEach(function (stat) {
       var block = data.stats[stat];
       if (!block) return;
       block.players.forEach(function (p) {
-        if (!byName[p.nombre]) byName[p.nombre] = { nombre: p.nombre, dorsal: p.dorsal, values: {} };
-        var entry = byName[p.nombre];
+        var key = p.playerId || ('nombre:' + p.nombre);
+        if (!byPlayer[key]) byPlayer[key] = { playerId: p.playerId, nombre: p.nombre, dorsal: p.dorsal, values: {} };
+        var entry = byPlayer[key];
         entry.values[stat] = state.era === '__all__' ? p.total : (p.byEra ? p.byEra[state.era] : undefined);
         if (!entry.dorsal) entry.dorsal = p.dorsal;
       });
     });
 
-    var allRows = Object.keys(byName).map(function (nombre) { return byName[nombre]; });
+    var allRows = Object.keys(byPlayer).map(function (key) { return byPlayer[key]; });
     // Dorsal ascending — non-numeric/missing dorsals sort after every
     // real number, alphabetically among themselves.
     allRows.sort(function (a, b) {
