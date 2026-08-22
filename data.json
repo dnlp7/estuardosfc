@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T07:47:33.057Z",
+  "generatedAt": "2026-08-22T08:04:10.650Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -2740,97 +2740,6 @@
           }
         },
         {
-          "playerId": "P037",
-          "dorsal": "",
-          "nombre": "Pepe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P038",
-          "dorsal": "",
-          "nombre": "Lupe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P039",
-          "dorsal": "",
-          "nombre": "Juan Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P040",
-          "dorsal": "",
-          "nombre": "Mauricio",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P041",
-          "dorsal": "",
-          "nombre": "Grillo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P042",
-          "dorsal": "",
-          "nombre": "Mirmo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P043",
-          "dorsal": "",
-          "nombre": "Oso",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P044",
-          "dorsal": "",
-          "nombre": "Diego",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P045",
-          "dorsal": "",
-          "nombre": "Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P046",
-          "dorsal": "",
-          "nombre": "Chente",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P047",
-          "dorsal": "",
-          "nombre": "Glenn",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P048",
-          "dorsal": "",
-          "nombre": "Memo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P049",
-          "dorsal": "",
-          "nombre": "Koch",
-          "total": 0,
-          "byEra": {}
-        },
-        {
           "playerId": "P033",
           "dorsal": 5,
           "nombre": "Pablo",
@@ -3215,97 +3124,6 @@
           }
         },
         {
-          "playerId": "P037",
-          "dorsal": "",
-          "nombre": "Pepe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P038",
-          "dorsal": "",
-          "nombre": "Lupe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P039",
-          "dorsal": "",
-          "nombre": "Juan Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P040",
-          "dorsal": "",
-          "nombre": "Mauricio",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P041",
-          "dorsal": "",
-          "nombre": "Grillo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P042",
-          "dorsal": "",
-          "nombre": "Mirmo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P043",
-          "dorsal": "",
-          "nombre": "Oso",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P044",
-          "dorsal": "",
-          "nombre": "Diego",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P045",
-          "dorsal": "",
-          "nombre": "Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P046",
-          "dorsal": "",
-          "nombre": "Chente",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P047",
-          "dorsal": "",
-          "nombre": "Glenn",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P048",
-          "dorsal": "",
-          "nombre": "Memo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P049",
-          "dorsal": "",
-          "nombre": "Koch",
-          "total": 0,
-          "byEra": {}
-        },
-        {
           "playerId": "P006",
           "dorsal": 2,
           "nombre": "Luis",
@@ -3325,13 +3143,6 @@
           }
         },
         {
-          "playerId": "P026",
-          "dorsal": 6,
-          "nombre": "Antonio",
-          "total": 0,
-          "byEra": {}
-        },
-        {
           "playerId": "P003",
           "dorsal": 8,
           "nombre": "Bismark",
@@ -3339,34 +3150,6 @@
           "byEra": {
             "2022/23": 0
           }
-        },
-        {
-          "playerId": "P027",
-          "dorsal": 9,
-          "nombre": "Coco",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P019",
-          "dorsal": 13,
-          "nombre": "David",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P020",
-          "dorsal": 16,
-          "nombre": "Gabo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P023",
-          "dorsal": 17,
-          "nombre": "Wero",
-          "total": 0,
-          "byEra": {}
         },
         {
           "playerId": "P034",
@@ -3379,27 +3162,6 @@
           }
         },
         {
-          "playerId": "P008",
-          "dorsal": 23,
-          "nombre": "Enrique",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P005",
-          "dorsal": 24,
-          "nombre": "Arthie",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P025",
-          "dorsal": 30,
-          "nombre": "Neto",
-          "total": 0,
-          "byEra": {}
-        },
-        {
           "playerId": "P032",
           "dorsal": 43,
           "nombre": "Rene",
@@ -3409,20 +3171,6 @@
             "2022/23": 0,
             "2023/24": 0
           }
-        },
-        {
-          "playerId": "P018",
-          "dorsal": 55,
-          "nombre": "Omar",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P004",
-          "dorsal": 94,
-          "nombre": "Diego",
-          "total": 0,
-          "byEra": {}
         }
       ]
     },
@@ -3943,125 +3691,6 @@
           "byEra": {
             "2024": 2
           }
-        },
-        {
-          "playerId": "P037",
-          "dorsal": "",
-          "nombre": "Pepe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P038",
-          "dorsal": "",
-          "nombre": "Lupe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P039",
-          "dorsal": "",
-          "nombre": "Juan Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P040",
-          "dorsal": "",
-          "nombre": "Mauricio",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P041",
-          "dorsal": "",
-          "nombre": "Grillo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P042",
-          "dorsal": "",
-          "nombre": "Mirmo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P043",
-          "dorsal": "",
-          "nombre": "Oso",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P044",
-          "dorsal": "",
-          "nombre": "Diego",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P045",
-          "dorsal": "",
-          "nombre": "Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P046",
-          "dorsal": "",
-          "nombre": "Chente",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P047",
-          "dorsal": "",
-          "nombre": "Glenn",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P048",
-          "dorsal": "",
-          "nombre": "Memo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P049",
-          "dorsal": "",
-          "nombre": "Koch",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P026",
-          "dorsal": 6,
-          "nombre": "Antonio",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P019",
-          "dorsal": 13,
-          "nombre": "David",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P023",
-          "dorsal": 17,
-          "nombre": "Wero",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P004",
-          "dorsal": 94,
-          "nombre": "Diego",
-          "total": 0,
-          "byEra": {}
         }
       ]
     },
@@ -4566,97 +4195,6 @@
           }
         },
         {
-          "playerId": "P037",
-          "dorsal": "",
-          "nombre": "Pepe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P038",
-          "dorsal": "",
-          "nombre": "Lupe",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P039",
-          "dorsal": "",
-          "nombre": "Juan Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P040",
-          "dorsal": "",
-          "nombre": "Mauricio",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P041",
-          "dorsal": "",
-          "nombre": "Grillo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P042",
-          "dorsal": "",
-          "nombre": "Mirmo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P043",
-          "dorsal": "",
-          "nombre": "Oso",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P044",
-          "dorsal": "",
-          "nombre": "Diego",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P045",
-          "dorsal": "",
-          "nombre": "Pablo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P046",
-          "dorsal": "",
-          "nombre": "Chente",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P047",
-          "dorsal": "",
-          "nombre": "Glenn",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P048",
-          "dorsal": "",
-          "nombre": "Memo",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P049",
-          "dorsal": "",
-          "nombre": "Koch",
-          "total": 0,
-          "byEra": {}
-        },
-        {
           "playerId": "P033",
           "dorsal": 5,
           "nombre": "Pablo",
@@ -4666,13 +4204,6 @@
           }
         },
         {
-          "playerId": "P026",
-          "dorsal": 6,
-          "nombre": "Antonio",
-          "total": 0,
-          "byEra": {}
-        },
-        {
           "playerId": "P003",
           "dorsal": 8,
           "nombre": "Bismark",
@@ -4680,27 +4211,6 @@
           "byEra": {
             "2022/23": 0
           }
-        },
-        {
-          "playerId": "P019",
-          "dorsal": 13,
-          "nombre": "David",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P023",
-          "dorsal": 17,
-          "nombre": "Wero",
-          "total": 0,
-          "byEra": {}
-        },
-        {
-          "playerId": "P004",
-          "dorsal": 94,
-          "nombre": "Diego",
-          "total": 0,
-          "byEra": {}
         }
       ]
     }
