@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T06:07:49.348Z",
+  "generatedAt": "2026-08-22T06:14:48.245Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -631,7 +631,8 @@
         "dia": 2
       },
       "instagram": "dnlp_7",
-      "twitter": "dnlp7"
+      "twitter": "dnlp7",
+      "dorsal": 7
     },
     "Sheko": {
       "nombreCompleto": "Sergio Molina",
@@ -642,7 +643,8 @@
         "dia": 25
       },
       "instagram": "sheko.molina",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 3
     },
     "Bismark": {
       "nombreCompleto": "Bismark López",
@@ -653,7 +655,8 @@
         "dia": 8
       },
       "instagram": "kramsibismark",
-      "twitter": "kramsib"
+      "twitter": "kramsib",
+      "dorsal": 8
     },
     "Diego": {
       "nombreCompleto": "Diego Gudiño",
@@ -661,7 +664,8 @@
       "debut": "2014",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 17
     },
     "Arthie": {
       "nombreCompleto": "Arthie Martínez",
@@ -672,7 +676,8 @@
         "dia": 8
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 24
     },
     "Luis": {
       "nombreCompleto": "Luis Jesús Quiñones",
@@ -683,7 +688,8 @@
         "dia": 13
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 2
     },
     "Sergio": {
       "nombreCompleto": "Sergio Alarcón",
@@ -694,7 +700,8 @@
         "dia": 16
       },
       "instagram": "smagic10",
-      "twitter": "smagic10"
+      "twitter": "smagic10",
+      "dorsal": 23
     },
     "Enrique": {
       "nombreCompleto": "Enrique Pellat",
@@ -702,7 +709,8 @@
       "debut": "2012",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 23
     },
     "Orlando": {
       "nombreCompleto": "Orlando Guzmán",
@@ -713,7 +721,8 @@
         "dia": 21
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 21
     },
     "Mares": {
       "nombreCompleto": "Carlos Mares",
@@ -724,7 +733,8 @@
         "dia": 2
       },
       "instagram": "black_dja",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 4
     },
     "Eric": {
       "nombreCompleto": "Eric Chávez",
@@ -735,7 +745,8 @@
         "dia": 30
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 14
     },
     "Chente": {
       "nombreCompleto": "Vicente Perales",
@@ -743,7 +754,8 @@
       "debut": "2010",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 90
     },
     "Charly": {
       "nombreCompleto": "Carlos Vargas",
@@ -754,7 +766,8 @@
         "dia": 7
       },
       "instagram": "carlosenrique.vargas.52",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 1
     },
     "Paco": {
       "nombreCompleto": "Francisco Bravo",
@@ -765,7 +778,8 @@
         "dia": 14
       },
       "instagram": "fcobr14",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 10
     },
     "Chuy": {
       "nombreCompleto": "Jesús Hermosillo",
@@ -776,7 +790,8 @@
         "dia": 26
       },
       "instagram": "hermosillo2918",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 27
     },
     "Lanuza": {
       "nombreCompleto": "Manuel Lanuza",
@@ -787,7 +802,8 @@
         "dia": 16
       },
       "instagram": "manuel.lanuza",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 6
     },
     "Miguel": {
       "nombreCompleto": "Miguel Márquez",
@@ -798,7 +814,8 @@
         "dia": 21
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 18
     },
     "Omar": {
       "nombreCompleto": "Omar Rojas",
@@ -806,7 +823,8 @@
       "debut": "2017",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 55
     },
     "David": {
       "nombreCompleto": "David Clifton",
@@ -814,7 +832,8 @@
       "debut": "2017",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 13
     },
     "Gabo": {
       "nombreCompleto": "Gabriel Gómez",
@@ -825,7 +844,8 @@
         "dia": 1
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 16
     },
     "Abraham": {
       "nombreCompleto": "Abraham Moreno",
@@ -836,7 +856,8 @@
         "dia": 16
       },
       "instagram": "abmoreno_16",
-      "twitter": "Abraham_Moreno"
+      "twitter": "Abraham_Moreno",
+      "dorsal": 20
     },
     "Mane": {
       "nombreCompleto": "Manuel González",
@@ -847,7 +868,8 @@
         "dia": 2
       },
       "instagram": "manedin",
-      "twitter": "manestyle"
+      "twitter": "manestyle",
+      "dorsal": 28
     },
     "Wero": {
       "nombreCompleto": "Carlos Godínez",
@@ -855,7 +877,8 @@
       "debut": "2017",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 17
     },
     "Irving": {
       "nombreCompleto": "Irving Talamantes",
@@ -866,7 +889,8 @@
         "dia": 26
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 8
     },
     "Neto": {
       "nombreCompleto": "Ernesto Vargas",
@@ -874,7 +898,8 @@
       "debut": "2018",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 30
     },
     "Antonio": {
       "nombreCompleto": "Antonio Vivar",
@@ -882,7 +907,8 @@
       "debut": "2018",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 6
     },
     "Coco": {
       "nombreCompleto": "César Sobrino",
@@ -893,7 +919,8 @@
         "dia": 29
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 9
     },
     "Hector": {
       "nombreCompleto": "Héctor Vázquez",
@@ -904,7 +931,8 @@
         "dia": 19
       },
       "instagram": "hectorvazc",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 9
     },
     "Paquito": {
       "nombreCompleto": "Francisco Sandoval",
@@ -915,7 +943,8 @@
         "dia": 2
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 18
     },
     "Pavel": {
       "nombreCompleto": "Javier Paván",
@@ -926,7 +955,8 @@
         "dia": 29
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 11
     },
     "Ramiro": {
       "nombreCompleto": "Ramiro López",
@@ -937,7 +967,8 @@
         "dia": 11
       },
       "instagram": "ramsuzer_711",
-      "twitter": null
+      "twitter": null,
+      "dorsal": 11
     },
     "Rene": {
       "nombreCompleto": "René Benavides",
@@ -948,7 +979,8 @@
         "dia": 4
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 43
     },
     "Pablo": {
       "nombreCompleto": "Pablo Pellat",
@@ -956,7 +988,8 @@
       "debut": "2015",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 88
     },
     "Paleta": {
       "nombreCompleto": "Erik Aviña",
@@ -967,7 +1000,8 @@
         "dia": 24
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 22
     },
     "Noe": {
       "nombreCompleto": "Noé Pérez",
@@ -978,7 +1012,8 @@
         "dia": 11
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 13
     },
     "Alonso": {
       "nombreCompleto": "Alonso Moreno",
@@ -989,7 +1024,8 @@
         "dia": 28
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 5
     },
     "Pepe": {
       "nombreCompleto": "José Carlos López",
@@ -1000,7 +1036,8 @@
         "dia": 20
       },
       "instagram": "josecarloslch",
-      "twitter": "yatodota"
+      "twitter": "yatodota",
+      "dorsal": 4
     },
     "Lupe": {
       "nombreCompleto": "Guadalupe Mariscal",
@@ -1008,7 +1045,8 @@
       "debut": "2012",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 1
     },
     "Juan Pablo": {
       "nombreCompleto": "Juan Pablo de Alba",
@@ -1019,7 +1057,8 @@
         "dia": 29
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 8
     },
     "Mauricio": {
       "nombreCompleto": "Mauricio Polanco",
@@ -1030,7 +1069,8 @@
         "dia": 27
       },
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 15
     },
     "Grillo": {
       "nombreCompleto": "José Loera",
@@ -1038,7 +1078,8 @@
       "debut": "2010",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 11
     },
     "Mirmo": {
       "nombreCompleto": "Daniel Soto",
@@ -1046,7 +1087,8 @@
       "debut": "2010",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 13
     },
     "Oso": {
       "nombreCompleto": "Andrés Limón",
@@ -1054,7 +1096,8 @@
       "debut": "2010",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 13
     },
     "Glenn": {
       "nombreCompleto": "Glenn Martínez",
@@ -1062,7 +1105,8 @@
       "debut": "2010",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 25
     },
     "Memo": {
       "nombreCompleto": "Guillermo Alonso",
@@ -1070,7 +1114,8 @@
       "debut": "2014",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 11
     },
     "Koch": {
       "nombreCompleto": "José Luis Rodríguez",
@@ -1078,7 +1123,8 @@
       "debut": "2012",
       "cumpleanos": null,
       "instagram": null,
-      "twitter": null
+      "twitter": null,
+      "dorsal": 5
     }
   },
   "logros": {
