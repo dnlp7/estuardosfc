@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T06:14:48.245Z",
+  "generatedAt": "2026-08-22T06:20:41.036Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -1526,6 +1526,12 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
       }
     ],
     "Charly": [
@@ -2048,6 +2054,62 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      }
+    ],
+    "Pepe": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "Juan Pablo": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "Mauricio": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "Grillo": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "Mirmo": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "Oso": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "Glenn": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
       }
     ]
   },
