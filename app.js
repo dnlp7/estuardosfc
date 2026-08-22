@@ -273,11 +273,13 @@
     renderUltimoPartido_();
     renderProximoPartido_();
     setupTabs();
+    setupJugadoresTabs_();
     setupHistoria_();
     setupEquipoControls(data);
     setupHistorialControls(data);
     renderLeaderboard();
     renderPlantel();
+    renderPlantelEx_();
     renderRecordsLeaders_();
     setupPerfil();
   }
@@ -712,30 +714,83 @@
   var POSICION_ORDER_ = ['POR', 'DEF', 'MED', 'DEL'];
   var POSICION_LABELS_ = { POR: 'Porteros', DEF: 'Defensas', MED: 'Medios', DEL: 'Delanteros' };
 
-  /** Current roster, grouped into position sections, each sorted by
-   * dorsal ascending within itself. Same "Activo" flag (Jugadores tab)
-   * that already drives active/inactive coloring everywhere else, so no
-   * separate roster list to maintain. Each player's CURRENT dorsal
-   * comes from dorsalByEra[currentEra], not the BALANCE table's all-time
-   * "dorsal" field (which can be stale/blank for eras that predate a
-   * player, or simply wrong for someone whose number changed) —
-   * currentEra is the same value data.json's season/era controls
-   * already use. */
-  function renderPlantel() {
+  /** Every era in data.seasons, most recent first — used to look up a
+   * former player's last-known dorsal (see mostRecentDorsal_) since they
+   * have no entry for currentEra by definition. */
+  function erasNewestFirst_() {
+    return (state.data.seasons || []).map(function (s) { return s.era; }).slice().reverse();
+  }
+
+  /** A former player's dorsal for display purposes: their most recent
+   * era with a real dorsalByEra entry, walking backward from the
+   * present. Returns undefined if the player has no era data at all
+   * (the pre-2017 departures Daniel flagged — no season doc, no
+   * Jugadores era column, nothing to fall back to) — callers already
+   * treat an undefined/blank dorsal as "omit it", same as any other
+   * missing field on this site. */
+  function mostRecentDorsal_(info, erasNewestFirst) {
+    if (!info.dorsalByEra) return undefined;
+    for (var i = 0; i < erasNewestFirst.length; i++) {
+      var v = info.dorsalByEra[erasNewestFirst[i]];
+      if (v !== undefined && v !== null && v !== '') return v;
+    }
+    return undefined;
+  }
+
+  /** A former player's DISPLAY dorsal, used only for the Miembros
+   * Previos grid and a former player's own profile page — never for a
+   * current/active player, who always uses dorsalByEra[currentEra]
+   * instead (see buildRoster_/renderPerfil). Most former players left
+   * before Jugadores' per-era dorsal columns existed, so
+   * dorsalByEra is usually empty for them; Datos!Dorsal is Daniel's own
+   * hand-filled fallback for exactly that gap, and takes priority over
+   * mostRecentDorsal_ since it's the number he intends to show even
+   * when a stray real dorsalByEra record also exists. Falls back to
+   * mostRecentDorsal_ only while Datos!Dorsal hasn't been filled in yet
+   * for someone, and finally to undefined (omitted, same as any other
+   * missing field here) if neither source has anything. */
+  function formerPlayerDorsal_(nombre, info) {
+    var datos = state.data.datos || {};
+    var datosDorsal = datos[nombre] && datos[nombre].dorsal;
+    if (datosDorsal !== undefined && datosDorsal !== null && datosDorsal !== '') return datosDorsal;
+    return mostRecentDorsal_(info, erasNewestFirst_());
+  }
+
+  /** Roster list for one Jugadores sub-tab — `activoWanted` true for
+   * Plantel Actual, false for Miembros Previos. A current player must
+   * have a real dorsal for currentEra (same rule as before — someone
+   * added to Jugadores but not yet placed on this era's roster doesn't
+   * show up yet); a former player has no such requirement, since a
+   * dorsal isn't what makes them "former" — the Activo checkbox alone
+   * does, and some former players (pre-2017 departures) have no dorsal
+   * on record for any era at all. */
+  function buildRoster_(activoWanted) {
     var data = state.data;
-    var grid = document.getElementById('plantel-grid');
-    if (!data || !grid) return;
     var jugadores = data.jugadores || {};
     var datos = data.datos || {};
     var currentEra = data.currentEra;
-    var roster = Object.keys(jugadores).map(function (nombre) {
+    return Object.keys(jugadores).map(function (nombre) {
       var info = jugadores[nombre];
-      var dorsal = info.dorsalByEra && info.dorsalByEra[currentEra];
+      var dorsal = activoWanted
+        ? (info.dorsalByEra && info.dorsalByEra[currentEra])
+        : formerPlayerDorsal_(nombre, info);
       var posicion = (datos[nombre] && datos[nombre].posicion) || '';
       return { nombre: nombre, playerId: info.playerId, activo: info.activo, dorsal: dorsal, posicion: posicion };
     }).filter(function (p) {
-      return p.activo && p.dorsal !== undefined && p.dorsal !== null && p.dorsal !== '';
+      if (activoWanted) return p.activo && p.dorsal !== undefined && p.dorsal !== null && p.dorsal !== '';
+      return !p.activo;
     });
+  }
+
+  /** Shared renderer for both Jugadores sub-tabs — grouped into position
+   * sections, each sorted by dorsal ascending within itself. `imgDir` is
+   * the roster-photo folder: images/plantel/ for the current squad,
+   * images/plantel/ex/ for former members (Daniel's own split, since
+   * they're a separate photo set). */
+  function renderRosterGrid_(gridId, activoWanted, imgDir) {
+    var grid = document.getElementById(gridId);
+    if (!state.data || !grid) return;
+    var roster = buildRoster_(activoWanted);
 
     var groups = {};
     POSICION_ORDER_.forEach(function (pos) { groups[pos] = []; });
@@ -745,22 +800,31 @@
     });
 
     var html = POSICION_ORDER_.map(function (pos) {
-      return plantelSectionHtml_(POSICION_LABELS_[pos], groups[pos]);
+      return plantelSectionHtml_(POSICION_LABELS_[pos], groups[pos], imgDir);
     }).join('');
-    if (otros.length) html += plantelSectionHtml_('Otros', otros);
+    if (otros.length) html += plantelSectionHtml_('Otros', otros, imgDir);
 
     grid.innerHTML = html;
+    var emptyMsg = document.getElementById('plantel-ex-message');
+    if (emptyMsg) emptyMsg.hidden = activoWanted || roster.length > 0;
+  }
+
+  function renderPlantel() {
+    renderRosterGrid_('plantel-grid', true, 'images/plantel/');
+  }
+  function renderPlantelEx_() {
+    renderRosterGrid_('plantel-grid-ex', false, 'images/plantel/ex/');
   }
 
   /** One position section: heading + its own 4-per-row card grid.
    * Returns '' for an empty group so, e.g., a squad with no Porteros
    * entered yet doesn't leave a heading floating over nothing. */
-  function plantelSectionHtml_(titulo, players) {
+  function plantelSectionHtml_(titulo, players, imgDir) {
     if (!players.length) return '';
     var cards = players.slice().sort(function (a, b) {
       return (Number(a.dorsal) || 0) - (Number(b.dorsal) || 0);
     }).map(function (p) {
-      var img = 'images/plantel/' + p.playerId + '.jpg';
+      var img = imgDir + p.playerId + '.jpg';
       // A real <button>, not a clickable <div> — free keyboard focus/
       // activation (Tab + Enter/Space) and correct screen-reader role,
       // rather than needing a hand-rolled tabindex + keydown handler.
@@ -798,7 +862,7 @@
   var SECTION_TITLES_ = {
     inicio: 'Estuardos FC',
     estadisticas: 'Estuardos FC — Estadísticas',
-    plantel: 'Estuardos FC — Plantel',
+    jugadores: 'Estuardos FC — Jugadores',
     historia: 'Estuardos FC — Historia'
   };
 
@@ -819,11 +883,14 @@
     });
     if (SECTION_TITLES_[name]) document.title = SECTION_TITLES_[name];
     var isEstadisticas = name === 'estadisticas';
-    // The Equipo/Jugadores sub-nav only makes sense inside Estadísticas.
+    // The Equipo/Individuales/Récords sub-nav only makes sense inside
+    // Estadísticas; the Plantel Actual/Miembros Previos sub-nav only
+    // makes sense inside Jugadores.
     document.getElementById('estadisticas-subnav').hidden = !isEstadisticas;
+    document.getElementById('jugadores-subnav').hidden = name !== 'jugadores';
     // Same "wide" resync reasoning as setupTabs() below — leaving
-    // Estadísticas while Jugadores' detail view is on must not keep
-    // <main> stretched on Plantel/Perfil (or vice versa, coming back).
+    // Estadísticas while Individuales' detail view is on must not keep
+    // <main> stretched on Jugadores/Perfil (or vice versa, coming back).
     var historialActive = document.querySelector('#estadisticas-subnav .tab-btn[data-tab="historial"]').classList.contains('active');
     document.querySelector('main').classList.toggle('wide', isEstadisticas && historialActive && state.detail);
     if (isEstadisticas) syncStickyOffsets_();
@@ -832,14 +899,20 @@
   function setupSections() {
     document.querySelectorAll('.main-tab-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        // Same instant-render + shareable-hash pattern as the Plantel
+        // Same instant-render + shareable-hash pattern as the Jugadores
         // cards below: set the hash so every main section has its own
         // dedicated, shareable/deep-linkable URL (#inicio, #estadisticas,
-        // #plantel, #historia), but still call activateSection_ directly
+        // #jugadores, #historia), but still call activateSection_ directly
         // rather than waiting for the resulting hashchange event, so the
         // click feels instant. This also naturally overwrites/clears any
         // stale #jugador/<id> hash left over from a profile page.
         location.hash = btn.dataset.section;
+        // Jugadores always opens on Plantel Actual from the nav bar,
+        // regardless of whichever sub-tab was showing last time — unlike
+        // Estadísticas' sub-tab, which is left as-is (and unlike "Volver"
+        // from a former member's profile, which should land back on
+        // Miembros Previos — see setupPerfil).
+        if (btn.dataset.section === 'jugadores') activateJugadoresTab_('actual');
         activateSection_(btn.dataset.section);
       });
     });
@@ -862,23 +935,37 @@
    * immediately, rather than waiting for the resulting hashchange event
    * — instant on click, with the hash update mainly there for deep
    * links / refresh, not as the trigger. */
+  /** Click delegation for one Jugadores grid (Plantel Actual or Miembros
+   * Previos — both share the same .plantel-card markup and profile-open
+   * behavior, they only differ in which roster/photo folder rendered
+   * them). Survives renderRosterGrid_ re-rendering the grid's innerHTML,
+   * and only needs wiring up once per grid. */
+  function wirePlantelGridClicks_(gridId) {
+    var grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.addEventListener('click', function (e) {
+      var card = e.target.closest('.plantel-card');
+      if (!card || !card.dataset.playerId) return;
+      location.hash = 'jugador/' + encodeURIComponent(card.dataset.playerId);
+      renderPerfil(card.dataset.playerId);
+      activateSection_('perfil');
+    });
+  }
+
   function setupPerfil() {
     setupPerfilStatSelector_();
-    var grid = document.getElementById('plantel-grid');
-    if (grid) {
-      grid.addEventListener('click', function (e) {
-        var card = e.target.closest('.plantel-card');
-        if (!card || !card.dataset.playerId) return;
-        location.hash = 'jugador/' + encodeURIComponent(card.dataset.playerId);
-        renderPerfil(card.dataset.playerId);
-        activateSection_('perfil');
-      });
-    }
+    wirePlantelGridClicks_('plantel-grid');
+    wirePlantelGridClicks_('plantel-grid-ex');
     var volver = document.getElementById('perfil-volver');
     if (volver) {
       volver.addEventListener('click', function () {
-        location.hash = 'plantel';
-        activateSection_('plantel');
+        // Deliberately does NOT reset which Jugadores sub-tab is active
+        // (unlike the nav-bar click, see setupSections) — someone who
+        // opened a former member's profile from Miembros Previos should
+        // land back on Miembros Previos, not get bounced to Plantel
+        // Actual.
+        location.hash = 'jugadores';
+        activateSection_('jugadores');
       });
     }
     window.addEventListener('hashchange', routeFromHash_);
@@ -888,11 +975,11 @@
   // Every main section has its own dedicated hash now, same idea as
   // #jugador/<id> — mirrors the .main-tab-btn data-section values 1:1,
   // so any of these is a shareable/deep-linkable URL straight to that
-  // page (#inicio, #estadisticas, #plantel, #historia).
-  var SECTION_HASHES_ = ['inicio', 'estadisticas', 'plantel', 'historia'];
+  // page (#inicio, #estadisticas, #jugadores, #historia).
+  var SECTION_HASHES_ = ['inicio', 'estadisticas', 'jugadores', 'historia'];
 
   /** Two hash shapes matter: #jugador/<playerId> (profile) and a bare
-   * section name (#inicio/#estadisticas/#plantel/#historia). Matching
+   * section name (#inicio/#estadisticas/#jugadores/#historia). Matching
    * either renders + shows the right page — used both on initial load
    * (deep links) and on hashchange (back/forward, or the redundant fire
    * after a nav click already set the hash directly, see setupSections).
@@ -913,7 +1000,7 @@
     if (SECTION_HASHES_.indexOf(name) !== -1) {
       activateSection_(name);
     } else if (document.getElementById('section-perfil').classList.contains('active')) {
-      activateSection_('plantel');
+      activateSection_('jugadores');
     }
   }
 
@@ -939,26 +1026,45 @@
     var info = jugadores[nombre];
     var datos = (data.datos && data.datos[nombre]) || {};
     var badges = (data.logros && data.logros[nombre]) || [];
-    var dorsal = info.dorsalByEra && info.dorsalByEra[data.currentEra];
+    // A current player's dorsal is currentEra's own — a former member
+    // has no entry there by definition, so this falls back to the same
+    // Datos!Dorsal-first lookup the Miembros Previos grid uses. Some
+    // former players still have nothing recorded anywhere (pre-2017
+    // departures with no Datos!Dorsal entered yet either) —
+    // formerPlayerDorsal_ returns undefined for them and the field
+    // below is simply left blank.
+    var dorsal = info.activo
+      ? (info.dorsalByEra && info.dorsalByEra[data.currentEra])
+      : formerPlayerDorsal_(nombre, info);
 
     // images/perfiles — a separate, plain-headshot photo set from
     // Plantel's (images/plantel), which has dorsal/name baked into the
     // graphic itself. These don't, so the page renders that text itself.
+    // Former members' photos live in their own images/perfiles/ex/
+    // subfolder (Daniel's own split, since it's a separate photo set).
+    var fotoDir = info.activo ? 'images/perfiles/' : 'images/perfiles/ex/';
     document.title = 'Estuardos FC — ' + nombre;
-    document.getElementById('perfil-foto').src = 'images/perfiles/' + playerId + '.jpg';
+    document.getElementById('perfil-foto').src = fotoDir + playerId + '.jpg';
     document.getElementById('perfil-foto').alt = nombre;
     document.getElementById('perfil-dorsal').textContent =
       (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
     document.getElementById('perfil-nombre').textContent = nombre;
+    // Full name — omitted entirely (not just left blank) when it hasn't
+    // been entered, same "incomplete data" case Daniel called out for
+    // most former players.
+    document.getElementById('perfil-nombre-completo').hidden = !datos.nombreCompleto;
     document.getElementById('perfil-nombre-completo').textContent = datos.nombreCompleto || '';
     // Label text ("Debut", "Cumpleaños") lives in the HTML itself — only
-    // the value span is touched here — and the whole row hides if that
-    // piece of data hasn't been entered yet, rather than showing a bare
-    // label with nothing after it.
+    // the value span is touched here. Debut still hides its whole row
+    // when missing (nothing meaningful to show in its place). Cumpleaños
+    // instead always shows the row with a dash standing in for a missing
+    // date — per Daniel's own call, since most former players are
+    // missing this specific field and a fully-hidden row read as more
+    // "broken" than informative there.
     document.getElementById('perfil-debut-row').hidden = !datos.debut;
     document.getElementById('perfil-debut').textContent = datos.debut || '';
-    document.getElementById('perfil-cumple-row').hidden = !datos.cumpleanos;
-    document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '';
+    document.getElementById('perfil-cumple-row').hidden = false;
+    document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '–';
 
     // Social links — one icon per site, shown only when that player has
     // a real handle entered in Datos (see socialHandle_ in
@@ -1210,6 +1316,27 @@
   function setupTabs() {
     document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (btn) {
       btn.addEventListener('click', function () { activateEstadisticasTab_(btn.dataset.tab); });
+    });
+  }
+
+  /** Jugadores' own Plantel Actual/Miembros Previos switch — same
+   * look-and-wiring pattern as activateEstadisticasTab_, just a two-way
+   * toggle over #jugadores-subnav/#jtab-actual/#jtab-previos instead of
+   * three Estadísticas sub-tabs. Both grids are already rendered by
+   * init() (renderPlantel/renderPlantelEx_ read straight from data.json,
+   * no lazy historical fetch needed like Récords), so this only ever
+   * toggles visibility — never triggers a render. */
+  function activateJugadoresTab_(tab) {
+    document.querySelectorAll('#jugadores-subnav .tab-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.jtab === tab);
+    });
+    document.querySelectorAll('#section-jugadores .tab-panel').forEach(function (p) { p.classList.remove('active'); });
+    document.getElementById('jtab-' + tab).classList.add('active');
+  }
+
+  function setupJugadoresTabs_() {
+    document.querySelectorAll('#jugadores-subnav .tab-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () { activateJugadoresTab_(btn.dataset.jtab); });
     });
   }
 

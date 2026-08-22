@@ -7,7 +7,7 @@
 <meta name="description" content="Estadísticas, resultados y plantel de Estuardos FC — equipo de futbol 7 en Guadalajara, México.">
 
 <!-- Open Graph / Twitter Card — this is a single static shell shared by
-     every hash route (#inicio, #plantel, a #jugador/<id> profile, ...),
+     every hash route (#inicio, #jugadores, a #jugador/<id> profile, ...),
      since a link crawler never runs the page's own JS to see which
      section is actually being shared. So these are fixed, generic
      team-level info, not per-page — good enough for "someone pasted a
@@ -50,7 +50,7 @@
     <button class="tab-btn main-tab-btn nav-home-btn" data-section="inicio" aria-label="Inicio">
       <img src="images/favicon.png" alt="" class="nav-home-icon">
     </button>
-    <button class="tab-btn main-tab-btn" data-section="plantel">Plantel</button>
+    <button class="tab-btn main-tab-btn" data-section="jugadores">Jugadores</button>
     <button class="tab-btn main-tab-btn" data-section="estadisticas">Estadísticas</button>
     <button class="tab-btn main-tab-btn" data-section="historia">Historia</button>
   </nav>
@@ -59,6 +59,11 @@
     <button class="tab-btn active" data-tab="temporada">Equipo</button>
     <button class="tab-btn" data-tab="historial">Individuales</button>
     <button class="tab-btn" data-tab="records">Récords</button>
+  </nav>
+
+  <nav class="tabs sub-nav" id="jugadores-subnav" hidden>
+    <button class="tab-btn active" data-jtab="actual">Plantel Actual</button>
+    <button class="tab-btn" data-jtab="previos">Miembros Previos</button>
   </nav>
 
   <main>
@@ -218,8 +223,14 @@
       </section>
     </section>
 
-    <section id="section-plantel" class="section-panel">
-      <div class="plantel-grid" id="plantel-grid"></div>
+    <section id="section-jugadores" class="section-panel">
+      <div id="jtab-actual" class="tab-panel active">
+        <div class="plantel-grid" id="plantel-grid"></div>
+      </div>
+      <div id="jtab-previos" class="tab-panel">
+        <p id="plantel-ex-message" class="detail-message" hidden>Aún no hay miembros previos registrados.</p>
+        <div class="plantel-grid" id="plantel-grid-ex"></div>
+      </div>
     </section>
 
     <section id="section-historia" class="section-panel">
@@ -260,7 +271,7 @@
     </section>
 
     <section id="section-perfil" class="section-panel">
-      <button type="button" class="perfil-volver" id="perfil-volver">&larr; Volver al Plantel</button>
+      <button type="button" class="perfil-volver" id="perfil-volver">&larr; Volver a Jugadores</button>
 
       <div class="perfil-header">
         <img id="perfil-foto" class="perfil-foto" src="" alt="">
