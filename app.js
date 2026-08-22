@@ -1768,12 +1768,15 @@
   function setupHistorialControls(data) {
     document.querySelectorAll('#stat-selector .stat-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
+        // A stat with no data for the currently-selected era is disabled
+        // (see updateStatButtonAvailability_) and a native disabled button
+        // never dispatches click — so reaching this handler already implies
+        // the stat is valid for state.era. No era-related bookkeeping needed.
         document.querySelectorAll('#stat-selector .stat-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         state.stat = btn.dataset.stat;
         document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;
         updateDetailToggleAvailability_();
-        populateEraFilter(data);
         renderLeaderboard();
       });
     });
@@ -1785,6 +1788,7 @@
 
     document.getElementById('era-filter').addEventListener('change', function (e) {
       state.era = e.target.value;
+      updateStatButtonAvailability_(data);
       renderLeaderboard();
     });
 
@@ -1796,6 +1800,7 @@
     document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;
     updateDetailToggleAvailability_();
     populateEraFilter(data);
+    updateStatButtonAvailability_(data);
   }
 
   /** BALANCE has no meaningful "detailed" view (it's already a 4-column
@@ -1811,20 +1816,47 @@
     }
   }
 
+  // Era options are stat-independent: always GOL's full era list (it's the
+  // only stat with data back through the 3 legacy eras, so it's the most
+  // complete range any other stat could ever need). This dropdown used to
+  // be rebuilt from the active stat's own (narrower) era list every time
+  // the stat tab changed, silently snapping era back to "Todas" whenever
+  // the previously-selected era wasn't valid for the new stat — confusing,
+  // since the era value changed without the user touching that control.
+  // Now era is a stable, persistent selection; a stat tab with no data for
+  // it is disabled instead (see updateStatButtonAvailability_), so this
+  // only needs to run once, at setup.
   function populateEraFilter(data) {
     var select = document.getElementById('era-filter');
-    // BALANCE has no stat block of its own — GOL's era list is the most
-    // complete (it's the only stat with data back through the 3 legacy
-    // eras), so it doubles as BALANCE's era dropdown too.
-    var statBlock = data.stats[state.stat] || data.stats.GOL;
+    var statBlock = data.stats.GOL;
     // eras arrives oldest-first (matches the historical doc's own column
     // order); the dropdown shows most-recent-first, "Todas" pinned on top.
     var eras = (statBlock ? statBlock.eras : []).slice().reverse();
-    var current = select.value || '__all__';
     select.innerHTML = '<option value="__all__">Todas las temporadas</option>' +
       eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</option>'; }).join('');
-    select.value = eras.indexOf(current) >= 0 ? current : '__all__';
+    select.value = '__all__';
     state.era = select.value;
+  }
+
+  /** Disables (and visually greys out) any #stat-selector button whose stat
+   * has no recorded data for state.era, so the user can see at a glance
+   * which stats are unavailable for the selected season instead of
+   * clicking into one and getting a confusing empty/"Sin resultados" table.
+   * BALANCE is exempt — it's a multi-column summary that always makes
+   * sense (a stat that predates the selected era just shows a blank cell
+   * for that column), never a dead end. "Todas las temporadas" enables
+   * every stat, since each one has data for *some* era within "Todas". */
+  function updateStatButtonAvailability_(data) {
+    document.querySelectorAll('#stat-selector .stat-btn').forEach(function (btn) {
+      var stat = btn.dataset.stat;
+      if (stat === 'BALANCE' || state.era === '__all__') {
+        btn.disabled = false;
+        return;
+      }
+      var statBlock = data.stats[stat];
+      var hasEra = !!statBlock && statBlock.eras.indexOf(state.era) >= 0;
+      btn.disabled = !hasEra;
+    });
   }
 
   function matchesSearch_(nombre) {

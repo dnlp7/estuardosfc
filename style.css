@@ -1076,6 +1076,10 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   font-weight: 700;
 }
 .stat-btn.active { color: var(--black); background: var(--accent-light); border-color: var(--accent-light); }
+/* A stat with no recorded data for the selected era (#stat-selector only —
+   Perfil's #perfil-stat-selector never disables buttons). */
+.stat-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.stat-btn:disabled.active { background: var(--grey-header); border-color: var(--border); color: var(--muted); }
 
 #player-search, #era-filter, #team-era-filter {
   background: var(--grey-header);
