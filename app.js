@@ -828,8 +828,17 @@
       // A real <button>, not a clickable <div> — free keyboard focus/
       // activation (Tab + Enter/Space) and correct screen-reader role,
       // rather than needing a hand-rolled tabindex + keydown handler.
+      // The photo file itself might not be uploaded yet — most
+      // relevant to Miembros Previos while Daniel is still filling in
+      // that photo set — so a failed image load (onerror) swaps to a
+      // plain name placeholder instead of a broken-image icon. This
+      // never blocks the rest of the grid from rendering either way; a
+      // missing file is just a failed network request for that one
+      // <img>, not a script error.
       return '<button type="button" class="plantel-card" data-player-id="' + esc(p.playerId) + '" aria-label="Ver perfil de ' + esc(p.nombre) + '">' +
-        '<img src="' + img + '" alt="" loading="lazy"></button>';
+        '<img src="' + img + '" alt="" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false;">' +
+        '<div class="plantel-card-placeholder" hidden>' + esc(p.nombre) + '</div>' +
+        '</button>';
     }).join('');
     return '<section class="plantel-section"><h3>' + esc(titulo) + '</h3>' +
       '<div class="plantel-cards-grid">' + cards + '</div></section>';
@@ -1044,6 +1053,15 @@
     // subfolder (Daniel's own split, since it's a separate photo set).
     var fotoDir = info.activo ? 'images/perfiles/' : 'images/perfiles/ex/';
     document.title = 'Estuardos FC — ' + nombre;
+    // Reset both the photo and its placeholder to their default visible/
+    // hidden state before setting the new src — otherwise switching from
+    // a player whose photo failed to load straight to one whose photo
+    // loads fine would leave the PREVIOUS placeholder still showing
+    // (its hidden flag only ever gets flipped back by onerror, which
+    // won't fire again for an already-broken src that isn't changing).
+    document.getElementById('perfil-foto').hidden = false;
+    document.getElementById('perfil-foto-placeholder').hidden = true;
+    document.getElementById('perfil-foto-placeholder').textContent = nombre;
     document.getElementById('perfil-foto').src = fotoDir + playerId + '.jpg';
     document.getElementById('perfil-foto').alt = nombre;
     document.getElementById('perfil-dorsal').textContent =

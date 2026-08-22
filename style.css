@@ -251,6 +251,17 @@ main.wide { max-width: 1400px; }
   font: inherit;
 }
 .plantel-card img { width: 100%; height: auto; display: block; }
+/* Shown instead of a broken-image icon when a card's photo file isn't
+   uploaded yet (app.js's plantelSectionHtml_ swaps to this on the
+   img's onerror) — most relevant to Miembros Previos while Daniel is
+   still filling in that photo set, but works the same for either
+   grid. Same aspect ratio / look as .jugador-card-placeholder so a
+   placeholder tile doesn't stand out oddly next to real photo tiles. */
+.plantel-card-placeholder {
+  width: 100%; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 0.8rem; font-weight: 600; padding: 0.5rem; text-align: center;
+}
 @media (max-width: 640px) {
   .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
   .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; }
@@ -277,6 +288,15 @@ main.wide { max-width: 1400px; }
   margin-bottom: 2rem;
 }
 .perfil-foto { width: 180px; height: auto; display: block; flex-shrink: 0; }
+/* Same missing-photo fallback as .plantel-card-placeholder, sized for
+   the profile header instead of a grid card — swapped in via the
+   img's onerror in renderPerfil. */
+.perfil-foto-placeholder {
+  width: 180px; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 1rem; font-weight: 600; padding: 0.75rem; text-align: center;
+  flex-shrink: 0;
+}
 .perfil-dorsal { color: var(--accent-light); font-size: 3rem; font-weight: 700; line-height: 1; margin: 0 0 0.25rem; }
 .perfil-info h2 { margin: 0 0 0.5rem; font-size: 2rem; text-transform: uppercase; letter-spacing: 0.02em; }
 /* Full name reads as a subtitle under the big nickname — muted and

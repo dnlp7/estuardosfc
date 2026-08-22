@@ -274,7 +274,8 @@
       <button type="button" class="perfil-volver" id="perfil-volver">&larr; Volver a Jugadores</button>
 
       <div class="perfil-header">
-        <img id="perfil-foto" class="perfil-foto" src="" alt="">
+        <img id="perfil-foto" class="perfil-foto" src="" alt="" onerror="this.hidden=true;document.getElementById('perfil-foto-placeholder').hidden=false;">
+        <div id="perfil-foto-placeholder" class="perfil-foto-placeholder" hidden></div>
         <div class="perfil-info">
           <p id="perfil-dorsal" class="perfil-dorsal"></p>
           <h2 id="perfil-nombre"></h2>
