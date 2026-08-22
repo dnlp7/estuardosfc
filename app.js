@@ -1107,9 +1107,14 @@
       return String(a.temporada || '').localeCompare(String(b.temporada || ''));
     });
 
+    // No badges at all (common for former members, especially anyone
+    // from before Logros started being tracked) — leave the section
+    // empty rather than a "Sin insignias todavía." placeholder box, per
+    // Daniel's own call. .insignias-grid has no margin/padding of its
+    // own when empty, so this collapses cleanly with no leftover gap.
     var insigniasWrap = document.getElementById('perfil-insignias');
     if (!badgesSorted.length) {
-      insigniasWrap.innerHTML = '<p class="detail-message">Sin insignias todavía.</p>';
+      insigniasWrap.innerHTML = '';
     } else {
       insigniasWrap.innerHTML = badgesSorted.map(function (b) {
         var icon = b.imagen
