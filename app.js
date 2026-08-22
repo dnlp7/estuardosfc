@@ -2126,6 +2126,28 @@
     return byEra;
   }
 
+  /** Sorts a record card's tied entries most-recent-first. Every entry
+   * carries its own `era`, matched against data.seasons' own chronological
+   * (oldest-first) order to rank eras; entries whose real-world date is
+   * known (a specific match, carried as a private `_fecha` field, e.g.
+   * "2024-06-16") break same-era ties by that date too. Without this,
+   * entries just came out in whatever order the underlying era/match
+   * iteration happened to produce — not a consistent or readable order
+   * (Daniel: e.g. the "most goals in a match" ties showed up visibly
+   * scrambled). Applied to every record card that can have ties. */
+  function sortRecordEntriesRecentFirst_(entries) {
+    var seasons = (state.data && state.data.seasons) || [];
+    var eraIdx = {};
+    seasons.forEach(function (s, i) { eraIdx[s.era] = i; });
+    return entries.slice().sort(function (a, b) {
+      var ea = a.era in eraIdx ? eraIdx[a.era] : -1;
+      var eb = b.era in eraIdx ? eraIdx[b.era] : -1;
+      if (ea !== eb) return eb - ea; // higher index = more recent era = first
+      if (a._fecha && b._fecha) return a._fecha < b._fecha ? 1 : (a._fecha > b._fecha ? -1 : 0);
+      return 0;
+    });
+  }
+
   /** Highest single-match value for one player stat (GOL or AST) across
    * every era, every real player ([Default]/[Autogoles] utility rows
    * excluded — a team-credit goal isn't a player's own record). Every
@@ -2157,14 +2179,14 @@
 
     return {
       max: max,
-      entries: best.map(function (b) {
+      entries: sortRecordEntriesRecentFirst_(best.map(function (b) {
         var column = detailByEra[b.era].columns[b.columnIdx];
         var jornada = String(column.partido || '').split(' ')[0];
         var matches = matchesByEra[b.era] || [];
         var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
         var label = match ? ('vs ' + match.rival + ' — ' + formatFechaCorta_(match.fecha)) : column.partido;
-        return { nombre: b.nombre, era: b.era, valor: b.valor, matchLabel: label };
-      })
+        return { nombre: b.nombre, era: b.era, valor: b.valor, matchLabel: label, _fecha: match && match.fecha };
+      }))
     };
   }
 
@@ -2189,7 +2211,7 @@
         });
       });
     }
-    return { max: max, entries: best.map(function (b) { return { nombre: b.nombre, era: b.era }; }) };
+    return { max: max, entries: sortRecordEntriesRecentFirst_(best.map(function (b) { return { nombre: b.nombre, era: b.era }; })) };
   }
 
   /** Highest single-match team GF across every era — same join as
@@ -2209,9 +2231,9 @@
     });
     return {
       max: max,
-      entries: best.map(function (b) {
-        return { era: b.era, matchLabel: 'vs ' + b.match.rival + ' — ' + formatFechaCorta_(b.match.fecha) };
-      })
+      entries: sortRecordEntriesRecentFirst_(best.map(function (b) {
+        return { era: b.era, matchLabel: 'vs ' + b.match.rival + ' — ' + formatFechaCorta_(b.match.fecha), _fecha: b.match.fecha };
+      }))
     };
   }
 
@@ -2231,7 +2253,7 @@
       if (n > max) { max = n; best = []; }
       if (n === max) best.push(r.era);
     });
-    return { max: max, entries: best.map(function (era) { return { era: era }; }) };
+    return { max: max, entries: sortRecordEntriesRecentFirst_(best.map(function (era) { return { era: era }; })) };
   }
 
   /** Longest run of consecutive matches satisfying `matchOk` (a function
@@ -2272,11 +2294,14 @@
 
     return {
       max: max,
-      entries: top.map(function (s) {
-        var startLabel = formatEraLabel_(s.start.era) + ' · ' + s.start.match.jornada;
-        var endLabel = formatEraLabel_(s.end.era) + ' · ' + s.end.match.jornada;
-        return { length: s.length, rangeLabel: s.start === s.end ? startLabel : (startLabel + ' → ' + endLabel) };
-      })
+      // Sorted (and tie-broken) by the streak's own END, not its start —
+      // that's the more recent of the two edges, and the one that
+      // actually determines how far back the streak reaches from today.
+      entries: sortRecordEntriesRecentFirst_(top.map(function (s) {
+        var startLabel = formatEraLabel_(s.start.era) + ' ' + s.start.match.jornada;
+        var endLabel = formatEraLabel_(s.end.era) + ' ' + s.end.match.jornada;
+        return { length: s.length, rangeLabel: s.start === s.end ? startLabel : (startLabel + ' → ' + endLabel), era: s.end.era, _fecha: s.end.match.fecha };
+      }))
     };
   }
 
