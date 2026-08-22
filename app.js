@@ -211,26 +211,30 @@
   }
 
   /** Looks up one player's Jugadores entry (playerId + activo +
-   * dorsalByEra) by Nombre, via the reverse index above — the shared
-   * identity lookup lives once in data.json ("jugadores") and is reused
-   * for every player table, regardless of which JSON file supplied that
-   * table's actual rows (main data.json or the lazily-fetched
-   * data-history-detail.json). Returns null if the player isn't listed
-   * (fail open — caller treats that as active, no era-specific dorsal). */
-  function jugadorInfo_(nombre) {
+   * dorsalByEra). Takes an optional `playerId` — pass it whenever the
+   * caller's row already has one (every stats-block/match-detail row
+   * does now, see dashboard_export.gs) for an unambiguous direct lookup;
+   * only falls back to the Nombre reverse index when no playerId is
+   * available. Two players sharing a Nombre (e.g. two players both
+   * called "Chente") would otherwise resolve to an arbitrary one of the
+   * two via the reverse index alone — passing playerId is what actually
+   * avoids that. Returns null if the player isn't listed (fail open —
+   * caller treats that as active, no era-specific dorsal). */
+  function jugadorInfo_(nombre, playerId) {
     var jugadores = state.data && state.data.jugadores;
     if (!jugadores) return null;
-    var playerId = nombreToPlayerId_(nombre);
-    if (!playerId || !jugadores[playerId]) return null;
-    var info = jugadores[playerId];
-    return { playerId: playerId, nombre: info.nombre, activo: info.activo, dorsalByEra: info.dorsalByEra };
+    var id = playerId || nombreToPlayerId_(nombre);
+    if (!id || !jugadores[id]) return null;
+    var info = jugadores[id];
+    return { playerId: id, nombre: info.nombre, activo: info.activo, dorsalByEra: info.dorsalByEra };
   }
 
   /** Dorsal/name cell background — main-color for a current roster
    * player, dark grey for a former one, per Jugadores' Activo flag.
-   * Fails open to "active" (main color) when the player isn't listed. */
-  function activoBackground_(nombre) {
-    var info = jugadorInfo_(nombre);
+   * Fails open to "active" (main color) when the player isn't listed.
+   * `playerId` optional — see jugadorInfo_. */
+  function activoBackground_(nombre, playerId) {
+    var info = jugadorInfo_(nombre, playerId);
     var activo = info ? info.activo : true;
     return ' style="background:' + (activo ? 'var(--main)' : 'var(--grey-header)') + '"';
   }
@@ -240,9 +244,12 @@
    * falling back to their canonical/current dorsal if that era isn't
    * listed for them — used only where a table shows one specific
    * season at a time (simple mode with an era selected), since that's
-   * the one view where "which dorsal" is unambiguous. */
+   * the one view where "which dorsal" is unambiguous. `p` is expected to
+   * carry its own playerId now (see jugadorInfo_) — passed through so
+   * two same-named players don't risk resolving to the wrong one's
+   * dorsalByEra. */
   function dorsalForEra_(p, era) {
-    var info = jugadorInfo_(p.nombre);
+    var info = jugadorInfo_(p.nombre, p.playerId);
     if (info && info.dorsalByEra && info.dorsalByEra[era] !== undefined) return info.dorsalByEra[era];
     return p.dorsal;
   }
@@ -444,18 +451,18 @@
   function detailScorersAt_(statBlock, idx) {
     if (!statBlock || idx < 0) return [];
     return statBlock.players
-      .map(function (p) { return { nombre: String(p.nombre || '').replace(/^\[|\]$/g, ''), dorsal: p.dorsal, valor: p.byMatch[idx] }; })
+      .map(function (p) { return { nombre: String(p.nombre || '').replace(/^\[|\]$/g, ''), dorsal: p.dorsal, playerId: p.playerId, valor: p.byMatch[idx] }; })
       .filter(function (p) { return Number(p.valor) > 0; });
   }
 
   /** Every player with ANY non-blank byMatch value at `idx` — used for
    * PI's lineup (position text, not a magnitude, so this checks
-   * presence rather than a positive number). Carries `dorsal` for the
-   * same reason as detailScorersAt_. */
+   * presence rather than a positive number). Carries `dorsal`/`playerId`
+   * for the same reason as detailScorersAt_. */
   function detailPresentAt_(statBlock, idx) {
     if (!statBlock || idx < 0) return [];
     return statBlock.players
-      .map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, valor: p.byMatch[idx] }; })
+      .map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, playerId: p.playerId, valor: p.byMatch[idx] }; })
       .filter(function (p) { return p.valor !== null && p.valor !== undefined && p.valor !== ''; });
   }
 
@@ -554,8 +561,8 @@
    * entry falls back to a plain text placeholder tile instead of a
    * broken image — same fallback philosophy as renderPerfil's own
    * badge icons. */
-  function jugadorCardHtml_(nombre, dorsal, posicion) {
-    var info = jugadorInfo_(nombre);
+  function jugadorCardHtml_(nombre, dorsal, posicion, playerId) {
+    var info = jugadorInfo_(nombre, playerId);
     var visual = info && info.playerId
       ? '<img src="images/perfiles/' + esc(info.playerId) + '.jpg" alt="' + esc(nombre) + '" loading="lazy">'
       : '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
@@ -570,12 +577,14 @@
    * heading) — omitted entirely (returns '') if there's nothing to
    * show, rather than a heading over an empty grid (same convention as
    * plantelSectionHtml_/renderPerfil's badge section). `items` is
-   * [{nombre, dorsal, posicion}, ...] — posicion may be null/omitted
-   * (Asistentes). */
+   * [{nombre, dorsal, posicion, playerId}, ...] — posicion may be
+   * null/omitted (Asistentes); playerId comes straight off the match
+   * detail row (see detailScorersAt_/detailPresentAt_) so two same-named
+   * players in the same lineup resolve to the right photo/identity. */
   function partidoJugadoresGridHtml_(titulo, items) {
     if (!items.length) return '';
     return '<h4>' + esc(titulo) + '</h4><div class="partido-jugadores-grid">' +
-      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.dorsal, i.posicion); }).join('') +
+      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.dorsal, i.posicion, i.playerId); }).join('') +
       '</div>';
   }
 
@@ -660,11 +669,11 @@
     if (victoriaPorDefault) {
       var asistentes = detailPresentAt_(detail.PA, detailColumnIndex_(detail.PA, m.jornada))
         .sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
-      colIzquierdaHtml = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: null }; }));
+      colIzquierdaHtml = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: null, playerId: p.playerId }; }));
     } else {
       colIzquierdaHtml =
-        partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: String(p.valor).trim().toUpperCase() }; })) +
-        partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: 'SUP' }; }));
+        partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: String(p.valor).trim().toUpperCase(), playerId: p.playerId }; })) +
+        partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: 'SUP', playerId: p.playerId }; }));
     }
 
     var golesTexto = victoriaPorDefault ? '[Triunfo por default]' : listaConConteo_(goleadores);
@@ -2373,7 +2382,7 @@
 
     setTableBody(rows.map(function (r) {
       var dorsal = state.era === '__all__' ? r.dorsal : dorsalForEra_(r, state.era);
-      var idBg = activoBackground_(r.nombre);
+      var idBg = activoBackground_(r.nombre, r.playerId);
       var statCells = STATS_ORDER.map(function (stat) {
         var v = r.values[stat];
         var range = columnRanges[stat];
@@ -2418,7 +2427,7 @@
       // One specific season selected -> the dorsal that player actually
       // wore THAT season (Jugadores.dorsalByEra), not their current one.
       var dorsal = state.era === '__all__' ? r.p.dorsal : dorsalForEra_(r.p, state.era);
-      var idBg = activoBackground_(r.p.nombre);
+      var idBg = activoBackground_(r.p.nombre, r.p.playerId);
       return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
         '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.p.nombre) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
@@ -2456,7 +2465,7 @@
 
     setTableBody(rows.map(function (r) {
       var p = r.p;
-      var idBg = activoBackground_(p.nombre);
+      var idBg = activoBackground_(p.nombre, p.playerId);
       var eraCells = eras.map(function (era) {
         var v = p.byEra && p.byEra[era];
         var color = v === undefined ? null : gridValueColor_(v, maxEraVal);
@@ -2521,7 +2530,7 @@
       var totalStyle = p.isUtility ? '' : styleAttr_(scales.totalColor(p.total));
       // [Default]/[Autogoles] aren't real players (no Jugadores entry to
       // fail open to "active" from) — treat them as inactive-colored.
-      var idBg = p.isUtility ? INACTIVE_BG_ : activoBackground_(p.nombre);
+      var idBg = p.isUtility ? INACTIVE_BG_ : activoBackground_(p.nombre, p.playerId);
       var matchCells = (p.byMatch || []).map(function (v) {
         var cellStyle = matchCellStyle_(state.stat, v, maxMatchVal);
         return '<td' + matchCellStyleAttr_(cellStyle) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
