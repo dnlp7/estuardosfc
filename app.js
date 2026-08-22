@@ -1268,7 +1268,7 @@
 
     if (!eras.length) {
       var msg = document.getElementById('perfil-stat-message');
-      msg.textContent = 'Sin datos de ' + stats.join('/') + ' para este jugador.';
+      msg.textContent = 'Sin datos.';
       msg.hidden = false;
       return;
     }
