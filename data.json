@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T03:09:50.263Z",
+  "generatedAt": "2026-08-22T06:07:49.348Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -126,11 +126,9 @@
       }
     },
     "Diego": {
-      "playerId": "P004",
+      "playerId": "P044",
       "activo": false,
-      "dorsalByEra": {
-        "2018/19": 94
-      }
+      "dorsalByEra": {}
     },
     "Arthie": {
       "playerId": "P005",
@@ -253,27 +251,9 @@
       }
     },
     "Chente": {
-      "playerId": "P012",
-      "activo": true,
-      "dorsalByEra": {
-        "2019": 12,
-        "2020": 12,
-        "2021": 12,
-        "2022": 12,
-        "2023": 12,
-        "2024": 12,
-        "2025": 12,
-        "2026": 12,
-        "2026/27": 12,
-        "2025/26": 12,
-        "2024/25": 12,
-        "2023/24": 12,
-        "2022/23": 12,
-        "2021/22": 12,
-        "2019/20": 12,
-        "2018/19": 12,
-        "2017/18": 12
-      }
+      "playerId": "P046",
+      "activo": false,
+      "dorsalByEra": {}
     },
     "Charly": {
       "playerId": "P013",
@@ -561,11 +541,9 @@
       }
     },
     "Pablo": {
-      "playerId": "P033",
+      "playerId": "P045",
       "activo": false,
-      "dorsalByEra": {
-        "2024": 5
-      }
+      "dorsalByEra": {}
     },
     "Paleta": {
       "playerId": "P034",
@@ -591,6 +569,56 @@
         "2026/27": 5,
         "2025/26": 17
       }
+    },
+    "Pepe": {
+      "playerId": "P037",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Lupe": {
+      "playerId": "P038",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Juan Pablo": {
+      "playerId": "P039",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Mauricio": {
+      "playerId": "P040",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Grillo": {
+      "playerId": "P041",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Mirmo": {
+      "playerId": "P042",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Oso": {
+      "playerId": "P043",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Glenn": {
+      "playerId": "P047",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Memo": {
+      "playerId": "P048",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "Koch": {
+      "playerId": "P049",
+      "activo": false,
+      "dorsalByEra": {}
     }
   },
   "datos": {
@@ -628,15 +656,12 @@
       "twitter": "kramsib"
     },
     "Diego": {
-      "nombreCompleto": "Diego Mercado",
+      "nombreCompleto": "Diego Gudiño",
       "posicion": "DEF",
-      "debut": "2010",
-      "cumpleanos": {
-        "mes": 4,
-        "dia": 8
-      },
-      "instagram": "merkado",
-      "twitter": "merkadomerkado"
+      "debut": "2014",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
     },
     "Arthie": {
       "nombreCompleto": "Arthie Martínez",
@@ -713,13 +738,10 @@
       "twitter": null
     },
     "Chente": {
-      "nombreCompleto": "Vicente Partida",
+      "nombreCompleto": "Vicente Perales",
       "posicion": "DEF",
-      "debut": "2016",
-      "cumpleanos": {
-        "mes": 9,
-        "dia": 5
-      },
+      "debut": "2010",
+      "cumpleanos": null,
       "instagram": null,
       "twitter": null
     },
@@ -929,9 +951,9 @@
       "twitter": null
     },
     "Pablo": {
-      "nombreCompleto": "Pablo Vargas",
+      "nombreCompleto": "Pablo Pellat",
       "posicion": "MED",
-      "debut": "2024",
+      "debut": "2015",
       "cumpleanos": null,
       "instagram": null,
       "twitter": null
@@ -966,6 +988,95 @@
         "mes": 2,
         "dia": 28
       },
+      "instagram": null,
+      "twitter": null
+    },
+    "Pepe": {
+      "nombreCompleto": "José Carlos López",
+      "posicion": "DEF",
+      "debut": "2010",
+      "cumpleanos": {
+        "mes": 12,
+        "dia": 20
+      },
+      "instagram": "josecarloslch",
+      "twitter": "yatodota"
+    },
+    "Lupe": {
+      "nombreCompleto": "Guadalupe Mariscal",
+      "posicion": "POR",
+      "debut": "2012",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
+    },
+    "Juan Pablo": {
+      "nombreCompleto": "Juan Pablo de Alba",
+      "posicion": "MED",
+      "debut": "2010",
+      "cumpleanos": {
+        "mes": 6,
+        "dia": 29
+      },
+      "instagram": null,
+      "twitter": null
+    },
+    "Mauricio": {
+      "nombreCompleto": "Mauricio Polanco",
+      "posicion": "DEF",
+      "debut": "2010",
+      "cumpleanos": {
+        "mes": 7,
+        "dia": 27
+      },
+      "instagram": null,
+      "twitter": null
+    },
+    "Grillo": {
+      "nombreCompleto": "José Loera",
+      "posicion": "DEL",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
+    },
+    "Mirmo": {
+      "nombreCompleto": "Daniel Soto",
+      "posicion": "POR",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
+    },
+    "Oso": {
+      "nombreCompleto": "Andrés Limón",
+      "posicion": "DEL",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
+    },
+    "Glenn": {
+      "nombreCompleto": "Glenn Martínez",
+      "posicion": "MED",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
+    },
+    "Memo": {
+      "nombreCompleto": "Guillermo Alonso",
+      "posicion": "MED",
+      "debut": "2014",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null
+    },
+    "Koch": {
+      "nombreCompleto": "José Luis Rodríguez",
+      "posicion": "MED",
+      "debut": "2012",
+      "cumpleanos": null,
       "instagram": null,
       "twitter": null
     }
