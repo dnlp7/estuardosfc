@@ -265,6 +265,25 @@ main.wide { max-width: 1400px; }
 @media (max-width: 640px) {
   .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
   .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; }
+  /* Main nav (home icon + Jugadores/Estadísticas/Historia) had no
+     wrap/overflow handling at all — on a narrow phone it simply ran
+     past the viewport edge with "Historia" cut off and unreachable.
+     Tighter sizing gets all 4 items to fit on most phones; the scroll
+     fallback below guarantees nothing is ever truly unreachable even
+     on the narrowest screens or with larger accessibility font sizes. */
+  .main-nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .main-nav::-webkit-scrollbar { display: none; }
+  .main-nav.tabs { gap: 0.35rem; padding: 0.75rem 0.5rem; }
+  .main-nav .main-tab-btn { flex-shrink: 0; }
+  .main-nav .main-tab-btn:not(.nav-home-btn) { padding: 0.55rem 0.8rem; font-size: 0.9rem; }
+  /* Divider ::after is centered at half the .tabs gap (see its own rule
+     above) — re-centered here since the mobile gap is narrower. */
+  .main-nav .main-tab-btn:not(:last-child)::after { right: -0.175rem; }
 }
 
 /* Perfil — one player's profile page, reached only via a Plantel card
