@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T06:23:17.138Z",
+  "generatedAt": "2026-08-26T05:21:37.168Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -4311,7 +4311,7 @@
         "gf": 2,
         "gc": 3,
         "rival": "CHOMPIRAS",
-        "rivalBg": "#262626",
+        "rivalBg": "#c7a7e7",
         "rivalText": "#ffffff"
       }
     ],
@@ -4325,7 +4325,15 @@
       "dif": -14,
       "pts": 12
     },
-    "proximo": null
+    "proximo": {
+      "jornada": "J9",
+      "cancha": 2,
+      "fecha": "2026-08-28",
+      "hora": "10:30",
+      "rival": "ROJOS",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
+    }
   },
   "detail": {
     "era": "2026/27",
