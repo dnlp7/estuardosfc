@@ -1444,13 +1444,15 @@
     renderEquipo();
   }
 
-  /** Season dropdown source: PA's own era list. PA/PI both only cover
-   * the 14 real season docs (never the 3 legacy-only eras, which have
-   * no RES tab at all to build a season summary from) — GOL's list is
-   * NOT used here since it also includes those 3 legacy eras. */
+  /** Season dropdown source: every era in data.seasons (all 17, oldest
+   * first, reversed here to newest-first) — every era now has a real
+   * season doc and RES-derived standings, including the 3 originally-
+   * undocumented ones (2017/18, 2018, 2019), so there's no reason to
+   * scope this to a narrower stat's era list any more (it used to
+   * reuse PA's list, back when those 3 eras had no RES data at all). */
   function populateTeamEraFilter(data) {
     var select = document.getElementById('team-era-filter');
-    var eras = (data.stats.PA ? data.stats.PA.eras : []).slice().reverse();
+    var eras = (data.seasons || []).map(function (s) { return s.era; }).slice().reverse();
     select.innerHTML = '<option value="__all__">Todas las temporadas</option>' +
       eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</option>'; }).join('');
     select.value = '__all__'; // default: all-time balance, not the current season
@@ -1525,12 +1527,16 @@
   /** All-time balance — one row per season (newest first), one column
    * per standings value, each with its own blue scale (same convention
    * as the player BALANCE tab). The current season's standings come
-   * straight from data.json; the other 13 need the same lazily-fetched
+   * straight from data.json; every other era (all 16 of them, including
+   * the 3 originally-undocumented ones) needs the same lazily-fetched
    * data-history-detail.json as everything else historical — but this
    * is the DEFAULT Equipo view, so that fetch effectively happens as
-   * soon as the tab is first shown, not on some deferred user action. */
+   * soon as the tab is first shown, not on some deferred user action.
+   * buildTeamBalanceRows_ itself drops any era with no standings, so
+   * the era list here can just be every season, not a pre-filtered
+   * subset. */
   function renderTeamBalanceTable_(data) {
-    var eras = (data.stats.PA ? data.stats.PA.eras : []).slice().reverse();
+    var eras = (data.seasons || []).map(function (s) { return s.era; }).slice().reverse();
     showTeamMessage_('Cargando balance histórico...');
 
     fetchHistoryDetail()
@@ -2240,10 +2246,11 @@
   /** Highest SEASON team GF total — reuses buildTeamBalanceRows_ (the
    * exact same all-time-balance computation the Equipo tab's own "Todas
    * las temporadas" table already does), rather than re-deriving
-   * standings a second way. */
+   * standings a second way. Era list is every season in data.seasons —
+   * buildTeamBalanceRows_ drops any era with no standings on its own. */
   function mostTeamGoalsInSeasonRecord_(historyData) {
     var data = state.data;
-    var eras = (data.stats.PA ? data.stats.PA.eras : []).slice().reverse();
+    var eras = (data.seasons || []).map(function (s) { return s.era; }).slice().reverse();
     var rows = buildTeamBalanceRows_(data, eras, historyData);
     var best = []; // [era, ...]
     var max = 0;
