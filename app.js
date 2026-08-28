@@ -713,7 +713,7 @@
   // (e.g. its MED), rather than bunching toward the center the way an
   // "n+1 even partitions" layout would for a smaller row. A single
   // player (POR/DEL) is simply centered.
-  var CANCHA_MARGIN_X_ = 40;
+  var CANCHA_MARGIN_X_ = 95;
   var CANCHA_MARKER_SIZE_ = 68;
   var CANCHA_MARKER_RX_ = 18;
   function canchaSvgHtml_(lineup, era) {
