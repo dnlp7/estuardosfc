@@ -544,7 +544,7 @@ main.wide { max-width: 1400px; }
   padding: 0.05rem 0.3rem; border-radius: 999px; font-size: 0.6rem; font-weight: 700;
   border: 2px solid var(--bg);
 }
-.jugador-card-badge-balon { width: 10px; height: 10px; display: block; }
+.jugador-card-badges img { width: 10px; height: 10px; display: block; }
 .jugador-card-badge-gol { background: var(--good); color: #ffffff; }
 .jugador-card-badge-ast { background: #566bf6; color: #ffffff; }
 .jugador-card-badge-count { font-size: 0.6rem; }
