@@ -707,13 +707,15 @@
   // reads as part of its own row, not halfway into the next one.
   var CANCHA_OFFSET_C_FRAC_ = 0.05;
   var CANCHA_SLOT_SUFFIX_ORDER_ = ['I', 'C', 'C2', 'D'];
-  // Outer players in every row sit at this fixed inset from the pitch
-  // edges, regardless of how many players are in the row — a 2-player
-  // row (e.g. 2-3-1's DEF) spans the exact same width as a 3-player row
-  // (e.g. its MED), rather than bunching toward the center the way an
-  // "n+1 even partitions" layout would for a smaller row. A single
-  // player (POR/DEL) is simply centered.
-  var CANCHA_MARGIN_X_ = 95;
+  // Half-width (in viewBox px, from the pitch's horizontal center) each
+  // row's outermost player sits at, keyed by how many players are in
+  // the row — NOT a fixed edge inset shared by every row size. A wider
+  // row (3 players: 2-3-1's MED, 3-2-1's DEF) spans more of the pitch
+  // than a narrower one (2 players: 2-3-1's DEF, 3-2-1's MED), same as
+  // Daniel's own reference graphics — defenders sit closer together
+  // than the wide midfielders, not lined up directly under them. A
+  // single player (POR/DEL) is simply centered (spread 0).
+  var CANCHA_ROW_SPREAD_ = { 1: 0, 2: 100, 3: 161 };
   var CANCHA_MARKER_SIZE_ = 68;
   var CANCHA_MARKER_RX_ = 18;
   function canchaSvgHtml_(lineup, era) {
@@ -743,7 +745,8 @@
       var suffixes = row.map(suffixOf);
       var staggered = suffixes.indexOf('I') !== -1 && suffixes.indexOf('C') !== -1 && suffixes.indexOf('D') !== -1;
       return row.map(function (j, i) {
-        var x = n === 1 ? CANCHA_IMG_W_ / 2 : CANCHA_MARGIN_X_ + i * ((CANCHA_IMG_W_ - CANCHA_MARGIN_X_ * 2) / (n - 1));
+        var spread = CANCHA_ROW_SPREAD_[n] !== undefined ? CANCHA_ROW_SPREAD_[n] : CANCHA_ROW_SPREAD_[3];
+        var x = CANCHA_IMG_W_ / 2 + (n > 1 ? (i - (n - 1) / 2) * (2 * spread / (n - 1)) : 0);
         var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
         var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
         var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
