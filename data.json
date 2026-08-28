@@ -1,74 +1,91 @@
 {
-  "generatedAt": "2026-08-28T04:09:56.528Z",
+  "generatedAt": "2026-08-28T04:50:39.131Z",
   "currentEra": "2026/27",
   "seasons": [
     {
       "era": "2017/18",
-      "torneo": "SOL16"
+      "torneo": "SOL16",
+      "hasTxJ": false
     },
     {
       "era": "2018",
-      "torneo": "SOL17"
+      "torneo": "SOL17",
+      "hasTxJ": false
     },
     {
       "era": "2019",
-      "torneo": "SOL18"
+      "torneo": "SOL18",
+      "hasTxJ": false
     },
     {
       "era": "2019/20",
-      "torneo": "SOL19"
+      "torneo": "SOL19",
+      "hasTxJ": true
     },
     {
       "era": "2020",
-      "torneo": "SOL20"
+      "torneo": "SOL20",
+      "hasTxJ": true
     },
     {
       "era": "2021",
-      "torneo": "SOL21"
+      "torneo": "SOL21",
+      "hasTxJ": true
     },
     {
       "era": "2021/22",
-      "torneo": "SOL22"
+      "torneo": "SOL22",
+      "hasTxJ": true
     },
     {
       "era": "2022",
-      "torneo": "SOL23"
+      "torneo": "SOL23",
+      "hasTxJ": true
     },
     {
       "era": "2022/23",
-      "torneo": "SOL24"
+      "torneo": "SOL24",
+      "hasTxJ": true
     },
     {
       "era": "2023",
-      "torneo": "SOL25"
+      "torneo": "SOL25",
+      "hasTxJ": true
     },
     {
       "era": "2023/24",
-      "torneo": "SOL26"
+      "torneo": "SOL26",
+      "hasTxJ": true
     },
     {
       "era": "2024",
-      "torneo": "SOL27"
+      "torneo": "SOL27",
+      "hasTxJ": true
     },
     {
       "era": "2024/25",
-      "torneo": "SOL28"
+      "torneo": "SOL28",
+      "hasTxJ": true
     },
     {
       "era": "2025",
-      "torneo": "SOL29"
+      "torneo": "SOL29",
+      "hasTxJ": true
     },
     {
       "era": "2025/26",
-      "torneo": "SOL30"
+      "torneo": "SOL30",
+      "hasTxJ": true
     },
     {
       "era": "2026",
-      "torneo": "ATS1"
+      "torneo": "ATS1",
+      "hasTxJ": true
     },
     {
       "era": "2026/27",
-      "torneo": "ATS2"
+      "torneo": "ATS2",
+      "hasTxJ": true
     }
   ],
   "jugadores": {
