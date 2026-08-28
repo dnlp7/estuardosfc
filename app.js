@@ -63,7 +63,11 @@
       // endpoint via JS, not just a static CSS class.
       good: v('--good') || '#25b659',
       draw: v('--draw') || '#979797',
-      bad: v('--bad') || '#ec071e'
+      bad: v('--bad') || '#ec071e',
+      // Goalkeeper kit color (current era's uniform theme) - used for
+      // the pitch's POR marker only, not the fixed-orange POR position
+      // pill elsewhere on the site.
+      portero: v('--portero') || '#fe7f2e'
     };
   }
 
@@ -689,18 +693,27 @@
   // the horizontal graphic turned 90°.
   var CANCHA_IMG_W_ = 512;
   var CANCHA_IMG_H_ = 744;
-  // Baseline row Y per role, as a fraction of the pitch height — tuned
-  // against Daniel's own 2-3-1/3-2-1 reference graphics (attacking
-  // upward: DEL closest to the far goal, POR closest to the near one).
-  var CANCHA_ROLE_Y_FRAC_ = { DEL: 0.13, MED: 0.40, DEF: 0.65, POR: 0.90 };
+  // Baseline row Y per role, as a fraction of the pitch height — evenly
+  // spaced bands (attacking upward: DEL closest to the far goal, POR
+  // closest to the near one), tuned against Daniel's own 2-3-1/3-2-1
+  // reference graphics.
+  var CANCHA_ROLE_Y_FRAC_ = { DEL: 0.12, MED: 0.37, DEF: 0.63, POR: 0.88 };
   // A row with all three of I/C/D (2-3-1's MED, 3-2-1's DEF) is drawn
   // staggered, not level — the C slot sits this much deeper (toward
   // POR) than its I/D row-mates, per Daniel's own reference images. A
   // 2-player row (I+D only, or the MED-only C/C2 pair in 3-2-1) always
-  // stays level — this offset never applies there.
-  var CANCHA_OFFSET_C_FRAC_ = 0.07;
+  // stays level — this offset never applies there. Kept modest (well
+  // under the gap to the next role's own band) so the staggered player
+  // reads as part of its own row, not halfway into the next one.
+  var CANCHA_OFFSET_C_FRAC_ = 0.05;
   var CANCHA_SLOT_SUFFIX_ORDER_ = ['I', 'C', 'C2', 'D'];
-  var CANCHA_MARGIN_X_ = 30;
+  // Outer players in every row sit at this fixed inset from the pitch
+  // edges, regardless of how many players are in the row — a 2-player
+  // row (e.g. 2-3-1's DEF) spans the exact same width as a 3-player row
+  // (e.g. its MED), rather than bunching toward the center the way an
+  // "n+1 even partitions" layout would for a smaller row. A single
+  // player (POR/DEL) is simply centered.
+  var CANCHA_MARGIN_X_ = 40;
   var CANCHA_MARKER_SIZE_ = 68;
   var CANCHA_MARKER_RX_ = 18;
   function canchaSvgHtml_(lineup, era) {
@@ -719,7 +732,6 @@
         return ia - ib;
       });
     });
-    var usableW = CANCHA_IMG_W_ - CANCHA_MARGIN_X_ * 2;
     var half = CANCHA_MARKER_SIZE_ / 2;
     var markers = Object.keys(groups).map(function (role) {
       var yFrac = CANCHA_ROLE_Y_FRAC_[role];
@@ -731,11 +743,12 @@
       var suffixes = row.map(suffixOf);
       var staggered = suffixes.indexOf('I') !== -1 && suffixes.indexOf('C') !== -1 && suffixes.indexOf('D') !== -1;
       return row.map(function (j, i) {
-        var x = CANCHA_MARGIN_X_ + (i + 1) * (usableW / (n + 1));
+        var x = n === 1 ? CANCHA_IMG_W_ / 2 : CANCHA_MARGIN_X_ + i * ((CANCHA_IMG_W_ - CANCHA_MARGIN_X_ * 2) / (n - 1));
         var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
         var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
         var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
-        return '<g class="cancha-jugador"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"/>' +
+        var claseExtra = role === 'POR' ? ' cancha-jugador-por' : '';
+        return '<g class="cancha-jugador' + claseExtra + '"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"' + (role === 'POR' ? ' style="fill:' + COLORS.portero + '"' : '') + '/>' +
           '<text x="' + x + '" y="' + y + '" dy="0.36em">' + esc(etiqueta) + '</text></g>';
       }).join('');
     }).join('');

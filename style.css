@@ -27,6 +27,13 @@
      the best GF" rather than the usual grey-to-color scale every other
      column uses. */
   --gc-color: #8f2eb3;
+  /* Goalkeeper kit color for the current era's uniform theme (Temas
+     tab, historical doc — NOT the same as the fixed orange used for
+     the POR position pill everywhere else on the site). Update this
+     alongside --main/--accent-light/etc. whenever the team's colors
+     change (see the Temas tab's "Portero" column for the active row's
+     value). */
+  --portero: #fe7f2e;
 
   --bg: var(--accent-dark);
   --card: var(--grey-cell);
