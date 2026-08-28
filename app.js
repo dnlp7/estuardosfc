@@ -700,7 +700,7 @@
   // stays level — this offset never applies there.
   var CANCHA_OFFSET_C_FRAC_ = 0.07;
   var CANCHA_SLOT_SUFFIX_ORDER_ = ['I', 'C', 'C2', 'D'];
-  var CANCHA_MARGIN_X_ = 60;
+  var CANCHA_MARGIN_X_ = 30;
   var CANCHA_MARKER_SIZE_ = 68;
   var CANCHA_MARKER_RX_ = 18;
   function canchaSvgHtml_(lineup, era) {

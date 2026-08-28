@@ -429,7 +429,7 @@ main.wide { max-width: 1400px; }
    grids), right half the scoring info (Goles/Asistencias — plain
    comma-separated text lists, no photos needed there per Daniel). */
 .partido-columnas { display: flex; gap: 2rem; flex-wrap: wrap; }
-.partido-col { flex: 1 1 260px; min-width: 0; }
+.partido-col { flex: 1.15 1 300px; min-width: 0; }
 .partido-col h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; }
 .partido-col h4:not(:first-child) { margin-top: 1.25rem; }
 .partido-lista { color: var(--white); font-size: 1.15rem; margin: 0; line-height: 1.5; }
@@ -450,7 +450,7 @@ main.wide { max-width: 1400px; }
 .partido-ver-todos:hover { text-decoration: underline; }
 
 .partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.jugador-card { width: 76px; text-align: center; }
+.jugador-card { width: 94px; text-align: center; }
 /* No border/radius here — the images/perfiles photos already have
    their own border baked into the asset, so adding a second one on
    top looked doubled/odd. No fixed height/object-fit:cover either —
@@ -550,7 +550,7 @@ main.wide { max-width: 1400px; }
 /* Gets more of the row's width than its Titulares/Suplentes sibling —
    the pitch reads poorly cramped down to card-sized, so this column is
    allowed to grow past an even 50/50 split. */
-.partido-col-cancha { display: flex; justify-content: center; align-items: flex-start; flex: 1.4 1 320px; }
+.partido-col-cancha { display: flex; justify-content: center; align-items: flex-start; flex: 0.9 1 260px; }
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
    comment, app.js) — the SVG here just positions player markers over
    it at the right viewBox coordinates. Sized to fill essentially the
