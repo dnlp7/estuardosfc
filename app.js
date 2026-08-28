@@ -476,33 +476,6 @@
     return isNaN(n) ? Infinity : n;
   }
 
-  /** [Autogoles] displays as "[Autogol]" (Daniel's own convention,
-   * singular, brackets kept) in the Goles list — everything else (a
-   * real player, or "Default") is shown exactly as detailScorersAt_
-   * already stripped it. */
-  function displayNombreGol_(nombre) {
-    return nombre === 'Autogoles' ? '[Autogol]' : nombre;
-  }
-
-  /** Goles/Asistencias as ONE comma-separated line — "Paco (3), Daniel,
-   * Abraham" — sorted by count descending, dorsal ascending within a
-   * tie. A count of 1 is shown bare (no "(1)"). Autogoles ("[Autogol]")
-   * always sorts last regardless of its count — it's not really "a
-   * player's" goal, so it doesn't compete for the top of the list the
-   * way a real scorer's count does. */
-  function listaConConteo_(items) {
-    var sorted = items.slice().sort(function (a, b) {
-      var aAuto = a.nombre === 'Autogoles', bAuto = b.nombre === 'Autogoles';
-      if (aAuto !== bAuto) return aAuto ? 1 : -1;
-      if (Number(b.valor) !== Number(a.valor)) return Number(b.valor) - Number(a.valor);
-      return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal);
-    });
-    return sorted.map(function (p) {
-      var nombre = displayNombreGol_(p.nombre);
-      return Number(p.valor) > 1 ? nombre + ' (' + p.valor + ')' : nombre;
-    }).join(', ');
-  }
-
   /** Season code ("ATS2", "SOL18", ...) for one era — data.seasons is
    * the same {era, torneo} list the historical doc's row 2 uses (see
    * dashboard_export.gs). Used in the meta row alongside the jornada
@@ -522,6 +495,12 @@
   var ICON_CALENDARIO_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
   var ICON_RELOJ_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>';
   var ICON_PIN_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+
+  // Goal/assist badge icons for Último Partido's player cards — a
+  // minimalist outline soccer ball (same currentColor/viewBox 0 0 24 24
+  // convention as the meta-row icons above) and a plain bold "A" for
+  // assists (no icon asset needed for that one, per Daniel's own call).
+  var ICON_BALON_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.3l3.4 2.5-1.3 4h-4.2l-1.3-4L12 7.3Z"/><path d="M12 3.2v4.1M12 20.8v-4M4 8.6l3.9 1.5M20 8.6l-3.9 1.5M4 15.4l3.9-1.5M20 15.4l-3.9-1.5"/></svg>';
 
   function partidoMetaItemHtml_(icon, label) {
     return '<span class="partido-meta-item">' + icon + esc(label) + '</span>';
@@ -602,12 +581,42 @@
    * + an optional color-coded position pill (omitted entirely — no
    * empty pill — for Asistentes, the default-win case where there are
    * no starting positions to show at all). */
-  function jugadorCardHtml_(nombre, dorsal, posicion, playerId) {
-    var info = jugadorInfo_(nombre, playerId);
-    var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal + ' ' + nombre : nombre;
-    return '<div class="jugador-card">' + jugadorFotoHtml_(info, nombre) +
+  /** One goal/assist badge — the ball icon (goals) or a bold "A"
+   * (assists), with a count only shown once it's worth calling out
+   * (>1) — same "bare name vs. name (3)" convention Último Partido's
+   * old Goles/Asistencias text lists used to use, before this replaced
+   * them with per-card badges. */
+  function jugadorCardBadgeHtml_(tipo, count) {
+    if (!count) return '';
+    var contenido = tipo === 'gol' ? ICON_BALON_ : 'A';
+    var sufijo = count > 1 ? '<span class="jugador-card-badge-count">' + count + '</span>' : '';
+    return '<span class="jugador-card-badge jugador-card-badge-' + tipo + '">' + contenido + sufijo + '</span>';
+  }
+
+  /** One player card inside a Titulares/Suplentes/Asistentes grid —
+   * photo (jugadorFotoHtml_, looked up by playerId via the shared
+   * jugadorInfo_ helper, same identity lookup every other player table
+   * on the site uses) + dorsal-prefixed name ("7 Daniel", lineup cards
+   * only — the old Goles/Asistencias text lists never got a dorsal
+   * prefix) + an optional color-coded position pill (omitted entirely —
+   * no empty pill — for Asistentes, the default-win case where there
+   * are no starting positions to show at all) + an optional captain
+   * badge (top-right of the photo, same treatment as Alineaciones'
+   * lineupCardHtml_) + optional goal/assist badges for this specific
+   * match. `item` is {nombre, dorsal, posicion, playerId, capitan,
+   * goles, asistencias} — capitan/goles/asistencias all optional. */
+  function jugadorCardHtml_(item) {
+    var info = jugadorInfo_(item.nombre, item.playerId);
+    var etiqueta = (item.dorsal !== undefined && item.dorsal !== null && item.dorsal !== '') ? item.dorsal + ' ' + item.nombre : item.nombre;
+    var capitanBadge = item.capitan
+      ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
+      : '';
+    var badgesHtml = jugadorCardBadgeHtml_('gol', item.goles) + jugadorCardBadgeHtml_('ast', item.asistencias);
+    return '<div class="jugador-card">' +
+      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre) + capitanBadge + '</div>' +
       '<div class="jugador-card-nombre">' + esc(etiqueta) + '</div>' +
-      (posicion ? posicionPillHtml_(posicion) : '') +
+      (item.posicion ? posicionPillHtml_(item.posicion) : '') +
+      (badgesHtml ? '<div class="jugador-card-badges">' + badgesHtml + '</div>' : '') +
       '</div>';
   }
 
@@ -615,14 +624,16 @@
    * heading) — omitted entirely (returns '') if there's nothing to
    * show, rather than a heading over an empty grid (same convention as
    * plantelSectionHtml_/renderPerfil's badge section). `items` is
-   * [{nombre, dorsal, posicion, playerId}, ...] — posicion may be
-   * null/omitted (Asistentes); playerId comes straight off the match
-   * detail row (see detailScorersAt_/detailPresentAt_) so two same-named
-   * players in the same lineup resolve to the right photo/identity. */
+   * [{nombre, dorsal, posicion, playerId, capitan, goles, asistencias},
+   * ...] — posicion/capitan/goles/asistencias may all be null/omitted
+   * (Asistentes has none of them); playerId comes straight off the
+   * match detail row (see detailScorersAt_/detailPresentAt_) so two
+   * same-named players in the same lineup resolve to the right
+   * photo/identity. */
   function partidoJugadoresGridHtml_(titulo, items) {
     if (!items.length) return '';
     return '<h4>' + esc(titulo) + '</h4><div class="partido-jugadores-grid">' +
-      items.map(function (i) { return jugadorCardHtml_(i.nombre, i.dorsal, i.posicion, i.playerId); }).join('') +
+      items.map(jugadorCardHtml_).join('') +
       '</div>';
   }
 
@@ -648,6 +659,62 @@
         '<span class="partido-banda-score">' + esc(m.gc) + '</span><span class="partido-banda-nombre">' + esc(m.rival) + '</span>' +
       '</div>' +
     '</div>';
+  }
+
+  /** Vertical starting-formation pitch (Stage 7 extension) — Último
+   * Partido's right column, built straight from the match's own TxJ
+   * lineup (m.lineup.jugadores, already resolved by dashboard_export.gs
+   * to {slot, posicion, nombre, playerId, capitan}). Rows are ordered
+   * goalkeeper at the bottom, forwards at the top (Daniel's own call —
+   * the social-graphic version runs horizontal, this is that same idea
+   * turned 90°). Column position within a row is derived generically
+   * from the slot's own suffix (DEF I / DEF C / DEF D, MED I / MED C /
+   * MED C2 / MED D) rather than hardcoding per-formación layouts, so
+   * this keeps working unchanged if FORMACIONES (PartidoDialog.html)
+   * ever grows a third formation using the same naming convention.
+   * Dot color is a uniform team color per Daniel's own call (not
+   * position-colored, unlike the pills elsewhere) — just the dorsal
+   * number identifies who's who. Returns '' if there's no lineup at all
+   * (a walkover, or — defensively — any match missing TxJ data), so
+   * the caller can skip the whole column rather than show an empty
+   * pitch. */
+  var CANCHA_ROLE_Y_ = { DEL: 34, MED: 124, DEF: 214, POR: 294 };
+  var CANCHA_SLOT_SUFFIX_ORDER_ = ['I', 'C', 'C2', 'D'];
+  function canchaSvgHtml_(lineup, era) {
+    if (!lineup || !lineup.jugadores || !lineup.jugadores.length) return '';
+    var groups = {};
+    lineup.jugadores.forEach(function (j) {
+      if (!groups[j.posicion]) groups[j.posicion] = [];
+      groups[j.posicion].push(j);
+    });
+    Object.keys(groups).forEach(function (role) {
+      groups[role].sort(function (a, b) {
+        var sa = String(a.slot).replace(role, '').trim();
+        var sb = String(b.slot).replace(role, '').trim();
+        var ia = CANCHA_SLOT_SUFFIX_ORDER_.indexOf(sa); if (ia < 0) ia = 1;
+        var ib = CANCHA_SLOT_SUFFIX_ORDER_.indexOf(sb); if (ib < 0) ib = 1;
+        return ia - ib;
+      });
+    });
+    var markers = Object.keys(groups).map(function (role) {
+      var y = CANCHA_ROLE_Y_[role];
+      if (y === undefined) return '';
+      var row = groups[role];
+      var n = row.length;
+      return row.map(function (j, i) {
+        var x = (i + 1) * (200 / (n + 1));
+        var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
+        var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
+        return '<g class="cancha-jugador"><circle cx="' + x + '" cy="' + y + '" r="15"/>' +
+          '<text x="' + x + '" y="' + y + '" dy="0.35em">' + esc(etiqueta) + '</text></g>';
+      }).join('');
+    }).join('');
+    return '<svg class="cancha-svg" viewBox="0 0 200 324" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Formación inicial">' +
+      '<rect class="cancha-fondo" x="4" y="4" width="192" height="316" rx="10"/>' +
+      '<line class="cancha-linea" x1="4" y1="162" x2="196" y2="162"/>' +
+      '<circle class="cancha-linea" cx="100" cy="162" r="26" fill="none"/>' +
+      markers +
+      '</svg>';
   }
 
   /** Último Partido — the last (chronologically) match in
@@ -689,6 +756,23 @@
     var asistencias = detailScorersAt_(detail.AST, detailColumnIndex_(detail.AST, m.jornada));
     var presentesPI = detailPresentAt_(detail.PI, detailColumnIndex_(detail.PI, m.jornada));
 
+    // Goal/assist counts and captaincy, keyed by playerId (falling back
+    // to nombre for a row with no Jugadores match — [Default]/
+    // [Autogoles] utility rows, or a bracketed guest name) — looked up
+    // per card below instead of threading through detailScorersAt_'s
+    // own row shape. Captaincy comes from this match's own TxJ lineup
+    // (m.lineup, already resolved by dashboard_export.gs) since PI's
+    // detail rows have no concept of it.
+    function statKey_(p) { return p.playerId || p.nombre; }
+    var golesPorJugador = {};
+    goleadores.forEach(function (p) { golesPorJugador[statKey_(p)] = Number(p.valor) || 0; });
+    var asistPorJugador = {};
+    asistencias.forEach(function (p) { asistPorJugador[statKey_(p)] = Number(p.valor) || 0; });
+    var capitanesPorJugador = {};
+    (m.lineup && m.lineup.jugadores || []).forEach(function (j) {
+      if (j.capitan) capitanesPorJugador[j.playerId || j.nombre] = true;
+    });
+
     var titulares = presentesPI.filter(function (p) {
       return POSICION_ORDER_.indexOf(String(p.valor).trim().toUpperCase()) !== -1;
     }).sort(function (a, b) {
@@ -703,29 +787,33 @@
 
     var victoriaPorDefault = !titulares.length && !suplentes.length;
 
-    var colIzquierdaHtml;
+    function conStats_(p, posicion) {
+      var key = statKey_(p);
+      return {
+        nombre: p.nombre, dorsal: p.dorsal, posicion: posicion, playerId: p.playerId,
+        capitan: !!capitanesPorJugador[key], goles: golesPorJugador[key], asistencias: asistPorJugador[key]
+      };
+    }
+
+    var colIzquierdaHtml, colDerechaHtml;
     if (victoriaPorDefault) {
       var asistentes = detailPresentAt_(detail.PA, detailColumnIndex_(detail.PA, m.jornada))
         .sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
-      colIzquierdaHtml = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: null, playerId: p.playerId }; }));
+      colIzquierdaHtml = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return conStats_(p, null); }));
+      colDerechaHtml = '<p class="detail-message">Triunfo por default.</p>';
     } else {
       colIzquierdaHtml =
-        partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: String(p.valor).trim().toUpperCase(), playerId: p.playerId }; })) +
-        partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return { nombre: p.nombre, dorsal: p.dorsal, posicion: 'SUP', playerId: p.playerId }; }));
+        partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return conStats_(p, String(p.valor).trim().toUpperCase()); })) +
+        partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return conStats_(p, 'SUP'); }));
+      colDerechaHtml = canchaSvgHtml_(m.lineup, data.currentSeason.era);
     }
-
-    var golesTexto = victoriaPorDefault ? '[Triunfo por default]' : listaConConteo_(goleadores);
-    var golesHtml = (victoriaPorDefault || goleadores.length)
-      ? '<h4>Goles</h4><p class="partido-lista">' + esc(golesTexto) + '</p>' : '';
-    var asistHtml = asistencias.length
-      ? '<h4>Asistencias</h4><p class="partido-lista">' + esc(listaConConteo_(asistencias)) + '</p>' : '';
 
     var html = '<h3 class="partido-titulo">Último Partido</h3>' +
       partidoMetaHtml_(data.currentSeason.era, m.jornada, m.fecha, m.hora, m.cancha) +
       partidoMarcadorHtml_(m) +
       '<div class="partido-columnas">' +
         '<div class="partido-col">' + colIzquierdaHtml + '</div>' +
-        '<div class="partido-col">' + golesHtml + asistHtml + '</div>' +
+        '<div class="partido-col partido-col-cancha">' + colDerechaHtml + '</div>' +
       '</div>' +
       '<a href="#estadisticas" class="partido-ver-todos" id="ultimo-partido-ver-todos">Ver todos los resultados →</a>';
     card.innerHTML = html;

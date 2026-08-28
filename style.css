@@ -517,6 +517,34 @@ main.wide { max-width: 1400px; }
   font-size: 0.7rem; font-weight: 800; border: 2px solid var(--bg);
 }
 
+/* Último Partido — per-card goal/assist badges (Stage 7 extension),
+   replacing the old separate Goles/Asistencias text lists. A small
+   pill row under the position pill; the ball icon badge and the "A"
+   badge get their own tint (goal green-ish, assist blue-ish) so the
+   two read apart from each other and from the neutral position pill
+   above them at a glance. */
+.jugador-card-badges { display: flex; justify-content: center; gap: 0.3rem; margin-top: 0.3rem; }
+.jugador-card-badge {
+  display: inline-flex; align-items: center; gap: 0.15rem;
+  padding: 0.1rem 0.35rem; border-radius: 999px; font-size: 0.65rem; font-weight: 700;
+}
+.jugador-card-badge svg { width: 11px; height: 11px; }
+.jugador-card-badge-gol { background: rgba(37, 182, 89, 0.18); color: var(--good); }
+.jugador-card-badge-ast { background: rgba(86, 107, 246, 0.18); color: #7c8bff; }
+.jugador-card-badge-count { font-size: 0.65rem; }
+
+/* Último Partido — starting-formation pitch (Stage 7 extension), the
+   card's right column when there's a real lineup to show. Vertical
+   orientation (goalkeeper at the bottom, forwards at the top) — see
+   canchaSvgHtml_'s own doc comment (app.js) for how player markers are
+   positioned. */
+.partido-col-cancha { display: flex; justify-content: center; align-items: flex-start; }
+.cancha-svg { width: 100%; max-width: 220px; height: auto; }
+.cancha-fondo { fill: rgba(38, 122, 116, 0.22); stroke: var(--border); stroke-width: 2; }
+.cancha-linea { stroke: var(--border); stroke-width: 1.5; }
+.cancha-jugador circle { fill: var(--main); stroke: var(--bg); stroke-width: 2; }
+.cancha-jugador text { fill: #ffffff; font-size: 12px; font-weight: 800; text-anchor: middle; }
+
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a
    titled block stacked vertically with breathing room between them. */
