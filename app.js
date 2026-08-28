@@ -30,7 +30,8 @@
     stat: 'BALANCE',
     era: '__all__',
     teamEra: '__all__',      // Equipo tab's own season dropdown — independent of "era" above (Jugadores tab)
-    teamView: 'resultados',  // Equipo tab's Resultados/Alineaciones toggle (Stage 7) — independent of teamEra
+    teamView: 'resultados',
+    teamEraHasTxJ: true,  // Equipo tab's Resultados/Alineaciones toggle (Stage 7) — independent of teamEra
     search: '',
     detail: false,           // "Mostrar detalle" toggle — off by default
     historyDetailPromise: null, // lazy-loaded + cached data-history-detail.json fetch
@@ -1498,8 +1499,14 @@
   }
 
   function applyTemporadaView_() {
+    // The 3 legacy eras (2017/18-2019) have no TxJ tab at all, per
+    // data.seasons' hasTxJ flag (Torneos' own TxJ column) — force back
+    // to Resultados and disable the Alineaciones button rather than
+    // showing an empty/misleading view for those seasons.
+    if (!state.teamEraHasTxJ && state.teamView === 'alineaciones') state.teamView = 'resultados';
     document.querySelectorAll('#temporada-view-selector .stat-btn').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.view === state.teamView);
+      if (btn.dataset.view === 'alineaciones') btn.disabled = !state.teamEraHasTxJ;
     });
     document.getElementById('matches-wrap').hidden = state.teamView !== 'resultados';
     document.getElementById('alineaciones-wrap').hidden = state.teamView !== 'alineaciones';
@@ -1777,6 +1784,8 @@
       }).join('');
     }
 
+    var seasonMeta = ((state.data && state.data.seasons) || []).filter(function (s) { return s.era === season.era; })[0];
+    state.teamEraHasTxJ = seasonMeta ? !!seasonMeta.hasTxJ : true;
     document.getElementById('alineaciones-wrap').innerHTML = alineacionesHtml_(matches);
     applyTemporadaView_();
 
@@ -1797,15 +1806,29 @@
     return matches.map(function (m) {
       var lineup = m.lineup;
       var jugadores = lineup && lineup.jugadores || [];
-      var formacionHtml = (lineup && lineup.formacion && lineup.formacion !== 'TPD' && lineup.formacion !== 'DPD')
-        ? '<span class="alineacion-formacion">' + esc(lineup.formacion) + '</span>' : '';
+      var formacion = lineup && lineup.formacion;
+      var formacionHtml = (formacion && formacion !== 'TPD' && formacion !== 'DPD')
+        ? '<span class="alineacion-formacion">' + esc(formacion) + '</span>' : '';
+      // Marcador pill — same result color scheme (good/draw/bad) as the
+      // Resultados table's result-chip, between the jornada and rival,
+      // e.g. "J8 2-3 CHOMPIRAS 2-3-1".
+      var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? 'result-chip-e' : '';
+      var marcadorHtml = '<span class="alineacion-marcador ' + resClass + '">' + esc(m.gf) + '-' + esc(m.gc) + '</span>';
       var header = '<div class="alineacion-match-header">' +
         '<span class="jornada-cell">' + esc(m.jornada) + '</span>' +
+        marcadorHtml +
         '<span>' + esc(m.rival) + '</span>' + formacionHtml +
         '</div>';
+      // Triunfo/Derrota por default (TPD/DPD, Daniel's own Formación
+      // codes for a match won/lost without a real lineup) get their own
+      // message instead of the generic "Sin datos." placeholder used
+      // for a genuinely-unrecorded lineup.
+      var placeholder = formacion === 'TPD' ? 'Triunfo por default.'
+        : formacion === 'DPD' ? 'Derrota por default.'
+        : 'Sin datos.';
       var body = jugadores.length
         ? '<div class="partido-jugadores-grid">' + jugadores.map(lineupCardHtml_).join('') + '</div>'
-        : '<p class="detail-message">Sin datos.</p>';
+        : '<p class="detail-message">' + placeholder + '</p>';
       return '<div class="alineacion-match">' + header + body + '</div>';
     }).join('');
   }
