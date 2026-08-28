@@ -547,13 +547,18 @@ main.wide { max-width: 1400px; }
    orientation (goalkeeper at the bottom, forwards at the top) — see
    canchaSvgHtml_'s own doc comment (app.js) for how player markers are
    positioned. */
-.partido-col-cancha { display: flex; justify-content: center; align-items: flex-start; }
+/* Gets more of the row's width than its Titulares/Suplentes sibling —
+   the pitch reads poorly cramped down to card-sized, so this column is
+   allowed to grow past an even 50/50 split. */
+.partido-col-cancha { display: flex; justify-content: center; align-items: flex-start; flex: 1.4 1 320px; }
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
    comment, app.js) — the SVG here just positions player markers over
-   it at the right viewBox coordinates. */
-.cancha-svg { width: 100%; max-width: 240px; height: auto; }
-.cancha-jugador circle { fill: var(--main); stroke: #ffffff; stroke-width: 3; }
-.cancha-jugador text { fill: #ffffff; font-size: 26px; font-weight: 800; text-anchor: middle; }
+   it at the right viewBox coordinates. Sized to fill essentially the
+   whole column (not capped down to a small fixed width) so the pitch
+   and its dorsal numbers stay legible. */
+.cancha-svg { width: 100%; max-width: 480px; height: auto; }
+.cancha-jugador rect { fill: var(--main); stroke: #ffffff; stroke-width: 3; }
+.cancha-jugador text { fill: #ffffff; font-size: 30px; font-weight: 800; text-anchor: middle; }
 
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a

@@ -689,9 +689,20 @@
   // the horizontal graphic turned 90°.
   var CANCHA_IMG_W_ = 512;
   var CANCHA_IMG_H_ = 744;
-  var CANCHA_ROLE_Y_ = { DEL: 155, MED: 372, DEF: 585, POR: 715 };
+  // Baseline row Y per role, as a fraction of the pitch height — tuned
+  // against Daniel's own 2-3-1/3-2-1 reference graphics (attacking
+  // upward: DEL closest to the far goal, POR closest to the near one).
+  var CANCHA_ROLE_Y_FRAC_ = { DEL: 0.13, MED: 0.40, DEF: 0.65, POR: 0.90 };
+  // A row with all three of I/C/D (2-3-1's MED, 3-2-1's DEF) is drawn
+  // staggered, not level — the C slot sits this much deeper (toward
+  // POR) than its I/D row-mates, per Daniel's own reference images. A
+  // 2-player row (I+D only, or the MED-only C/C2 pair in 3-2-1) always
+  // stays level — this offset never applies there.
+  var CANCHA_OFFSET_C_FRAC_ = 0.07;
   var CANCHA_SLOT_SUFFIX_ORDER_ = ['I', 'C', 'C2', 'D'];
-  var CANCHA_MARGIN_X_ = 55;
+  var CANCHA_MARGIN_X_ = 60;
+  var CANCHA_MARKER_SIZE_ = 68;
+  var CANCHA_MARKER_RX_ = 18;
   function canchaSvgHtml_(lineup, era) {
     if (!lineup || !lineup.jugadores || !lineup.jugadores.length) return '';
     var groups = {};
@@ -709,16 +720,22 @@
       });
     });
     var usableW = CANCHA_IMG_W_ - CANCHA_MARGIN_X_ * 2;
+    var half = CANCHA_MARKER_SIZE_ / 2;
     var markers = Object.keys(groups).map(function (role) {
-      var y = CANCHA_ROLE_Y_[role];
-      if (y === undefined) return '';
+      var yFrac = CANCHA_ROLE_Y_FRAC_[role];
+      if (yFrac === undefined) return '';
+      var baseY = yFrac * CANCHA_IMG_H_;
       var row = groups[role];
       var n = row.length;
+      var suffixOf = function (j) { return String(j.slot).replace(role, '').trim(); };
+      var suffixes = row.map(suffixOf);
+      var staggered = suffixes.indexOf('I') !== -1 && suffixes.indexOf('C') !== -1 && suffixes.indexOf('D') !== -1;
       return row.map(function (j, i) {
         var x = CANCHA_MARGIN_X_ + (i + 1) * (usableW / (n + 1));
+        var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
         var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
         var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
-        return '<g class="cancha-jugador"><circle cx="' + x + '" cy="' + y + '" r="26"/>' +
+        return '<g class="cancha-jugador"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"/>' +
           '<text x="' + x + '" y="' + y + '" dy="0.36em">' + esc(etiqueta) + '</text></g>';
       }).join('');
     }).join('');
