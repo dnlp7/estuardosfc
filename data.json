@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-28T03:24:28.825Z",
+  "generatedAt": "2026-08-28T04:09:56.528Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -4228,7 +4228,61 @@
         "gc": 3,
         "rival": "REAL FUSIÓN",
         "rivalBg": "#ffffff",
-        "rivalText": "#ffc000"
+        "rivalText": "#ffc000",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Charly",
+              "playerId": "P013",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Mares",
+              "playerId": "P010",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Chente",
+              "playerId": "P012",
+              "capitan": false
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Hector",
+              "playerId": "P028",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Sergio",
+              "playerId": "P007",
+              "capitan": false
+            }
+          ]
+        }
       },
       {
         "jornada": "J2",
@@ -4240,7 +4294,61 @@
         "gc": 1,
         "rival": "CANADIENSE",
         "rivalBg": "#000000",
-        "rivalText": "#ffc000"
+        "rivalText": "#ffc000",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Charly",
+              "playerId": "P013",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Mares",
+              "playerId": "P010",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Chuy",
+              "playerId": "P015",
+              "capitan": false
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Hector",
+              "playerId": "P028",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Sergio",
+              "playerId": "P007",
+              "capitan": false
+            }
+          ]
+        }
       },
       {
         "jornada": "J3",
@@ -4252,7 +4360,61 @@
         "gc": 12,
         "rival": "TAPICERÍA FC",
         "rivalBg": "#cfe2f3",
-        "rivalText": "#1155cc"
+        "rivalText": "#1155cc",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Charly",
+              "playerId": "P013",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Eric",
+              "playerId": "P011",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Ramiro",
+              "playerId": "P031",
+              "capitan": false
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Hector",
+              "playerId": "P028",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Sergio",
+              "playerId": "P007",
+              "capitan": false
+            }
+          ]
+        }
       },
       {
         "jornada": "J4",
@@ -4264,7 +4426,61 @@
         "gc": 2,
         "rival": "MILAN DRAGONES",
         "rivalBg": "#000000",
-        "rivalText": "#f2041b"
+        "rivalText": "#f2041b",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Charly",
+              "playerId": "P013",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Mares",
+              "playerId": "P010",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Chuy",
+              "playerId": "P015",
+              "capitan": false
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Ramiro",
+              "playerId": "P031",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Sergio",
+              "playerId": "P007",
+              "capitan": false
+            }
+          ]
+        }
       },
       {
         "jornada": "J5",
@@ -4276,7 +4492,61 @@
         "gc": 1,
         "rival": "BROOKKIND FC",
         "rivalBg": "#e2d8ce",
-        "rivalText": "#000000"
+        "rivalText": "#000000",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Charly",
+              "playerId": "P013",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Mares",
+              "playerId": "P010",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Chuy",
+              "playerId": "P015",
+              "capitan": false
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Ramiro",
+              "playerId": "P031",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Sergio",
+              "playerId": "P007",
+              "capitan": false
+            }
+          ]
+        }
       },
       {
         "jornada": "J6",
@@ -4288,7 +4558,61 @@
         "gc": 9,
         "rival": "PANCHIZA",
         "rivalBg": "#000000",
-        "rivalText": "#0000ff"
+        "rivalText": "#0000ff",
+        "lineup": {
+          "formacion": "3-2-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "[Refuerzo]",
+              "playerId": null,
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Ramiro",
+              "playerId": "P031",
+              "capitan": false
+            },
+            {
+              "slot": "DEF C",
+              "posicion": "DEF",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Daniel",
+              "playerId": "P001",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C2",
+              "posicion": "MED",
+              "nombre": "Hector",
+              "playerId": "P028",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Sergio",
+              "playerId": "P007",
+              "capitan": false
+            }
+          ]
+        }
       },
       {
         "jornada": "J7",
@@ -4300,7 +4624,61 @@
         "gc": 1,
         "rival": "HOLANDA",
         "rivalBg": "#ffffff",
-        "rivalText": "#cc0000"
+        "rivalText": "#cc0000",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Charly",
+              "playerId": "P013",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Mares",
+              "playerId": "P010",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Chente",
+              "playerId": "P012",
+              "capitan": false
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Ramiro",
+              "playerId": "P031",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Paco",
+              "playerId": "P014",
+              "capitan": false
+            }
+          ]
+        }
       },
       {
         "jornada": "J8",
@@ -4312,7 +4690,61 @@
         "gc": 3,
         "rival": "CHOMPIRAS",
         "rivalBg": "#a48ae0",
-        "rivalText": "#002060"
+        "rivalText": "#002060",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Sheko",
+              "playerId": "P002",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Mares",
+              "playerId": "P010",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Chente",
+              "playerId": "P012",
+              "capitan": false
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Ramiro",
+              "playerId": "P031",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Paco",
+              "playerId": "P014",
+              "capitan": false
+            }
+          ]
+        }
       }
     ],
     "standings": {
