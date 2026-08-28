@@ -523,15 +523,24 @@ main.wide { max-width: 1400px; }
    badge get their own tint (goal green-ish, assist blue-ish) so the
    two read apart from each other and from the neutral position pill
    above them at a glance. */
-.jugador-card-badges { display: flex; justify-content: center; gap: 0.3rem; margin-top: 0.3rem; }
+/* Overlaid on the photo's bottom-left corner, stacked one per row -
+   same corner-badge treatment as .jugador-card-capitan (top-right), a
+   solid --bg border acting as a cutout ring so each stays legible
+   against any photo. Goal badge on top, assist badge below when both
+   are present. */
+.jugador-card-badges {
+  position: absolute; bottom: -4px; left: -4px;
+  display: flex; flex-direction: column; gap: 2px; align-items: flex-start;
+}
 .jugador-card-badge {
   display: inline-flex; align-items: center; gap: 0.15rem;
-  padding: 0.1rem 0.35rem; border-radius: 999px; font-size: 0.65rem; font-weight: 700;
+  padding: 0.05rem 0.3rem; border-radius: 999px; font-size: 0.6rem; font-weight: 700;
+  border: 2px solid var(--bg);
 }
-.jugador-card-badge svg { width: 11px; height: 11px; }
-.jugador-card-badge-gol { background: rgba(37, 182, 89, 0.18); color: var(--good); }
-.jugador-card-badge-ast { background: rgba(86, 107, 246, 0.18); color: #7c8bff; }
-.jugador-card-badge-count { font-size: 0.65rem; }
+.jugador-card-badge svg { width: 10px; height: 10px; }
+.jugador-card-badge-gol { background: var(--good); color: #ffffff; }
+.jugador-card-badge-ast { background: #566bf6; color: #ffffff; }
+.jugador-card-badge-count { font-size: 0.6rem; }
 
 /* Último Partido — starting-formation pitch (Stage 7 extension), the
    card's right column when there's a real lineup to show. Vertical
@@ -539,11 +548,12 @@ main.wide { max-width: 1400px; }
    canchaSvgHtml_'s own doc comment (app.js) for how player markers are
    positioned. */
 .partido-col-cancha { display: flex; justify-content: center; align-items: flex-start; }
-.cancha-svg { width: 100%; max-width: 220px; height: auto; }
-.cancha-fondo { fill: rgba(38, 122, 116, 0.22); stroke: var(--border); stroke-width: 2; }
-.cancha-linea { stroke: var(--border); stroke-width: 1.5; }
-.cancha-jugador circle { fill: var(--main); stroke: var(--bg); stroke-width: 2; }
-.cancha-jugador text { fill: #ffffff; font-size: 12px; font-weight: 800; text-anchor: middle; }
+/* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
+   comment, app.js) — the SVG here just positions player markers over
+   it at the right viewBox coordinates. */
+.cancha-svg { width: 100%; max-width: 240px; height: auto; }
+.cancha-jugador circle { fill: var(--main); stroke: #ffffff; stroke-width: 3; }
+.cancha-jugador text { fill: #ffffff; font-size: 26px; font-weight: 800; text-anchor: middle; }
 
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a

@@ -589,8 +589,8 @@
   function jugadorCardBadgeHtml_(tipo, count) {
     if (!count) return '';
     var contenido = tipo === 'gol' ? ICON_BALON_ : 'A';
-    var sufijo = count > 1 ? '<span class="jugador-card-badge-count">' + count + '</span>' : '';
-    return '<span class="jugador-card-badge jugador-card-badge-' + tipo + '">' + contenido + sufijo + '</span>';
+    return '<span class="jugador-card-badge jugador-card-badge-' + tipo + '">' + contenido +
+      '<span class="jugador-card-badge-count">' + count + '</span></span>';
   }
 
   /** One player card inside a Titulares/Suplentes/Asistentes grid —
@@ -613,10 +613,11 @@
       : '';
     var badgesHtml = jugadorCardBadgeHtml_('gol', item.goles) + jugadorCardBadgeHtml_('ast', item.asistencias);
     return '<div class="jugador-card">' +
-      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre) + capitanBadge + '</div>' +
+      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre) + capitanBadge +
+      (badgesHtml ? '<div class="jugador-card-badges">' + badgesHtml + '</div>' : '') +
+      '</div>' +
       '<div class="jugador-card-nombre">' + esc(etiqueta) + '</div>' +
       (item.posicion ? posicionPillHtml_(item.posicion) : '') +
-      (badgesHtml ? '<div class="jugador-card-badges">' + badgesHtml + '</div>' : '') +
       '</div>';
   }
 
@@ -678,8 +679,19 @@
    * (a walkover, or — defensively — any match missing TxJ data), so
    * the caller can skip the whole column rather than show an empty
    * pitch. */
-  var CANCHA_ROLE_Y_ = { DEL: 34, MED: 124, DEF: 214, POR: 294 };
+  // Field art is Daniel's own social-media pitch line drawing
+  // (images/partidos/cancha-lineas2.png, 512x744 — a full two-goal
+  // pitch, transparent background) reused here instead of a
+  // hand-drawn SVG outline, so the site matches the same line style
+  // as the graphics he already posts. Only the bottom (own) goal is
+  // "used" visually — the row Y stops below place the goalkeeper right
+  // in front of it and forwards up near the far goal, same read as
+  // the horizontal graphic turned 90°.
+  var CANCHA_IMG_W_ = 512;
+  var CANCHA_IMG_H_ = 744;
+  var CANCHA_ROLE_Y_ = { DEL: 155, MED: 372, DEF: 585, POR: 715 };
   var CANCHA_SLOT_SUFFIX_ORDER_ = ['I', 'C', 'C2', 'D'];
+  var CANCHA_MARGIN_X_ = 55;
   function canchaSvgHtml_(lineup, era) {
     if (!lineup || !lineup.jugadores || !lineup.jugadores.length) return '';
     var groups = {};
@@ -696,23 +708,22 @@
         return ia - ib;
       });
     });
+    var usableW = CANCHA_IMG_W_ - CANCHA_MARGIN_X_ * 2;
     var markers = Object.keys(groups).map(function (role) {
       var y = CANCHA_ROLE_Y_[role];
       if (y === undefined) return '';
       var row = groups[role];
       var n = row.length;
       return row.map(function (j, i) {
-        var x = (i + 1) * (200 / (n + 1));
+        var x = CANCHA_MARGIN_X_ + (i + 1) * (usableW / (n + 1));
         var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
         var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
-        return '<g class="cancha-jugador"><circle cx="' + x + '" cy="' + y + '" r="15"/>' +
-          '<text x="' + x + '" y="' + y + '" dy="0.35em">' + esc(etiqueta) + '</text></g>';
+        return '<g class="cancha-jugador"><circle cx="' + x + '" cy="' + y + '" r="26"/>' +
+          '<text x="' + x + '" y="' + y + '" dy="0.36em">' + esc(etiqueta) + '</text></g>';
       }).join('');
     }).join('');
-    return '<svg class="cancha-svg" viewBox="0 0 200 324" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Formación inicial">' +
-      '<rect class="cancha-fondo" x="4" y="4" width="192" height="316" rx="10"/>' +
-      '<line class="cancha-linea" x1="4" y1="162" x2="196" y2="162"/>' +
-      '<circle class="cancha-linea" cx="100" cy="162" r="26" fill="none"/>' +
+    return '<svg class="cancha-svg" viewBox="0 0 ' + CANCHA_IMG_W_ + ' ' + CANCHA_IMG_H_ + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Formación inicial">' +
+      '<image href="images/partidos/cancha-lineas2.png" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '"/>' +
       markers +
       '</svg>';
   }
