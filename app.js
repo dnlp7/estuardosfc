@@ -500,11 +500,12 @@
   var ICON_RELOJ_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>';
   var ICON_PIN_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>';
 
-  // Goal/assist badge icons for Último Partido's player cards — a
-  // minimalist outline soccer ball (same currentColor/viewBox 0 0 24 24
-  // convention as the meta-row icons above) and a plain bold "A" for
-  // assists (no icon asset needed for that one, per Daniel's own call).
-  var ICON_BALON_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.3l3.4 2.5-1.3 4h-4.2l-1.3-4L12 7.3Z"/><path d="M12 3.2v4.1M12 20.8v-4M4 8.6l3.9 1.5M20 8.6l-3.9 1.5M4 15.4l3.9-1.5M20 15.4l-3.9-1.5"/></svg>';
+  // Goal badge icon for Último Partido's player cards — Daniel's own
+  // white soccer-ball asset (images/partidos/balon-icono.png, already
+  // white with a transparent background, so no recoloring needed) and
+  // a plain bold "A" for assists (no icon asset needed for that one,
+  // per Daniel's own call).
+  var ICON_BALON_ = '<img src="images/partidos/balon-icono.png" alt="Gol" class="jugador-card-badge-balon">';
 
   function partidoMetaItemHtml_(icon, label) {
     return '<span class="partido-meta-item">' + icon + esc(label) + '</span>';
