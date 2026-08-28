@@ -30,6 +30,7 @@
     stat: 'BALANCE',
     era: '__all__',
     teamEra: '__all__',      // Equipo tab's own season dropdown — independent of "era" above (Jugadores tab)
+    teamView: 'resultados',  // Equipo tab's Resultados/Alineaciones toggle (Stage 7) — independent of teamEra
     search: '',
     detail: false,           // "Mostrar detalle" toggle — off by default
     historyDetailPromise: null, // lazy-loaded + cached data-history-detail.json fetch
@@ -1440,8 +1441,32 @@
       state.teamEra = e.target.value;
       renderEquipo();
     });
+    setupTemporadaViewToggle_();
     populateTeamEraFilter(data);
     renderEquipo();
+  }
+
+  /** Resultados/Alineaciones toggle (Stage 7) — both wraps are already
+   * populated by renderTemporadaSeason_ every time a season renders, so
+   * switching the toggle is pure visibility (no re-fetch, no re-render)
+   * via applyTemporadaView_. Same .stat-selector/.stat-btn pattern as
+   * the Historial tab's stat selector, for a consistent toggle look
+   * across the site rather than a second control style. */
+  function setupTemporadaViewToggle_() {
+    document.querySelectorAll('#temporada-view-selector .stat-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state.teamView = btn.dataset.view;
+        applyTemporadaView_();
+      });
+    });
+  }
+
+  function applyTemporadaView_() {
+    document.querySelectorAll('#temporada-view-selector .stat-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.view === state.teamView);
+    });
+    document.getElementById('matches-wrap').hidden = state.teamView !== 'resultados';
+    document.getElementById('alineaciones-wrap').hidden = state.teamView !== 'alineaciones';
   }
 
   /** Season dropdown source: every era in data.seasons (all 17, oldest
@@ -1716,7 +1741,59 @@
       }).join('');
     }
 
+    document.getElementById('alineaciones-wrap').innerHTML = alineacionesHtml_(matches);
+    applyTemporadaView_();
+
     renderSeasonGoalsChart_(matches);
+  }
+
+  /** Alineaciones (Stage 7) — one block per played match, each with its
+   * own header (jornada/rival/formación) and a partido-jugadores-grid
+   * of lineup cards, or a "Sin datos" placeholder for a match with no
+   * TxJ row recorded at all (a "TPD" formación, or an era with no TxJ
+   * tab — m.lineup is null either way, dashboard_export.gs's
+   * readSeasonJson_). Matches with a lineup but an empty jugadores
+   * array (shouldn't happen given how readTxJLineups_ builds it, but
+   * treated the same as "no lineup" defensively either way) also fall
+   * through to the placeholder. */
+  function alineacionesHtml_(matches) {
+    if (!matches.length) return '<p class="detail-message">Sin partidos jugados todavía.</p>';
+    return matches.map(function (m) {
+      var lineup = m.lineup;
+      var jugadores = lineup && lineup.jugadores || [];
+      var formacionHtml = (lineup && lineup.formacion && lineup.formacion !== 'TPD' && lineup.formacion !== 'DPD')
+        ? '<span class="alineacion-formacion">' + esc(lineup.formacion) + '</span>' : '';
+      var header = '<div class="alineacion-match-header">' +
+        '<span class="jornada-cell">' + esc(m.jornada) + '</span>' +
+        '<span>' + esc(m.rival) + '</span>' + formacionHtml +
+        '</div>';
+      var body = jugadores.length
+        ? '<div class="partido-jugadores-grid">' + jugadores.map(lineupCardHtml_).join('') + '</div>'
+        : '<p class="detail-message">Sin datos.</p>';
+      return '<div class="alineacion-match">' + header + body + '</div>';
+    }).join('');
+  }
+
+  /** One Alineaciones lineup card — deliberately its own function
+   * rather than reusing jugadorCardHtml_ (Último Partido's card), since
+   * this one needs a captain badge Último Partido has no concept of;
+   * keeping them separate avoids threading an unused `capitan` param
+   * through the shared helper's other callers. Same photo/placeholder
+   * fallback and posicionPillHtml_ position pill as jugadorCardHtml_,
+   * for a consistent look between the two. */
+  function lineupCardHtml_(j) {
+    var info = jugadorInfo_(j.nombre, j.playerId);
+    var visual = info && info.playerId
+      ? '<img src="images/perfiles/' + esc(info.playerId) + '.jpg" alt="' + esc(j.nombre) + '" loading="lazy">'
+      : '<div class="jugador-card-placeholder">' + esc(j.nombre) + '</div>';
+    var capitanBadge = j.capitan
+      ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
+      : '';
+    return '<div class="jugador-card">' +
+      '<div class="jugador-card-photo-wrap">' + visual + capitanBadge + '</div>' +
+      '<div class="jugador-card-nombre">' + esc(j.nombre) + '</div>' +
+      posicionPillHtml_(j.posicion) +
+      '</div>';
   }
 
   /** GF/GC per jornada, one season — a line chart (unlike the all-seasons

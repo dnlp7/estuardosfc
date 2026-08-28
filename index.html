@@ -103,7 +103,11 @@
             </table>
           </div>
 
-          <h3>Resultados</h3>
+          <div class="stat-selector" id="temporada-view-selector">
+            <button class="stat-btn active" data-view="resultados">Resultados</button>
+            <button class="stat-btn" data-view="alineaciones">Alineaciones</button>
+          </div>
+
           <div class="table-wrap" id="matches-wrap">
             <table id="matches-table">
               <thead>
@@ -115,6 +119,8 @@
               <tbody></tbody>
             </table>
           </div>
+
+          <div id="alineaciones-wrap" hidden></div>
 
           <h3 id="season-goals-title">Goles por Jornada</h3>
           <div class="chart-wrap" id="season-goals-chart-wrap">

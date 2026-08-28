@@ -475,6 +475,34 @@ main.wide { max-width: 1400px; }
   background: var(--grey-cell); color: var(--muted);
 }
 
+/* Equipo tab — Alineaciones (TxJ starter lineups, Stage 7). One block
+   per match, its own header (jornada/rival/formación) above a
+   partido-jugadores-grid of jugador-cards — reuses that same card/grid
+   look (and .jugador-card-pos's POSITION_COLORS_ palette) rather than a
+   third visual language for "a grid of players" on this site. */
+.alineacion-match { padding-bottom: 1.25rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+.alineacion-match:last-child { border-bottom: none; margin-bottom: 0; }
+.alineacion-match-header {
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem;
+  font-weight: 700; flex-wrap: wrap;
+}
+.alineacion-match-header .jornada-cell { color: var(--accent-light); }
+.alineacion-formacion { font-size: 0.8rem; font-weight: 400; color: var(--muted); }
+/* Wraps the photo/placeholder only (not the name/pos pill below it) so
+   the captain badge can be positioned absolutely against just the
+   image, not the whole card. */
+.jugador-card-photo-wrap { position: relative; }
+/* Captain badge — a small "C" pill overlapping the photo's corner, in
+   the CAPTAIN_COLOR_ reserved for this since the PI position palette
+   was introduced (app.js) and unused until now. A solid --bg border
+   acts as a cutout ring so the badge stays legible against any photo,
+   not just light or dark ones. */
+.jugador-card-capitan {
+  position: absolute; top: -4px; right: -4px; width: 20px; height: 20px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 800; border: 2px solid var(--bg);
+}
+
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a
    titled block stacked vertically with breathing room between them. */
