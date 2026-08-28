@@ -551,24 +551,60 @@
     return '<span class="jugador-card-pos"' + style + '>' + esc(pos) + '</span>';
   }
 
+  /** Photo (or placeholder) for one player card — shared by
+   * jugadorCardHtml_ (Titulares/Suplentes/Asistentes) and
+   * lineupCardHtml_ (Alineaciones), the two card grids on the site that
+   * show a player photo rather than Perfil's single dedicated <img>
+   * element. A current roster player's photo lives in images/perfiles/;
+   * a former one's lives in images/perfiles/ex/ (Daniel's own split,
+   * same convention renderPerfil already uses for its one photo). The
+   * ex/ set is incomplete, so a missing former-player photo falls back
+   * via onerror to images/perfiles/ex/default.jpg — a real placeholder
+   * photo Daniel added for exactly this, swapped in live rather than
+   * hiding the <img> and showing a text tile (Perfil's own pattern),
+   * since a grid of several cards reads better as photos of one
+   * consistent size than a mix of photos and text tiles. No onerror
+   * fallback for an active player's own missing photo — that set is
+   * expected to be complete; a genuinely broken one shows as a broken
+   * image icon, same as before this change. A player with no Jugadores
+   * entry at all (info is null — no identity to look up a photo for;
+   * covers TxJ's guest/reinforcement names like "[Refuerzo]") still
+   * falls back to the plain text placeholder tile. */
+  function jugadorFotoHtml_(info, nombre) {
+    if (!info || !info.playerId) {
+      // A bracketed name ("[Refuerzo]", "[Invitado]") is a real person
+      // filling in for a match, just never added to Jugadores (no
+      // dorsal/roster row to give them a photo) — same bracketed-row
+      // convention as GOL's [Default]/[Autogoles] utility rows. That's
+      // worth the same default placeholder photo as a former player
+      // with no ex/ photo of their own, not the plain text tile — the
+      // text tile stays for a genuinely unresolved real name (a typo
+      // or data gap), where showing the raw text is more useful for
+      // spotting the problem than a generic photo would be.
+      if (/^\[.*\]$/.test(String(nombre).trim())) {
+        return '<img src="images/perfiles/ex/default.jpg" alt="' + esc(nombre) + '" loading="lazy">';
+      }
+      return '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
+    }
+    var fotoDir = info.activo ? 'images/perfiles/' : 'images/perfiles/ex/';
+    var src = fotoDir + info.playerId + '.jpg';
+    var onerrorAttr = info.activo ? '' :
+      ' onerror="this.onerror=null;this.src=\'images/perfiles/ex/default.jpg\';"';
+    return '<img src="' + esc(src) + '" alt="' + esc(nombre) + '" loading="lazy"' + onerrorAttr + '>';
+  }
+
   /** One player card inside a Titulares/Suplentes/Asistentes grid —
-   * photo (images/perfiles, looked up by playerId via the shared
+   * photo (jugadorFotoHtml_, looked up by playerId via the shared
    * jugadorInfo_ helper, same identity lookup every other player table
    * on the site uses) + dorsal-prefixed name ("7 Daniel", lineup cards
    * only — the Goles/Asistencias text lists never get a dorsal prefix)
    * + an optional color-coded position pill (omitted entirely — no
    * empty pill — for Asistentes, the default-win case where there are
-   * no starting positions to show at all). A player with no Jugadores
-   * entry falls back to a plain text placeholder tile instead of a
-   * broken image — same fallback philosophy as renderPerfil's own
-   * badge icons. */
+   * no starting positions to show at all). */
   function jugadorCardHtml_(nombre, dorsal, posicion, playerId) {
     var info = jugadorInfo_(nombre, playerId);
-    var visual = info && info.playerId
-      ? '<img src="images/perfiles/' + esc(info.playerId) + '.jpg" alt="' + esc(nombre) + '" loading="lazy">'
-      : '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
     var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal + ' ' + nombre : nombre;
-    return '<div class="jugador-card">' + visual +
+    return '<div class="jugador-card">' + jugadorFotoHtml_(info, nombre) +
       '<div class="jugador-card-nombre">' + esc(etiqueta) + '</div>' +
       (posicion ? posicionPillHtml_(posicion) : '') +
       '</div>';
@@ -1783,14 +1819,11 @@
    * for a consistent look between the two. */
   function lineupCardHtml_(j) {
     var info = jugadorInfo_(j.nombre, j.playerId);
-    var visual = info && info.playerId
-      ? '<img src="images/perfiles/' + esc(info.playerId) + '.jpg" alt="' + esc(j.nombre) + '" loading="lazy">'
-      : '<div class="jugador-card-placeholder">' + esc(j.nombre) + '</div>';
     var capitanBadge = j.capitan
       ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
       : '';
     return '<div class="jugador-card">' +
-      '<div class="jugador-card-photo-wrap">' + visual + capitanBadge + '</div>' +
+      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, j.nombre) + capitanBadge + '</div>' +
       '<div class="jugador-card-nombre">' + esc(j.nombre) + '</div>' +
       posicionPillHtml_(j.posicion) +
       '</div>';

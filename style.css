@@ -480,6 +480,13 @@ main.wide { max-width: 1400px; }
    partido-jugadores-grid of jugador-cards — reuses that same card/grid
    look (and .jugador-card-pos's POSITION_COLORS_ palette) rather than a
    third visual language for "a grid of players" on this site. */
+/* Resultados/Alineaciones toggle — the standings table above and the
+   Resultados table/Alineaciones list below both come right up to this
+   element's own edges (no built-in spacing of their own), so this
+   needed its own top/bottom margin — .stat-selector itself has none
+   (the Historial tab's stat selector always sits inside a .controls
+   wrapper, which supplies that spacing there instead). */
+#temporada-view-selector { margin: 1.25rem 0; }
 .alineacion-match { padding-bottom: 1.25rem; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
 .alineacion-match:last-child { border-bottom: none; margin-bottom: 0; }
 .alineacion-match-header {
