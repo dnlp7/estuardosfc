@@ -693,7 +693,8 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
   border-radius: 12px;
   padding: 1rem 1.25rem;
 }
-.record-leader-col h4 { margin: 0 0 0.75rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.record-leader-col h4 { margin: 0 0 0.15rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.record-leader-range { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.75rem; }
 .record-leader-row {
   display: flex;
   align-items: baseline;

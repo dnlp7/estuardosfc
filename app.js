@@ -2219,7 +2219,17 @@
               '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
           }).join('')
         : '<p class="detail-message">Sin datos.</p>';
-      return '<div class="record-leader-col"><h4>' + esc(STAT_TITLES[stat] || stat) + '</h4>' + rowsHtml + '</div>';
+      // Subtitle — the era range this stat actually covers (e.g. AST
+      // only exists from 2022/23 on), straight from block.eras (oldest
+      // first, same list the Individuales era dropdown uses) rather
+      // than hardcoding a range that would go stale as new seasons are
+      // added.
+      var eras = block ? block.eras : [];
+      var rangeHtml = eras.length
+        ? '<p class="record-leader-range">' + esc(formatEraLabel_(eras[0])) +
+          (eras.length > 1 ? ' – ' + esc(formatEraLabel_(eras[eras.length - 1])) : '') + '</p>'
+        : '';
+      return '<div class="record-leader-col"><h4>' + esc(STAT_TITLES[stat] || stat) + '</h4>' + rangeHtml + rowsHtml + '</div>';
     }).join('');
   }
 
