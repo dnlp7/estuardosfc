@@ -662,7 +662,7 @@
         '<span class="partido-banda-score">' + esc(m.gf) + '</span><span class="partido-banda-nombre">Estuardos FC</span>' +
       '</div>' +
       '<div class="partido-banda"' + rivalStyle + '>' +
-        '<span class="partido-banda-score">' + esc(m.gc) + '</span><span class="partido-banda-nombre">' + esc(m.rival) + '</span>' +
+        '<span class="partido-banda-score">' + esc(m.gc) + '</span><span class="partido-banda-nombre">' + esc(rivalLabel_(m.rival)) + '</span>' +
       '</div>' +
     '</div>';
   }
@@ -910,7 +910,7 @@
       '<div class="partido-vs">' +
         '<span class="partido-vs-equipo">Estuardos FC</span>' +
         '<span class="partido-vs-sep">vs</span>' +
-        '<span class="partido-vs-equipo partido-vs-rival"' + rivalStyle + '>' + esc(p.rival || '?') + '</span>' +
+        '<span class="partido-vs-equipo partido-vs-rival"' + rivalStyle + '>' + esc(rivalLabel_(p.rival)) + '</span>' +
       '</div>';
   }
 
@@ -1912,7 +1912,7 @@
 
         return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
           '<td class="val-strong">' + marcador + '</td>' +
-          '<td' + rivalStyle + '>' + esc(m.rival) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td>' +
+          '<td' + rivalStyle + '>' + esc(rivalLabel_(m.rival)) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td>' +
           '<td' + styleAttr_(horaColor) + '>' + esc(m.hora) + '</td><td' + styleAttr_(canchaColor) + '>' + esc(m.cancha) + '</td></tr>';
       }).join('');
     }
@@ -1950,7 +1950,7 @@
       var header = '<div class="alineacion-match-header">' +
         '<span class="jornada-cell">' + esc(m.jornada) + '</span>' +
         marcadorHtml +
-        '<span>' + esc(m.rival) + '</span>' + formacionHtml +
+        '<span>' + esc(rivalLabel_(m.rival)) + '</span>' + formacionHtml +
         '</div>';
       // Triunfo/Derrota por default (TPD/DPD, Daniel's own Formación
       // codes for a match won/lost without a real lineup) get their own
@@ -2466,7 +2466,7 @@
         var jornada = String(column.partido || '').split(' ')[0];
         var matches = matchesByEra[b.era] || [];
         var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
-        var label = match ? ('vs ' + match.rival + ' — ' + formatFechaCorta_(match.fecha)) : column.partido;
+        var label = match ? ('vs ' + rivalLabel_(match.rival) + ' — ' + formatFechaCorta_(match.fecha)) : column.partido;
         return { nombre: b.nombre, era: b.era, valor: b.valor, matchLabel: label, _fecha: match && match.fecha };
       }))
     };
@@ -2514,7 +2514,7 @@
     return {
       max: max,
       entries: sortRecordEntriesRecentFirst_(best.map(function (b) {
-        return { era: b.era, matchLabel: 'vs ' + b.match.rival + ' — ' + formatFechaCorta_(b.match.fecha), _fecha: b.match.fecha };
+        return { era: b.era, matchLabel: 'vs ' + rivalLabel_(b.match.rival) + ' — ' + formatFechaCorta_(b.match.fecha), _fecha: b.match.fecha };
       }))
     };
   }
@@ -2897,6 +2897,14 @@
     var parts = String(partido || '').trim().split(/\s+/);
     if (parts.length < 2) return esc(partido);
     return esc(parts[0]) + '<br>' + esc(parts.slice(1).join(' '));
+  }
+
+  /** Rival name with a graceful fallback for older, incomplete match
+   * records (some pre-2017 docs never recorded the rival's name) — a
+   * blank rival renders as "Rival desconocido" instead of an empty
+   * cell/label. */
+  function rivalLabel_(rival) {
+    return rival ? rival : 'Rival desconocido';
   }
 
   function esc(v) {
