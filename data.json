@@ -1,7 +1,12 @@
 {
-  "generatedAt": "2026-08-28T06:27:34.567Z",
+  "generatedAt": "2026-08-29T04:31:58.435Z",
   "currentEra": "2026/27",
   "seasons": [
+    {
+      "era": "2010/11",
+      "torneo": "SOL1",
+      "hasTxJ": false
+    },
     {
       "era": "2017/18",
       "torneo": "SOL16",
@@ -673,6 +678,26 @@
       "nombre": "Koch",
       "activo": false,
       "dorsalByEra": {}
+    },
+    "P050": {
+      "nombre": "Gibran",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "P051": {
+      "nombre": "Rafa",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "P052": {
+      "nombre": "Jero",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "P053": {
+      "nombre": "Mijael",
+      "activo": false,
+      "dorsalByEra": {}
     }
   },
   "datos": {
@@ -732,7 +757,7 @@
         "mes": 12,
         "dia": 8
       },
-      "instagram": null,
+      "instagram": "luis.jesus.x",
       "twitter": null,
       "dorsal": 24
     },
@@ -744,7 +769,7 @@
         "mes": 11,
         "dia": 13
       },
-      "instagram": null,
+      "instagram": "arthie.martinez",
       "twitter": null,
       "dorsal": 2
     },
@@ -777,7 +802,7 @@
         "mes": 2,
         "dia": 21
       },
-      "instagram": null,
+      "instagram": "ivanorla21",
       "twitter": null,
       "dorsal": 21
     },
@@ -873,7 +898,7 @@
         "mes": 3,
         "dia": 21
       },
-      "instagram": null,
+      "instagram": "migueemaruv",
       "twitter": null,
       "dorsal": 18
     },
@@ -936,7 +961,7 @@
       "posicion": "DEF",
       "debut": "2017",
       "cumpleanos": null,
-      "instagram": null,
+      "instagram": "carlos_godinz",
       "twitter": null,
       "dorsal": 17
     },
@@ -1014,7 +1039,7 @@
         "mes": 9,
         "dia": 29
       },
-      "instagram": null,
+      "instagram": "pavansson",
       "twitter": null,
       "dorsal": 11
     },
@@ -1116,7 +1141,7 @@
         "mes": 6,
         "dia": 29
       },
-      "instagram": null,
+      "instagram": "juanpadealba",
       "twitter": null,
       "dorsal": 8
     },
@@ -1128,7 +1153,7 @@
         "mes": 7,
         "dia": 27
       },
-      "instagram": null,
+      "instagram": "polanco_mau",
       "twitter": null,
       "dorsal": 15
     },
@@ -1146,7 +1171,7 @@
       "posicion": "POR",
       "debut": "2010",
       "cumpleanos": null,
-      "instagram": null,
+      "instagram": "_dansoto",
       "twitter": null,
       "dorsal": 13
     },
@@ -1182,7 +1207,7 @@
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": null,
-      "instagram": null,
+      "instagram": "vicentee.p",
       "twitter": null,
       "dorsal": 90
     },
@@ -1212,6 +1237,42 @@
       "instagram": null,
       "twitter": null,
       "dorsal": 5
+    },
+    "P050": {
+      "nombreCompleto": "Gibran Ascencio",
+      "posicion": "MED",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 9
+    },
+    "P051": {
+      "nombreCompleto": null,
+      "posicion": "MED",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 10
+    },
+    "P052": {
+      "nombreCompleto": null,
+      "posicion": "DEL",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 34
+    },
+    "P053": {
+      "nombreCompleto": null,
+      "posicion": "MED",
+      "debut": "2010",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 35
     }
   },
   "logros": {
@@ -1231,8 +1292,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1335,8 +1396,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1361,6 +1422,18 @@
         "nivel": 3,
         "temporada": "2021",
         "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2010/11",
+        "imagen": "lider-partidos-2010.png"
+      },
+      {
+        "insignia": "Líder Partidos Iniciados",
+        "nivel": 3,
+        "temporada": "2019/20",
+        "imagen": "lider-titularidades-2019.png"
       }
     ],
     "P003": [
@@ -1401,8 +1474,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Líder Goles Anotados",
@@ -1433,8 +1506,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1477,16 +1550,16 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       }
     ],
     "P009": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1505,8 +1578,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1549,8 +1622,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1587,14 +1660,20 @@
         "nivel": 3,
         "temporada": "2024/25",
         "imagen": "lider-titularidades-2024.png"
+      },
+      {
+        "insignia": "Líder Partidos Iniciados",
+        "nivel": 3,
+        "temporada": "2019/20",
+        "imagen": "lider-titularidades-2019.png"
       }
     ],
     "P012": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1619,8 +1698,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1675,8 +1754,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1705,7 +1784,7 @@
       {
         "insignia": "Líder Goles Anotados",
         "nivel": 3,
-        "temporada": "2018/19",
+        "temporada": "2018",
         "imagen": "lider-goleo-2018.png"
       },
       {
@@ -1791,8 +1870,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1823,16 +1902,16 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       }
     ],
     "P021": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1905,8 +1984,8 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1949,16 +2028,16 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       }
     ],
     "P024": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       },
       {
         "insignia": "Campeón Recopa",
@@ -1977,24 +2056,24 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       }
     ],
     "P026": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       }
     ],
     "P027": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2018/19",
-        "imagen": "recopa-2018-19.png"
+        "temporada": "2018",
+        "imagen": "recopa-2018.png"
       }
     ],
     "P016": [
@@ -2167,6 +2246,12 @@
         "nivel": 1,
         "temporada": "2010/11",
         "imagen": "fundador.png"
+      },
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2010/11",
+        "imagen": "lider-goleo-2010.png"
       }
     ],
     "P042": [
@@ -2200,11 +2285,28 @@
         "temporada": "2010/11",
         "imagen": "fundador.png"
       }
+    ],
+    "P050": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
+    "P051": [
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
     ]
   },
   "stats": {
     "GOL": {
       "eras": [
+        "2010/11",
         "2017/18",
         "2018",
         "2019",
@@ -2340,13 +2442,14 @@
           "playerId": "P005",
           "dorsal": 24,
           "nombre": "Arthie",
-          "total": 73,
+          "total": 80,
           "byEra": {
             "2018": 14,
             "2019": 8,
             "2020": 3,
             "2021": 13,
             "2022": 3,
+            "2010/11": 7,
             "2017/18": 12,
             "2019/20": 14,
             "2021/22": 6
@@ -2377,7 +2480,7 @@
           "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 52,
+          "total": 55,
           "byEra": {
             "2018": 6,
             "2019": 2,
@@ -2388,6 +2491,7 @@
             "2024": 4,
             "2025": 8,
             "2026": 0,
+            "2010/11": 3,
             "2017/18": 1,
             "2019/20": 2,
             "2021/22": 2,
@@ -2443,6 +2547,32 @@
           }
         },
         {
+          "playerId": "P002",
+          "dorsal": 3,
+          "nombre": "Sheko",
+          "total": 22,
+          "byEra": {
+            "2018": 1,
+            "2019": 5,
+            "2020": 0,
+            "2021": 1,
+            "2022": 0,
+            "2023": 0,
+            "2024": 0,
+            "2025": 0,
+            "2026": 0,
+            "2010/11": 4,
+            "2017/18": 1,
+            "2019/20": 3,
+            "2021/22": 2,
+            "2022/23": 2,
+            "2023/24": 2,
+            "2024/25": 1,
+            "2025/26": 0,
+            "2026/27": 0
+          }
+        },
+        {
           "playerId": "P006",
           "dorsal": 2,
           "nombre": "Luis",
@@ -2476,31 +2606,6 @@
             "2022/23": 0,
             "2023/24": 0,
             "2024/25": 2,
-            "2025/26": 0,
-            "2026/27": 0
-          }
-        },
-        {
-          "playerId": "P002",
-          "dorsal": 3,
-          "nombre": "Sheko",
-          "total": 18,
-          "byEra": {
-            "2018": 1,
-            "2019": 5,
-            "2020": 0,
-            "2021": 1,
-            "2022": 0,
-            "2023": 0,
-            "2024": 0,
-            "2025": 0,
-            "2026": 0,
-            "2017/18": 1,
-            "2019/20": 3,
-            "2021/22": 2,
-            "2022/23": 2,
-            "2023/24": 2,
-            "2024/25": 1,
             "2025/26": 0,
             "2026/27": 0
           }
@@ -2582,6 +2687,15 @@
           }
         },
         {
+          "playerId": "P041",
+          "dorsal": 11,
+          "nombre": "Grillo",
+          "total": 8,
+          "byEra": {
+            "2010/11": 8
+          }
+        },
+        {
           "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
@@ -2590,6 +2704,15 @@
             "2026": 0,
             "2025/26": 3,
             "2026/27": 3
+          }
+        },
+        {
+          "playerId": "P039",
+          "dorsal": 8,
+          "nombre": "Juan Pablo",
+          "total": 6,
+          "byEra": {
+            "2010/11": 6
           }
         },
         {
@@ -2606,6 +2729,24 @@
           }
         },
         {
+          "playerId": "P043",
+          "dorsal": 13,
+          "nombre": "Oso",
+          "total": 6,
+          "byEra": {
+            "2010/11": 6
+          }
+        },
+        {
+          "playerId": "P040",
+          "dorsal": 15,
+          "nombre": "Mauricio",
+          "total": 6,
+          "byEra": {
+            "2010/11": 6
+          }
+        },
+        {
           "playerId": "P025",
           "dorsal": 30,
           "nombre": "Neto",
@@ -2618,6 +2759,15 @@
           }
         },
         {
+          "playerId": "P052",
+          "dorsal": 34,
+          "nombre": "Jero",
+          "total": 6,
+          "byEra": {
+            "2010/11": 6
+          }
+        },
+        {
           "playerId": "P008",
           "dorsal": 23,
           "nombre": "Enrique",
@@ -2627,6 +2777,15 @@
             "2019": 4,
             "2017/18": 0,
             "2019/20": 1
+          }
+        },
+        {
+          "playerId": "P046",
+          "dorsal": 90,
+          "nombre": "Chente",
+          "total": 5,
+          "byEra": {
+            "2010/11": 5
           }
         },
         {
@@ -2722,6 +2881,15 @@
           }
         },
         {
+          "playerId": "P051",
+          "dorsal": 10,
+          "nombre": "Rafa",
+          "total": 2,
+          "byEra": {
+            "2010/11": 2
+          }
+        },
+        {
           "playerId": "P019",
           "dorsal": 13,
           "nombre": "David",
@@ -2757,6 +2925,24 @@
           }
         },
         {
+          "playerId": "P047",
+          "dorsal": 25,
+          "nombre": "Glenn",
+          "total": 1,
+          "byEra": {
+            "2010/11": 1
+          }
+        },
+        {
+          "playerId": "P037",
+          "dorsal": 4,
+          "nombre": "Pepe",
+          "total": 0,
+          "byEra": {
+            "2010/11": 0
+          }
+        },
+        {
           "playerId": "P033",
           "dorsal": 5,
           "nombre": "Pablo",
@@ -2771,7 +2957,17 @@
           "nombre": "Bismark",
           "total": 0,
           "byEra": {
+            "2010/11": 0,
             "2022/23": 0
+          }
+        },
+        {
+          "playerId": "P050",
+          "dorsal": 9,
+          "nombre": "Gibran",
+          "total": 0,
+          "byEra": {
+            "2010/11": 0
           }
         },
         {
@@ -2795,6 +2991,15 @@
           }
         },
         {
+          "playerId": "P053",
+          "dorsal": 35,
+          "nombre": "Mijael",
+          "total": 0,
+          "byEra": {
+            "2010/11": 0
+          }
+        },
+        {
           "playerId": "P032",
           "dorsal": 43,
           "nombre": "Rene",
@@ -2808,12 +3013,22 @@
           }
         },
         {
+          "playerId": "P042",
+          "dorsal": 69,
+          "nombre": "Mirmo",
+          "total": 0,
+          "byEra": {
+            "2010/11": 0
+          }
+        },
+        {
           "playerId": "P004",
           "dorsal": 94,
           "nombre": "Diego",
           "total": 0,
           "byEra": {
-            "2018": 0
+            "2018": 0,
+            "2010/11": 0
           }
         }
       ]
@@ -3193,6 +3408,7 @@
     },
     "PA": {
       "eras": [
+        "2010/11",
         "2019/20",
         "2020",
         "2021",
@@ -3213,7 +3429,7 @@
           "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 285,
+          "total": 309,
           "byEra": {
             "2020": 4,
             "2021": 19,
@@ -3222,6 +3438,7 @@
             "2024": 24,
             "2025": 27,
             "2026": 6,
+            "2010/11": 24,
             "2019/20": 27,
             "2021/22": 24,
             "2022/23": 25,
@@ -3320,6 +3537,29 @@
           }
         },
         {
+          "playerId": "P002",
+          "dorsal": 3,
+          "nombre": "Sheko",
+          "total": 208,
+          "byEra": {
+            "2020": 2,
+            "2021": 19,
+            "2022": 12,
+            "2023": 15,
+            "2024": 14,
+            "2025": 14,
+            "2026": 0,
+            "2010/11": 27,
+            "2019/20": 26,
+            "2021/22": 17,
+            "2022/23": 17,
+            "2023/24": 15,
+            "2024/25": 18,
+            "2025/26": 6,
+            "2026/27": 6
+          }
+        },
+        {
           "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
@@ -3402,28 +3642,6 @@
             "2024/25": 23,
             "2025/26": 14,
             "2026/27": 7
-          }
-        },
-        {
-          "playerId": "P002",
-          "dorsal": 3,
-          "nombre": "Sheko",
-          "total": 181,
-          "byEra": {
-            "2020": 2,
-            "2021": 19,
-            "2022": 12,
-            "2023": 15,
-            "2024": 14,
-            "2025": 14,
-            "2026": 0,
-            "2019/20": 26,
-            "2021/22": 17,
-            "2022/23": 17,
-            "2023/24": 15,
-            "2024/25": 18,
-            "2025/26": 6,
-            "2026/27": 6
           }
         },
         {
@@ -3520,11 +3738,12 @@
           "playerId": "P005",
           "dorsal": 24,
           "nombre": "Arthie",
-          "total": 56,
+          "total": 68,
           "byEra": {
             "2020": 3,
             "2021": 8,
             "2022": 9,
+            "2010/11": 12,
             "2019/20": 21,
             "2021/22": 15
           }
@@ -3609,6 +3828,52 @@
           }
         },
         {
+          "playerId": "P003",
+          "dorsal": 8,
+          "nombre": "Bismark",
+          "total": 21,
+          "byEra": {
+            "2010/11": 18,
+            "2022/23": 3
+          }
+        },
+        {
+          "playerId": "P041",
+          "dorsal": 11,
+          "nombre": "Grillo",
+          "total": 21,
+          "byEra": {
+            "2010/11": 21
+          }
+        },
+        {
+          "playerId": "P043",
+          "dorsal": 13,
+          "nombre": "Oso",
+          "total": 20,
+          "byEra": {
+            "2010/11": 20
+          }
+        },
+        {
+          "playerId": "P046",
+          "dorsal": 90,
+          "nombre": "Chente",
+          "total": 20,
+          "byEra": {
+            "2010/11": 20
+          }
+        },
+        {
+          "playerId": "P040",
+          "dorsal": 15,
+          "nombre": "Mauricio",
+          "total": 17,
+          "byEra": {
+            "2010/11": 17
+          }
+        },
+        {
           "playerId": "P029",
           "dorsal": 18,
           "nombre": "Paquito",
@@ -3618,6 +3883,24 @@
             "2021": 0,
             "2022": 3,
             "2022/23": 12
+          }
+        },
+        {
+          "playerId": "P039",
+          "dorsal": 8,
+          "nombre": "Juan Pablo",
+          "total": 15,
+          "byEra": {
+            "2010/11": 15
+          }
+        },
+        {
+          "playerId": "P042",
+          "dorsal": 69,
+          "nombre": "Mirmo",
+          "total": 15,
+          "byEra": {
+            "2010/11": 15
           }
         },
         {
@@ -3653,6 +3936,24 @@
           }
         },
         {
+          "playerId": "P004",
+          "dorsal": 94,
+          "nombre": "Diego",
+          "total": 13,
+          "byEra": {
+            "2010/11": 13
+          }
+        },
+        {
+          "playerId": "P037",
+          "dorsal": 4,
+          "nombre": "Pepe",
+          "total": 11,
+          "byEra": {
+            "2010/11": 11
+          }
+        },
+        {
           "playerId": "P020",
           "dorsal": 16,
           "nombre": "Gabo",
@@ -3661,6 +3962,24 @@
             "2020": 3,
             "2021": 0,
             "2019/20": 5
+          }
+        },
+        {
+          "playerId": "P047",
+          "dorsal": 25,
+          "nombre": "Glenn",
+          "total": 8,
+          "byEra": {
+            "2010/11": 8
+          }
+        },
+        {
+          "playerId": "P051",
+          "dorsal": 10,
+          "nombre": "Rafa",
+          "total": 6,
+          "byEra": {
+            "2010/11": 6
           }
         },
         {
@@ -3683,12 +4002,30 @@
           }
         },
         {
-          "playerId": "P003",
-          "dorsal": 8,
-          "nombre": "Bismark",
-          "total": 3,
+          "playerId": "P052",
+          "dorsal": 34,
+          "nombre": "Jero",
+          "total": 5,
           "byEra": {
-            "2022/23": 3
+            "2010/11": 5
+          }
+        },
+        {
+          "playerId": "P053",
+          "dorsal": 35,
+          "nombre": "Mijael",
+          "total": 5,
+          "byEra": {
+            "2010/11": 5
+          }
+        },
+        {
+          "playerId": "P050",
+          "dorsal": 9,
+          "nombre": "Gibran",
+          "total": 4,
+          "byEra": {
+            "2010/11": 4
           }
         },
         {
