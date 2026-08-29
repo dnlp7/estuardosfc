@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T04:09:18.858Z",
+  "generatedAt": "2026-08-29T21:00:55.849Z",
   "eras": {
     "2018": {
       "GOL": {
@@ -17166,7 +17166,7 @@
             "resultado": "p"
           },
           {
-            "partido": "J18",
+            "partido": "J18 CGT",
             "resultado": "g"
           },
           {
@@ -17212,7 +17212,7 @@
         ],
         "players": [
           {
-            "playerId": null,
+            "playerId": "P041",
             "dorsal": 11,
             "nombre": "Grillo",
             "total": 8,
@@ -17249,7 +17249,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P005",
             "dorsal": 24,
             "nombre": "Arthie",
             "total": 7,
@@ -17286,7 +17286,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P039",
             "dorsal": 8,
             "nombre": "Juan Pablo",
             "total": 6,
@@ -17323,7 +17323,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P043",
             "dorsal": 13,
             "nombre": "Oso",
             "total": 6,
@@ -17360,7 +17360,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P040",
             "dorsal": 15,
             "nombre": "Mauricio",
             "total": 6,
@@ -17397,7 +17397,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P052",
             "dorsal": 34,
             "nombre": "Jero",
             "total": 6,
@@ -17434,7 +17434,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P046",
             "dorsal": 90,
             "nombre": "Chente",
             "total": 5,
@@ -17471,7 +17471,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P002",
             "dorsal": 3,
             "nombre": "Sheko",
             "total": 4,
@@ -17508,7 +17508,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P001",
             "dorsal": 7,
             "nombre": "Daniel",
             "total": 3,
@@ -17545,7 +17545,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P051",
             "dorsal": 10,
             "nombre": "Rafa",
             "total": 2,
@@ -17582,7 +17582,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P047",
             "dorsal": 25,
             "nombre": "Glenn",
             "total": 1,
@@ -17619,7 +17619,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P037",
             "dorsal": 4,
             "nombre": "Pepe",
             "total": 0,
@@ -17656,7 +17656,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P050",
             "dorsal": 9,
             "nombre": "Gibran",
             "total": 0,
@@ -17693,7 +17693,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P003",
             "dorsal": 16,
             "nombre": "Bismark",
             "total": 0,
@@ -17730,7 +17730,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P053",
             "dorsal": 35,
             "nombre": "Mijael",
             "total": 0,
@@ -17767,7 +17767,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P042",
             "dorsal": 69,
             "nombre": "Mirmo",
             "total": 0,
@@ -17804,7 +17804,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P004",
             "dorsal": 94,
             "nombre": "Diego",
             "total": 0,
@@ -18025,7 +18025,7 @@
             "resultado": "p"
           },
           {
-            "partido": "J18",
+            "partido": "J18 CGT",
             "resultado": "g"
           },
           {
@@ -18071,7 +18071,7 @@
         ],
         "players": [
           {
-            "playerId": null,
+            "playerId": "P002",
             "dorsal": 3,
             "nombre": "Sheko",
             "total": 27,
@@ -18108,7 +18108,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P001",
             "dorsal": 7,
             "nombre": "Daniel",
             "total": 24,
@@ -18145,7 +18145,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P041",
             "dorsal": 11,
             "nombre": "Grillo",
             "total": 21,
@@ -18182,7 +18182,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P043",
             "dorsal": 13,
             "nombre": "Oso",
             "total": 20,
@@ -18219,7 +18219,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P046",
             "dorsal": 90,
             "nombre": "Chente",
             "total": 20,
@@ -18256,7 +18256,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P003",
             "dorsal": 16,
             "nombre": "Bismark",
             "total": 18,
@@ -18293,7 +18293,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P040",
             "dorsal": 15,
             "nombre": "Mauricio",
             "total": 17,
@@ -18330,7 +18330,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P039",
             "dorsal": 8,
             "nombre": "Juan Pablo",
             "total": 15,
@@ -18367,7 +18367,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P042",
             "dorsal": 69,
             "nombre": "Mirmo",
             "total": 15,
@@ -18404,7 +18404,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P004",
             "dorsal": 94,
             "nombre": "Diego",
             "total": 13,
@@ -18441,7 +18441,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P005",
             "dorsal": 24,
             "nombre": "Arthie",
             "total": 12,
@@ -18478,7 +18478,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P037",
             "dorsal": 4,
             "nombre": "Pepe",
             "total": 11,
@@ -18515,7 +18515,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P047",
             "dorsal": 25,
             "nombre": "Glenn",
             "total": 8,
@@ -18552,7 +18552,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P051",
             "dorsal": 10,
             "nombre": "Rafa",
             "total": 6,
@@ -18589,7 +18589,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P052",
             "dorsal": 34,
             "nombre": "Jero",
             "total": 5,
@@ -18626,7 +18626,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P053",
             "dorsal": 35,
             "nombre": "Mijael",
             "total": 5,
@@ -18663,7 +18663,7 @@
             ]
           },
           {
-            "playerId": null,
+            "playerId": "P050",
             "dorsal": 9,
             "nombre": "Gibran",
             "total": 4,
@@ -44868,9 +44868,9 @@
           "resultado": "g",
           "gf": 2,
           "gc": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "CHELSEA GT",
+          "rivalBg": "#000000",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
