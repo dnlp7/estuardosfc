@@ -272,6 +272,46 @@
     return /^\d{4}\/\d{2}$/.test(String(era)) ? String(era).slice(2) : era;
   }
 
+  /** Formats a stat's era list as one or more contiguous ranges (e.g.
+   * "10/11, 19/20 \u2013 26/27") instead of always collapsing to a single
+   * first-last span - needed once a stat has a real gap in its
+   * coverage (PA only exists for a handful of the 2010-2016 docs, with
+   * nothing at all for 2011-2019 in between). Adjacency is checked
+   * against data.seasons' own chronological order (every real era, not
+   * just this stat's subset) so a genuine gap is detected correctly
+   * regardless of which eras this particular stat happens to skip. A
+   * single-era run renders as just that era, not "X - X". */
+  function formatEraRanges_(eras) {
+    if (!eras || !eras.length) return '';
+    // erasOrder (not `seasons`) — the FULL Torneos row order including
+    // doc-less eras, so a genuinely missing season (never documented,
+    // no doc planned) breaks the range instead of reading as adjacent
+    // to its neighbors. `seasons` stays reserved for eras with a real
+    // doc (dropdown/standings use); this is order-only.
+    var order = {};
+    ((state.data && state.data.erasOrder) || []).forEach(function (era, i) { order[era] = i; });
+
+    var runs = [];
+    var runStart = eras[0], runEnd = eras[0];
+    for (var i = 1; i < eras.length; i++) {
+      var era = eras[i];
+      var prevIdx = order[runEnd], curIdx = order[era];
+      var contiguous = prevIdx !== undefined && curIdx !== undefined && curIdx === prevIdx + 1;
+      if (contiguous) {
+        runEnd = era;
+      } else {
+        runs.push([runStart, runEnd]);
+        runStart = era;
+        runEnd = era;
+      }
+    }
+    runs.push([runStart, runEnd]);
+
+    return runs.map(function (r) {
+      return r[0] === r[1] ? formatEraLabel_(r[0]) : formatEraLabel_(r[0]) + ' \u2013 ' + formatEraLabel_(r[1]);
+    }).join(', ');
+  }
+
   fetch(DATA_URL)
     .then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -2359,8 +2399,7 @@
       // added.
       var eras = block ? block.eras : [];
       var rangeHtml = eras.length
-        ? '<p class="record-leader-range">' + esc(formatEraLabel_(eras[0])) +
-          (eras.length > 1 ? ' – ' + esc(formatEraLabel_(eras[eras.length - 1])) : '') + '</p>'
+        ? '<p class="record-leader-range">' + esc(formatEraRanges_(eras)) + '</p>'
         : '';
       return '<div class="record-leader-col"><h4>' + esc(STAT_TITLES[stat] || stat) + '</h4>' + rangeHtml + rowsHtml + '</div>';
     }).join('');
