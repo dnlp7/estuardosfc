@@ -2385,9 +2385,17 @@
     wrap.innerHTML = STATS_ORDER.map(function (stat) {
       var block = data.stats && data.stats[stat];
       var top = block ? block.players.slice(0, 5) : [];
+      // Standard competition ranking (same convention as the Sheets
+      // RANK.EQ this data is sorted by) — a tie shares one rank number
+      // instead of counting sequentially, e.g. two players tied for
+      // 4th both show "4", and whoever's next shows "6", not "5".
+      var lastTotal = null, lastRank = 0;
       var rowsHtml = top.length
         ? top.map(function (p, i) {
-            return '<div class="record-leader-row"><span class="record-leader-rank">' + (i + 1) + '</span>' +
+            var rank = (lastTotal !== null && p.total === lastTotal) ? lastRank : i + 1;
+            lastTotal = p.total;
+            lastRank = rank;
+            return '<div class="record-leader-row"><span class="record-leader-rank">' + rank + '</span>' +
               '<span class="record-leader-nombre">' + esc(p.nombre) + '</span>' +
               '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
           }).join('')
