@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T00:52:46.359Z",
+  "generatedAt": "2026-08-30T01:01:24.898Z",
   "currentEra": "2026/27",
   "seasons": [
     {
@@ -1560,6 +1560,84 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
+      },
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2012/13",
+        "imagen": "lider-goleo-2011.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2011",
+        "imagen": "lider-partidos-2011.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2019/20",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2021",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2022",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2022/23",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2023",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2023/24",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2024/25",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2025",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2025/26",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2026",
+        "imagen": "lider-partidos-2024.png"
       }
     ],
     "P002": [
@@ -2518,86 +2596,6 @@
         "nivel": 3,
         "temporada": "2012",
         "imagen": "lider-goleo-2011.png"
-      }
-    ],
-    "P061": [
-      {
-        "insignia": "Líder Goles Anotados",
-        "nivel": 3,
-        "temporada": "2012/13",
-        "imagen": "lider-goleo-2011.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2011",
-        "imagen": "lider-partidos-2011.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2019/20",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2020",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2021",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2022",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2022/23",
-        "imagen": "lider-partidos-2022.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2023",
-        "imagen": "lider-partidos-2022.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2023/24",
-        "imagen": "lider-partidos-2022.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2024/25",
-        "imagen": "lider-partidos-2024.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2025",
-        "imagen": "lider-partidos-2024.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2025/26",
-        "imagen": "lider-partidos-2024.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2026",
-        "imagen": "lider-partidos-2024.png"
       }
     ]
   },
