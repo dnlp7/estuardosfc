@@ -1,10 +1,30 @@
 {
-  "generatedAt": "2026-08-29T21:06:33.110Z",
+  "generatedAt": "2026-08-30T00:52:46.359Z",
   "currentEra": "2026/27",
   "seasons": [
     {
       "era": "2010/11",
       "torneo": "SOL1",
+      "hasTxJ": false
+    },
+    {
+      "era": "2011",
+      "torneo": "SOL2",
+      "hasTxJ": false
+    },
+    {
+      "era": "2011/12",
+      "torneo": "SOL3",
+      "hasTxJ": false
+    },
+    {
+      "era": "2012",
+      "torneo": "SOL4",
+      "hasTxJ": false
+    },
+    {
+      "era": "2012/13",
+      "torneo": "SOL5",
       "hasTxJ": false
     },
     {
@@ -98,6 +118,8 @@
       "nombre": "Daniel",
       "activo": true,
       "dorsalByEra": {
+        "2011": 7,
+        "2012": 7,
         "2018": 7,
         "2019": 7,
         "2020": 7,
@@ -115,6 +137,8 @@
         "2021/22": 7,
         "2019/20": 7,
         "2017/18": 7,
+        "2012/13": 7,
+        "2011/12": 7,
         "2010/11": 7
       }
     },
@@ -122,6 +146,8 @@
       "nombre": "Sheko",
       "activo": true,
       "dorsalByEra": {
+        "2011": 3,
+        "2012": 3,
         "2018": 3,
         "2019": 3,
         "2020": 3,
@@ -139,6 +165,8 @@
         "2021/22": 3,
         "2019/20": 3,
         "2017/18": 3,
+        "2012/13": 3,
+        "2011/12": 3,
         "2010/11": 3
       }
     },
@@ -146,7 +174,11 @@
       "nombre": "Bismark",
       "activo": false,
       "dorsalByEra": {
+        "2011": 16,
+        "2012": 8,
         "2022/23": 8,
+        "2012/13": 8,
+        "2011/12": 8,
         "2010/11": 16
       }
     },
@@ -162,6 +194,7 @@
       "nombre": "Arthie",
       "activo": false,
       "dorsalByEra": {
+        "2012": 24,
         "2018": 24,
         "2019": 24,
         "2020": 24,
@@ -170,6 +203,7 @@
         "2021/22": 24,
         "2019/20": 24,
         "2017/18": 24,
+        "2011/12": 24,
         "2010/11": 24
       }
     },
@@ -177,17 +211,21 @@
       "nombre": "Luis",
       "activo": false,
       "dorsalByEra": {
+        "2011": 9,
+        "2012": 9,
         "2021": 6,
         "2022": 6,
         "2023": 6,
         "2025": 2,
-        "2021/22": 6
+        "2021/22": 6,
+        "2011/12": 9
       }
     },
     "P007": {
       "nombre": "Sergio",
       "activo": true,
       "dorsalByEra": {
+        "2012": 15,
         "2018": 100,
         "2019": 100,
         "2020": 15,
@@ -203,17 +241,20 @@
         "2023/24": 23,
         "2022/23": 23,
         "2021/22": 15,
-        "2019/20": 15
+        "2019/20": 15,
+        "2012/13": 15
       }
     },
     "P008": {
       "nombre": "Enrique",
       "activo": false,
       "dorsalByEra": {
+        "2012": 12,
         "2018": 23,
         "2019": 23,
         "2019/20": 23,
-        "2017/18": 23
+        "2017/18": 23,
+        "2012/13": 12
       }
     },
     "P009": {
@@ -629,12 +670,16 @@
     "P038": {
       "nombre": "Lupe",
       "activo": false,
-      "dorsalByEra": {}
+      "dorsalByEra": {
+        "2012": 30,
+        "2012/13": 30
+      }
     },
     "P039": {
       "nombre": "Juan Pablo",
       "activo": false,
       "dorsalByEra": {
+        "2011": 8,
         "2010/11": 8
       }
     },
@@ -642,6 +687,7 @@
       "nombre": "Mauricio",
       "activo": false,
       "dorsalByEra": {
+        "2011": 15,
         "2010/11": 15
       }
     },
@@ -656,6 +702,10 @@
       "nombre": "Mirmo",
       "activo": false,
       "dorsalByEra": {
+        "2011": 1,
+        "2012": 1,
+        "2012/13": 1,
+        "2011/12": 1,
         "2010/11": 69
       }
     },
@@ -663,6 +713,7 @@
       "nombre": "Oso",
       "activo": false,
       "dorsalByEra": {
+        "2011": 13,
         "2010/11": 13
       }
     },
@@ -680,6 +731,9 @@
       "nombre": "Chente",
       "activo": false,
       "dorsalByEra": {
+        "2011": 90,
+        "2012": 90,
+        "2011/12": 90,
         "2010/11": 90
       }
     },
@@ -687,6 +741,7 @@
       "nombre": "Glenn",
       "activo": false,
       "dorsalByEra": {
+        "2012": 25,
         "2010/11": 25
       }
     },
@@ -698,7 +753,11 @@
     "P049": {
       "nombre": "Koch",
       "activo": false,
-      "dorsalByEra": {}
+      "dorsalByEra": {
+        "2012": 5,
+        "2012/13": 5,
+        "2011/12": 6
+      }
     },
     "P050": {
       "nombre": "Gibran",
@@ -718,6 +777,7 @@
       "nombre": "Jero",
       "activo": false,
       "dorsalByEra": {
+        "2011": 24,
         "2010/11": 34
       }
     },
@@ -726,6 +786,81 @@
       "activo": false,
       "dorsalByEra": {
         "2010/11": 35
+      }
+    },
+    "P054": {
+      "nombre": "Chino",
+      "activo": false,
+      "dorsalByEra": {
+        "2011": 10,
+        "2012": 10,
+        "2012/13": 10,
+        "2011/12": 10
+      }
+    },
+    "P055": {
+      "nombre": "Toño",
+      "activo": false,
+      "dorsalByEra": {
+        "2011": 5,
+        "2011/12": 5
+      }
+    },
+    "P056": {
+      "nombre": "Vicente",
+      "activo": false,
+      "dorsalByEra": {
+        "2011": 19,
+        "2012": 19,
+        "2012/13": 19,
+        "2011/12": 19
+      }
+    },
+    "P057": {
+      "nombre": "Ricardo",
+      "activo": false,
+      "dorsalByEra": {
+        "2011": 77,
+        "2012": 77,
+        "2011/12": 77
+      }
+    },
+    "P058": {
+      "nombre": "Rodrigo",
+      "activo": false,
+      "dorsalByEra": {
+        "2011": 17,
+        "2012": 17,
+        "2011/12": 17
+      }
+    },
+    "P059": {
+      "nombre": "Izaay",
+      "activo": false,
+      "dorsalByEra": {
+        "2012": 29,
+        "2011/12": 29
+      }
+    },
+    "P060": {
+      "nombre": "Rene",
+      "activo": false,
+      "dorsalByEra": {
+        "2011/12": 28
+      }
+    },
+    "P061": {
+      "nombre": "Daniel",
+      "activo": false,
+      "dorsalByEra": {
+        "2012": 22
+      }
+    },
+    "P062": {
+      "nombre": "Scoth",
+      "activo": false,
+      "dorsalByEra": {
+        "2012": 31
       }
     }
   },
@@ -1187,7 +1322,7 @@
       "dorsal": 15
     },
     "P041": {
-      "nombreCompleto": "José Loera",
+      "nombreCompleto": "José de Jesús Loera",
       "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": null,
@@ -1295,13 +1430,97 @@
       "dorsal": 34
     },
     "P053": {
-      "nombreCompleto": null,
+      "nombreCompleto": "Mijael Bueno",
       "posicion": "MED",
       "debut": "2010",
       "cumpleanos": null,
       "instagram": null,
       "twitter": null,
       "dorsal": 35
+    },
+    "P054": {
+      "nombreCompleto": "Rodrigo Vargas",
+      "posicion": "DEL",
+      "debut": "2011",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 10
+    },
+    "P055": {
+      "nombreCompleto": "José Antonio Raygosa",
+      "posicion": "DEL",
+      "debut": "2011",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 5
+    },
+    "P056": {
+      "nombreCompleto": "Vicente Benavent",
+      "posicion": "MED",
+      "debut": "2011",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 19
+    },
+    "P057": {
+      "nombreCompleto": "Ricardo Lizarraga",
+      "posicion": "DEF",
+      "debut": "2011",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 77
+    },
+    "P058": {
+      "nombreCompleto": "Rodrigo Arpio",
+      "posicion": "DEF",
+      "debut": "2011",
+      "cumpleanos": {
+        "mes": 4,
+        "dia": 20
+      },
+      "instagram": "rodrigoarpio",
+      "twitter": null,
+      "dorsal": 17
+    },
+    "P059": {
+      "nombreCompleto": "Isai Saucedo",
+      "posicion": "DEL",
+      "debut": "2011",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 29
+    },
+    "P060": {
+      "nombreCompleto": "René Santos",
+      "posicion": "MED",
+      "debut": "2011",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 28
+    },
+    "P061": {
+      "nombreCompleto": "Daniel Romero",
+      "posicion": "DEF",
+      "debut": "2012",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 22
+    },
+    "P062": {
+      "nombreCompleto": "Daniel Scoth",
+      "posicion": "POR",
+      "debut": "2012",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 31
     }
   },
   "logros": {
@@ -1341,72 +1560,6 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2019/20",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2020",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2021",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2022",
-        "imagen": "lider-partidos-2019.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2022/23",
-        "imagen": "lider-partidos-2022.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2023",
-        "imagen": "lider-partidos-2022.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2023/24",
-        "imagen": "lider-partidos-2022.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2024/25",
-        "imagen": "lider-partidos-2024.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2025",
-        "imagen": "lider-partidos-2024.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2025/26",
-        "imagen": "lider-partidos-2024.png"
-      },
-      {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2026",
-        "imagen": "lider-partidos-2024.png"
       }
     ],
     "P002": [
@@ -1453,16 +1606,22 @@
         "imagen": "lider-partidos-2019.png"
       },
       {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2010/11",
-        "imagen": "lider-partidos-2010.png"
-      },
-      {
         "insignia": "Líder Partidos Iniciados",
         "nivel": 3,
         "temporada": "2019/20",
         "imagen": "lider-titularidades-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2011",
+        "imagen": "lider-partidos-2011.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2010/11",
+        "imagen": "lider-partidos-2010.png"
       }
     ],
     "P003": [
@@ -1573,6 +1732,12 @@
         "nivel": 3,
         "temporada": "2023",
         "imagen": "lider-asistencias-2022.png"
+      },
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2012/13",
+        "imagen": "lider-goleo-2011.png"
       }
     ],
     "P008": [
@@ -2330,12 +2495,120 @@
         "temporada": "2010/11",
         "imagen": "fundador.png"
       }
+    ],
+    "P054": [
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2011",
+        "imagen": "lider-goleo-2011.png"
+      }
+    ],
+    "P059": [
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2011/12",
+        "imagen": "lider-goleo-2011.png"
+      }
+    ],
+    "P049": [
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2012",
+        "imagen": "lider-goleo-2011.png"
+      }
+    ],
+    "P061": [
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2012/13",
+        "imagen": "lider-goleo-2011.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2011",
+        "imagen": "lider-partidos-2011.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2019/20",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2020",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2021",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2022",
+        "imagen": "lider-partidos-2019.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2022/23",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2023",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2023/24",
+        "imagen": "lider-partidos-2022.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2024/25",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2025",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2025/26",
+        "imagen": "lider-partidos-2024.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2026",
+        "imagen": "lider-partidos-2024.png"
+      }
     ]
   },
   "stats": {
     "GOL": {
       "eras": [
         "2010/11",
+        "2011",
+        "2011/12",
+        "2012",
+        "2012/13",
         "2017/18",
         "2018",
         "2019",
@@ -2384,8 +2657,9 @@
           "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
-          "total": 129,
+          "total": 136,
           "byEra": {
+            "2012": 4,
             "2018": 12,
             "2019": 6,
             "2020": 1,
@@ -2395,6 +2669,7 @@
             "2024": 9,
             "2025": 8,
             "2026": 1,
+            "2012/13": 3,
             "2019/20": 5,
             "2021/22": 7,
             "2022/23": 15,
@@ -2471,17 +2746,49 @@
           "playerId": "P005",
           "dorsal": 24,
           "nombre": "Arthie",
-          "total": 80,
+          "total": 90,
           "byEra": {
+            "2012": 4,
             "2018": 14,
             "2019": 8,
             "2020": 3,
             "2021": 13,
             "2022": 3,
             "2010/11": 7,
+            "2011/12": 6,
             "2017/18": 12,
             "2019/20": 14,
             "2021/22": 6
+          }
+        },
+        {
+          "playerId": "P001",
+          "dorsal": 7,
+          "nombre": "Daniel",
+          "total": 65,
+          "byEra": {
+            "2011": 3,
+            "2012": 1,
+            "2018": 6,
+            "2019": 2,
+            "2020": 1,
+            "2021": 4,
+            "2022": 3,
+            "2023": 4,
+            "2024": 4,
+            "2025": 8,
+            "2026": 0,
+            "2010/11": 3,
+            "2011/12": 3,
+            "2012/13": 3,
+            "2017/18": 1,
+            "2019/20": 2,
+            "2021/22": 2,
+            "2022/23": 4,
+            "2023/24": 4,
+            "2024/25": 3,
+            "2025/26": 3,
+            "2026/27": 1
           }
         },
         {
@@ -2503,32 +2810,6 @@
             "2024/25": 4,
             "2025/26": 4,
             "2026/27": 3
-          }
-        },
-        {
-          "playerId": "P001",
-          "dorsal": 7,
-          "nombre": "Daniel",
-          "total": 55,
-          "byEra": {
-            "2018": 6,
-            "2019": 2,
-            "2020": 1,
-            "2021": 4,
-            "2022": 3,
-            "2023": 4,
-            "2024": 4,
-            "2025": 8,
-            "2026": 0,
-            "2010/11": 3,
-            "2017/18": 1,
-            "2019/20": 2,
-            "2021/22": 2,
-            "2022/23": 4,
-            "2023/24": 4,
-            "2024/25": 3,
-            "2025/26": 3,
-            "2026/27": 1
           }
         },
         {
@@ -2557,6 +2838,74 @@
           }
         },
         {
+          "playerId": "P054",
+          "dorsal": 10,
+          "nombre": "Chino",
+          "total": 38,
+          "byEra": {
+            "2011": 30,
+            "2012": 1,
+            "2011/12": 6,
+            "2012/13": 1
+          }
+        },
+        {
+          "playerId": "P002",
+          "dorsal": 3,
+          "nombre": "Sheko",
+          "total": 37,
+          "byEra": {
+            "2011": 3,
+            "2012": 7,
+            "2018": 1,
+            "2019": 5,
+            "2020": 0,
+            "2021": 1,
+            "2022": 0,
+            "2023": 0,
+            "2024": 0,
+            "2025": 0,
+            "2026": 0,
+            "2010/11": 4,
+            "2011/12": 4,
+            "2012/13": 1,
+            "2017/18": 1,
+            "2019/20": 3,
+            "2021/22": 2,
+            "2022/23": 2,
+            "2023/24": 2,
+            "2024/25": 1,
+            "2025/26": 0,
+            "2026/27": 0
+          }
+        },
+        {
+          "playerId": "P059",
+          "dorsal": 29,
+          "nombre": "Izaay",
+          "total": 36,
+          "byEra": {
+            "2012": 1,
+            "2011/12": 35
+          }
+        },
+        {
+          "playerId": "P006",
+          "dorsal": 2,
+          "nombre": "Luis",
+          "total": 25,
+          "byEra": {
+            "2011": 3,
+            "2012": 3,
+            "2021": 0,
+            "2022": 9,
+            "2023": 0,
+            "2025": 0,
+            "2011/12": 0,
+            "2021/22": 10
+          }
+        },
+        {
           "playerId": "P009",
           "dorsal": 21,
           "nombre": "Orlando",
@@ -2573,45 +2922,6 @@
             "2019/20": 4,
             "2021/22": 2,
             "2023/24": 1
-          }
-        },
-        {
-          "playerId": "P002",
-          "dorsal": 3,
-          "nombre": "Sheko",
-          "total": 22,
-          "byEra": {
-            "2018": 1,
-            "2019": 5,
-            "2020": 0,
-            "2021": 1,
-            "2022": 0,
-            "2023": 0,
-            "2024": 0,
-            "2025": 0,
-            "2026": 0,
-            "2010/11": 4,
-            "2017/18": 1,
-            "2019/20": 3,
-            "2021/22": 2,
-            "2022/23": 2,
-            "2023/24": 2,
-            "2024/25": 1,
-            "2025/26": 0,
-            "2026/27": 0
-          }
-        },
-        {
-          "playerId": "P006",
-          "dorsal": 2,
-          "nombre": "Luis",
-          "total": 19,
-          "byEra": {
-            "2021": 0,
-            "2022": 9,
-            "2023": 0,
-            "2025": 0,
-            "2021/22": 10
           }
         },
         {
@@ -2637,6 +2947,38 @@
             "2024/25": 2,
             "2025/26": 0,
             "2026/27": 0
+          }
+        },
+        {
+          "playerId": "P049",
+          "dorsal": 5,
+          "nombre": "Koch",
+          "total": 15,
+          "byEra": {
+            "2012": 10,
+            "2011/12": 4,
+            "2012/13": 1
+          }
+        },
+        {
+          "playerId": "P060",
+          "dorsal": 28,
+          "nombre": "Rene",
+          "total": 13,
+          "byEra": {
+            "2011/12": 13
+          }
+        },
+        {
+          "playerId": "P056",
+          "dorsal": 19,
+          "nombre": "Vicente",
+          "total": 12,
+          "byEra": {
+            "2011": 5,
+            "2012": 2,
+            "2011/12": 5,
+            "2012/13": 0
           }
         },
         {
@@ -2706,6 +3048,18 @@
           }
         },
         {
+          "playerId": "P046",
+          "dorsal": 90,
+          "nombre": "Chente",
+          "total": 10,
+          "byEra": {
+            "2011": 3,
+            "2012": 0,
+            "2010/11": 5,
+            "2011/12": 2
+          }
+        },
+        {
           "playerId": "P035",
           "dorsal": 13,
           "nombre": "Noe",
@@ -2725,6 +3079,26 @@
           }
         },
         {
+          "playerId": "P055",
+          "dorsal": 5,
+          "nombre": "Toño",
+          "total": 7,
+          "byEra": {
+            "2011": 6,
+            "2011/12": 1
+          }
+        },
+        {
+          "playerId": "P052",
+          "dorsal": 24,
+          "nombre": "Jero",
+          "total": 7,
+          "byEra": {
+            "2011": 1,
+            "2010/11": 6
+          }
+        },
+        {
           "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
@@ -2741,6 +3115,7 @@
           "nombre": "Juan Pablo",
           "total": 6,
           "byEra": {
+            "2011": 0,
             "2010/11": 6
           }
         },
@@ -2763,6 +3138,7 @@
           "nombre": "Oso",
           "total": 6,
           "byEra": {
+            "2011": 0,
             "2010/11": 6
           }
         },
@@ -2772,6 +3148,7 @@
           "nombre": "Mauricio",
           "total": 6,
           "byEra": {
+            "2011": 0,
             "2010/11": 6
           }
         },
@@ -2788,33 +3165,27 @@
           }
         },
         {
-          "playerId": "P052",
-          "dorsal": 34,
-          "nombre": "Jero",
-          "total": 6,
-          "byEra": {
-            "2010/11": 6
-          }
-        },
-        {
           "playerId": "P008",
           "dorsal": 23,
           "nombre": "Enrique",
           "total": 5,
           "byEra": {
+            "2012": 0,
             "2018": 0,
             "2019": 4,
+            "2012/13": 0,
             "2017/18": 0,
             "2019/20": 1
           }
         },
         {
-          "playerId": "P046",
-          "dorsal": 90,
-          "nombre": "Chente",
+          "playerId": "P047",
+          "dorsal": 25,
+          "nombre": "Glenn",
           "total": 5,
           "byEra": {
-            "2010/11": 5
+            "2012": 4,
+            "2010/11": 1
           }
         },
         {
@@ -2910,6 +3281,20 @@
           }
         },
         {
+          "playerId": "P003",
+          "dorsal": 8,
+          "nombre": "Bismark",
+          "total": 2,
+          "byEra": {
+            "2011": 2,
+            "2012": 0,
+            "2010/11": 0,
+            "2011/12": 0,
+            "2012/13": 0,
+            "2022/23": 0
+          }
+        },
+        {
           "playerId": "P051",
           "dorsal": 10,
           "nombre": "Rafa",
@@ -2943,6 +3328,28 @@
           }
         },
         {
+          "playerId": "P061",
+          "dorsal": 22,
+          "nombre": "Daniel",
+          "total": 2,
+          "byEra": {
+            "2012": 2
+          }
+        },
+        {
+          "playerId": "P042",
+          "dorsal": 1,
+          "nombre": "Mirmo",
+          "total": 1,
+          "byEra": {
+            "2011": 0,
+            "2012": 0,
+            "2010/11": 0,
+            "2011/12": 1,
+            "2012/13": 0
+          }
+        },
+        {
           "playerId": "P017",
           "dorsal": 18,
           "nombre": "Miguel",
@@ -2954,12 +3361,14 @@
           }
         },
         {
-          "playerId": "P047",
-          "dorsal": 25,
-          "nombre": "Glenn",
+          "playerId": "P057",
+          "dorsal": 77,
+          "nombre": "Ricardo",
           "total": 1,
           "byEra": {
-            "2010/11": 1
+            "2011": 1,
+            "2012": 0,
+            "2011/12": 0
           }
         },
         {
@@ -2978,16 +3387,6 @@
           "total": 0,
           "byEra": {
             "2024": 0
-          }
-        },
-        {
-          "playerId": "P003",
-          "dorsal": 8,
-          "nombre": "Bismark",
-          "total": 0,
-          "byEra": {
-            "2010/11": 0,
-            "2022/23": 0
           }
         },
         {
@@ -3010,6 +3409,17 @@
           }
         },
         {
+          "playerId": "P058",
+          "dorsal": 17,
+          "nombre": "Rodrigo",
+          "total": 0,
+          "byEra": {
+            "2011": 0,
+            "2012": 0,
+            "2011/12": 0
+          }
+        },
+        {
           "playerId": "P034",
           "dorsal": 22,
           "nombre": "Paleta",
@@ -3017,6 +3427,25 @@
           "byEra": {
             "2025": 0,
             "2025/26": 0
+          }
+        },
+        {
+          "playerId": "P038",
+          "dorsal": 30,
+          "nombre": "Lupe",
+          "total": 0,
+          "byEra": {
+            "2012": 0,
+            "2012/13": 0
+          }
+        },
+        {
+          "playerId": "P062",
+          "dorsal": 31,
+          "nombre": "Scoth",
+          "total": 0,
+          "byEra": {
+            "2012": 0
           }
         },
         {
@@ -3039,15 +3468,6 @@
             "2021/22": 0,
             "2022/23": 0,
             "2023/24": 0
-          }
-        },
-        {
-          "playerId": "P042",
-          "dorsal": 69,
-          "nombre": "Mirmo",
-          "total": 0,
-          "byEra": {
-            "2010/11": 0
           }
         },
         {
@@ -3438,6 +3858,7 @@
     "PA": {
       "eras": [
         "2010/11",
+        "2011",
         "2019/20",
         "2020",
         "2021",
@@ -3458,8 +3879,9 @@
           "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 309,
+          "total": 330,
           "byEra": {
+            "2011": 21,
             "2020": 4,
             "2021": 19,
             "2022": 25,
@@ -3522,6 +3944,30 @@
           }
         },
         {
+          "playerId": "P002",
+          "dorsal": 3,
+          "nombre": "Sheko",
+          "total": 229,
+          "byEra": {
+            "2011": 21,
+            "2020": 2,
+            "2021": 19,
+            "2022": 12,
+            "2023": 15,
+            "2024": 14,
+            "2025": 14,
+            "2026": 0,
+            "2010/11": 27,
+            "2019/20": 26,
+            "2021/22": 17,
+            "2022/23": 17,
+            "2023/24": 15,
+            "2024/25": 18,
+            "2025/26": 6,
+            "2026/27": 6
+          }
+        },
+        {
           "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
@@ -3563,29 +4009,6 @@
             "2024/25": 25,
             "2025/26": 19,
             "2026/27": 7
-          }
-        },
-        {
-          "playerId": "P002",
-          "dorsal": 3,
-          "nombre": "Sheko",
-          "total": 208,
-          "byEra": {
-            "2020": 2,
-            "2021": 19,
-            "2022": 12,
-            "2023": 15,
-            "2024": 14,
-            "2025": 14,
-            "2026": 0,
-            "2010/11": 27,
-            "2019/20": 26,
-            "2021/22": 17,
-            "2022/23": 17,
-            "2023/24": 15,
-            "2024/25": 18,
-            "2025/26": 6,
-            "2026/27": 6
           }
         },
         {
@@ -3778,6 +4201,20 @@
           }
         },
         {
+          "playerId": "P006",
+          "dorsal": 2,
+          "nombre": "Luis",
+          "total": 58,
+          "byEra": {
+            "2011": 10,
+            "2021": 3,
+            "2022": 23,
+            "2023": 1,
+            "2025": 2,
+            "2021/22": 19
+          }
+        },
+        {
           "playerId": "P030",
           "dorsal": 11,
           "nombre": "Pavel",
@@ -3792,19 +4229,6 @@
           }
         },
         {
-          "playerId": "P006",
-          "dorsal": 2,
-          "nombre": "Luis",
-          "total": 48,
-          "byEra": {
-            "2021": 3,
-            "2022": 23,
-            "2023": 1,
-            "2025": 2,
-            "2021/22": 19
-          }
-        },
-        {
           "playerId": "P032",
           "dorsal": 43,
           "nombre": "Rene",
@@ -3815,6 +4239,16 @@
             "2021/22": 15,
             "2022/23": 7,
             "2023/24": 5
+          }
+        },
+        {
+          "playerId": "P046",
+          "dorsal": 90,
+          "nombre": "Chente",
+          "total": 36,
+          "byEra": {
+            "2011": 16,
+            "2010/11": 20
           }
         },
         {
@@ -3847,6 +4281,27 @@
           }
         },
         {
+          "playerId": "P003",
+          "dorsal": 8,
+          "nombre": "Bismark",
+          "total": 30,
+          "byEra": {
+            "2011": 9,
+            "2010/11": 18,
+            "2022/23": 3
+          }
+        },
+        {
+          "playerId": "P042",
+          "dorsal": 1,
+          "nombre": "Mirmo",
+          "total": 26,
+          "byEra": {
+            "2011": 11,
+            "2010/11": 15
+          }
+        },
+        {
           "playerId": "P034",
           "dorsal": 22,
           "nombre": "Paleta",
@@ -3857,13 +4312,13 @@
           }
         },
         {
-          "playerId": "P003",
-          "dorsal": 8,
-          "nombre": "Bismark",
-          "total": 21,
+          "playerId": "P043",
+          "dorsal": 13,
+          "nombre": "Oso",
+          "total": 24,
           "byEra": {
-            "2010/11": 18,
-            "2022/23": 3
+            "2011": 4,
+            "2010/11": 20
           }
         },
         {
@@ -3876,30 +4331,32 @@
           }
         },
         {
-          "playerId": "P043",
-          "dorsal": 13,
-          "nombre": "Oso",
-          "total": 20,
-          "byEra": {
-            "2010/11": 20
-          }
-        },
-        {
-          "playerId": "P046",
-          "dorsal": 90,
-          "nombre": "Chente",
-          "total": 20,
-          "byEra": {
-            "2010/11": 20
-          }
-        },
-        {
           "playerId": "P040",
           "dorsal": 15,
           "nombre": "Mauricio",
+          "total": 19,
+          "byEra": {
+            "2011": 2,
+            "2010/11": 17
+          }
+        },
+        {
+          "playerId": "P039",
+          "dorsal": 8,
+          "nombre": "Juan Pablo",
           "total": 17,
           "byEra": {
-            "2010/11": 17
+            "2011": 2,
+            "2010/11": 15
+          }
+        },
+        {
+          "playerId": "P054",
+          "dorsal": 10,
+          "nombre": "Chino",
+          "total": 17,
+          "byEra": {
+            "2011": 17
           }
         },
         {
@@ -3912,24 +4369,6 @@
             "2021": 0,
             "2022": 3,
             "2022/23": 12
-          }
-        },
-        {
-          "playerId": "P039",
-          "dorsal": 8,
-          "nombre": "Juan Pablo",
-          "total": 15,
-          "byEra": {
-            "2010/11": 15
-          }
-        },
-        {
-          "playerId": "P042",
-          "dorsal": 69,
-          "nombre": "Mirmo",
-          "total": 15,
-          "byEra": {
-            "2010/11": 15
           }
         },
         {
@@ -3965,6 +4404,15 @@
           }
         },
         {
+          "playerId": "P057",
+          "dorsal": 77,
+          "nombre": "Ricardo",
+          "total": 13,
+          "byEra": {
+            "2011": 13
+          }
+        },
+        {
           "playerId": "P004",
           "dorsal": 94,
           "nombre": "Diego",
@@ -3980,6 +4428,33 @@
           "total": 11,
           "byEra": {
             "2010/11": 11
+          }
+        },
+        {
+          "playerId": "P055",
+          "dorsal": 5,
+          "nombre": "Toño",
+          "total": 9,
+          "byEra": {
+            "2011": 9
+          }
+        },
+        {
+          "playerId": "P058",
+          "dorsal": 17,
+          "nombre": "Rodrigo",
+          "total": 9,
+          "byEra": {
+            "2011": 9
+          }
+        },
+        {
+          "playerId": "P056",
+          "dorsal": 19,
+          "nombre": "Vicente",
+          "total": 9,
+          "byEra": {
+            "2011": 9
           }
         },
         {
@@ -4021,6 +4496,16 @@
           }
         },
         {
+          "playerId": "P052",
+          "dorsal": 24,
+          "nombre": "Jero",
+          "total": 6,
+          "byEra": {
+            "2011": 1,
+            "2010/11": 5
+          }
+        },
+        {
           "playerId": "P018",
           "dorsal": 55,
           "nombre": "Omar",
@@ -4028,15 +4513,6 @@
           "byEra": {
             "2021": 3,
             "2019/20": 3
-          }
-        },
-        {
-          "playerId": "P052",
-          "dorsal": 34,
-          "nombre": "Jero",
-          "total": 5,
-          "byEra": {
-            "2010/11": 5
           }
         },
         {
