@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T01:07:23.575Z",
+  "generatedAt": "2026-08-30T02:32:22.961Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -1768,12 +1768,6 @@
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
-        "temporada": "2012/13",
-        "imagen": "recopa-2012-13.png"
-      },
-      {
-        "insignia": "Campeón Recopa",
-        "nivel": 2,
         "temporada": "2018",
         "imagen": "recopa-2018.png"
       },
@@ -1852,12 +1846,76 @@
         "imagen": "lider-goleo-2011.png"
       }
     ],
+    "P049": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2012",
+        "imagen": "lider-goleo-2011.png"
+      }
+    ],
+    "P056": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      }
+    ],
+    "P054": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
+      {
+        "insignia": "Líder Goles Anotados",
+        "nivel": 3,
+        "temporada": "2011",
+        "imagen": "lider-goleo-2011.png"
+      }
+    ],
+    "P042": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
+      {
+        "insignia": "Miembro Fundador",
+        "nivel": 1,
+        "temporada": "2010/11",
+        "imagen": "fundador.png"
+      }
+    ],
     "P008": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      },
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
         "temporada": "2018",
         "imagen": "recopa-2018.png"
+      }
+    ],
+    "P038": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
       }
     ],
     "P009": [
@@ -2560,14 +2618,6 @@
         "imagen": "lider-goleo-2010.png"
       }
     ],
-    "P042": [
-      {
-        "insignia": "Miembro Fundador",
-        "nivel": 1,
-        "temporada": "2010/11",
-        "imagen": "fundador.png"
-      }
-    ],
     "P043": [
       {
         "insignia": "Miembro Fundador",
@@ -2608,27 +2658,11 @@
         "imagen": "fundador.png"
       }
     ],
-    "P054": [
-      {
-        "insignia": "Líder Goles Anotados",
-        "nivel": 3,
-        "temporada": "2011",
-        "imagen": "lider-goleo-2011.png"
-      }
-    ],
     "P059": [
       {
         "insignia": "Líder Goles Anotados",
         "nivel": 3,
         "temporada": "2011/12",
-        "imagen": "lider-goleo-2011.png"
-      }
-    ],
-    "P049": [
-      {
-        "insignia": "Líder Goles Anotados",
-        "nivel": 3,
-        "temporada": "2012",
         "imagen": "lider-goleo-2011.png"
       }
     ]
