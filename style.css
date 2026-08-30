@@ -548,8 +548,8 @@ main.wide { max-width: 1400px; }
   border: 2px solid var(--bg);
 }
 .jugador-card-badges img { width: 10px; height: 10px; display: block; }
-.jugador-card-badge-gol { background: var(--good); color: #ffffff; }
-.jugador-card-badge-ast { background: #566bf6; color: #ffffff; }
+.jugador-card-badge-gol { background: var(--main); color: #ffffff; }
+.jugador-card-badge-ast { background: var(--main); color: #ffffff; }
 .jugador-card-badge-count { font-size: 0.6rem; }
 
 /* Último Partido — starting-formation pitch (Stage 7 extension), the
