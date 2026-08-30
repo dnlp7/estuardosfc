@@ -272,6 +272,9 @@ main.wide { max-width: 1400px; }
 @media (max-width: 640px) {
   .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
   .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; }
+  /* 3 fixed columns (see .historia-cards) get too cramped on a narrow
+     phone — same 2-column drop as .plantel-cards-grid above. */
+  .historia-cards { grid-template-columns: repeat(2, 1fr); }
   /* Main nav (home icon + Jugadores/Estadísticas/Historia) had no
      wrap/overflow handling at all — on a narrow phone it simply ran
      past the viewport edge with "Historia" cut off and unreachable.
@@ -601,9 +604,11 @@ main.wide { max-width: 1400px; }
    (badge icon + label underneath) but sized for a crest/jersey graphic
    rather than a small achievement icon, and with an optional subtitle
    line (Jerseys' brand name) that Escudos simply never fills in. */
-.historia-cards { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+/* 3 columns (not 4) so each crest/jersey graphic renders bigger and
+   more legible — card width comes from the grid track (1fr), not a
+   fixed px value, so it scales with whatever main's max-width is. */
+.historia-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
 .historia-card {
-  width: 160px;
   text-align: center;
   background: var(--grey-header);
   border: 1px solid var(--border);
