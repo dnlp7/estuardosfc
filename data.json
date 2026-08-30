@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T02:32:22.961Z",
+  "generatedAt": "2026-08-30T06:23:59.459Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -11,8 +11,8 @@
     "2013/14",
     "2014",
     "2014/15",
-    "2015",
-    "2015/16",
+    "2025A",
+    "2025B",
     "2016",
     "2016/17",
     "2017",
@@ -59,6 +59,16 @@
     {
       "era": "2012/13",
       "torneo": "SOL5",
+      "hasTxJ": false
+    },
+    {
+      "era": "2025A",
+      "torneo": "SOL10",
+      "hasTxJ": false
+    },
+    {
+      "era": "2025B",
+      "torneo": "SOL11",
       "hasTxJ": false
     },
     {
@@ -896,6 +906,16 @@
       "dorsalByEra": {
         "2012": 31
       }
+    },
+    "P063": {
+      "nombre": "Miguel",
+      "activo": false,
+      "dorsalByEra": {}
+    },
+    "P064": {
+      "nombre": "Samuel",
+      "activo": false,
+      "dorsalByEra": {}
     }
   },
   "datos": {
@@ -1438,7 +1458,7 @@
     },
     "P050": {
       "nombreCompleto": "Gibran Ascencio",
-      "posicion": "MED",
+      "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": null,
       "instagram": null,
@@ -1555,6 +1575,24 @@
       "instagram": null,
       "twitter": null,
       "dorsal": 31
+    },
+    "P063": {
+      "nombreCompleto": "Miguel Ramón",
+      "posicion": "DEL",
+      "debut": "2014",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 9
+    },
+    "P064": {
+      "nombreCompleto": "Samuel Simonnet",
+      "posicion": "MED",
+      "debut": "2015",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 6
     }
   },
   "logros": {
@@ -2675,6 +2713,8 @@
         "2011/12",
         "2012",
         "2012/13",
+        "2025A",
+        "2025B",
         "2017/18",
         "2018",
         "2019",
@@ -3925,6 +3965,8 @@
       "eras": [
         "2010/11",
         "2011",
+        "2025A",
+        "2025B",
         "2019/20",
         "2020",
         "2021",
