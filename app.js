@@ -2513,7 +2513,7 @@
         var jornada = String(column.partido || '').split(' ')[0];
         var matches = matchesByEra[b.era] || [];
         var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
-        var label = match ? ('vs ' + rivalLabel_(match.rival) + ' — ' + formatFechaCorta_(match.fecha)) : column.partido;
+        var label = match ? ('vs ' + rivalLabel_(match.rival) + ' (' + formatFechaCorta_(match.fecha) + ')') : column.partido;
         return { nombre: b.nombre, era: b.era, valor: b.valor, matchLabel: label, _fecha: match && match.fecha };
       }))
     };
@@ -2561,7 +2561,7 @@
     return {
       max: max,
       entries: sortRecordEntriesRecentFirst_(best.map(function (b) {
-        return { era: b.era, matchLabel: 'vs ' + rivalLabel_(b.match.rival) + ' — ' + formatFechaCorta_(b.match.fecha), _fecha: b.match.fecha };
+        return { era: b.era, matchLabel: 'vs ' + rivalLabel_(b.match.rival) + ' (' + formatFechaCorta_(b.match.fecha) + ')', _fecha: b.match.fecha };
       }))
     };
   }
@@ -2663,19 +2663,19 @@
     fetchHistoryDetail()
       .then(function (historyData) {
         renderRecordCard_('record-goles-partido', mostStatInMatchRecord_(historyData, 'GOL'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' — ' + esc(e.matchLabel) + '</span>';
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel) + '</span>';
         });
         renderRecordCard_('record-goles-temporada', mostStatInSeasonRecord_('GOL'), function (e) {
           return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-asistencias-partido', mostStatInMatchRecord_(historyData, 'AST'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' — ' + esc(e.matchLabel) + '</span>';
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel) + '</span>';
         });
         renderRecordCard_('record-asistencias-temporada', mostStatInSeasonRecord_('AST'), function (e) {
           return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-goles-partido-equipo', mostTeamGoalsInMatchRecord_(historyData), function (e) {
-          return esc(formatEraLabel_(e.era)) + ' — ' + esc(e.matchLabel);
+          return esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel);
         });
         renderRecordCard_('record-goles-temporada-equipo', mostTeamGoalsInSeasonRecord_(historyData), function (e) {
           return esc(formatEraLabel_(e.era));
