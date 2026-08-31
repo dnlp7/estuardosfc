@@ -426,6 +426,13 @@ main.wide { max-width: 1400px; }
 .partido-banda-local { background: var(--main); }
 .partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.5rem; }
 .partido-banda-score { font-weight: 700; font-size: 2rem; min-width: 1.4em; }
+/* Penales (Stage 7 extension) - the small "Penales: 2-3" line under
+   Ultimo Partido's two score bands (margin-top pulls it up under the
+   marcador's own margin-bottom), and the inline "(P 2-3)" annotation
+   next to a marcador elsewhere (Resultados table, Alineaciones). Both
+   only ever render for a match m.penales is truthy for. */
+.partido-marcador-penales { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: -1.25rem; margin-bottom: 1.25rem; }
+.marcador-penales { color: var(--muted); font-weight: 400; font-size: 0.8em; }
 
 /* Próximo Partido's plain "ESTUARDOS FC / vs / RIVAL" centered block —
    no score yet, so no colored bands; the rival's kit color (if set)

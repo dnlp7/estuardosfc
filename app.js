@@ -566,6 +566,17 @@
     return '<div class="partido-meta-row">' + items.join('') + '</div>';
   }
 
+  /** Small "(P 2-3)" annotation for a match decided by penales — same
+   * wording wherever a marcador is shown (Resultados table, Alineaciones
+   * header, Ultimo Partido). Returns '' when the match wasn't decided
+   * by penales at all (m.penales is null for every match before this
+   * league started using shootouts, and for a tie where none were
+   * taken, e.g. a friendly). */
+  function penalesAnotacionHtml_(m) {
+    if (!m || !m.penales) return '';
+    return ' <span class="marcador-penales" title="Definido por penales">(P ' + esc(m.penales.pf) + '-' + esc(m.penales.pc) + ')</span>';
+  }
+
   /** Color-coded position pill (POR/DEF/MED/DEL/SUP) — reuses the exact
    * same POSITION_COLORS_ map the PI detailed leaderboard view already
    * uses, instead of introducing a second color scheme for the same
@@ -697,6 +708,13 @@
    * Daniel's own layout call. */
   function partidoMarcadorHtml_(m) {
     var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
+    // Penales line — only for a match this league's shootout rule
+    // actually decided (m.penales). Estuardos' own PF/PC side is
+    // always shown first, matching the score bands above it (Estuardos
+    // band on top, rival band below).
+    var penalesHtml = m.penales
+      ? '<div class="partido-marcador-penales">Penales: ' + esc(m.penales.pf) + ' - ' + esc(m.penales.pc) + '</div>'
+      : '';
     return '<div class="partido-marcador">' +
       '<div class="partido-banda partido-banda-local">' +
         '<span class="partido-banda-score">' + esc(m.gf) + '</span><span class="partido-banda-nombre">Estuardos FC</span>' +
@@ -704,7 +722,7 @@
       '<div class="partido-banda"' + rivalStyle + '>' +
         '<span class="partido-banda-score">' + esc(m.gc) + '</span><span class="partido-banda-nombre">' + esc(rivalLabel_(m.rival)) + '</span>' +
       '</div>' +
-    '</div>';
+    '</div>' + penalesHtml;
   }
 
   /** Vertical starting-formation pitch (Stage 7 extension) — Último
@@ -1948,7 +1966,7 @@
         // Rivales tab. A rival cell with no color set gets no inline
         // style (default cell).
         var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
-        var marcador = esc(m.gf) + ' - ' + esc(m.gc);
+        var marcador = esc(m.gf) + ' - ' + esc(m.gc) + penalesAnotacionHtml_(m);
 
         return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
           '<td class="val-strong">' + marcador + '</td>' +
@@ -1986,7 +2004,7 @@
       // Resultados table's result-chip, between the jornada and rival,
       // e.g. "J8 2-3 CHOMPIRAS 2-3-1".
       var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? 'result-chip-e' : '';
-      var marcadorHtml = '<span class="alineacion-marcador ' + resClass + '">' + esc(m.gf) + '-' + esc(m.gc) + '</span>';
+      var marcadorHtml = '<span class="alineacion-marcador ' + resClass + '">' + esc(m.gf) + '-' + esc(m.gc) + '</span>' + penalesAnotacionHtml_(m);
       var header = '<div class="alineacion-match-header">' +
         '<span class="jornada-cell">' + esc(m.jornada) + '</span>' +
         marcadorHtml +
