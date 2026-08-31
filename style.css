@@ -269,6 +269,18 @@ main.wide { max-width: 1400px; }
    still filling in that photo set, but works the same for either
    grid. Same aspect ratio / look as .jugador-card-placeholder so a
    placeholder tile doesn't stand out oddly next to real photo tiles. */
+/* Generic "this links to a player's profile" affordance - applied
+   wherever a player's name/photo appears site-wide (Ultimo Partido/
+   Alineaciones cards, Lideres Historicos, Records entries, Individuales/
+   BALANCE table rows), wired by one shared delegated click listener
+   (setupJugadorLinks_, app.js). Distinct from .plantel-card, which
+   already had its own dedicated click handling before this and is
+   left untouched. tr.jugador-link also gets the existing
+   tbody tr:hover background highlight for free - no separate rule
+   needed for table rows. */
+.jugador-link { cursor: pointer; }
+.jugador-link:hover { opacity: 0.85; }
+
 .plantel-card-placeholder {
   width: 100%; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
   display: flex; align-items: center; justify-content: center;

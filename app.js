@@ -364,6 +364,7 @@
     renderPlantelEx_();
     renderRecordsLeaders_();
     setupPerfil();
+    setupJugadorLinks_();
   }
 
   // ---------------- Historia ----------------
@@ -668,7 +669,9 @@
       ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
       : '';
     var badgesHtml = jugadorCardBadgeHtml_('gol', item.goles) + jugadorCardBadgeHtml_('ast', item.asistencias);
-    return '<div class="jugador-card">' +
+    var linkAttrs = item.playerId ? ' data-jugador-id="' + esc(item.playerId) + '"' : '';
+    var linkClass = item.playerId ? ' jugador-link' : '';
+    return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
       '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre) + capitanBadge +
       (badgesHtml ? '<div class="jugador-card-badges">' + badgesHtml + '</div>' : '') +
       '</div>' +
@@ -1228,9 +1231,38 @@
     grid.addEventListener('click', function (e) {
       var card = e.target.closest('.plantel-card');
       if (!card || !card.dataset.playerId) return;
-      location.hash = 'jugador/' + encodeURIComponent(card.dataset.playerId);
-      renderPerfil(card.dataset.playerId);
-      activateSection_('perfil');
+      irAPerfil_(card.dataset.playerId);
+    });
+  }
+
+  // Shared by every way of reaching a profile page — Plantel cards
+  // above, and every other player mention site-wide via
+  // setupJugadorLinks_ below (Último Partido/Alineaciones cards,
+  // Líderes Históricos, Récords entries, Individuales/BALANCE table
+  // rows). Same three steps every one of those used to repeat inline:
+  // set the shareable hash, render immediately (instant on click,
+  // rather than waiting for the resulting hashchange), then activate
+  // the section.
+  function irAPerfil_(playerId) {
+    location.hash = 'jugador/' + encodeURIComponent(playerId);
+    renderPerfil(playerId);
+    activateSection_('perfil');
+  }
+
+  // One global delegated listener (rather than wiring each grid/table
+  // individually, unlike wirePlantelGridClicks_ above) for every OTHER
+  // clickable player mention on the site — a single listener on
+  // document survives every one of those containers' own innerHTML
+  // re-renders with no extra wiring needed as new ones are added.
+  // data-jugador-id is only ever present on an element for a player
+  // with a real Jugadores match (playerId) — a [Default]/[Autogoles]
+  // utility row or an unresolved name never gets it, so this can
+  // never navigate to a non-existent profile.
+  function setupJugadorLinks_() {
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-jugador-id]');
+      if (!el || !el.dataset.jugadorId) return;
+      irAPerfil_(el.dataset.jugadorId);
     });
   }
 
@@ -2036,7 +2068,9 @@
     var capitanBadge = j.capitan
       ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
       : '';
-    return '<div class="jugador-card">' +
+    var linkAttrs = j.playerId ? ' data-jugador-id="' + esc(j.playerId) + '"' : '';
+    var linkClass = j.playerId ? ' jugador-link' : '';
+    return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
       '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, j.nombre) + capitanBadge + '</div>' +
       '<div class="jugador-card-nombre">' + esc(j.nombre) + '</div>' +
       posicionPillHtml_(j.posicion) +
@@ -2413,7 +2447,9 @@
             var rank = (lastTotal !== null && p.total === lastTotal) ? lastRank : i + 1;
             lastTotal = p.total;
             lastRank = rank;
-            return '<div class="record-leader-row"><span class="record-leader-rank">' + rank + '</span>' +
+            var linkAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '';
+            var linkClass = p.playerId ? ' jugador-link' : '';
+            return '<div class="record-leader-row' + linkClass + '"' + linkAttrs + '><span class="record-leader-rank">' + rank + '</span>' +
               '<span class="record-leader-nombre">' + esc(p.nombre) + '</span>' +
               '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
           }).join('')
@@ -2519,7 +2555,7 @@
           var n = Number(v);
           if (!n || isNaN(n)) return;
           if (n > max) { max = n; best = []; }
-          if (n === max) best.push({ nombre: p.nombre, era: era, valor: n, columnIdx: idx });
+          if (n === max) best.push({ nombre: p.nombre, playerId: p.playerId, era: era, valor: n, columnIdx: idx });
         });
       });
     });
@@ -2532,7 +2568,7 @@
         var matches = matchesByEra[b.era] || [];
         var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
         var label = match ? ('vs ' + rivalLabel_(match.rival) + ' (' + formatFechaCorta_(match.fecha) + ')') : column.partido;
-        return { nombre: b.nombre, era: b.era, valor: b.valor, matchLabel: label, _fecha: match && match.fecha };
+        return { nombre: b.nombre, playerId: b.playerId, era: b.era, valor: b.valor, matchLabel: label, _fecha: match && match.fecha };
       }))
     };
   }
@@ -2554,11 +2590,11 @@
           var n = Number(p.byEra[era]);
           if (!n || isNaN(n)) return;
           if (n > max) { max = n; best = []; }
-          if (n === max) best.push({ nombre: p.nombre, era: era, valor: n });
+          if (n === max) best.push({ nombre: p.nombre, playerId: p.playerId, era: era, valor: n });
         });
       });
     }
-    return { max: max, entries: sortRecordEntriesRecentFirst_(best.map(function (b) { return { nombre: b.nombre, era: b.era }; })) };
+    return { max: max, entries: sortRecordEntriesRecentFirst_(best.map(function (b) { return { nombre: b.nombre, playerId: b.playerId, era: b.era }; })) };
   }
 
   /** Highest single-match team GF across every era — same join as
@@ -2720,7 +2756,16 @@
     if (!el) return;
     el.innerHTML = record.max
       ? '<div class="record-highlight-value">' + esc(record.max) + '</div>' +
-        record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')
+        record.entries.map(function (e) {
+          // playerId is only ever present on a per-player record entry
+          // (mostStatInMatchRecord_/mostStatInSeasonRecord_) — a
+          // team-level one (most goals in a match/season, the streak
+          // records) never has one, so those stay plain, unclickable
+          // entries.
+          var linkAttrs = e.playerId ? ' data-jugador-id="' + esc(e.playerId) + '"' : '';
+          var cls = 'record-highlight-entry' + (e.playerId ? ' jugador-link' : '');
+          return '<div class="' + cls + '"' + linkAttrs + '>' + entryHtml(e) + '</div>';
+        }).join('')
       : '<p class="detail-message">Sin datos.</p>';
   }
 
@@ -2802,7 +2847,8 @@
         var color = (v === null || v === undefined) ? null : scaleColor_(v, range.min, range.max, COLORS.greyCell, COLORS.scaleBest);
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.nombre) + '</td>' + statCells + '</tr>';
+      var trAttrs = r.playerId ? ' data-jugador-id="' + esc(r.playerId) + '" class="jugador-link"' : '';
+      return '<tr' + trAttrs + '><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.nombre) + '</td>' + statCells + '</tr>';
     }).join(''));
   }
 
@@ -2841,7 +2887,8 @@
       // wore THAT season (Jugadores.dorsalByEra), not their current one.
       var dorsal = state.era === '__all__' ? r.p.dorsal : dorsalForEra_(r.p, state.era);
       var idBg = activoBackground_(r.p.nombre, r.p.playerId);
-      return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
+      var trAttrs = r.p.playerId ? ' data-jugador-id="' + esc(r.p.playerId) + '" class="jugador-link"' : '';
+      return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
         '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.p.nombre) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
@@ -2884,7 +2931,8 @@
         var color = v === undefined ? null : gridValueColor_(v, maxEraVal);
         return '<td' + styleAttr_(color) + '>' + (v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
+      var trAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '" class="jugador-link"' : '';
+      return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
         '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(p.nombre) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(p.total)) + '>' + esc(p.total) + '</td>' + eraCells + '</tr>';
     }).join(''));
@@ -2948,7 +2996,11 @@
         var cellStyle = matchCellStyle_(state.stat, v, maxMatchVal);
         return '<td' + matchCellStyleAttr_(cellStyle) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr' + (p.isUtility ? ' class="utility-row"' : '') + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
+      var rowClasses = [];
+      if (p.isUtility) rowClasses.push('utility-row');
+      if (p.playerId) rowClasses.push('jugador-link');
+      var trAttrs = (rowClasses.length ? ' class="' + rowClasses.join(' ') + '"' : '') + (p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '');
+      return '<tr' + trAttrs + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
         '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(p.nombre) + '</td><td class="val-strong"' + totalStyle + '>' +
         esc(p.total) + '</td>' + matchCells + '</tr>';
     }).join(''));
