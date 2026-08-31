@@ -1956,7 +1956,7 @@
       // first (visible without scrolling on a phone), with Jornada
       // staying first/sticky throughout.
       tbody.innerHTML = matches.map(function (m) {
-        var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? 'result-chip-e' : '';
+        var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? (m.penales && m.penales.ganoEstuardos ? 'result-chip-ex' : 'result-chip-e') : '';
         var canchaNum = Number(m.cancha);
         var canchaColor = isNaN(canchaNum) ? null : scaleColor_(canchaNum, canchaMin, canchaMax, COLORS.canchaLight, COLORS.canchaDark);
         var horaVal = parseHoraMinutes_(m.hora);
@@ -2003,7 +2003,7 @@
       // Marcador pill — same result color scheme (good/draw/bad) as the
       // Resultados table's result-chip, between the jornada and rival,
       // e.g. "J8 2-3 CHOMPIRAS 2-3-1".
-      var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? 'result-chip-e' : '';
+      var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? (m.penales && m.penales.ganoEstuardos ? 'result-chip-ex' : 'result-chip-e') : '';
       var marcadorHtml = '<span class="alineacion-marcador ' + resClass + '">' + esc(m.gf) + '-' + esc(m.gc) + '</span>' + penalesAnotacionHtml_(m);
       var header = '<div class="alineacion-match-header">' +
         '<span class="jornada-cell">' + esc(m.jornada) + '</span>' +
@@ -2902,7 +2902,7 @@
     var matchHeadHtml = columns.map(function (c) { return '<th>' + jornadaHeaderHtml(c.partido) + '</th>'; });
     var barCellsHtml = ['<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>'].concat(
       columns.map(function (c) {
-        var cls = c.resultado === 'g' ? 'result-bar-g' : c.resultado === 'p' ? 'result-bar-p' : c.resultado === 'e' ? 'result-bar-e' : '';
+        var cls = c.resultado === 'g' ? 'result-bar-g' : c.resultado === 'p' ? 'result-bar-p' : c.resultado === 'e' ? (c.pkWin ? 'result-bar-ex' : 'result-bar-e') : '';
         return '<td class="result-bar' + (cls ? ' ' + cls : '') + '"></td>';
       })
     );

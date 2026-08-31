@@ -60,6 +60,11 @@
   --good: #25b659;
   --bad: #ec071e;
   --draw: #979797;
+  /* Penales (Stage 7 extension) - a tie decided in Estuardos' favor
+     by a penalty shootout (see the Penales glossary entry in the
+     project instructions), same win-color role as --good but visually
+     distinct from a regulation win. */
+  --draw-pk: #5f9acf;
 }
 
 * { box-sizing: border-box; }
@@ -519,6 +524,7 @@ main.wide { max-width: 1400px; }
 .alineacion-marcador.result-chip-g { background: var(--good); }
 .alineacion-marcador.result-chip-p { background: var(--bad); }
 .alineacion-marcador.result-chip-e { background: var(--draw); color: var(--black); }
+.alineacion-marcador.result-chip-ex { background: var(--draw-pk); color: var(--black); }
 /* Wraps the photo/placeholder only (not the name/pos pill below it) so
    the captain badge can be positioned absolutely against just the
    image, not the whole card. */
@@ -877,6 +883,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 .result-chip-g { background: var(--good); }
 .result-chip-p { background: var(--bad); }
 .result-chip-e { background: var(--draw); }
+.result-chip-ex { background: var(--draw-pk); }
 
 /* Equipo tab — all-time balance table (one row per season). Same
    thick-black-grid convention as the leaderboard/Results tables; the
@@ -1164,6 +1171,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 .result-bar-g { background: var(--good); }
 .result-bar-p { background: var(--bad); }
 .result-bar-e { background: var(--draw); }
+.result-bar-ex { background: var(--draw-pk); }
 
 .utility-row td { font-style: italic; color: var(--white); }
 
