@@ -38,7 +38,8 @@
     charts: {},               // canvas id -> live Chart.js instance, see renderChart_
     perfilPlayerId: null,     // whichever player's profile is currently rendered — lets the stat selector re-render without playerId being passed back in
     perfilNombre: null,       // same player's Nombre — kept alongside playerId as a fallback for a stats row that hasn't been through a full historical-doc rebuild since PlayerID was added yet (see statRowForPlayer_)
-    perfilStat: 'BALANCE'     // Perfil page's own BALANCE/GOL/AST/PA/PI selector — independent of "stat" above (the Individuales tab's own selector)
+    perfilStat: 'BALANCE',    // Perfil page's own BALANCE/GOL/AST/PA/PI selector — independent of "stat" above (the Individuales tab's own selector)
+    perfilOrigen: 'inicio'    // which section to return to on Volver — set in irAPerfil_ from whichever section-panel was active right before navigating to a profile; defaults to inicio for a direct #jugador/<id> deep link with no prior in-app navigation
   };
 
   // ---------------- Color scales ----------------
@@ -1244,6 +1245,14 @@
   // rather than waiting for the resulting hashchange), then activate
   // the section.
   function irAPerfil_(playerId) {
+    // Remember which section to return to on Volver. Only overwrite it
+    // when leaving a real section (never when already on "perfil") —
+    // that way clicking from one player's profile to another (e.g. a
+    // teammate mentioned in a lineup card) keeps pointing Volver back
+    // at the original section, not at the profile page itself.
+    var activePanel = document.querySelector('.section-panel.active');
+    var activeName = activePanel && activePanel.id.replace(/^section-/, '');
+    if (activeName && activeName !== 'perfil') state.perfilOrigen = activeName;
     location.hash = 'jugador/' + encodeURIComponent(playerId);
     renderPerfil(playerId);
     activateSection_('perfil');
@@ -1273,13 +1282,17 @@
     var volver = document.getElementById('perfil-volver');
     if (volver) {
       volver.addEventListener('click', function () {
-        // Deliberately does NOT reset which Jugadores sub-tab is active
-        // (unlike the nav-bar click, see setupSections) — someone who
-        // opened a former member's profile from Miembros Previos should
-        // land back on Miembros Previos, not get bounced to Plantel
-        // Actual.
-        location.hash = 'jugadores';
-        activateSection_('jugadores');
+        // Returns to whichever section the user actually arrived from
+        // (see perfilOrigen, set in irAPerfil_) rather than always
+        // Jugadores — profiles are now reachable from many places
+        // (Inicio, Individuales, Récords, Alineaciones...). Deliberately
+        // does NOT reset which Jugadores sub-tab is active (unlike the
+        // nav-bar click, see setupSections) — someone who opened a
+        // former member's profile from Miembros Previos should land
+        // back on Miembros Previos, not get bounced to Plantel Actual.
+        var destino = state.perfilOrigen || 'inicio';
+        location.hash = destino;
+        activateSection_(destino);
       });
     }
     window.addEventListener('hashchange', routeFromHash_);
