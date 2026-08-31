@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T02:06:56.496Z",
+  "generatedAt": "2026-08-31T02:58:38.210Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -746,11 +746,9 @@
       "nombre": "Lupe",
       "activo": false,
       "dorsalByEra": {
-        "2012": 30,
         "2016": 1,
         "2015B": 1,
-        "2015A": 1,
-        "2012/13": 30
+        "2015A": 1
       }
     },
     "P039": {
@@ -1404,7 +1402,7 @@
     "P038": {
       "nombreCompleto": "Guadalupe Mariscal",
       "posicion": "POR",
-      "debut": "2012",
+      "debut": "2013",
       "cumpleanos": null,
       "instagram": null,
       "twitter": null,
@@ -6128,39 +6126,48 @@
       "columns": [
         {
           "partido": "J1 RFU",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J2 CAN",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J3 TAP",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J4 MDR",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J5 BRO",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J6 PAN",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J7 HOL",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J8 CHO",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J9 ROJ",
-          "resultado": "e"
+          "resultado": "e",
+          "pkWin": false
         }
       ],
       "players": [
@@ -6476,39 +6483,48 @@
       "columns": [
         {
           "partido": "J1 RFU",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J2 CAN",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J3 TAP",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J4 MDR",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J5 BRO",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J6 PAN",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J7 HOL",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J8 CHO",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J9 ROJ",
-          "resultado": "e"
+          "resultado": "e",
+          "pkWin": false
         }
       ],
       "players": [
@@ -6788,39 +6804,48 @@
       "columns": [
         {
           "partido": "J1 RFU",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J2 CAN",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J3 TAP",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J4 MDR",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J5 BRO",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J6 PAN",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J7 HOL",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J8 CHO",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J9 ROJ",
-          "resultado": "e"
+          "resultado": "e",
+          "pkWin": false
         }
       ],
       "players": [
@@ -7100,39 +7125,48 @@
       "columns": [
         {
           "partido": "J1 RFU",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J2 CAN",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J3 TAP",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J4 MDR",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J5 BRO",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J6 PAN",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J7 HOL",
-          "resultado": "g"
+          "resultado": "g",
+          "pkWin": false
         },
         {
           "partido": "J8 CHO",
-          "resultado": "p"
+          "resultado": "p",
+          "pkWin": false
         },
         {
           "partido": "J9 ROJ",
-          "resultado": "e"
+          "resultado": "e",
+          "pkWin": false
         }
       ],
       "players": [
