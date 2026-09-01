@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T06:23:41.420Z",
+  "generatedAt": "2026-09-01T06:23:16.793Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -6036,7 +6036,7 @@
       {
         "jornada": "J9",
         "cancha": 2,
-        "fecha": "2026-08-29",
+        "fecha": "2026-08-30",
         "hora": "10:30",
         "resultado": "e",
         "gf": 3,
@@ -6116,7 +6116,15 @@
       "dif": -14,
       "pts": 13
     },
-    "proximo": null
+    "proximo": {
+      "jornada": "J10",
+      "cancha": 1,
+      "fecha": "2026-09-06",
+      "hora": "10:30",
+      "rival": "UZZI",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
+    }
   },
   "detail": {
     "era": "2026/27",
