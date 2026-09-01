@@ -549,14 +549,14 @@ main.wide { max-width: 1400px; }
 /* Position pill — same POSITION_COLORS_ palette (app.js) the PI
    detailed leaderboard view already uses, reused here instead of a
    second color scheme for the same five position codes. Overlaid on
-   the photo's top-left corner — the one free corner, since the
-   captain badge already owns top-right and the goal/assist badges
-   own bottom-left — same cutout-ring border treatment as those two
-   so all three corner badges read as one family. Lives inside
+   the photo's bottom-left corner (moved here from top-left, Daniel's
+   call) — captain owns top-right, goal/assist badges own bottom-
+   right — same cutout-ring border treatment as those two so all
+   three corner badges read as one family. Lives inside
    .jugador-card-photo-wrap (position: relative) in the markup, same
    as the other two. */
 .jugador-card-pos {
-  position: absolute; top: -4px; left: -4px;
+  position: absolute; bottom: -4px; left: -4px;
   display: inline-block; padding: 0.1rem 0.4rem;
   border-radius: 6px; font-size: 0.62rem; font-weight: 700;
   background: var(--grey-cell); color: var(--muted);
@@ -607,19 +607,19 @@ main.wide { max-width: 1400px; }
 }
 
 /* Último Partido — per-card goal/assist badges (Stage 7 extension),
-   replacing the old separate Goles/Asistencias text lists. A small
-   pill row under the position pill; the ball icon badge and the "A"
-   badge get their own tint (goal green-ish, assist blue-ish) so the
-   two read apart from each other and from the neutral position pill
-   above them at a glance. */
-/* Overlaid on the photo's bottom-left corner, stacked one per row -
-   same corner-badge treatment as .jugador-card-capitan (top-right), a
-   solid --bg border acting as a cutout ring so each stays legible
-   against any photo. Goal badge on top, assist badge below when both
-   are present. */
+   replacing the old separate Goles/Asistencias text lists. The ball
+   icon badge and the "A" badge get their own tint (goal green-ish,
+   assist blue-ish) so the two read apart from each other and from
+   the neutral position pill in the opposite corner. */
+/* Overlaid on the photo's bottom-right corner (moved here from
+   bottom-left so the position pill could take that corner instead,
+   Daniel's call), stacked one per row - same corner-badge treatment
+   as .jugador-card-capitan (top-right), a solid --bg border acting
+   as a cutout ring so each stays legible against any photo. Goal
+   badge on top, assist badge below when both are present. */
 .jugador-card-badges {
-  position: absolute; bottom: -4px; left: -4px;
-  display: flex; flex-direction: column; gap: 2px; align-items: flex-start;
+  position: absolute; bottom: -4px; right: -4px;
+  display: flex; flex-direction: column; gap: 2px; align-items: flex-end;
 }
 .jugador-card-badge {
   display: inline-flex; align-items: center; gap: 0.15rem;
