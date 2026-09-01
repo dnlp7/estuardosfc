@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T20:38:55.780Z",
+  "generatedAt": "2026-09-01T20:49:50.946Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -54774,31 +54774,16 @@
           "rivalBg": null,
           "rivalText": null,
           "lineup": null
-        },
-        {
-          "jornada": "2011-08-21T07:00:00.000Z",
-          "cancha": "2011-08-28T07:00:00.000Z",
-          "fecha": "2011-09-04",
-          "hora": "11 / Sep",
-          "resultado": "p",
-          "gf": "2011-09-25T07:00:00.000Z",
-          "gc": "2011-10-02T07:00:00.000Z",
-          "penales": null,
-          "puntos": 0,
-          "rival": "2011-10-09T07:00:00.000Z",
-          "rivalBg": "#ffffff",
-          "rivalText": "#000000",
-          "lineup": null
         }
       ],
       "standings": {
-        "pj": 27,
+        "pj": 26,
         "pg": 7,
         "pe": 3,
-        "pp": 17,
-        "gf": 1316934000098,
-        "gc": 1317538800130,
-        "dif": -604800032,
+        "pp": 16,
+        "gf": 98,
+        "gc": 130,
+        "dif": -32,
         "pts": 24
       }
     },
