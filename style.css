@@ -380,9 +380,15 @@ main.wide { max-width: 1400px; }
    card is self-contained: icon image (or a plain text placeholder if
    Daniel hasn't filled in that badge's Imagen cell yet — see
    buildLogrosJson_) plus the badge name/season underneath. */
-.insignias-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+/* Grid (not flex-wrap) so cards distribute evenly across the full
+   row width instead of hugging the left edge with a ragged, mostly-
+   empty last row (the old flex-wrap layout on a phone-width screen
+   left 2 cards floating with a lot of dead space beside them). Same
+   auto-fill/minmax pattern as .partido-jugadores-grid below - at
+   least 3 per row on a typical phone, more on wider screens, each
+   card stretching to fill its column. */
+.insignias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; }
 .insignia-card {
-  width: 110px;
   text-align: center;
   background: var(--grey-header);
   border: 1px solid var(--border);
@@ -483,8 +489,12 @@ main.wide { max-width: 1400px; }
 }
 .partido-ver-todos:hover { text-decoration: underline; }
 
-.partido-jugadores-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.jugador-card { width: 94px; text-align: center; }
+/* Grid (not flex-wrap) - see .insignias-grid above for why: fills the
+   row edge-to-edge instead of leaving wasted space when a lineup or
+   photo row does not happen to fill an exact number of fixed-width
+   cards. */
+.partido-jugadores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 0.75rem; }
+.jugador-card { text-align: center; }
 /* No border/radius here — the images/perfiles photos already have
    their own border baked into the asset, so adding a second one on
    top looked doubled/odd. No fixed height/object-fit:cover either —
