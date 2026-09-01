@@ -526,6 +526,10 @@ main.wide { max-width: 1400px; }
    photo row does not happen to fill an exact number of fixed-width
    cards. */
 .partido-jugadores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 0.75rem; }
+/* Replaces the old "Titulares"/"Suplentes" h4 headings (Daniel's
+   call) - a plain thin rule between the two grids instead. Only
+   rendered between them when both are non-empty (see app.js). */
+.jugadores-divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
 .jugador-card { text-align: center; }
 /* No border/radius here — the images/perfiles photos already have
    their own border baked into the asset, so adding a second one on
@@ -544,11 +548,19 @@ main.wide { max-width: 1400px; }
 .jugador-card-nombre { font-size: 0.72rem; font-weight: 700; color: var(--white); margin-top: 0.35rem; line-height: 1.2; }
 /* Position pill — same POSITION_COLORS_ palette (app.js) the PI
    detailed leaderboard view already uses, reused here instead of a
-   second color scheme for the same five position codes. */
+   second color scheme for the same five position codes. Overlaid on
+   the photo's top-left corner — the one free corner, since the
+   captain badge already owns top-right and the goal/assist badges
+   own bottom-left — same cutout-ring border treatment as those two
+   so all three corner badges read as one family. Lives inside
+   .jugador-card-photo-wrap (position: relative) in the markup, same
+   as the other two. */
 .jugador-card-pos {
-  display: inline-block; margin-top: 0.3rem; padding: 0.1rem 0.5rem;
-  border-radius: 999px; font-size: 0.65rem; font-weight: 700;
+  position: absolute; top: -4px; left: -4px;
+  display: inline-block; padding: 0.1rem 0.4rem;
+  border-radius: 6px; font-size: 0.62rem; font-weight: 700;
   background: var(--grey-cell); color: var(--muted);
+  border: 2px solid var(--bg);
 }
 
 /* Equipo tab — Alineaciones (TxJ starter lineups, Stage 7). One block
@@ -573,7 +585,7 @@ main.wide { max-width: 1400px; }
 .alineacion-formacion { font-size: 0.8rem; font-weight: 400; color: var(--muted); }
 .alineacion-marcador {
   font-weight: 700; font-size: 0.85rem; padding: 0.15rem 0.55rem;
-  border-radius: 999px; color: #fff;
+  border-radius: 6px; color: #fff;
 }
 .alineacion-marcador.result-chip-g { background: var(--good); }
 .alineacion-marcador.result-chip-p { background: var(--bad); }
@@ -1256,7 +1268,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   border: 1px solid var(--border);
   color: var(--muted);
   padding: 0.45rem 0.9rem;
-  border-radius: 999px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 700;

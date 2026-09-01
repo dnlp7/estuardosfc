@@ -674,10 +674,10 @@
     var linkClass = item.playerId ? ' jugador-link' : '';
     return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
       '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre) + capitanBadge +
+      (item.posicion ? posicionPillHtml_(item.posicion) : '') +
       (badgesHtml ? '<div class="jugador-card-badges">' + badgesHtml + '</div>' : '') +
       '</div>' +
       '<div class="jugador-card-nombre">' + esc(etiqueta) + '</div>' +
-      (item.posicion ? posicionPillHtml_(item.posicion) : '') +
       '</div>';
   }
 
@@ -694,6 +694,19 @@
   function partidoJugadoresGridHtml_(titulo, items) {
     if (!items.length) return '';
     return '<h4>' + esc(titulo) + '</h4><div class="partido-jugadores-grid">' +
+      items.map(jugadorCardHtml_).join('') +
+      '</div>';
+  }
+
+  /** Same grid as partidoJugadoresGridHtml_, minus the h4 title - used
+   * for Titulares/Suplentes, which no longer get their own headings
+   * (Daniel's call): the two grids sit back to back with a thin
+   * divider between them instead (see the caller below). Asistentes
+   * (the default-win case) keeps its heading via the original
+   * function, since there's no second grid to divide it from. */
+  function partidoJugadoresGridSinTituloHtml_(items) {
+    if (!items.length) return '';
+    return '<div class="partido-jugadores-grid">' +
       items.map(jugadorCardHtml_).join('') +
       '</div>';
   }
@@ -909,9 +922,11 @@
       colIzquierdaHtml = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return conStats_(p, null); }));
       colDerechaHtml = '<p class="detail-message">Triunfo por default.</p>';
     } else {
-      colIzquierdaHtml =
-        partidoJugadoresGridHtml_('Titulares', titulares.map(function (p) { return conStats_(p, String(p.valor).trim().toUpperCase()); })) +
-        partidoJugadoresGridHtml_('Suplentes', suplentes.map(function (p) { return conStats_(p, 'SUP'); }));
+      var titularesHtml = partidoJugadoresGridSinTituloHtml_(titulares.map(function (p) { return conStats_(p, String(p.valor).trim().toUpperCase()); }));
+      var suplentesHtml = partidoJugadoresGridSinTituloHtml_(suplentes.map(function (p) { return conStats_(p, 'SUP'); }));
+      colIzquierdaHtml = titularesHtml +
+        (titularesHtml && suplentesHtml ? '<hr class="jugadores-divider">' : '') +
+        suplentesHtml;
       colDerechaHtml = canchaSvgHtml_(m.lineup, data.currentSeason.era);
     }
 
@@ -2084,9 +2099,10 @@
     var linkAttrs = j.playerId ? ' data-jugador-id="' + esc(j.playerId) + '"' : '';
     var linkClass = j.playerId ? ' jugador-link' : '';
     return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
-      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, j.nombre) + capitanBadge + '</div>' +
-      '<div class="jugador-card-nombre">' + esc(j.nombre) + '</div>' +
+      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, j.nombre) + capitanBadge +
       posicionPillHtml_(j.posicion) +
+      '</div>' +
+      '<div class="jugador-card-nombre">' + esc(j.nombre) + '</div>' +
       '</div>';
   }
 
