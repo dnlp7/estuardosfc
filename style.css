@@ -1,4 +1,12 @@
 :root {
+  /* Stage 9 type pass: Manrope for headings/labels/numbers (titles,
+     nav, scoreboard, uppercase labels, table headers), Inter for
+     body/data text (names, paragraphs, table cells) - picked and
+     compared live in the Estuardos Type Lab artifact. Both loaded
+     from Google Fonts in index.html's <head>. */
+  --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
   /* Team palette: #074f57 main, black secondary, white tertiary,
      #18a8b6 light accent, #062225 dark accent (also used in social
      media graphics). Page background uses the dark accent rather than
@@ -96,8 +104,26 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.5;
+}
+
+/* Stage 9 type pass - headings, nav, scoreboard, uppercase labels
+   and table headers get the display face; everything else (names,
+   paragraphs, table cells) inherits --font-body from body above. */
+h1, h2, h3, h4, h5,
+.tab-btn,
+.partido-titulo, .partido-meta-item, .partido-banda-nombre, .partido-banda-score,
+.partido-vs-equipo, .partido-vs-sep,
+.perfil-dorsal, .perfil-detalle,
+.insignia-label,
+.jugador-card-pos,
+.timeline-date,
+.records-subheading,
+.social-label,
+#loading-overlay p,
+thead th, table th {
+  font-family: var(--font-heading);
 }
 
 /* Loading overlay — shown while data.json is still fetching (see app.js:
