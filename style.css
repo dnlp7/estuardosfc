@@ -413,7 +413,13 @@ main.wide { max-width: 1400px; }
    auto-fill/minmax pattern as .partido-jugadores-grid below - at
    least 3 per row on a typical phone, more on wider screens, each
    card stretching to fill its column. */
-.insignias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 1rem; }
+/* Column floor is the larger of 80px (the mobile minimum from the
+   earlier grid fix) and 1/7th of the row (minus its share of the 6
+   gaps between 7 columns) - so on a wide desktop screen this floor
+   wins and caps the row at 7 badges, evenly filling the width
+   instead of the ~9-10 tiny badges auto-fill alone produced; on a
+   narrow phone the 80px floor wins instead, same as before. */
+.insignias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(max(80px, calc((100% - 6 * 1rem) / 7)), 1fr)); gap: 1rem; }
 .insignia-card {
   text-align: center;
   background: var(--grey-header);
@@ -1271,8 +1277,22 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 }
 #player-search { flex: 1; min-width: 140px; }
 
-.rank-cell { color: var(--white); font-weight: 700; }
-#leaderboard-table td:nth-child(2), #leaderboard-table td:nth-child(3) { font-weight: 700; color: var(--white); }
+/* Rank (#) is de-emphasized vs. the Dorsal/Jugador identity columns
+   below - lighter weight and a touch smaller so a 1-2 digit rank
+   number is never mistaken for the player's actual dorsal. */
+.rank-cell { color: var(--white); font-weight: 400; font-size: 0.8em; }
+/* Dorsal + Jugador bold - column numbers shift in BALANCE mode
+   (no rank column there, see the balance-mode comment above), so
+   this targets each mode's real dorsal/name columns separately
+   instead of a fixed 2/3 that silently bolded the GOL column
+   instead of the dorsal in BALANCE mode. */
+#leaderboard-table:not(.balance-mode) td:nth-child(2),
+#leaderboard-table:not(.balance-mode) td:nth-child(3),
+#leaderboard-table.balance-mode td:nth-child(1),
+#leaderboard-table.balance-mode td:nth-child(2) {
+  font-weight: 700;
+  color: var(--white);
+}
 
 .site-footer { text-align: center; color: var(--muted-alt); font-size: 0.8rem; padding: 1rem; }
 /* Social links — same row-of-icons + handle-label layout as the team's
