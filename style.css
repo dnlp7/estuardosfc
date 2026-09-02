@@ -497,8 +497,8 @@ main.wide { max-width: 1400px; }
 .partido-marcador { border-radius: 10px; overflow: hidden; margin-bottom: 1.75rem; }
 .partido-banda { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 1.25rem; color: var(--white); background: var(--grey-cell); }
 .partido-banda-local { background: var(--main); }
-.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.25rem; }
-.partido-banda-score { font-weight: 700; font-size: 1.65rem; min-width: 1.3em; }
+.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.4rem; }
+.partido-banda-score { font-weight: 700; font-size: 1.85rem; min-width: 1.3em; }
 /* Penales (Stage 7 extension) - the small "Penales: 2-3" line under
    Ultimo Partido's two score bands (margin-top pulls it up under the
    marcador's own margin-bottom), and the inline "(P 2-3)" annotation
