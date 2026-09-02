@@ -468,7 +468,11 @@ main.wide { max-width: 1400px; }
    Último Partido instead (flex: 1 1, no basis cap), which actually
    benefits from it (more lineup photos per row). */
 #ultimo-partido-card { flex: 1 1 480px; min-width: 0; }
-#proximo-partido-card { flex: 1 1 320px; max-width: 380px; min-width: 0; }
+/* Wraps Próximo Partido + the social block below it (Stage 9 -
+   see index.html) - carries the flex sizing/width cap that used to
+   sit directly on #proximo-partido-card, since that card is no
+   longer the only thing in this column. */
+.inicio-side { flex: 1 1 320px; max-width: 380px; min-width: 0; display: flex; flex-direction: column; gap: 2rem; }
 .partido-card {
   background: var(--grey-header);
   border: 1px solid var(--border);
@@ -1338,7 +1342,8 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
    color + the same size as the scoreboard team names; the handle
    matches that size too but in white and sentence case (not the
    uppercase treatment .social-label uses in the footer). */
-.inicio-social { text-align: center; margin-top: 2.5rem; }
+/* No longer needs its own top margin - .inicio-side's gap (see above) already spaces it from Próximo Partido. */
+.inicio-social { text-align: center; }
 .inicio-social-titulo { color: var(--accent-light); font-weight: 700; font-size: 1.4rem; margin: 0 0 1.1rem; }
 .inicio-social-links { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.1rem; }
 .inicio-social-links img { width: 32px; height: 32px; display: block; border-radius: 6px; }
