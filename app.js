@@ -2814,7 +2814,18 @@
 
   function setWideLayout(wide) {
     document.getElementById('leaderboard-wrap').classList.toggle('compact', !wide);
-    document.querySelector('main').classList.toggle('wide', wide);
+    // Only touch <main>'s wide class while Estadisticas is actually the
+    // active section. renderLeaderboard() also runs once at init(),
+    // before the user has ever navigated to Estadisticas -- unguarded,
+    // that unconditional toggle stomped on whatever section (Inicio,
+    // by default) activateSection_ had just correctly set <main> to,
+    // leaving the home page narrow until the next section switch
+    // resynced it. activateSection_/activateEstadisticasTab_ already
+    // recompute the right value themselves on every real section/tab
+    // switch, so this guard only ever blocks the init-time stomp.
+    if (document.body.dataset.section === 'estadisticas') {
+      document.querySelector('main').classList.toggle('wide', wide);
+    }
   }
 
   function showLeaderboardTable() {
