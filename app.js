@@ -1471,18 +1471,29 @@
         // score bands right there already say the matchup.
         var torneo = torneoForEra_(era);
         var encabezado = (torneo ? torneo + ' / ' : '') + m.jornada;
+        // Fecha/Hora/Cancha stacked one per row (plenty of vertical room
+        // in this narrower card, no need to bunch them side by side), the
+        // date spelled out in full ("Agosto 23, 2026") and the time given
+        // a real AM/PM suffix -- both distinct from formatFechaCorta_/raw
+        // m.hora, which stay as-is everywhere else (Resultados table etc.)
+        // that still wants the compact form.
         var datosHtml = '<div class="partido-card partido-datos-card">' +
           '<h3 class="partido-datos-header">' + esc(encabezado) + '</h3>' +
           '<div class="partido-datos-row">' +
-            '<div class="partido-dato"><span class="partido-dato-titulo">Fecha</span><span class="partido-dato-valor">' + (m.fecha ? esc(formatFechaCorta_(m.fecha)) : '—') + '</span></div>' +
-            '<div class="partido-dato"><span class="partido-dato-titulo">Hora</span><span class="partido-dato-valor">' + (m.hora ? esc(m.hora) : '—') + '</span></div>' +
+            '<div class="partido-dato"><span class="partido-dato-titulo">Fecha</span><span class="partido-dato-valor">' + (m.fecha ? esc(formatFechaLarga_(m.fecha)) : '—') + '</span></div>' +
+            '<div class="partido-dato"><span class="partido-dato-titulo">Hora</span><span class="partido-dato-valor">' + (m.hora ? esc(formatHoraAmPm_(m.hora)) : '—') + '</span></div>' +
             '<div class="partido-dato"><span class="partido-dato-titulo">Cancha</span><span class="partido-dato-valor">' + (m.cancha ? esc(m.cancha) : '—') + '</span></div>' +
           '</div>' +
         '</div>';
+        // Marcador now lives INSIDE the left column next to the lineup
+        // grid, same as Ultimo Partido's own renderUltimoPartido_ -- so
+        // the colored bands only span the lineup-photos column's width,
+        // not the full card, and the cancha graphic on the right starts
+        // at the same top instead of being pushed down below a full-
+        // width band.
         var marcadorCardHtml = '<div class="partido-card partido-marcador-card">' +
-          partidoMarcadorHtml_(m) +
           '<div class="partido-columnas">' +
-            '<div class="partido-col">' + columnas.colIzquierda + '</div>' +
+            '<div class="partido-col">' + partidoMarcadorHtml_(m) + columnas.colIzquierda + '</div>' +
             '<div class="partido-col partido-col-cancha">' + columnas.colDerecha + '</div>' +
           '</div>' +
         '</div>';
@@ -2575,6 +2586,43 @@
     var mes = MESES_ES_[Number(m[2]) - 1];
     if (!mes) return iso;
     return m[3] + '/' + mes + '/' + m[1].slice(2);
+  }
+
+  var MESES_LARGOS_ES_ = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+  /** Match-sheet-only long date format ("2026-08-23" -> "Agosto 23, 2026"),
+   * distinct from formatFechaCorta_ above (Resultados table etc. keep the
+   * compact form). Falls back to the raw value unchanged if it isn't in
+   * the expected shape. */
+  function formatFechaLarga_(iso) {
+    var m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return iso;
+    var mes = MESES_LARGOS_ES_[Number(m[2]) - 1];
+    if (!mes) return iso;
+    return mes + ' ' + Number(m[3]) + ', ' + m[1];
+  }
+
+  /** Appends an AM/PM suffix to a raw "H:MM" hora value for the match-
+   * sheet's Hora field. The sheet's own displayed hora has no meridiem
+   * marker at all (see readMatchLog_'s getDisplayValue() comment in
+   * dashboard_export.gs), and Cargar Partido's own guardrail keeps every
+   * match between 8:00 and 14:00 -- so an hour of 1 or 2 (whether the raw
+   * text is a bare "1:00"/"2:00" or an unmarked 24-hour "13:00"/"14:00")
+   * can only ever mean 1 PM / 2 PM here; there is no legitimate 1 AM or
+   * 2 AM game. Falls back to the raw value unchanged if it isn't in the
+   * expected shape. */
+  function formatHoraAmPm_(hora) {
+    var m = String(hora || '').match(/^(\d{1,2}):(\d{2})/);
+    if (!m) return hora;
+    var h = Number(m[1]);
+    var min = m[2];
+    var suffix;
+    if (h === 0) { h = 12; suffix = 'AM'; }
+    else if (h === 12) { suffix = 'PM'; }
+    else if (h > 12) { h -= 12; suffix = 'PM'; }
+    else if (h <= 2) { suffix = 'PM'; }
+    else { suffix = 'AM'; }
+    return h + ':' + min + ' ' + suffix;
   }
 
   // ---------------- Historial (leaderboards) ----------------

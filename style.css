@@ -729,8 +729,11 @@ main.wide { max-width: 1400px; }
   color: var(--accent-light);
   font-size: 1.05rem;
 }
-.partido-datos-row { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-.partido-dato { display: flex; flex-direction: column; gap: 0.35rem; text-align: center; flex: 1 1 0; min-width: 80px; }
+/* Stacked one per row (Daniel's call - plenty of vertical room here),
+   left-aligned rather than the centered/side-by-side layout this
+   started with. */
+.partido-datos-row { display: flex; flex-direction: column; gap: 1.5rem; }
+.partido-dato { display: flex; flex-direction: column; gap: 0.35rem; text-align: left; }
 .partido-dato-titulo { color: var(--muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
 .partido-dato-valor { color: var(--white); font-size: 1.1rem; font-weight: 700; }
 @media (max-width: 640px) {
