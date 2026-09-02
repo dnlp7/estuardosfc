@@ -1182,6 +1182,10 @@
     // profile already scrolled halfway down, since the browser just
     // keeps whatever scroll position it already had.
     window.scrollTo(0, 0);
+    // Read by style.css to hide the footer's own social-links row
+    // specifically on Inicio, which has its own inline social block
+    // now (Stage 9) - see body[data-section="inicio"] there.
+    document.body.dataset.section = name;
     document.querySelectorAll('.main-tab-btn').forEach(function (b) {
       b.classList.toggle('active', b.dataset.section === name);
     });

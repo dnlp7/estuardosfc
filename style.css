@@ -1325,6 +1325,24 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
 }
 
 .site-footer { text-align: center; color: var(--muted-alt); font-size: 0.8rem; padding: 1rem; }
+/* Inicio has its own social block inline in the page (see below) -
+   the footer's copy of the same links would just be a duplicate
+   directly beneath it, so it's hidden specifically on that section.
+   activateSection_ (app.js) sets body[data-section] on every nav. The
+   footer's "Actualizado" timestamp line is unaffected - still shows
+   on every section, Inicio included. */
+body[data-section="inicio"] .site-footer .social-links { display: none; }
+
+/* Inicio-only social block (Stage 9) - plain background (no card),
+   sits below the Último/Próximo Partido cards. Title uses the accent
+   color + the same size as the scoreboard team names; the handle
+   matches that size too but in white and sentence case (not the
+   uppercase treatment .social-label uses in the footer). */
+.inicio-social { text-align: center; margin-top: 2.5rem; }
+.inicio-social-titulo { color: var(--accent-light); font-weight: 700; font-size: 1.4rem; margin: 0 0 1.1rem; }
+.inicio-social-links { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.1rem; }
+.inicio-social-links img { width: 32px; height: 32px; display: block; border-radius: 6px; }
+.inicio-social-handle { color: var(--white); font-weight: 700; font-size: 1.4rem; margin: 0; }
 /* Social links — same row-of-icons + handle-label layout as the team's
    own social media graphics. Icons are already self-contained square
    assets (solid teal background, no transparency needed), so there's
