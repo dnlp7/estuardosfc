@@ -313,6 +313,9 @@ main.wide { max-width: 1400px; }
   color: var(--muted); font-size: 0.8rem; font-weight: 600; padding: 0.5rem; text-align: center;
 }
 @media (max-width: 640px) {
+  /* Inicio cards drop back to a stacked single column on phones -
+     the desktop side-by-side split above gets too tight otherwise. */
+  .inicio-grid { flex-direction: column; }
   .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
   .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; }
   /* 3 fixed columns (see .historia-cards) get too cramped on a narrow
@@ -443,14 +446,22 @@ main.wide { max-width: 1400px; }
 .insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
 .insignia-temporada { color: var(--muted); font-size: 0.75rem; }
 
-/* Inicio — Último Partido / Próximo Partido cards, stacked vertically
-   (Daniel's own call — was side by side, now one after the other so
-   neither card has to fight the other for width). Visual language
-   borrowed from the Estuardos social-media match graphics: an
-   uppercase letter-spaced title, an icon+label meta row (trophy/
-   calendar/clock/pin), and — for Último Partido — full-width colored
-   scoreboard bands instead of a plain "3 - 2" text pill. */
-.inicio-grid { display: flex; flex-direction: column; gap: 2rem; }
+/* Inicio — Último Partido / Próximo Partido cards. Side by side on
+   desktop again (Daniel's later call, reversing the note above) —
+   Próximo Partido has much less content than Último Partido (no
+   lineup grid, no scoreboard bands), so it gets a narrower share of
+   the row instead of an even 50/50 split; align-items: flex-start so
+   the shorter Próximo card doesn't stretch to match Último's height.
+   Drops back to a single stacked column on narrow screens (see the
+   640px media query below) so Próximo never has to fight Último for
+   width on a phone. Visual language borrowed from the Estuardos
+   social-media match graphics: an uppercase letter-spaced title, an
+   icon+label meta row (trophy/calendar/clock/pin), and — for Último
+   Partido — full-width colored scoreboard bands instead of a plain
+   "3 - 2" text pill. */
+.inicio-grid { display: flex; align-items: flex-start; gap: 2rem; }
+#ultimo-partido-card { flex: 1.7 1 0; min-width: 0; }
+#proximo-partido-card { flex: 1 1 0; min-width: 0; }
 .partido-card {
   background: var(--grey-header);
   border: 1px solid var(--border);
@@ -463,10 +474,10 @@ main.wide { max-width: 1400px; }
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--accent-light);
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
-.partido-meta-row { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-.partido-meta-item { display: flex; align-items: center; gap: 0.4rem; color: var(--white); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; }
+.partido-meta-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.partido-meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--white); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; }
 .partido-meta-item svg { width: 16px; height: 16px; color: var(--accent-light); flex-shrink: 0; }
 
 /* Último Partido's scoreboard — two full-width bands, score grouped
@@ -477,10 +488,10 @@ main.wide { max-width: 1400px; }
    read off RES's Rival cell, falling back to the plain grey card
    background if that rival isn't colored yet. */
 .partido-marcador { border-radius: 10px; overflow: hidden; margin-bottom: 1.75rem; }
-.partido-banda { display: flex; align-items: center; gap: 1.25rem; padding: 0.85rem 1.5rem; color: var(--white); background: var(--grey-cell); }
+.partido-banda { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 1.25rem; color: var(--white); background: var(--grey-cell); }
 .partido-banda-local { background: var(--main); }
-.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.5rem; }
-.partido-banda-score { font-weight: 700; font-size: 2rem; min-width: 1.4em; }
+.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.25rem; }
+.partido-banda-score { font-weight: 700; font-size: 1.65rem; min-width: 1.3em; }
 /* Penales (Stage 7 extension) - the small "Penales: 2-3" line under
    Ultimo Partido's two score bands (margin-top pulls it up under the
    marcador's own margin-bottom), and the inline "(P 2-3)" annotation
@@ -493,8 +504,8 @@ main.wide { max-width: 1400px; }
    no score yet, so no colored bands; the rival's kit color (if set)
    shows as a pill behind their name instead. */
 .partido-vs { text-align: center; margin-bottom: 0.5rem; }
-.partido-vs-equipo { display: block; font-weight: 700; text-transform: uppercase; font-size: 1.6rem; letter-spacing: 0.02em; color: var(--white); }
-.partido-vs-sep { display: block; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem; margin: 0.5rem 0; }
+.partido-vs-equipo { display: block; font-weight: 700; text-transform: uppercase; font-size: 1.3rem; letter-spacing: 0.02em; color: var(--white); }
+.partido-vs-sep { display: block; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.8rem; margin: 0.5rem 0; }
 .partido-vs-rival { display: inline-block; padding: 0.15rem 0.9rem; border-radius: 999px; background: var(--grey-cell); }
 
 /* Below the scoreboard: left half the lineup (Titulares/Suplentes card
