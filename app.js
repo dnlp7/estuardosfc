@@ -39,7 +39,10 @@
     perfilPlayerId: null,     // whichever player's profile is currently rendered — lets the stat selector re-render without playerId being passed back in
     perfilNombre: null,       // same player's Nombre — kept alongside playerId as a fallback for a stats row that hasn't been through a full historical-doc rebuild since PlayerID was added yet (see statRowForPlayer_)
     perfilStat: 'BALANCE',    // Perfil page's own BALANCE/GOL/AST/PA/PI selector — independent of "stat" above (the Individuales tab's own selector)
-    perfilOrigen: 'inicio'    // which section to return to on Volver — set in irAPerfil_ from whichever section-panel was active right before navigating to a profile; defaults to inicio for a direct #jugador/<id> deep link with no prior in-app navigation
+    perfilOrigen: 'inicio',   // which section to return to on Volver — set in irAPerfil_ from whichever section-panel was active right before navigating to a profile; defaults to inicio for a direct #jugador/<id> deep link with no prior in-app navigation
+    partidoOrigen: 'inicio',  // same idea as perfilOrigen, for the standalone match-sheet page (Stage 9) — set in irAPartido_
+    partidoAnterior: null,    // {era, jornada} of the previous match in full chronological order, or null — set by renderPartido_, read by setupPartido_'s Anterior button
+    partidoSiguiente: null    // same, for the next match
   };
 
   // ---------------- Color scales ----------------
@@ -427,6 +430,8 @@
     renderRecordsLeaders_();
     setupPerfil();
     setupJugadorLinks_();
+    setupPartido_();
+    setupPartidoLinks_();
     hydrateStatRangeIcons_();
     setupStatRangeIcons_();
   }
@@ -631,6 +636,25 @@
     if (fecha) items.push(partidoMetaItemHtml_(ICON_CALENDARIO_, formatFechaCorta_(fecha)));
     if (hora) items.push(partidoMetaItemHtml_(ICON_RELOJ_, hora));
     if (cancha) items.push(partidoMetaItemHtml_(ICON_PIN_, 'Cancha ' + cancha));
+    return '<div class="partido-meta-row">' + items.join('') + '</div>';
+  }
+
+  /** Same meta row as partidoMetaHtml_, for the standalone match-sheet
+   * page (Stage 9) — there every piece is guaranteed present (today's
+   * own match), but an arbitrary older match sheet can have real holes
+   * in its RES record. Fecha/Hora/Cancha each show a literal em-dash
+   * "—" instead of being silently omitted when blank, per Daniel's own
+   * call — makes clear the field is genuinely missing rather than the
+   * row just being shorter than usual. Torneo/Jornada is never blank
+   * (every played match has one), so that piece keeps
+   * partidoMetaHtml_'s omit-if-blank behavior. */
+  function partidoMetaHtmlCompleto_(era, jornada, fecha, hora, cancha) {
+    var torneo = torneoForEra_(era);
+    var items = [];
+    if (torneo || jornada) items.push(partidoMetaItemHtml_(ICON_TROFEO_, (torneo ? torneo + ' / ' : '') + jornada));
+    items.push(partidoMetaItemHtml_(ICON_CALENDARIO_, fecha ? formatFechaCorta_(fecha) : '—'));
+    items.push(partidoMetaItemHtml_(ICON_RELOJ_, hora || '—'));
+    items.push(partidoMetaItemHtml_(ICON_PIN_, cancha ? ('Cancha ' + cancha) : '—'));
     return '<div class="partido-meta-row">' + items.join('') + '</div>';
   }
 
@@ -861,93 +885,88 @@
   var CANCHA_MARKER_SIZE_ = 68;
   var CANCHA_MARKER_RX_ = 18;
   function canchaSvgHtml_(lineup, era) {
-    if (!lineup || !lineup.jugadores || !lineup.jugadores.length) return '';
-    var groups = {};
-    lineup.jugadores.forEach(function (j) {
-      if (!groups[j.posicion]) groups[j.posicion] = [];
-      groups[j.posicion].push(j);
-    });
-    Object.keys(groups).forEach(function (role) {
-      groups[role].sort(function (a, b) {
-        var sa = String(a.slot).replace(role, '').trim();
-        var sb = String(b.slot).replace(role, '').trim();
-        var ia = CANCHA_SLOT_SUFFIX_ORDER_.indexOf(sa); if (ia < 0) ia = 1;
-        var ib = CANCHA_SLOT_SUFFIX_ORDER_.indexOf(sb); if (ib < 0) ib = 1;
-        return ia - ib;
+    // Stage 9: always renders the bare pitch image, even with no real
+    // lineup (a match-sheet tier B/C match) — only the player markers
+    // are conditional on a real lineup. Callers that used to rely on
+    // this returning '' entirely for "no lineup" (skipping the whole
+    // column) now get an empty-but-visible pitch instead, which is the
+    // desired look for those tiers (see partidoColumnasHtml_).
+    var markers = '';
+    if (lineup && lineup.jugadores && lineup.jugadores.length) {
+      var groups = {};
+      lineup.jugadores.forEach(function (j) {
+        if (!groups[j.posicion]) groups[j.posicion] = [];
+        groups[j.posicion].push(j);
       });
-    });
-    var half = CANCHA_MARKER_SIZE_ / 2;
-    var markers = Object.keys(groups).map(function (role) {
-      var yFrac = CANCHA_ROLE_Y_FRAC_[role];
-      if (yFrac === undefined) return '';
-      var baseY = yFrac * CANCHA_IMG_H_;
-      var row = groups[role];
-      var n = row.length;
-      var suffixOf = function (j) { return String(j.slot).replace(role, '').trim(); };
-      var suffixes = row.map(suffixOf);
-      var staggered = suffixes.indexOf('I') !== -1 && suffixes.indexOf('C') !== -1 && suffixes.indexOf('D') !== -1;
-      return row.map(function (j, i) {
-        var spread = CANCHA_ROW_SPREAD_[n] !== undefined ? CANCHA_ROW_SPREAD_[n] : CANCHA_ROW_SPREAD_[3];
-        var x = CANCHA_IMG_W_ / 2 + (n > 1 ? (i - (n - 1) / 2) * (2 * spread / (n - 1)) : 0);
-        var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
-        var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
-        var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
-        var claseExtra = role === 'POR' ? ' cancha-jugador-por' : '';
-        return '<g class="cancha-jugador' + claseExtra + '"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"' + (role === 'POR' ? ' style="fill:' + COLORS.portero + '"' : '') + '/>' +
-          '<text x="' + x + '" y="' + y + '" dy="0.36em">' + esc(etiqueta) + '</text></g>';
+      Object.keys(groups).forEach(function (role) {
+        groups[role].sort(function (a, b) {
+          var sa = String(a.slot).replace(role, '').trim();
+          var sb = String(b.slot).replace(role, '').trim();
+          var ia = CANCHA_SLOT_SUFFIX_ORDER_.indexOf(sa); if (ia < 0) ia = 1;
+          var ib = CANCHA_SLOT_SUFFIX_ORDER_.indexOf(sb); if (ib < 0) ib = 1;
+          return ia - ib;
+        });
+      });
+      var half = CANCHA_MARKER_SIZE_ / 2;
+      markers = Object.keys(groups).map(function (role) {
+        var yFrac = CANCHA_ROLE_Y_FRAC_[role];
+        if (yFrac === undefined) return '';
+        var baseY = yFrac * CANCHA_IMG_H_;
+        var row = groups[role];
+        var n = row.length;
+        var suffixOf = function (j) { return String(j.slot).replace(role, '').trim(); };
+        var suffixes = row.map(suffixOf);
+        var staggered = suffixes.indexOf('I') !== -1 && suffixes.indexOf('C') !== -1 && suffixes.indexOf('D') !== -1;
+        return row.map(function (j, i) {
+          var spread = CANCHA_ROW_SPREAD_[n] !== undefined ? CANCHA_ROW_SPREAD_[n] : CANCHA_ROW_SPREAD_[3];
+          var x = CANCHA_IMG_W_ / 2 + (n > 1 ? (i - (n - 1) / 2) * (2 * spread / (n - 1)) : 0);
+          var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
+          var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
+          var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
+          var claseExtra = role === 'POR' ? ' cancha-jugador-por' : '';
+          return '<g class="cancha-jugador' + claseExtra + '"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"' + (role === 'POR' ? ' style="fill:' + COLORS.portero + '"' : '') + '/>' +
+            '<text x="' + x + '" y="' + y + '" dy="0.36em">' + esc(etiqueta) + '</text></g>';
+        }).join('');
       }).join('');
-    }).join('');
+    }
     return '<svg class="cancha-svg" viewBox="0 0 ' + CANCHA_IMG_W_ + ' ' + CANCHA_IMG_H_ + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Formación inicial">' +
       '<image href="images/partidos/cancha-lineas2.png" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '"/>' +
       markers +
       '</svg>';
   }
 
-  /** Último Partido — the last (chronologically) match in
-   * currentSeason.matches, which is now guaranteed PLAYED-only (see
-   * readMatchLog_'s GF-based split, dashboard_export.gs) — no separate
-   * "is this really played" check needed here. Individual stats are
-   * pulled from data.detail via detailColumnIndex_'s jornada join; any
-   * stat that doesn't resolve (e.g. AST detail missing) is just
-   * silently omitted from the card rather than blocking the rest of
-   * it. Below the scoreboard, the card splits into two halves — left
-   * the lineup (Titulares sorted by position then dorsal, Suplentes by
-   * dorsal), right the scoring info (Goles/Asistencias as plain
-   * comma-separated text lists) — per Daniel's own layout call.
-   *
-   * Default-win handling: a match with genuinely no PI data at all
-   * (zero titulares AND zero suplentes — "There won't be any starting
-   * positions", per Daniel) is a win-by-default/walkover, not a real
-   * played match. In that case the left column becomes "Asistentes"
-   * (every player logged in PA for this match, dorsal ascending, no
-   * position pill — there isn't one) instead of Titulares/Suplentes,
-   * and Goles shows the fixed text "[Triunfo por default]" instead of
-   * the usual scorer breakdown (a walkover's GF isn't really "someone's
-   * goals"). Asistencias is untouched either way — it's simply empty
-   * (and omitted) for a walkover, same as any match with no assists. */
-  function renderUltimoPartido_() {
-    var data = state.data;
-    var card = document.getElementById('ultimo-partido-card');
-    if (!card || !data || !data.currentSeason) return;
-
-    var matches = data.currentSeason.matches || [];
-    if (!matches.length) {
-      card.innerHTML = '<h3 class="partido-titulo">Último Partido</h3><p class="placeholder-text">Aún no se ha jugado ningún partido esta temporada.</p>';
-      return;
-    }
-    var m = matches[matches.length - 1];
-    var detail = data.detail || {};
-
+  /** Builds the two match-card columns (lineup/photos + field diagram)
+   * shared by Último Partido and the standalone match-sheet page (Stage
+   * 9) — a per-match data-availability tiering, since a match sheet can
+   * reach any era, several of which never tracked PI or even PA at all:
+   *   - PI present (real titulares/suplentes for this match) -> the
+   *     normal Titulares/Suplentes grids, position pills, full lineup
+   *     drawn on the field.
+   *   - No PI but PA present -> every asistente shown as one ungrouped
+   *     grid (no starters/subs split, no position pills); field shown
+   *     empty (canchaSvgHtml_ degrades to a bare pitch with no
+   *     markers). Covers both a real per-match "triunfo/derrota por
+   *     default" (m.lineup.formacion TPD/DPD, own message like
+   *     alineacionesHtml_'s) and, generically, any other PI-less match.
+   *   - Neither PA nor PI present -> only the scorers (GOL) shown as
+   *     photos, no position pills, field empty. Covers the 3 legacy-
+   *     only eras (2017/18–2019), which never tracked PA/PI at all.
+   *   - Not even GOL -> no players at all, a "(Sin datos)" placeholder
+   *     (should be rare to never in practice — GOL is the one stat
+   *     every tracked era has — kept as a defensive fallback).
+   * `detail` is {GOL, AST, PA, PI}, whichever blocks this era actually
+   * has (see buildPartidoDetalle_/allEraStatDetail_). Returns
+   * {colIzquierda, colDerecha}. */
+  function partidoColumnasHtml_(m, era, detail) {
     var goleadores = detailScorersAt_(detail.GOL, detailColumnIndex_(detail.GOL, m.jornada));
     var asistencias = detailScorersAt_(detail.AST, detailColumnIndex_(detail.AST, m.jornada));
     var presentesPI = detailPresentAt_(detail.PI, detailColumnIndex_(detail.PI, m.jornada));
+    var presentesPA = detailPresentAt_(detail.PA, detailColumnIndex_(detail.PA, m.jornada));
 
     // Goal/assist counts and captaincy, keyed by playerId (falling back
     // to nombre for a row with no Jugadores match — [Default]/
-    // [Autogoles] utility rows, or a bracketed guest name) — looked up
-    // per card below instead of threading through detailScorersAt_'s
-    // own row shape. Captaincy comes from this match's own TxJ lineup
-    // (m.lineup, already resolved by dashboard_export.gs) since PI's
+    // [Autogoles] utility rows, or a bracketed guest name). Captaincy
+    // comes from this match's own TxJ lineup (m.lineup) since PI's
     // detail rows have no concept of it.
     function statKey_(p) { return p.playerId || p.nombre; }
     var golesPorJugador = {};
@@ -958,6 +977,14 @@
     (m.lineup && m.lineup.jugadores || []).forEach(function (j) {
       if (j.capitan) capitanesPorJugador[j.playerId || j.nombre] = true;
     });
+
+    function conStats_(p, posicion) {
+      var key = statKey_(p);
+      return {
+        nombre: p.nombre, dorsal: p.dorsal, posicion: posicion, playerId: p.playerId,
+        capitan: !!capitanesPorJugador[key], goles: golesPorJugador[key], asistencias: asistPorJugador[key]
+      };
+    }
 
     var titulares = presentesPI.filter(function (p) {
       return POSICION_ORDER_.indexOf(String(p.valor).trim().toUpperCase()) !== -1;
@@ -971,30 +998,69 @@
       return String(p.valor).trim().toUpperCase() === 'SUP';
     }).sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
 
-    var victoriaPorDefault = !titulares.length && !suplentes.length;
-
-    function conStats_(p, posicion) {
-      var key = statKey_(p);
-      return {
-        nombre: p.nombre, dorsal: p.dorsal, posicion: posicion, playerId: p.playerId,
-        capitan: !!capitanesPorJugador[key], goles: golesPorJugador[key], asistencias: asistPorJugador[key]
-      };
-    }
-
-    var colIzquierdaHtml, colDerechaHtml;
-    if (victoriaPorDefault) {
-      var asistentes = detailPresentAt_(detail.PA, detailColumnIndex_(detail.PA, m.jornada))
-        .sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
-      colIzquierdaHtml = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return conStats_(p, null); }));
-      colDerechaHtml = '<p class="detail-message">Triunfo por default.</p>';
-    } else {
+    var colIzquierda, colDerecha;
+    if (titulares.length || suplentes.length) {
+      // Tier A — full lineup.
       var titularesHtml = partidoJugadoresGridSinTituloHtml_(titulares.map(function (p) { return conStats_(p, String(p.valor).trim().toUpperCase()); }));
       var suplentesHtml = partidoJugadoresGridSinTituloHtml_(suplentes.map(function (p) { return conStats_(p, 'SUP'); }));
-      colIzquierdaHtml = titularesHtml +
+      colIzquierda = titularesHtml +
         (titularesHtml && suplentesHtml ? '<hr class="jugadores-divider">' : '') +
         suplentesHtml;
-      colDerechaHtml = canchaSvgHtml_(m.lineup, data.currentSeason.era);
+      colDerecha = canchaSvgHtml_(m.lineup, era);
+    } else if (presentesPA.length) {
+      // Tier B — no PI for this match: every asistente in one
+      // ungrouped grid, no position pills, field shown empty (unless
+      // this was a per-match default result, which gets its own
+      // message instead of an empty field — same TPD/DPD convention as
+      // alineacionesHtml_).
+      var asistentes = presentesPA.slice().sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
+      colIzquierda = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return conStats_(p, null); }));
+      var formacion = m.lineup && m.lineup.formacion;
+      colDerecha = formacion === 'TPD' ? '<p class="detail-message">Triunfo por default.</p>'
+        : formacion === 'DPD' ? '<p class="detail-message">Derrota por default.</p>'
+        : canchaSvgHtml_(null, era);
+    } else if (goleadores.length) {
+      // Tier C — no PA or PI tracked at all for this era/match: only
+      // the scorers, as photos, no position pills, field empty.
+      colIzquierda = partidoJugadoresGridHtml_('Goleadores', goleadores.map(function (p) { return conStats_(p, null); }));
+      colDerecha = canchaSvgHtml_(null, era);
+    } else {
+      // Tier D — not even GOL data for this match.
+      colIzquierda = '<p class="detail-message">(Sin datos)</p>';
+      colDerecha = '';
     }
+    return { colIzquierda: colIzquierda, colDerecha: colDerecha };
+  }
+
+  /** Último Partido — the last (chronologically) match in
+   * currentSeason.matches, which is now guaranteed PLAYED-only (see
+   * readMatchLog_'s GF-based split, dashboard_export.gs) — no separate
+   * "is this really played" check needed here. Individual stats are
+   * pulled from data.detail via detailColumnIndex_'s jornada join; any
+   * stat that doesn't resolve (e.g. AST detail missing) is just
+   * silently omitted from the card rather than blocking the rest of
+   * it. Below the scoreboard, the card splits into two halves — left
+   * the lineup/photos, right the field diagram — built by the shared
+   * partidoColumnasHtml_ (Stage 9), which also backs the standalone
+   * match-sheet page and handles the data-availability tiering (full
+   * lineup / PA-only / GOL-only / no data at all) generically for any
+   * era, not just the current season. */
+  function renderUltimoPartido_() {
+    var data = state.data;
+    var card = document.getElementById('ultimo-partido-card');
+    if (!card || !data || !data.currentSeason) return;
+
+    var matches = data.currentSeason.matches || [];
+    if (!matches.length) {
+      card.innerHTML = '<h3 class="partido-titulo">Último Partido</h3><p class="placeholder-text">Aún no se ha jugado ningún partido esta temporada.</p>';
+      return;
+    }
+    var m = matches[matches.length - 1];
+    var detail = data.detail || {};
+
+    var columnas = partidoColumnasHtml_(m, data.currentSeason.era, detail);
+    var colIzquierdaHtml = columnas.colIzquierda;
+    var colDerechaHtml = columnas.colDerecha;
 
     // Marcador + Penales line now live INSIDE the left column, next to
     // the lineup grids, instead of spanning the full card width above
@@ -1274,7 +1340,7 @@
     // section the same wider container the historial detail view and
     // the leaderboard tables use, rather than a bespoke max-width rule
     // just for this section.
-    document.querySelector('main').classList.toggle('wide', name === 'inicio' || (isEstadisticas && historialActive && state.detail));
+    document.querySelector('main').classList.toggle('wide', name === 'inicio' || name === 'partido' || (isEstadisticas && historialActive && state.detail));
     if (isEstadisticas) syncStickyOffsets_();
   }
 
@@ -1371,6 +1437,121 @@
     });
   }
 
+  /** Standalone match-sheet page (Stage 9) — reuses Último Partido's
+   * exact card design (partidoMetaHtmlCompleto_/partidoMarcadorHtml_/
+   * partidoColumnasHtml_) for ANY played match, reached via a
+   * Resultados table row, a Records match-mention (main tab or a
+   * player's own profile), or a direct shareable
+   * #partido/<era>/<jornada> URL. era+jornada together are this
+   * match's unique key (see allMatchesFlat_) — a match with no data at
+   * all is never linked to this page in the first place, since every
+   * matches[] array this site exposes is already played-only
+   * (readMatchLog_'s GF-based split), so there's no separate "unplayed
+   * match" case to guard against here. */
+  function renderPartido_(era, jornada) {
+    var content = document.getElementById('partido-content');
+    var anterior = document.getElementById('partido-anterior');
+    var siguiente = document.getElementById('partido-siguiente');
+    if (!content) return;
+    content.innerHTML = '<p class="detail-message">Cargando…</p>';
+    if (anterior) anterior.disabled = true;
+    if (siguiente) siguiente.disabled = true;
+    state.partidoAnterior = null;
+    state.partidoSiguiente = null;
+
+    fetchHistoryDetail()
+      .then(function (historyData) {
+        var matchesByEra = allEraMatches_(historyData);
+        var matches = matchesByEra[era] || [];
+        var m = matches.filter(function (mm) { return mm.jornada === jornada; })[0];
+        if (!m) {
+          content.innerHTML = '<p class="detail-message">Partido no encontrado.</p>';
+          return;
+        }
+        document.title = 'Estuardos FC — ' + formatEraLabel_(era) + ' ' + jornada + ' vs ' + rivalLabel_(m.rival);
+
+        var detail = buildPartidoDetalle_(era, historyData);
+        var columnas = partidoColumnasHtml_(m, era, detail);
+        content.innerHTML = '<h3 class="partido-titulo">Estuardos FC vs ' + esc(rivalLabel_(m.rival)) + '</h3>' +
+          partidoMetaHtmlCompleto_(era, m.jornada, m.fecha, m.hora, m.cancha) +
+          '<div class="partido-columnas">' +
+            '<div class="partido-col">' + partidoMarcadorHtml_(m) + columnas.colIzquierda + '</div>' +
+            '<div class="partido-col partido-col-cancha">' + columnas.colDerecha + '</div>' +
+          '</div>';
+
+        // Prev/Next flow freely across season boundaries — one flat
+        // chronological list across every era (allMatchesFlat_), not
+        // scoped to this one era, per Daniel's own call.
+        var flat = allMatchesFlat_(historyData);
+        var idx = -1;
+        for (var i = 0; i < flat.length; i++) {
+          if (flat[i].era === era && flat[i].jornada === jornada) { idx = i; break; }
+        }
+        state.partidoAnterior = idx > 0 ? flat[idx - 1] : null;
+        state.partidoSiguiente = (idx !== -1 && idx < flat.length - 1) ? flat[idx + 1] : null;
+        if (anterior) anterior.disabled = !state.partidoAnterior;
+        if (siguiente) siguiente.disabled = !state.partidoSiguiente;
+      })
+      .catch(function (err) {
+        content.innerHTML = '<p class="detail-message">No se pudo cargar el detalle histórico.</p>';
+        console.error(err);
+      });
+  }
+
+  // Shared by every way of reaching the match-sheet page — Resultados
+  // table rows, Records match-mentions (main tab and per-profile), and
+  // Prev/Next on the page itself. Same three-step pattern as
+  // irAPerfil_: remember the origin section (skipped when already on
+  // "partido", so Prev/Next and a jugador-link round trip from the
+  // sheet don't lose the ORIGINAL origin), set the shareable hash,
+  // render + activate immediately rather than waiting on hashchange.
+  function irAPartido_(era, jornada) {
+    var activePanel = document.querySelector('.section-panel.active');
+    var activeName = activePanel && activePanel.id.replace(/^section-/, '');
+    if (activeName && activeName !== 'partido') state.partidoOrigen = activeName;
+    location.hash = 'partido/' + encodeURIComponent(era) + '/' + encodeURIComponent(jornada);
+    renderPartido_(era, jornada);
+    activateSection_('partido');
+  }
+
+  // One global delegated listener for every clickable match mention on
+  // the site (Resultados table rows, Records entries, both tabs) —
+  // mirrors setupJugadorLinks_ below. data-partido="<era>::<jornada>"
+  // is only ever put on an element for a real played match, so this can
+  // never route to a match with no data.
+  function setupPartidoLinks_() {
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-partido]');
+      if (!el || !el.dataset.partido) return;
+      var parts = el.dataset.partido.split('::');
+      if (parts.length !== 2) return;
+      irAPartido_(parts[0], parts[1]);
+    });
+  }
+
+  function setupPartido_() {
+    var volver = document.getElementById('partido-volver');
+    if (volver) {
+      volver.addEventListener('click', function () {
+        var destino = state.partidoOrigen || 'inicio';
+        location.hash = destino;
+        activateSection_(destino);
+      });
+    }
+    var anterior = document.getElementById('partido-anterior');
+    if (anterior) {
+      anterior.addEventListener('click', function () {
+        if (state.partidoAnterior) irAPartido_(state.partidoAnterior.era, state.partidoAnterior.jornada);
+      });
+    }
+    var siguiente = document.getElementById('partido-siguiente');
+    if (siguiente) {
+      siguiente.addEventListener('click', function () {
+        if (state.partidoSiguiente) irAPartido_(state.partidoSiguiente.era, state.partidoSiguiente.jornada);
+      });
+    }
+  }
+
   function setupPerfil() {
     setupPerfilStatSelector_();
     wirePlantelGridClicks_('plantel-grid');
@@ -1413,6 +1594,12 @@
    * their own section switch directly rather than depending on this
    * firing. */
   function routeFromHash_() {
+    var mp = /^#partido\/([^/]+)\/(.+)$/.exec(location.hash);
+    if (mp) {
+      renderPartido_(decodeURIComponent(mp[1]), decodeURIComponent(mp[2]));
+      activateSection_('partido');
+      return;
+    }
     var m = /^#jugador\/(.+)$/.exec(location.hash);
     if (m) {
       renderPerfil(decodeURIComponent(m[1]));
@@ -1424,6 +1611,8 @@
       activateSection_(name);
     } else if (document.getElementById('section-perfil').classList.contains('active')) {
       activateSection_('jugadores');
+    } else if (document.getElementById('section-partido').classList.contains('active')) {
+      activateSection_(state.partidoOrigen || 'inicio');
     }
   }
 
@@ -1614,7 +1803,7 @@
       var matches = matchesByEra[b.era] || [];
       var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
       var label = match ? ('vs ' + rivalLabel_(match.rival) + ' (' + formatFechaCorta_(match.fecha) + ')') : column.partido;
-      return { era: b.era, matchLabel: label, _fecha: match && match.fecha };
+      return { era: b.era, jornada: match ? jornada : null, matchLabel: label, _fecha: match && match.fecha };
     });
     return { hasData: true, max: max, entries: sortRecordEntriesRecentFirst_(entries) };
   }
@@ -1676,10 +1865,10 @@
       .then(function (historyData) {
         if (state.perfilPlayerId !== playerId) return;
         renderPerfilRecordCard_('perfil-record-goles-partido', playerMatchRecord_(historyData, 'GOL', playerId, nombre), function (e) {
-          return esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel);
+          return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
         });
         renderPerfilRecordCard_('perfil-record-asistencias-partido', playerMatchRecord_(historyData, 'AST', playerId, nombre), function (e) {
-          return esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel);
+          return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
         });
       })
       .catch(function (err) {
@@ -2248,7 +2437,7 @@
         var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
         var marcador = esc(m.gf) + ' - ' + esc(m.gc) + penalesAnotacionHtml_(m);
 
-        return '<tr><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
+        return '<tr class="match-row-link" data-partido="' + esc(season.era) + '::' + esc(m.jornada) + '"><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
           '<td class="val-strong">' + marcador + '</td>' +
           '<td' + rivalStyle + '>' + esc(rivalLabel_(m.rival)) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td>' +
           '<td' + styleAttr_(horaColor) + '>' + esc(m.hora) + '</td><td' + styleAttr_(canchaColor) + '>' + esc(m.cancha) + '</td></tr>';
@@ -2753,6 +2942,35 @@
     return byEra;
   }
 
+  /** All 4 stat blocks (GOL/AST/PA/PI) for one era, whichever the era
+   * actually has (see allEraStatDetail_) — shape matches data.detail,
+   * consumed by partidoColumnasHtml_ for any era, not just the current
+   * one (Stage 9's standalone match-sheet page). */
+  function buildPartidoDetalle_(era, historyData) {
+    var detail = {};
+    ['GOL', 'AST', 'PA', 'PI'].forEach(function (stat) {
+      var byEra = allEraStatDetail_(historyData, stat);
+      if (byEra[era]) detail[stat] = byEra[era];
+    });
+    return detail;
+  }
+
+  /** Every played match across every era, in one flat, full
+   * chronological order (data.seasons is oldest-first) — lets Prev/
+   * Next on the match-sheet page (Stage 9) flow freely across a season
+   * boundary rather than stopping at the edges, per Daniel's own call.
+   * Each entry is just {era, jornada} — enough to re-look-up the real
+   * match via allEraMatches_ when needed. */
+  function allMatchesFlat_(historyData) {
+    var data = state.data;
+    var matchesByEra = allEraMatches_(historyData);
+    var flat = [];
+    (data.seasons || []).forEach(function (s) {
+      (matchesByEra[s.era] || []).forEach(function (m) { flat.push({ era: s.era, jornada: m.jornada }); });
+    });
+    return flat;
+  }
+
   /** Sorts a record card's tied entries most-recent-first. Every entry
    * carries its own `era`, matched against data.seasons' own chronological
    * (oldest-first) order to rank eras; entries whose real-world date is
@@ -2812,7 +3030,7 @@
         var matches = matchesByEra[b.era] || [];
         var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
         var label = match ? ('vs ' + rivalLabel_(match.rival) + ' (' + formatFechaCorta_(match.fecha) + ')') : column.partido;
-        return { nombre: b.nombre, playerId: b.playerId, era: b.era, valor: b.valor, matchLabel: label, _fecha: match && match.fecha };
+        return { nombre: b.nombre, playerId: b.playerId, era: b.era, valor: b.valor, matchLabel: label, jornada: match ? jornada : null, _fecha: match && match.fecha };
       }))
     };
   }
@@ -2859,7 +3077,7 @@
     return {
       max: max,
       entries: sortRecordEntriesRecentFirst_(best.map(function (b) {
-        return { era: b.era, matchLabel: 'vs ' + rivalLabel_(b.match.rival) + ' (' + formatFechaCorta_(b.match.fecha) + ')', _fecha: b.match.fecha };
+        return { era: b.era, jornada: b.match.jornada, matchLabel: 'vs ' + rivalLabel_(b.match.rival) + ' (' + formatFechaCorta_(b.match.fecha) + ')', _fecha: b.match.fecha };
       }))
     };
   }
@@ -2926,9 +3144,14 @@
       // that's the more recent of the two edges, and the one that
       // actually determines how far back the streak reaches from today.
       entries: sortRecordEntriesRecentFirst_(top.map(function (s) {
-        var startLabel = formatEraLabel_(s.start.era) + ' ' + s.start.match.jornada;
-        var endLabel = formatEraLabel_(s.end.era) + ' ' + s.end.match.jornada;
-        return { length: s.length, rangeLabel: s.start === s.end ? startLabel : (startLabel + ' → ' + endLabel), era: s.end.era, _fecha: s.end.match.fecha };
+        return {
+          length: s.length,
+          era: s.end.era,
+          _fecha: s.end.match.fecha,
+          start: { era: s.start.era, jornada: s.start.match.jornada },
+          end: { era: s.end.era, jornada: s.end.match.jornada },
+          single: s.start === s.end
+        };
       }))
     };
   }
@@ -2938,6 +3161,30 @@
   }
   function longestUnbeatenStreakRecord_(historyData) {
     return longestStreakRecord_(historyData, function (r) { return r !== 'p'; });
+  }
+
+  /** Wraps a game-level record entry's label in a clickable span that
+   * routes to that match's own sheet (Stage 9) — only when the entry
+   * actually resolved to a real match (e.get.jornada, set by
+   * mostStatInMatchRecord_/mostTeamGoalsInMatchRecord_/
+   * playerMatchRecord_ only when their RES join succeeded); falls back
+   * to the plain, unlinked label otherwise (e.g. the rare column whose
+   * jornada code doesn't match any RES row — see the Mane/RC2 bug). */
+  function partidoLinkSpanHtml_(e, label) {
+    if (!e.jornada) return label;
+    return '<span class="partido-link" data-partido="' + esc(e.era) + '::' + esc(e.jornada) + '">' + label + '</span>';
+  }
+
+  /** Same idea for a streak record's range label (longestStreakRecord_)
+   * — the start and end match each get their OWN clickable span (per
+   * Daniel's own call), rather than the whole range being one link. */
+  function streakRangeLinkHtml_(e) {
+    var startLabel = esc(formatEraLabel_(e.start.era) + ' ' + e.start.jornada);
+    var startLink = '<span class="partido-link" data-partido="' + esc(e.start.era) + '::' + esc(e.start.jornada) + '">' + startLabel + '</span>';
+    if (e.single) return startLink;
+    var endLabel = esc(formatEraLabel_(e.end.era) + ' ' + e.end.jornada);
+    var endLink = '<span class="partido-link" data-partido="' + esc(e.end.era) + '::' + esc(e.end.jornada) + '">' + endLabel + '</span>';
+    return startLink + ' → ' + endLink;
   }
 
   /** All 8 highlight cards — the team/season records and both streaks
@@ -2961,25 +3208,25 @@
     fetchHistoryDetail()
       .then(function (historyData) {
         renderRecordCard_('record-goles-partido', mostStatInMatchRecord_(historyData, 'GOL'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel) + '</span>';
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
         });
         renderRecordCard_('record-goles-temporada', mostStatInSeasonRecord_('GOL'), function (e) {
           return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-asistencias-partido', mostStatInMatchRecord_(historyData, 'AST'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel) + '</span>';
+          return esc(e.nombre) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
         });
         renderRecordCard_('record-asistencias-temporada', mostStatInSeasonRecord_('AST'), function (e) {
           return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-goles-partido-equipo', mostTeamGoalsInMatchRecord_(historyData), function (e) {
-          return esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel);
+          return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
         });
         renderRecordCard_('record-goles-temporada-equipo', mostTeamGoalsInSeasonRecord_(historyData), function (e) {
           return esc(formatEraLabel_(e.era));
         });
-        renderRecordCard_('record-racha', longestWinStreakRecord_(historyData), function (e) { return esc(e.rangeLabel); });
-        renderRecordCard_('record-invicto', longestUnbeatenStreakRecord_(historyData), function (e) { return esc(e.rangeLabel); });
+        renderRecordCard_('record-racha', longestWinStreakRecord_(historyData), streakRangeLinkHtml_);
+        renderRecordCard_('record-invicto', longestUnbeatenStreakRecord_(historyData), streakRangeLinkHtml_);
 
         msg.hidden = true;
         grid.hidden = false;

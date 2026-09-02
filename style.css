@@ -307,6 +307,22 @@ main.wide { max-width: 1400px; }
 .jugador-link { cursor: pointer; }
 .jugador-link:hover { opacity: 0.85; }
 
+/* Same "this links somewhere" affordance, for a match sheet (Stage 9) —
+   Resultados table rows (tr.match-row-link, gets the existing
+   tbody tr:hover background highlight for free, same reasoning as
+   .jugador-link above) and inline match mentions inside Records
+   entries (.partido-link — a dotted underline since those sit inside
+   plain text, unlike a whole row/card). Both wired by one shared
+   delegated click listener (setupPartidoLinks_, app.js). */
+.match-row-link { cursor: pointer; }
+.partido-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+.partido-link:hover { opacity: 0.85; }
+
 .plantel-card-placeholder {
   width: 100%; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
   display: flex; align-items: center; justify-content: center;
@@ -354,6 +370,33 @@ main.wide { max-width: 1400px; }
   padding: 0.5rem 1rem;
   cursor: pointer;
   margin-bottom: 1.5rem;
+}
+
+/* Match-sheet page (Stage 9) - Prev/Next sit alongside Volver, same
+   outline-button language, right-aligned on their own row so Volver
+   stays put on the left like every other page using .perfil-volver. */
+.partido-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin: -1.5rem 0 1.5rem;
+  flex-wrap: wrap;
+}
+.partido-nav-btn {
+  background: transparent;
+  border: 2px solid var(--white);
+  border-radius: 8px;
+  color: var(--white);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.partido-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (max-width: 640px) {
+  .partido-nav { justify-content: flex-start; margin-top: 0; }
 }
 .perfil-header {
   display: flex;
