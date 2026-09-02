@@ -460,8 +460,15 @@ main.wide { max-width: 1400px; }
    Partido — full-width colored scoreboard bands instead of a plain
    "3 - 2" text pill. */
 .inicio-grid { display: flex; align-items: flex-start; gap: 2rem; }
-#ultimo-partido-card { flex: 1.7 1 0; min-width: 0; }
-#proximo-partido-card { flex: 1 1 0; min-width: 0; }
+/* <main> goes wide for this section (see activateSection_ in app.js)
+   so the two cards get real room on a desktop screen instead of being
+   squeezed under the default 900px reading-width <main>. Próximo
+   Partido is capped with max-width, since its plain "vs" block never
+   needs to grow past a comfortable size - the extra width goes to
+   Último Partido instead (flex: 1 1, no basis cap), which actually
+   benefits from it (more lineup photos per row). */
+#ultimo-partido-card { flex: 1 1 480px; min-width: 0; }
+#proximo-partido-card { flex: 1 1 320px; max-width: 380px; min-width: 0; }
 .partido-card {
   background: var(--grey-header);
   border: 1px solid var(--border);

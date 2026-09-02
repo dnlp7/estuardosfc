@@ -1193,7 +1193,12 @@
     // Estadísticas while Individuales' detail view is on must not keep
     // <main> stretched on Jugadores/Perfil (or vice versa, coming back).
     var historialActive = document.querySelector('#estadisticas-subnav .tab-btn[data-tab="historial"]').classList.contains('active');
-    document.querySelector('main').classList.toggle('wide', isEstadisticas && historialActive && state.detail);
+    // Inicio's two side-by-side match cards (Stage 9) waste a lot of
+    // horizontal space under the default 900px <main> - give this
+    // section the same wider container the historial detail view and
+    // the leaderboard tables use, rather than a bespoke max-width rule
+    // just for this section.
+    document.querySelector('main').classList.toggle('wide', name === 'inicio' || (isEstadisticas && historialActive && state.detail));
     if (isEstadisticas) syncStickyOffsets_();
   }
 
