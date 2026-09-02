@@ -930,11 +930,17 @@
       colDerechaHtml = canchaSvgHtml_(m.lineup, data.currentSeason.era);
     }
 
+    // Marcador + Penales line now live INSIDE the left column, next to
+    // the lineup grids, instead of spanning the full card width above
+    // both columns (Daniel's call - the colored bands only ever had
+    // content sized to the left column's width anyway, so a full-width
+    // band just left a lot of empty space to its right - above the
+    // cancha graphic - that this way gets reclaimed: the cancha column
+    // now starts at the same top as the marcador instead of below it. */
     var html = '<h3 class="partido-titulo">Último Partido</h3>' +
       partidoMetaHtml_(data.currentSeason.era, m.jornada, m.fecha, m.hora, m.cancha) +
-      partidoMarcadorHtml_(m) +
       '<div class="partido-columnas">' +
-        '<div class="partido-col">' + colIzquierdaHtml + '</div>' +
+        '<div class="partido-col">' + partidoMarcadorHtml_(m) + colIzquierdaHtml + '</div>' +
         '<div class="partido-col partido-col-cancha">' + colDerechaHtml + '</div>' +
       '</div>' +
       '<a href="#estadisticas" class="partido-ver-todos" id="ultimo-partido-ver-todos">Ver todos los resultados →</a>';
