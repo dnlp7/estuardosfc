@@ -852,7 +852,64 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
   padding: 1rem 1.25rem;
 }
 .record-leader-col h4 { margin: 0 0 0.15rem; color: var(--accent-light); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; }
-.record-leader-range { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.75rem; }
+/* Era-range info icon (Stage 9) - replaces the old always-visible
+   .record-leader-range subtitle line site-wide. One small circled-i
+   button sitting right after a stat title's text, everywhere a stat
+   title appears (Lideres Historicos, Individuales' own #stat-title,
+   the Records tab's per-stat cards, Perfil's own Records section) -
+   see statRangeBtnHtml_/hydrateStatRangeIcons_ (app.js). Desktop
+   hover shows the popover via plain :hover, no JS needed; .open
+   (toggled by setupStatRangeIcons_'s delegated click handler) is the
+   tap-to-pin-open equivalent for touch, where :hover doesn't fire. */
+.stat-range-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  margin-left: 0.4em;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.stat-range-btn svg { width: 100%; height: 100%; display: block; }
+.stat-range-btn:hover, .stat-range-btn:focus-visible, .stat-range-btn.open { color: var(--accent-light); }
+.stat-range-popover {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.4rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: normal;
+  width: max-content;
+  max-width: 200px;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+  z-index: 20;
+}
+.stat-range-btn:hover .stat-range-popover,
+.stat-range-btn:focus-visible .stat-range-popover,
+.stat-range-btn.open .stat-range-popover {
+  opacity: 1;
+  visibility: visible;
+}
 .record-leader-row {
   display: flex;
   align-items: baseline;

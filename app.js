@@ -282,6 +282,67 @@
    * just this stat's subset) so a genuine gap is detected correctly
    * regardless of which eras this particular stat happens to skip. A
    * single-era run renders as just that era, not "X - X". */
+  /** One era-range info icon for a given stat (GOL/AST/PA/PI) - shows
+   * the same range text formatEraRanges_ already computes, but as a
+   * hover/tap popover instead of an always-visible subtitle, so it can
+   * sit right next to every stat title site-wide (Lideres Historicos,
+   * Individuales' own stat-title, the Records tab's per-stat cards,
+   * and the Perfil page's own Records section) without repeating the
+   * same line of text over and over. '' (nothing rendered) when the
+   * stat has no eras at all - there's no range to show. See
+   * setupStatRangeIcons_ for the click-to-pin-open behavior; :hover in
+   * style.css handles the desktop-mouse case for free. */
+  function statRangeBtnHtml_(stat) {
+    var block = state.data && state.data.stats && state.data.stats[stat];
+    var eras = block ? block.eras : [];
+    if (!eras || !eras.length) return '';
+    var rangeText = formatEraRanges_(eras);
+    return '<button type="button" class="stat-range-btn" aria-label="Rango de temporadas: ' + esc(rangeText) + '">' + ICON_INFO_ +
+      '<span class="stat-range-popover" role="tooltip">' + esc(rangeText) + '</span></button>';
+  }
+
+  /** Fills every static "<span class=\"stat-range-slot\" data-stat=
+   * \"GOL\">\"</span>" placeholder in the page (the Records tab's
+   * Individuales cards, the Perfil page's own Records section - both
+   * hand-written in index.html rather than JS-rendered) with its real
+   * icon+popover, once data.stats is available. Run once from init() -
+   * these slots are static markup, never re-rendered, so there's
+   * nothing to re-hydrate later. Dynamically-rendered titles (Lideres
+   * Historicos' h4s, Individuales' own #stat-title) build their icon
+   * inline instead, at the point they already construct their text. */
+  function hydrateStatRangeIcons_() {
+    document.querySelectorAll('.stat-range-slot').forEach(function (slot) {
+      slot.innerHTML = statRangeBtnHtml_(slot.dataset.stat);
+    });
+  }
+
+  /** One delegated click listener (same pattern as setupJugadorLinks_)
+   * for every .stat-range-btn on the page, present or future - handles
+   * the "tap to pin open on mobile" half of the hover/tap spec
+   * (:hover in style.css handles desktop for free). Clicking a
+   * .stat-range-btn toggles its own popover and closes any other one
+   * left open; clicking anywhere else just closes whatever's open. */
+  function setupStatRangeIcons_() {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('.stat-range-btn');
+      document.querySelectorAll('.stat-range-btn.open').forEach(function (b) {
+        if (b !== btn) b.classList.remove('open');
+      });
+      if (btn) {
+        e.stopPropagation();
+        btn.classList.toggle('open');
+      }
+    });
+  }
+
+  /** #stat-title's own content (Individuales tab) - the plain title
+   * text plus its era-range icon, skipped for BALANCE (an aggregate
+   * of all 4 stats, so it has no single range of its own to show).
+   * Shared by both call sites below so they can't drift apart. */
+  function statTitleHtml_(stat) {
+    return esc(STAT_TITLES[stat] || stat) + (stat === 'BALANCE' ? '' : statRangeBtnHtml_(stat));
+  }
+
   function formatEraRanges_(eras) {
     if (!eras || !eras.length) return '';
     // erasOrder (not `seasons`) — the FULL Torneos row order including
@@ -366,6 +427,8 @@
     renderRecordsLeaders_();
     setupPerfil();
     setupJugadorLinks_();
+    hydrateStatRangeIcons_();
+    setupStatRangeIcons_();
   }
 
   // ---------------- Historia ----------------
@@ -541,6 +604,9 @@
   var ICON_CALENDARIO_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
   var ICON_RELOJ_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>';
   var ICON_PIN_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+  // Stat-range info icon (Stage 9) - same stroke-icon language as the
+  // 4 meta-row icons above, just a plain circled "i".
+  var ICON_INFO_ = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 11.5h1v5h1"/></svg>';
 
   // Goal badge icon for Último Partido's player cards — Daniel's own
   // white soccer-ball asset (images/partidos/balon-icono.png, already
@@ -2330,7 +2396,7 @@
         document.querySelectorAll('#stat-selector .stat-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
         state.stat = btn.dataset.stat;
-        document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;
+        document.getElementById('stat-title').innerHTML = statTitleHtml_(state.stat);
         updateDetailToggleAvailability_();
         renderLeaderboard();
       });
@@ -2352,7 +2418,7 @@
       renderLeaderboard();
     });
 
-    document.getElementById('stat-title').textContent = STAT_TITLES[state.stat] || state.stat;
+    document.getElementById('stat-title').innerHTML = statTitleHtml_(state.stat);
     updateDetailToggleAvailability_();
     populateEraFilter(data);
     updateStatButtonAvailability_(data);
@@ -2637,16 +2703,11 @@
               '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
           }).join('')
         : '<p class="detail-message">Sin datos.</p>';
-      // Subtitle — the era range this stat actually covers (e.g. AST
-      // only exists from 2022/23 on), straight from block.eras (oldest
-      // first, same list the Individuales era dropdown uses) rather
-      // than hardcoding a range that would go stale as new seasons are
-      // added.
-      var eras = block ? block.eras : [];
-      var rangeHtml = eras.length
-        ? '<p class="record-leader-range">' + esc(formatEraRanges_(eras)) + '</p>'
-        : '';
-      return '<div class="record-leader-col"><h4>' + esc(STAT_TITLES[stat] || stat) + '</h4>' + rangeHtml + rowsHtml + '</div>';
+      // Era-range info icon (Stage 9) - replaces the old always-
+      // visible subtitle line with the same hover/tap icon every
+      // other stat title on the site now uses, instead of repeating
+      // the range as plain text in every one of these 4 cards.
+      return '<div class="record-leader-col"><h4>' + esc(STAT_TITLES[stat] || stat) + statRangeBtnHtml_(stat) + '</h4>' + rowsHtml + '</div>';
     }).join('');
   }
 
