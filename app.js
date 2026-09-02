@@ -1485,6 +1485,145 @@
     state.perfilStat = 'BALANCE';
     resetPerfilStatSelector_();
     renderPerfilStatsView_(playerId, nombre);
+    renderPerfilRecords_(playerId, nombre);
+  }
+
+  /** This player's own best single-season total for one stat (GOL/AST/
+   * PA/PI), plus every era tied at that max - same shape/tie-sorting
+   * as mostStatInSeasonRecord_ (team-wide leaders) but scoped to one
+   * player's own row via statRowForPlayer_ (the playerId-first, Nombre-
+   * fallback lookup already used everywhere else on this page, so two
+   * players sharing a Nombre never cross-attribute records either).
+   * hasData is false only when this player's row has no byEra entries
+   * AT ALL for this stat (the stat was never tracked for them, e.g. an
+   * AST record for someone who only ever played pre-2022/23) - a real
+   * 0 total is still hasData: true, so it renders as "0" and never
+   * "Sin datos" (Daniel's call). */
+  function playerSeasonRecord_(stat, playerId, nombre) {
+    var block = state.data.stats && state.data.stats[stat];
+    var row = statRowForPlayer_(block, playerId, nombre);
+    if (!row || !row.byEra || !Object.keys(row.byEra).length) return { hasData: false };
+    var max = 0, best = [];
+    Object.keys(row.byEra).forEach(function (era) {
+      var n = Number(row.byEra[era]);
+      if (isNaN(n)) return;
+      if (n > max) { max = n; best = []; }
+      if (n === max) best.push({ era: era });
+    });
+    return { hasData: true, max: max, entries: sortRecordEntriesRecentFirst_(best) };
+  }
+
+  /** This player's own best single-MATCH value for one stat (GOL/AST
+   * only - PA/PI have no meaningful "in one match" magnitude, see the
+   * caller). Same join logic as mostStatInMatchRecord_ (column ->
+   * jornada -> that era's own RES match, for the rival/fecha label),
+   * scoped to this one player's row per era via statRowForPlayer_. Same
+   * hasData convention as playerSeasonRecord_ above - gated on the
+   * SEASON block's byEra (not the match-level detail directly), since
+   * an era with no season total for this player has nothing to look up
+   * a match-level detail row against either. A player who does have
+   * hasData but never once posted a nonzero match value (max stays 0,
+   * entries stays empty) simply renders the bare "0" with no match
+   * list under it - see renderPerfilRecordCard_. */
+  function playerMatchRecord_(historyData, stat, playerId, nombre) {
+    var seasonRow = statRowForPlayer_(state.data.stats && state.data.stats[stat], playerId, nombre);
+    if (!seasonRow || !seasonRow.byEra || !Object.keys(seasonRow.byEra).length) return { hasData: false };
+    var detailByEra = allEraStatDetail_(historyData, stat);
+    var matchesByEra = allEraMatches_(historyData);
+    var max = 0, best = []; // [{era, columnIdx}]
+    Object.keys(detailByEra).forEach(function (era) {
+      var block = detailByEra[era];
+      var row = statRowForPlayer_(block, playerId, nombre);
+      if (!row) return;
+      (row.byMatch || []).forEach(function (v, idx) {
+        var n = Number(v);
+        if (!n || isNaN(n)) return;
+        if (n > max) { max = n; best = []; }
+        if (n === max) best.push({ era: era, columnIdx: idx });
+      });
+    });
+    var entries = best.map(function (b) {
+      var column = detailByEra[b.era].columns[b.columnIdx];
+      var jornada = String(column.partido || '').split(' ')[0];
+      var matches = matchesByEra[b.era] || [];
+      var match = matches.filter(function (m) { return m.jornada === jornada; })[0];
+      var label = match ? ('vs ' + rivalLabel_(match.rival) + ' (' + formatFechaCorta_(match.fecha) + ')') : column.partido;
+      return { era: b.era, matchLabel: label, _fecha: match && match.fecha };
+    });
+    return { hasData: true, max: max, entries: sortRecordEntriesRecentFirst_(entries) };
+  }
+
+  /** Fills one Perfil record card. Unlike the Récords tab's shared
+   * renderRecordCard_ (which treats a falsy max as "no data" - fine
+   * there, a team-wide record is never legitimately 0), this checks
+   * record.hasData explicitly so a real 0 total still prints "0"
+   * instead of being swallowed into "Sin datos" - the whole point of
+   * this section (Daniel's call, see the Stage 9 chat). No name in
+   * each tied entry (same style as the Récords tab's team-level cards,
+   * which also have no name to show) - it's already this player's own
+   * page. entries can be empty even with hasData: true (see
+   * playerMatchRecord_) - the bare value then renders alone. */
+  function renderPerfilRecordCard_(elId, record, entryHtml) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    if (!record.hasData) {
+      el.innerHTML = '<p class="detail-message">Sin datos.</p>';
+      return;
+    }
+    el.innerHTML = '<div class="record-highlight-value">' + esc(record.max) + '</div>' +
+      (record.entries && record.entries.length
+        ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')
+        : '');
+  }
+
+  /** Renders the whole per-player Récords section (see renderPerfil).
+   * Season-level cards (GOL/AST/PA/PI en una temporada) need only
+   * data.stats, already loaded - rendered synchronously so they're on
+   * screen immediately, same as the rest of the profile. The two
+   * match-level cards (Goles/Asistencias en un Partido) need the
+   * lazily-fetched historical match detail (same fetchHistoryDetail
+   * cache the Récords tab and BALANCE view use) - shown as "Cargando…"
+   * until that resolves. The state.perfilPlayerId guard on the fetch
+   * callback matters here: a quick Volver or a second profile click
+   * while this is still in flight must not paint a stale player's
+   * match records onto whichever profile is showing by the time it
+   * resolves. */
+  function renderPerfilRecords_(playerId, nombre) {
+    renderPerfilRecordCard_('perfil-record-goles-temporada', playerSeasonRecord_('GOL', playerId, nombre), function (e) {
+      return esc(formatEraLabel_(e.era));
+    });
+    renderPerfilRecordCard_('perfil-record-asistencias-temporada', playerSeasonRecord_('AST', playerId, nombre), function (e) {
+      return esc(formatEraLabel_(e.era));
+    });
+    renderPerfilRecordCard_('perfil-record-pa-temporada', playerSeasonRecord_('PA', playerId, nombre), function (e) {
+      return esc(formatEraLabel_(e.era));
+    });
+    renderPerfilRecordCard_('perfil-record-pi-temporada', playerSeasonRecord_('PI', playerId, nombre), function (e) {
+      return esc(formatEraLabel_(e.era));
+    });
+
+    ['perfil-record-goles-partido', 'perfil-record-asistencias-partido'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = '<p class="detail-message">Cargando…</p>';
+    });
+    fetchHistoryDetail()
+      .then(function (historyData) {
+        if (state.perfilPlayerId !== playerId) return;
+        renderPerfilRecordCard_('perfil-record-goles-partido', playerMatchRecord_(historyData, 'GOL', playerId, nombre), function (e) {
+          return esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel);
+        });
+        renderPerfilRecordCard_('perfil-record-asistencias-partido', playerMatchRecord_(historyData, 'AST', playerId, nombre), function (e) {
+          return esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel);
+        });
+      })
+      .catch(function (err) {
+        if (state.perfilPlayerId !== playerId) return;
+        console.error(err);
+        ['perfil-record-goles-partido', 'perfil-record-asistencias-partido'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.innerHTML = '<p class="detail-message">No se pudo cargar el detalle histórico.</p>';
+        });
+      });
   }
 
   /** Finds one player's own row inside a stats block (data.stats.<STAT>),

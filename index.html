@@ -342,6 +342,44 @@
       <div class="chart-wrap" id="perfil-stat-chart-wrap" hidden>
         <canvas id="perfil-stat-chart"></canvas>
       </div>
+
+      <!-- Per-player Récords (Stage 9) - same card language as the
+           Estadísticas > Récords tab (.record-card/.records-highlights-
+           grid/.records-subheading, style.css), just scoped to this one
+           player - no name under the number since it's already this
+           player's own page (Daniel's call). Filled by
+           renderPerfilRecords_ (app.js) on every profile load. -->
+      <h3>Récords</h3>
+      <h4 class="records-subheading">Partido</h4>
+      <div class="records-highlights-grid">
+        <div class="record-card">
+          <h5>Goles en un Partido</h5>
+          <div id="perfil-record-goles-partido"></div>
+        </div>
+        <div class="record-card">
+          <h5>Asistencias en un Partido</h5>
+          <div id="perfil-record-asistencias-partido"></div>
+        </div>
+      </div>
+      <h4 class="records-subheading">Temporada</h4>
+      <div class="records-highlights-grid">
+        <div class="record-card">
+          <h5>Goles en una Temporada</h5>
+          <div id="perfil-record-goles-temporada"></div>
+        </div>
+        <div class="record-card">
+          <h5>Asistencias en una Temporada</h5>
+          <div id="perfil-record-asistencias-temporada"></div>
+        </div>
+        <div class="record-card">
+          <h5>Partidos Asistidos en una Temporada</h5>
+          <div id="perfil-record-pa-temporada"></div>
+        </div>
+        <div class="record-card">
+          <h5>Partidos Iniciados en una Temporada</h5>
+          <div id="perfil-record-pi-temporada"></div>
+        </div>
+      </div>
     </section>
   </main>
 
