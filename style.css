@@ -1344,7 +1344,10 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
    uppercase treatment .social-label uses in the footer). */
 /* No longer needs its own top margin - .inicio-side's gap (see above) already spaces it from Próximo Partido. */
 .inicio-social { text-align: center; }
-.inicio-social-titulo { color: var(--accent-light); font-weight: 700; font-size: 1.4rem; margin: 0 0 1.1rem; }
+/* max-width + centered margin - narrows the wrap so it breaks into
+   two balanced lines instead of running the full column width
+   (Daniel's call). */
+.inicio-social-titulo { color: var(--accent-light); font-weight: 700; font-size: 1.4rem; margin: 0 auto 1.1rem; max-width: 260px; }
 .inicio-social-links { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.1rem; }
 .inicio-social-links img { width: 32px; height: 32px; display: block; border-radius: 6px; }
 .inicio-social-handle { color: var(--white); font-weight: 700; font-size: 1.4rem; margin: 0; }
