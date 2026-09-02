@@ -372,31 +372,37 @@ main.wide { max-width: 1400px; }
   margin-bottom: 1.5rem;
 }
 
-/* Match-sheet page (Stage 9) - Prev/Next sit alongside Volver, same
-   outline-button language, right-aligned on their own row so Volver
-   stays put on the left like every other page using .perfil-volver. */
-.partido-nav {
+/* Match-sheet page (Stage 9) - Volver and the Prev/Next arrows share
+   one row, Volver on the left, the two small triangle-only buttons on
+   the right (Daniel's own simplification - these used to be full
+   text buttons on their own row). */
+.partido-topbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 0.75rem;
-  margin: -1.5rem 0 1.5rem;
   flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
+.partido-topbar .perfil-volver { margin-bottom: 0; }
+.partido-nav { display: flex; gap: 0.5rem; }
 .partido-nav-btn {
   background: transparent;
   border: 2px solid var(--white);
   border-radius: 8px;
   color: var(--white);
-  font-size: 0.9rem;
-  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   cursor: pointer;
 }
 .partido-nav-btn:disabled {
   opacity: 0.35;
   cursor: default;
-}
-@media (max-width: 640px) {
-  .partido-nav { justify-content: flex-start; margin-top: 0; }
 }
 .perfil-header {
   display: flex;
@@ -553,7 +559,7 @@ main.wide { max-width: 1400px; }
    marcador's own margin-bottom), and the inline "(P 2-3)" annotation
    next to a marcador elsewhere (Resultados table, Alineaciones). Both
    only ever render for a match m.penales is truthy for. */
-.partido-marcador-penales { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: -1.25rem; margin-bottom: 1.25rem; }
+.partido-marcador-penales, .partido-marcador-default { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: -1.25rem; margin-bottom: 1.25rem; }
 .marcador-penales { color: var(--muted); font-weight: 400; font-size: 0.8em; }
 
 /* Próximo Partido's plain "ESTUARDOS FC / vs / RIVAL" centered block —
@@ -592,7 +598,7 @@ main.wide { max-width: 1400px; }
    row edge-to-edge instead of leaving wasted space when a lineup or
    photo row does not happen to fill an exact number of fixed-width
    cards. */
-.partido-jugadores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 0.75rem; }
+.partido-jugadores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem; }
 /* Replaces the old "Titulares"/"Suplentes" h4 headings (Daniel's
    call) - a plain thin rule between the two grids instead. Only
    rendered between them when both are non-empty (see app.js). */
@@ -707,6 +713,29 @@ main.wide { max-width: 1400px; }
    the pitch reads poorly cramped down to card-sized, so this column is
    allowed to grow past an even 50/50 split. */
 .partido-col-cancha { display: flex; justify-content: center; align-items: flex-start; flex: 0.9 1 260px; }
+
+/* Standalone match-sheet page (Stage 9 revision) - a home-page-style
+   two-column row: the compact game-data card on the left (narrower,
+   same width cap as .inicio-side), the score/lineup card on the right
+   (wider, same proportions as #ultimo-partido-card). */
+.partido-grid { display: flex; align-items: flex-start; gap: 2rem; }
+.partido-datos-card { flex: 1 1 320px; max-width: 380px; min-width: 0; }
+.partido-marcador-card { flex: 1 1 480px; min-width: 0; }
+.partido-datos-header {
+  margin: 0 0 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-light);
+  font-size: 1.05rem;
+}
+.partido-datos-row { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.partido-dato { display: flex; flex-direction: column; gap: 0.35rem; text-align: center; flex: 1 1 0; min-width: 80px; }
+.partido-dato-titulo { color: var(--muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.partido-dato-valor { color: var(--white); font-size: 1.1rem; font-weight: 700; }
+@media (max-width: 640px) {
+  .partido-grid { flex-direction: column; }
+}
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
    comment, app.js) — the SVG here just positions player markers over
    it at the right viewBox coordinates. Sized to fill essentially the

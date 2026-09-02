@@ -310,10 +310,12 @@
          match-mention (main tab or a player's profile), or a direct
          shareable #partido/<era>/<jornada> URL. -->
     <section id="section-partido" class="section-panel">
-      <button type="button" class="perfil-volver" id="partido-volver">&larr; Volver</button>
-      <div class="partido-nav">
-        <button type="button" class="partido-nav-btn" id="partido-anterior" disabled>&larr; Partido anterior</button>
-        <button type="button" class="partido-nav-btn" id="partido-siguiente" disabled>Partido siguiente &rarr;</button>
+      <div class="partido-topbar">
+        <button type="button" class="perfil-volver" id="partido-volver">&larr; Volver</button>
+        <div class="partido-nav">
+          <button type="button" class="partido-nav-btn" id="partido-anterior" disabled aria-label="Partido anterior">&#9664;</button>
+          <button type="button" class="partido-nav-btn" id="partido-siguiente" disabled aria-label="Partido siguiente">&#9654;</button>
+        </div>
       </div>
       <div id="partido-content"></div>
     </section>

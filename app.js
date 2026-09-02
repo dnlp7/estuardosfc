@@ -639,25 +639,6 @@
     return '<div class="partido-meta-row">' + items.join('') + '</div>';
   }
 
-  /** Same meta row as partidoMetaHtml_, for the standalone match-sheet
-   * page (Stage 9) — there every piece is guaranteed present (today's
-   * own match), but an arbitrary older match sheet can have real holes
-   * in its RES record. Fecha/Hora/Cancha each show a literal em-dash
-   * "—" instead of being silently omitted when blank, per Daniel's own
-   * call — makes clear the field is genuinely missing rather than the
-   * row just being shorter than usual. Torneo/Jornada is never blank
-   * (every played match has one), so that piece keeps
-   * partidoMetaHtml_'s omit-if-blank behavior. */
-  function partidoMetaHtmlCompleto_(era, jornada, fecha, hora, cancha) {
-    var torneo = torneoForEra_(era);
-    var items = [];
-    if (torneo || jornada) items.push(partidoMetaItemHtml_(ICON_TROFEO_, (torneo ? torneo + ' / ' : '') + jornada));
-    items.push(partidoMetaItemHtml_(ICON_CALENDARIO_, fecha ? formatFechaCorta_(fecha) : '—'));
-    items.push(partidoMetaItemHtml_(ICON_RELOJ_, hora || '—'));
-    items.push(partidoMetaItemHtml_(ICON_PIN_, cancha ? ('Cancha ' + cancha) : '—'));
-    return '<div class="partido-meta-row">' + items.join('') + '</div>';
-  }
-
   /** Small "(P 2-3)" annotation for a match decided by penales — same
    * wording wherever a marcador is shown (Resultados table, Alineaciones
    * header, Ultimo Partido). Returns '' when the match wasn't decided
@@ -822,6 +803,15 @@
     var penalesHtml = m.penales
       ? '<div class="partido-marcador-penales">Penales: ' + esc(m.penales.pf) + ' - ' + esc(m.penales.pc) + '</div>'
       : '';
+    // "Triunfo/Derrota por default" — the same TPD/DPD lineup-formación
+    // codes alineacionesHtml_ already reads, surfaced here as its own
+    // label under the score (Stage 9 revision) rather than replacing
+    // the field diagram, which now always shows the empty pitch for a
+    // default result.
+    var formacion = m.lineup && m.lineup.formacion;
+    var defaultHtml = formacion === 'TPD' ? '<div class="partido-marcador-default">Triunfo por default.</div>'
+      : formacion === 'DPD' ? '<div class="partido-marcador-default">Derrota por default.</div>'
+      : '';
     return '<div class="partido-marcador">' +
       '<div class="partido-banda partido-banda-local">' +
         '<span class="partido-banda-score">' + esc(m.gf) + '</span><span class="partido-banda-nombre">Estuardos FC</span>' +
@@ -829,7 +819,7 @@
       '<div class="partido-banda"' + rivalStyle + '>' +
         '<span class="partido-banda-score">' + esc(m.gc) + '</span><span class="partido-banda-nombre">' + esc(rivalLabel_(m.rival)) + '</span>' +
       '</div>' +
-    '</div>' + penalesHtml;
+    '</div>' + penalesHtml + defaultHtml;
   }
 
   /** Vertical starting-formation pitch (Stage 7 extension) — Último
@@ -1009,20 +999,19 @@
       colDerecha = canchaSvgHtml_(m.lineup, era);
     } else if (presentesPA.length) {
       // Tier B — no PI for this match: every asistente in one
-      // ungrouped grid, no position pills, field shown empty (unless
-      // this was a per-match default result, which gets its own
-      // message instead of an empty field — same TPD/DPD convention as
-      // alineacionesHtml_).
+      // ungrouped grid, no heading, no position pills, field always
+      // shown empty — a per-match default result (TPD/DPD) gets its
+      // own "Triunfo/Derrota por default" label under the score
+      // instead (see partidoMarcadorHtml_), rather than replacing the
+      // field diagram.
       var asistentes = presentesPA.slice().sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
-      colIzquierda = partidoJugadoresGridHtml_('Asistentes', asistentes.map(function (p) { return conStats_(p, null); }));
-      var formacion = m.lineup && m.lineup.formacion;
-      colDerecha = formacion === 'TPD' ? '<p class="detail-message">Triunfo por default.</p>'
-        : formacion === 'DPD' ? '<p class="detail-message">Derrota por default.</p>'
-        : canchaSvgHtml_(null, era);
+      colIzquierda = partidoJugadoresGridSinTituloHtml_(asistentes.map(function (p) { return conStats_(p, null); }));
+      colDerecha = canchaSvgHtml_(null, era);
     } else if (goleadores.length) {
       // Tier C — no PA or PI tracked at all for this era/match: only
-      // the scorers, as photos, no position pills, field empty.
-      colIzquierda = partidoJugadoresGridHtml_('Goleadores', goleadores.map(function (p) { return conStats_(p, null); }));
+      // the scorers, as photos, no heading, no position pills, field
+      // empty.
+      colIzquierda = partidoJugadoresGridSinTituloHtml_(goleadores.map(function (p) { return conStats_(p, null); }));
       colDerecha = canchaSvgHtml_(null, era);
     } else {
       // Tier D — not even GOL data for this match.
@@ -1438,7 +1427,7 @@
   }
 
   /** Standalone match-sheet page (Stage 9) — reuses Último Partido's
-   * exact card design (partidoMetaHtmlCompleto_/partidoMarcadorHtml_/
+   * exact card design (partidoMarcadorHtml_/
    * partidoColumnasHtml_) for ANY played match, reached via a
    * Resultados table row, a Records match-mention (main tab or a
    * player's own profile), or a direct shareable
@@ -1472,12 +1461,32 @@
 
         var detail = buildPartidoDetalle_(era, historyData);
         var columnas = partidoColumnasHtml_(m, era, detail);
-        content.innerHTML = '<h3 class="partido-titulo">Estuardos FC vs ' + esc(rivalLabel_(m.rival)) + '</h3>' +
-          partidoMetaHtmlCompleto_(era, m.jornada, m.fecha, m.hora, m.cancha) +
+
+        // Home-page-style two-column layout (Stage 9 revision, flipped
+        // from Inicio's own left/right order per Daniel's call): a
+        // compact game-data card on the left (torneo/jornada as its
+        // own header, Fecha/Hora/Cancha as titled stats -- a dash for
+        // any of the three that's genuinely missing from RES), and the
+        // score/lineup card on the right. No separate page title -- the
+        // score bands right there already say the matchup.
+        var torneo = torneoForEra_(era);
+        var encabezado = (torneo ? torneo + ' / ' : '') + m.jornada;
+        var datosHtml = '<div class="partido-card partido-datos-card">' +
+          '<h3 class="partido-datos-header">' + esc(encabezado) + '</h3>' +
+          '<div class="partido-datos-row">' +
+            '<div class="partido-dato"><span class="partido-dato-titulo">Fecha</span><span class="partido-dato-valor">' + (m.fecha ? esc(formatFechaCorta_(m.fecha)) : '—') + '</span></div>' +
+            '<div class="partido-dato"><span class="partido-dato-titulo">Hora</span><span class="partido-dato-valor">' + (m.hora ? esc(m.hora) : '—') + '</span></div>' +
+            '<div class="partido-dato"><span class="partido-dato-titulo">Cancha</span><span class="partido-dato-valor">' + (m.cancha ? esc(m.cancha) : '—') + '</span></div>' +
+          '</div>' +
+        '</div>';
+        var marcadorCardHtml = '<div class="partido-card partido-marcador-card">' +
+          partidoMarcadorHtml_(m) +
           '<div class="partido-columnas">' +
-            '<div class="partido-col">' + partidoMarcadorHtml_(m) + columnas.colIzquierda + '</div>' +
+            '<div class="partido-col">' + columnas.colIzquierda + '</div>' +
             '<div class="partido-col partido-col-cancha">' + columnas.colDerecha + '</div>' +
-          '</div>';
+          '</div>' +
+        '</div>';
+        content.innerHTML = '<div class="partido-grid">' + datosHtml + marcadorCardHtml + '</div>';
 
         // Prev/Next flow freely across season boundaries — one flat
         // chronological list across every era (allMatchesFlat_), not
