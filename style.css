@@ -479,13 +479,15 @@ main.wide { max-width: 1400px; }
   border-radius: 12px;
   padding: 1.5rem;
 }
+/* Same size as the plain h3 rule below (Historia's section titles) -
+   Daniel's call, these were noticeably smaller before. */
 .partido-titulo {
   margin: 0 0 1.25rem;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--accent-light);
-  font-size: 0.9rem;
+  font-size: 1.15rem;
 }
 .partido-meta-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
 .partido-meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--white); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; }
