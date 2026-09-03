@@ -332,8 +332,8 @@ main.wide { max-width: 1400px; }
   /* Inicio cards drop back to a stacked single column on phones -
      the desktop side-by-side split above gets too tight otherwise. */
   .inicio-grid { flex-direction: column; }
+  #ultimo-partido-card, .inicio-side { flex-basis: auto; }
   .plantel-cards-grid { grid-template-columns: repeat(3, 1fr); }
-  .partido-jugadores-grid { grid-template-columns: repeat(3, 1fr); }
   .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; }
   /* 3 fixed columns (see .historia-cards) get too cramped on a narrow
      phone — same 2-column drop as .plantel-cards-grid above. */
@@ -540,7 +540,7 @@ main.wide { max-width: 1400px; }
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--accent-light);
-  font-size: 1.15rem;
+  font-size: 1.4rem;
 }
 .partido-meta-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
 .partido-meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--white); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; }
@@ -747,6 +747,21 @@ main.wide { max-width: 1400px; }
 .partido-dato-valor { color: var(--white); font-size: 1.1rem; font-weight: 700; }
 @media (max-width: 640px) {
   .partido-grid { flex-direction: column; }
+  /* At least 3 photos per row here too, same as Plantel's grid --
+     placed after .partido-jugadores-grid's own base rule (above, in
+     the stylesheet) so this actually wins the cascade; the same
+     override used to sit earlier in the file, before that base rule,
+     where it was silently losing to it. */
+  .partido-jugadores-grid { grid-template-columns: repeat(3, 1fr); }
+  /* flex-basis is a WIDTH hint in the normal row layout above, but
+     once .partido-grid flips to flex-direction: column here, that
+     same basis becomes a HEIGHT floor instead -- .partido-datos-card's
+     320px floor left a lot of dead space below its short Fecha/Hora/
+     Cancha content (Daniel's report). Reset both cards to size purely
+     by their own content on mobile, same as Inicio's cards effectively
+     already do (their content is tall enough that the same latent
+     issue never shows). */
+  .partido-marcador-card, .partido-datos-card { flex-basis: auto; max-width: none; }
 }
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
    comment, app.js) — the SVG here just positions player markers over
