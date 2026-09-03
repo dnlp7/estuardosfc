@@ -430,6 +430,7 @@
     renderRecordsLeaders_();
     setupPerfil();
     setupJugadorLinks_();
+    setupEraLinks_();
     setupPartido_();
     setupPartidoLinks_();
     hydrateStatRangeIcons_();
@@ -1078,16 +1079,39 @@
     if (verTodosLink) {
       verTodosLink.addEventListener('click', function (e) {
         e.preventDefault();
-        var era = data.currentSeason.era;
-        var select = document.getElementById('team-era-filter');
-        if (select) select.value = era;
-        state.teamEra = era;
-        renderEquipo();
-        activateEstadisticasTab_('temporada');
-        location.hash = 'estadisticas';
-        activateSection_('estadisticas');
+        irATemporada_(data.currentSeason.era);
       });
     }
+  }
+
+  /** Jumps to Estadisticas > Equipo, that one season selected, landed on
+   * its Resultados view -- shared by Ultimo Partido's "Ver todos los
+   * resultados" link and every clickable season label (team balance
+   * table, a player's own Perfil stats table). Same "drive it directly"
+   * pattern as irAPerfil_/irAPartido_ above. */
+  function irATemporada_(era) {
+    var select = document.getElementById('team-era-filter');
+    if (select) select.value = era;
+    state.teamEra = era;
+    state.teamView = 'resultados';
+    renderEquipo();
+    activateEstadisticasTab_('temporada');
+    location.hash = 'estadisticas';
+    activateSection_('estadisticas');
+  }
+
+  // One global delegated listener for every clickable season label
+  // (team balance table's TEMP. column, a player's own Perfil stats
+  // table's Temporada column) -- data-era-link="<era>" is only ever put
+  // on a real season's own row, so this can never route to a season
+  // with no data. Same delegated-listener pattern as setupJugadorLinks_/
+  // setupPartidoLinks_ below.
+  function setupEraLinks_() {
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest('[data-era-link]');
+      if (!el || !el.dataset.eraLink) return;
+      irATemporada_(el.dataset.eraLink);
+    });
   }
 
   /** Próximo Partido — reads straight off data.currentSeason.proximo
@@ -2021,7 +2045,7 @@
         var color = (v === null || v === undefined) ? null : scaleColor_(v, ranges[stat].min, ranges[stat].max, COLORS.greyCell, COLORS.scaleBest);
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td class="val-strong">' + esc(formatEraLabel_(era)) + '</td>' + cells + '</tr>';
+      return '<tr><td class="val-strong"><span class="era-link" data-era-link="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</span></td>' + cells + '</tr>';
     }).join('');
 
     var totalCells = STATS_ORDER.map(function (stat) {
@@ -2360,7 +2384,7 @@
         var color = (v === null || v === undefined || !endpoints) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, endpoints.low, endpoints.high);
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td class="val-strong">' + esc(formatEraLabel_(r.era)) + '</td>' + cells + '</tr>';
+      return '<tr><td class="val-strong"><span class="era-link" data-era-link="' + esc(r.era) + '">' + esc(formatEraLabel_(r.era)) + '</span></td>' + cells + '</tr>';
     }).join('');
 
     // TOTAL row — plain sums across every season shown, no color scale

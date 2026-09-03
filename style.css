@@ -306,6 +306,8 @@ main.wide { max-width: 1400px; }
    needed for table rows. */
 .jugador-link { cursor: pointer; }
 .jugador-link:hover { opacity: 0.85; }
+.era-link { cursor: pointer; }
+.era-link:hover { opacity: 0.85; }
 
 /* Same "this links somewhere" affordance, for a match sheet (Stage 9) —
    Resultados table rows (tr.match-row-link, gets the existing
