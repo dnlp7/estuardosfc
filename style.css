@@ -522,9 +522,12 @@ main.wide { max-width: 1400px; }
    sit directly on #proximo-partido-card, since that card is no
    longer the only thing in this column. */
 .inicio-side { flex: 1 1 320px; max-width: 380px; min-width: 0; display: flex; flex-direction: column; gap: 2rem; }
+/* Daniel's call: blend into the page instead of standing out as a grey
+   panel, with the brand color doing the framing work instead. Shared by
+   Ultimo/Proximo Partido on Inicio and both match-sheet cards (Stage 9). */
 .partido-card {
-  background: var(--grey-header);
-  border: 1px solid var(--border);
+  background: var(--bg);
+  border: 1px solid var(--main);
   border-radius: 12px;
   padding: 1.5rem;
 }
