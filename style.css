@@ -332,7 +332,8 @@ main.wide { max-width: 1400px; }
   /* Inicio cards drop back to a stacked single column on phones -
      the desktop side-by-side split above gets too tight otherwise. */
   .inicio-grid { flex-direction: column; }
-  .plantel-cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .plantel-cards-grid { grid-template-columns: repeat(3, 1fr); }
+  .partido-jugadores-grid { grid-template-columns: repeat(3, 1fr); }
   .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; }
   /* 3 fixed columns (see .historia-cards) get too cramped on a narrow
      phone — same 2-column drop as .plantel-cards-grid above. */
@@ -555,8 +556,8 @@ main.wide { max-width: 1400px; }
 .partido-marcador { border-radius: 10px; overflow: hidden; margin-bottom: 1.75rem; }
 .partido-banda { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 1.25rem; color: var(--white); background: var(--grey-cell); }
 .partido-banda-local { background: var(--main); }
-.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.4rem; }
-.partido-banda-score { font-weight: 700; font-size: 1.85rem; min-width: 1.3em; }
+.partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.6rem; }
+.partido-banda-score { font-weight: 700; font-size: 2.15rem; min-width: 1.3em; }
 /* Penales (Stage 7 extension) - the small "Penales: 2-3" line under
    Ultimo Partido's two score bands (margin-top pulls it up under the
    marcador's own margin-bottom), and the inline "(P 2-3)" annotation
@@ -569,9 +570,8 @@ main.wide { max-width: 1400px; }
    no score yet, so no colored bands; the rival's kit color (if set)
    shows as a pill behind their name instead. */
 .partido-vs { text-align: center; margin-bottom: 0.5rem; }
-.partido-vs-equipo { display: block; font-weight: 700; text-transform: uppercase; font-size: 1.3rem; letter-spacing: 0.02em; color: var(--white); }
+.partido-vs-equipo { display: block; font-weight: 700; text-transform: uppercase; font-size: 1.5rem; letter-spacing: 0.02em; color: var(--white); }
 .partido-vs-sep { display: block; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.8rem; margin: 0.5rem 0; }
-.partido-vs-rival { display: inline-block; padding: 0.15rem 0.9rem; border-radius: 999px; background: var(--grey-cell); }
 
 /* Below the scoreboard: left half the lineup (Titulares/Suplentes card
    grids), right half the scoring info (Goles/Asistencias — plain
@@ -699,10 +699,10 @@ main.wide { max-width: 1400px; }
 }
 .jugador-card-badge {
   display: inline-flex; align-items: center; gap: 0.15rem;
-  padding: 0.05rem 0.3rem; border-radius: 999px; font-size: 0.6rem; font-weight: 700;
+  padding: 0.12rem 0.4rem; border-radius: 6px; font-size: 0.68rem; font-weight: 700;
   border: 2px solid var(--bg);
 }
-.jugador-card-badges img { width: 10px; height: 10px; display: block; }
+.jugador-card-badges img { width: 11px; height: 11px; display: block; }
 .jugador-card-badge-gol { background: var(--main); color: #ffffff; }
 .jugador-card-badge-ast { background: var(--main); color: #ffffff; }
 .jugador-card-badge-count { font-size: 0.6rem; }
@@ -721,23 +721,29 @@ main.wide { max-width: 1400px; }
    two-column row: the compact game-data card on the left (narrower,
    same width cap as .inicio-side), the score/lineup card on the right
    (wider, same proportions as #ultimo-partido-card). */
-.partido-grid { display: flex; align-items: flex-start; gap: 2rem; }
-.partido-datos-card { flex: 1 1 320px; max-width: 380px; min-width: 0; }
-.partido-marcador-card { flex: 1 1 480px; min-width: 0; }
-.partido-datos-header {
+/* Page-level title (season/tournament code + jornada) sitting above
+   the grid, bigger than any of the card-level titles below it. */
+.partido-encabezado {
   margin: 0 0 1.5rem;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--accent-light);
-  font-size: 1.05rem;
+  font-size: 1.6rem;
 }
+.partido-grid { display: flex; align-items: flex-start; gap: 2rem; }
+/* Marcador (score+lineup) card on the left, same width as
+   #ultimo-partido-card; game-data card on the right, same width cap
+   as .inicio-side -- the same left/right split Inicio itself uses,
+   so both cards size/stack identically on mobile too. */
+.partido-marcador-card { flex: 1 1 480px; min-width: 0; }
+.partido-datos-card { flex: 1 1 320px; max-width: 380px; min-width: 0; }
 /* Stacked one per row (Daniel's call - plenty of vertical room here),
    left-aligned rather than the centered/side-by-side layout this
    started with. */
 .partido-datos-row { display: flex; flex-direction: column; gap: 1.5rem; }
 .partido-dato { display: flex; flex-direction: column; gap: 0.35rem; text-align: left; }
-.partido-dato-titulo { color: var(--muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.partido-dato-titulo { color: var(--accent-light); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
 .partido-dato-valor { color: var(--white); font-size: 1.1rem; font-weight: 700; }
 @media (max-width: 640px) {
   .partido-grid { flex-direction: column; }

@@ -1108,13 +1108,16 @@
       card.innerHTML = '<h3 class="partido-titulo">Próximo Partido</h3><p class="placeholder-text">Aún no hay información sobre el próximo partido.</p>';
       return;
     }
-    var rivalStyle = p.rivalBg ? ' style="background:' + esc(p.rivalBg) + ';color:' + esc(p.rivalText || '#ffffff') + '"' : '';
+    // No colored kit-color pill on the rival name here (Daniel's call) --
+    // that treatment stays where it's a real result cue (marcador bands,
+    // Resultados table); here it's just plain text like Estuardos FC's
+    // own name above it.
     card.innerHTML = '<h3 class="partido-titulo">Próximo Partido</h3>' +
       partidoMetaHtml_(data.currentSeason.era, p.jornada, p.fecha, p.hora, p.cancha) +
       '<div class="partido-vs">' +
         '<span class="partido-vs-equipo">Estuardos FC</span>' +
         '<span class="partido-vs-sep">vs</span>' +
-        '<span class="partido-vs-equipo partido-vs-rival"' + rivalStyle + '>' + esc(rivalLabel_(p.rival)) + '</span>' +
+        '<span class="partido-vs-equipo">' + esc(rivalLabel_(p.rival)) + '</span>' +
       '</div>';
   }
 
@@ -1471,6 +1474,10 @@
         // score bands right there already say the matchup.
         var torneo = torneoForEra_(era);
         var encabezado = (torneo ? torneo + ' / ' : '') + m.jornada;
+        // Season/matchday is now a page-level title above both cards
+        // (Daniel's call - bigger font than the old in-card header),
+        // not part of the game-data card itself.
+        var encabezadoHtml = '<h2 class="partido-encabezado">' + esc(encabezado) + '</h2>';
         // Fecha/Hora/Cancha stacked one per row (plenty of vertical room
         // in this narrower card, no need to bunch them side by side), the
         // date spelled out in full ("Agosto 23, 2026") and the time given
@@ -1478,26 +1485,28 @@
         // m.hora, which stay as-is everywhere else (Resultados table etc.)
         // that still wants the compact form.
         var datosHtml = '<div class="partido-card partido-datos-card">' +
-          '<h3 class="partido-datos-header">' + esc(encabezado) + '</h3>' +
           '<div class="partido-datos-row">' +
             '<div class="partido-dato"><span class="partido-dato-titulo">Fecha</span><span class="partido-dato-valor">' + (m.fecha ? esc(formatFechaLarga_(m.fecha)) : '—') + '</span></div>' +
             '<div class="partido-dato"><span class="partido-dato-titulo">Hora</span><span class="partido-dato-valor">' + (m.hora ? esc(formatHoraAmPm_(m.hora)) : '—') + '</span></div>' +
             '<div class="partido-dato"><span class="partido-dato-titulo">Cancha</span><span class="partido-dato-valor">' + (m.cancha ? esc(m.cancha) : '—') + '</span></div>' +
           '</div>' +
         '</div>';
-        // Marcador now lives INSIDE the left column next to the lineup
-        // grid, same as Ultimo Partido's own renderUltimoPartido_ -- so
-        // the colored bands only span the lineup-photos column's width,
-        // not the full card, and the cancha graphic on the right starts
-        // at the same top instead of being pushed down below a full-
-        // width band.
+        // Marcador lives INSIDE the left column next to the lineup grid,
+        // same as Ultimo Partido's own renderUltimoPartido_ -- so the
+        // colored bands only span the lineup-photos column's width, not
+        // the full card, and the cancha graphic on the right starts at
+        // the same top instead of being pushed down below a full-width
+        // band.
         var marcadorCardHtml = '<div class="partido-card partido-marcador-card">' +
           '<div class="partido-columnas">' +
             '<div class="partido-col">' + partidoMarcadorHtml_(m) + columnas.colIzquierda + '</div>' +
             '<div class="partido-col partido-col-cancha">' + columnas.colDerecha + '</div>' +
           '</div>' +
         '</div>';
-        content.innerHTML = '<div class="partido-grid">' + datosHtml + marcadorCardHtml + '</div>';
+        // Same left/right split as Inicio (score+lineup wide on the
+        // left, compact game-data card narrow on the right, per
+        // Daniel's call) -- marcadorCardHtml first, datosHtml second.
+        content.innerHTML = encabezadoHtml + '<div class="partido-grid">' + marcadorCardHtml + datosHtml + '</div>';
 
         // Prev/Next flow freely across season boundaries — one flat
         // chronological list across every era (allMatchesFlat_), not
