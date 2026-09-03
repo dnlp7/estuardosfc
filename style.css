@@ -945,7 +945,7 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
 }
 .records-leaders-grid { margin-bottom: 2.5rem; }
 .record-leader-col {
-  background: var(--card);
+  background: var(--grey-header);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1rem 1.25rem;
@@ -1032,7 +1032,7 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    .record-leader-col above, just a bigger headline number since each
    card only has one thing to say. */
 .record-card {
-  background: var(--card);
+  background: var(--grey-header);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
