@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T20:49:50.946Z",
+  "generatedAt": "2026-09-04T17:30:35.218Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -16468,12 +16468,12 @@
             "pkWin": false
           },
           {
-            "partido": "RC1 BBU",
+            "partido": "RC2 BBU",
             "resultado": "g",
             "pkWin": false
           },
           {
-            "partido": "RC2 ESB",
+            "partido": "RC3 ESB",
             "resultado": "p",
             "pkWin": false
           }
@@ -17293,12 +17293,12 @@
             "pkWin": false
           },
           {
-            "partido": "RC1 BBU",
+            "partido": "RC2 BBU",
             "resultado": "g",
             "pkWin": false
           },
           {
-            "partido": "RC2 ESB",
+            "partido": "RC3 ESB",
             "resultado": "p",
             "pkWin": false
           }
@@ -18046,12 +18046,12 @@
             "pkWin": false
           },
           {
-            "partido": "RC1 BBU",
+            "partido": "RC2 BBU",
             "resultado": "g",
             "pkWin": false
           },
           {
-            "partido": "RC2 ESB",
+            "partido": "RC3 ESB",
             "resultado": "p",
             "pkWin": false
           }
@@ -18799,12 +18799,12 @@
             "pkWin": false
           },
           {
-            "partido": "RC1 BBU",
+            "partido": "RC2 BBU",
             "resultado": "g",
             "pkWin": false
           },
           {
-            "partido": "RC2 ESB",
+            "partido": "RC3 ESB",
             "resultado": "p",
             "pkWin": false
           }
@@ -32034,17 +32034,17 @@
             "pkWin": false
           },
           {
-            "partido": "CF MIL",
+            "partido": "LCF MIL",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC BCI",
+            "partido": "RC2 BCI",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC MUT",
+            "partido": "RC3 MUT",
             "resultado": "g",
             "pkWin": false
           }
@@ -32811,17 +32811,17 @@
             "pkWin": false
           },
           {
-            "partido": "CF MIL",
+            "partido": "LCF MIL",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC BCI",
+            "partido": "RC2 BCI",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC MUT",
+            "partido": "RC3 MUT",
             "resultado": "g",
             "pkWin": false
           }
@@ -33520,17 +33520,17 @@
             "pkWin": false
           },
           {
-            "partido": "CF MIL",
+            "partido": "LCF MIL",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC BCI",
+            "partido": "RC2 BCI",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC MUT",
+            "partido": "RC3 MUT",
             "resultado": "g",
             "pkWin": false
           }
@@ -34229,17 +34229,17 @@
             "pkWin": false
           },
           {
-            "partido": "CF MIL",
+            "partido": "LCF MIL",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC BCI",
+            "partido": "RC2 BCI",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "RC MUT",
+            "partido": "RC3 MUT",
             "resultado": "g",
             "pkWin": false
           }
@@ -49755,7 +49755,7 @@
           }
         },
         {
-          "jornada": "RC",
+          "jornada": "RC2",
           "cancha": 1,
           "fecha": "2023-08-27",
           "hora": "12:00",
@@ -49767,60 +49767,7 @@
           "rival": "BORUSSIA",
           "rivalBg": "#e06666",
           "rivalText": "#f3f3f3",
-          "lineup": {
-            "formacion": "3-2-1",
-            "jugadores": [
-              {
-                "slot": "POR",
-                "posicion": "POR",
-                "nombre": "Sheko",
-                "playerId": "P002",
-                "capitan": false
-              },
-              {
-                "slot": "DEF I",
-                "posicion": "DEF",
-                "nombre": "Ramiro",
-                "playerId": "P031",
-                "capitan": false
-              },
-              {
-                "slot": "DEF C",
-                "posicion": "DEF",
-                "nombre": "Mane",
-                "playerId": "P022",
-                "capitan": true
-              },
-              {
-                "slot": "DEF D",
-                "posicion": "DEF",
-                "nombre": "Eric",
-                "playerId": "P011",
-                "capitan": false
-              },
-              {
-                "slot": "MED C",
-                "posicion": "MED",
-                "nombre": "Chuy",
-                "playerId": "P015",
-                "capitan": false
-              },
-              {
-                "slot": "MED C2",
-                "posicion": "MED",
-                "nombre": "Mares",
-                "playerId": "P010",
-                "capitan": false
-              },
-              {
-                "slot": "DEL",
-                "posicion": "DEL",
-                "nombre": "Daniel",
-                "playerId": "P001",
-                "capitan": false
-              }
-            ]
-          }
+          "lineup": null
         }
       ],
       "standings": {
@@ -60712,7 +60659,7 @@
           }
         },
         {
-          "jornada": "AM",
+          "jornada": "AMI",
           "cancha": 1,
           "fecha": "2023-02-05",
           "hora": "11:00",
@@ -60724,10 +60671,63 @@
           "rival": "IBIZA FC",
           "rivalBg": "#002060",
           "rivalText": "#ffc000",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "[Invitado]",
+                "playerId": null,
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Eric",
+                "playerId": "P011",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Sergio",
+                "playerId": "P007",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Abraham",
+                "playerId": "P021",
+                "capitan": true
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Hector",
+                "playerId": "P028",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
-          "jornada": "CF",
+          "jornada": "LCF",
           "cancha": 2,
           "fecha": "2023-02-12",
           "hora": "11:00",
@@ -60795,7 +60795,7 @@
           }
         },
         {
-          "jornada": "RC",
+          "jornada": "RC2",
           "cancha": 1,
           "fecha": "2023-02-19",
           "hora": "11:00",
@@ -60813,22 +60813,22 @@
               {
                 "slot": "POR",
                 "posicion": "POR",
-                "nombre": "Eric",
-                "playerId": "P011",
+                "nombre": "Sheko",
+                "playerId": "P002",
                 "capitan": false
               },
               {
                 "slot": "DEF I",
                 "posicion": "DEF",
-                "nombre": "Chente",
-                "playerId": "P012",
+                "nombre": "Mares",
+                "playerId": "P010",
                 "capitan": false
               },
               {
                 "slot": "DEF C",
                 "posicion": "DEF",
-                "nombre": "[Invitado]",
-                "playerId": null,
+                "nombre": "Eric",
+                "playerId": "P011",
                 "capitan": false
               },
               {
@@ -60855,15 +60855,15 @@
               {
                 "slot": "DEL",
                 "posicion": "DEL",
-                "nombre": "Daniel",
-                "playerId": "P001",
+                "nombre": "Hector",
+                "playerId": "P028",
                 "capitan": false
               }
             ]
           }
         },
         {
-          "jornada": "RC",
+          "jornada": "RC3",
           "cancha": 1,
           "fecha": "2023-02-26",
           "hora": "9:00",
