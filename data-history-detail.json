@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T17:30:35.218Z",
+  "generatedAt": "2026-09-06T05:03:01.053Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -20575,7 +20575,7 @@
             "pkWin": false
           },
           {
-            "partido": "J3",
+            "partido": "J3 ITA",
             "resultado": "p",
             "pkWin": false
           },
@@ -20585,7 +20585,7 @@
             "pkWin": false
           },
           {
-            "partido": "J5",
+            "partido": "J5 FEN",
             "resultado": "p",
             "pkWin": false
           },
@@ -20605,22 +20605,22 @@
             "pkWin": false
           },
           {
-            "partido": "J9",
+            "partido": "J9 CGT",
             "resultado": "e",
             "pkWin": false
           },
           {
-            "partido": "J10",
+            "partido": "J10 LOB",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "J11",
+            "partido": "J11 VAN",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "J12",
+            "partido": "J12 PUM",
             "resultado": "p",
             "pkWin": false
           },
@@ -20630,7 +20630,7 @@
             "pkWin": false
           },
           {
-            "partido": "J14",
+            "partido": "J14 BAR",
             "resultado": "p",
             "pkWin": false
           },
@@ -20697,7 +20697,7 @@
           {
             "partido": "RCS",
             "resultado": "e",
-            "pkWin": false
+            "pkWin": true
           },
           {
             "partido": "RCF",
@@ -21462,7 +21462,7 @@
             "pkWin": false
           },
           {
-            "partido": "J3",
+            "partido": "J3 ITA",
             "resultado": "p",
             "pkWin": false
           },
@@ -21472,7 +21472,7 @@
             "pkWin": false
           },
           {
-            "partido": "J5",
+            "partido": "J5 FEN",
             "resultado": "p",
             "pkWin": false
           },
@@ -21492,22 +21492,22 @@
             "pkWin": false
           },
           {
-            "partido": "J9",
+            "partido": "J9 CGT",
             "resultado": "e",
             "pkWin": false
           },
           {
-            "partido": "J10",
+            "partido": "J10 LOB",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "J11",
+            "partido": "J11 VAN",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "J12",
+            "partido": "J12 PUM",
             "resultado": "p",
             "pkWin": false
           },
@@ -21517,7 +21517,7 @@
             "pkWin": false
           },
           {
-            "partido": "J14",
+            "partido": "J14 BAR",
             "resultado": "p",
             "pkWin": false
           },
@@ -21584,7 +21584,7 @@
           {
             "partido": "RCS",
             "resultado": "e",
-            "pkWin": false
+            "pkWin": true
           },
           {
             "partido": "RCF",
@@ -53932,22 +53932,22 @@
           "jornada": "J3",
           "cancha": 1,
           "fecha": "2010-08-01",
-          "hora": "",
+          "hora": "14:00",
           "resultado": "p",
           "gf": 4,
           "gc": 7,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "ITALIA",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J4",
           "cancha": 1,
           "fecha": "2010-08-08",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 4,
           "gc": 7,
@@ -53962,22 +53962,22 @@
           "jornada": "J5",
           "cancha": 1,
           "fecha": "2010-08-15",
-          "hora": "",
+          "hora": "13:00",
           "resultado": "p",
           "gf": 2,
           "gc": 6,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "FENIX",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J6",
           "cancha": 1,
           "fecha": "2010-08-22",
-          "hora": "",
+          "hora": "14:00",
           "resultado": "p",
           "gf": 2,
           "gc": 5,
@@ -54007,7 +54007,7 @@
           "jornada": "J8",
           "cancha": 1,
           "fecha": "2010-09-05",
-          "hora": "",
+          "hora": "10:00",
           "resultado": "p",
           "gf": 2,
           "gc": 7,
@@ -54022,60 +54022,60 @@
           "jornada": "J9",
           "cancha": 1,
           "fecha": "2010-09-12",
-          "hora": "",
+          "hora": "9:00",
           "resultado": "e",
           "gf": 2,
           "gc": 2,
           "penales": null,
           "puntos": 1,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "CHELSEA GT",
+          "rivalBg": "#000000",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J10",
           "cancha": 1,
           "fecha": "2010-09-19",
-          "hora": "",
+          "hora": "16:00",
           "resultado": "p",
           "gf": 2,
           "gc": 6,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "LOBOS",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J11",
           "cancha": 1,
           "fecha": "2010-09-26",
-          "hora": "",
+          "hora": "11:00",
           "resultado": "p",
           "gf": 3,
           "gc": 5,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "VANGUARDIA",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J12",
           "cancha": 1,
           "fecha": "2010-10-03",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 1,
           "gc": 5,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "PUMAS",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
@@ -54097,22 +54097,22 @@
           "jornada": "J14",
           "cancha": 1,
           "fecha": "2010-10-17",
-          "hora": "",
+          "hora": "16:00",
           "resultado": "p",
           "gf": 0,
           "gc": 5,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "BARBAJANES",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J15",
           "cancha": 1,
           "fecha": "2010-10-24",
-          "hora": "",
+          "hora": "12:00",
           "resultado": "p",
           "gf": 4,
           "gc": 6,
@@ -54127,7 +54127,7 @@
           "jornada": "J16",
           "cancha": 1,
           "fecha": "2010-10-31",
-          "hora": "",
+          "hora": "12:00",
           "resultado": "p",
           "gf": 1,
           "gc": 8,
@@ -54142,7 +54142,7 @@
           "jornada": "J17",
           "cancha": 1,
           "fecha": "2010-11-07",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 4,
           "gc": 7,
@@ -54157,7 +54157,7 @@
           "jornada": "J18",
           "cancha": 1,
           "fecha": "2010-11-14",
-          "hora": "",
+          "hora": "9:00",
           "resultado": "g",
           "gf": 2,
           "gc": 0,
@@ -54172,7 +54172,7 @@
           "jornada": "J19",
           "cancha": 1,
           "fecha": "2010-11-21",
-          "hora": "",
+          "hora": "10:00",
           "resultado": "p",
           "gf": 2,
           "gc": 10,
@@ -54187,7 +54187,7 @@
           "jornada": "J20",
           "cancha": 1,
           "fecha": "2010-11-28",
-          "hora": "",
+          "hora": "16:00",
           "resultado": "p",
           "gf": 2,
           "gc": 3,
@@ -54202,7 +54202,7 @@
           "jornada": "J21",
           "cancha": 1,
           "fecha": "2010-12-05",
-          "hora": "",
+          "hora": "12:00",
           "resultado": "g",
           "gf": 3,
           "gc": 1,
@@ -54217,7 +54217,7 @@
           "jornada": "J22",
           "cancha": 1,
           "fecha": "2010-12-12",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 5,
           "gc": 6,
@@ -54232,7 +54232,7 @@
           "jornada": "J23",
           "cancha": 1,
           "fecha": "2010-12-19",
-          "hora": "",
+          "hora": "11:00",
           "resultado": "p",
           "gf": 2,
           "gc": 3,
@@ -54247,7 +54247,7 @@
           "jornada": "J24",
           "cancha": 1,
           "fecha": "2011-01-09",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 1,
           "gc": 4,
@@ -54262,22 +54262,22 @@
           "jornada": "J25",
           "cancha": 1,
           "fecha": "2011-01-16",
-          "hora": "",
+          "hora": "9:00",
           "resultado": "g",
           "gf": 5,
           "gc": 0,
           "penales": null,
           "puntos": 3,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "CHELSEA GT",
+          "rivalBg": "#000000",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "LCF",
           "cancha": 1,
           "fecha": "2011-01-23",
-          "hora": "",
+          "hora": "16:00",
           "resultado": "p",
           "gf": 3,
           "gc": 4,
@@ -54292,12 +54292,16 @@
           "jornada": "RCS",
           "cancha": 1,
           "fecha": "2011-01-30",
-          "hora": "",
+          "hora": "16:00",
           "resultado": "e",
           "gf": 4,
           "gc": 4,
-          "penales": null,
-          "puntos": 1,
+          "penales": {
+            "pf": 3,
+            "pc": 2,
+            "ganoEstuardos": true
+          },
+          "puntos": 2,
           "rival": "",
           "rivalBg": null,
           "rivalText": null,
@@ -54307,15 +54311,15 @@
           "jornada": "RCF",
           "cancha": 1,
           "fecha": "2011-02-06",
-          "hora": "",
+          "hora": "16:00",
           "resultado": "p",
           "gf": 1,
           "gc": 3,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "ALEMANIA",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         }
       ],
@@ -54327,7 +54331,7 @@
         "gf": 72,
         "gc": 140,
         "dif": -68,
-        "pts": 14
+        "pts": 15
       }
     },
     "2011/12": {
