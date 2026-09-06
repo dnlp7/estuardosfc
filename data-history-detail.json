@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T05:03:01.053Z",
+  "generatedAt": "2026-09-06T05:57:15.659Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -25,7 +25,7 @@
             "pkWin": false
           },
           {
-            "partido": "J5",
+            "partido": "J5 CGT",
             "resultado": "g",
             "pkWin": false
           },
@@ -35,7 +35,7 @@
             "pkWin": false
           },
           {
-            "partido": "J7",
+            "partido": "J7 TMA",
             "resultado": "p",
             "pkWin": false
           },
@@ -45,12 +45,12 @@
             "pkWin": false
           },
           {
-            "partido": "J9",
+            "partido": "J9 RMA",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "J10",
+            "partido": "J10 LNE",
             "resultado": "p",
             "pkWin": false
           },
@@ -105,7 +105,7 @@
             "pkWin": false
           },
           {
-            "partido": "J21",
+            "partido": "J21 LNE",
             "resultado": "p",
             "pkWin": false
           },
@@ -130,9 +130,9 @@
             "pkWin": false
           },
           {
-            "partido": "J26",
+            "partido": "J26 CGT",
             "resultado": "e",
-            "pkWin": false
+            "pkWin": true
           }
         ],
         "players": [
@@ -792,7 +792,7 @@
             "pkWin": false
           },
           {
-            "partido": "J5",
+            "partido": "J5 CGT",
             "resultado": "g",
             "pkWin": false
           },
@@ -802,7 +802,7 @@
             "pkWin": false
           },
           {
-            "partido": "J7",
+            "partido": "J7 TMA",
             "resultado": "p",
             "pkWin": false
           },
@@ -812,12 +812,12 @@
             "pkWin": false
           },
           {
-            "partido": "J9",
+            "partido": "J9 RMA",
             "resultado": "p",
             "pkWin": false
           },
           {
-            "partido": "J10",
+            "partido": "J10 LNE",
             "resultado": "p",
             "pkWin": false
           },
@@ -872,7 +872,7 @@
             "pkWin": false
           },
           {
-            "partido": "J21",
+            "partido": "J21 LNE",
             "resultado": "p",
             "pkWin": false
           },
@@ -897,9 +897,9 @@
             "pkWin": false
           },
           {
-            "partido": "J26",
+            "partido": "J26 CGT",
             "resultado": "e",
-            "pkWin": false
+            "pkWin": true
           }
         ],
         "players": [
@@ -20685,7 +20685,7 @@
             "pkWin": false
           },
           {
-            "partido": "J25",
+            "partido": "J25 CGT",
             "resultado": "g",
             "pkWin": false
           },
@@ -20700,7 +20700,7 @@
             "pkWin": true
           },
           {
-            "partido": "RCF",
+            "partido": "RCF ALE",
             "resultado": "p",
             "pkWin": false
           }
@@ -21572,7 +21572,7 @@
             "pkWin": false
           },
           {
-            "partido": "J25",
+            "partido": "J25 CGT",
             "resultado": "g",
             "pkWin": false
           },
@@ -21587,7 +21587,7 @@
             "pkWin": true
           },
           {
-            "partido": "RCF",
+            "partido": "RCF ALE",
             "resultado": "p",
             "pkWin": false
           }
@@ -43298,7 +43298,7 @@
           "jornada": "J1",
           "cancha": 1,
           "fecha": "2011-02-13",
-          "hora": "",
+          "hora": "13:00",
           "resultado": "p",
           "gf": 1,
           "gc": 12,
@@ -43313,7 +43313,7 @@
           "jornada": "J2",
           "cancha": 1,
           "fecha": "2011-02-20",
-          "hora": "",
+          "hora": "14:00",
           "resultado": "p",
           "gf": 3,
           "gc": 10,
@@ -43364,16 +43364,16 @@
           "gc": 2,
           "penales": null,
           "puntos": 3,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "CHELSEA GT",
+          "rivalBg": "#000000",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J6",
           "cancha": 1,
           "fecha": "2011-03-20",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "e",
           "gf": 2,
           "gc": 2,
@@ -43388,22 +43388,22 @@
           "jornada": "J7",
           "cancha": 1,
           "fecha": "2011-03-27",
-          "hora": "",
+          "hora": "14:00",
           "resultado": "p",
           "gf": 3,
           "gc": 9,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "TU MAMA FC",
+          "rivalBg": "#a61c00",
+          "rivalText": "#f1c232",
           "lineup": null
         },
         {
           "jornada": "J8",
           "cancha": 1,
           "fecha": "2011-04-03",
-          "hora": "",
+          "hora": "10:00",
           "resultado": "p",
           "gf": 1,
           "gc": 5,
@@ -43418,37 +43418,37 @@
           "jornada": "J9",
           "cancha": 1,
           "fecha": "2011-04-10",
-          "hora": "",
+          "hora": "12:00",
           "resultado": "p",
           "gf": 0,
           "gc": 9,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "REAL MADRID",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J10",
           "cancha": 1,
           "fecha": "2011-04-17",
-          "hora": "",
+          "hora": "13:00",
           "resultado": "p",
           "gf": 6,
           "gc": 9,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "LEONES NEGROS",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
           "jornada": "J11",
           "cancha": 1,
           "fecha": "2011-05-01",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 3,
           "gc": 4,
@@ -43463,7 +43463,7 @@
           "jornada": "J12",
           "cancha": 1,
           "fecha": "2011-05-08",
-          "hora": "",
+          "hora": "13:00",
           "resultado": "p",
           "gf": 1,
           "gc": 3,
@@ -43478,7 +43478,7 @@
           "jornada": "J13",
           "cancha": 1,
           "fecha": "2011-05-15",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 2,
           "gc": 7,
@@ -43508,7 +43508,7 @@
           "jornada": "J15",
           "cancha": 1,
           "fecha": "2011-05-29",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "g",
           "gf": 7,
           "gc": 4,
@@ -43604,9 +43604,9 @@
           "gc": 7,
           "penales": null,
           "puntos": 0,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "rival": "LEONES NEGROS",
+          "rivalBg": "#262626",
+          "rivalText": "#ffffff",
           "lineup": null
         },
         {
@@ -43643,7 +43643,7 @@
           "jornada": "J24",
           "cancha": 1,
           "fecha": "2011-07-31",
-          "hora": "",
+          "hora": "15:00",
           "resultado": "p",
           "gf": 1,
           "gc": 5,
@@ -43673,15 +43673,19 @@
           "jornada": "J26",
           "cancha": 1,
           "fecha": "2011-08-14",
-          "hora": "",
+          "hora": "9:00",
           "resultado": "e",
           "gf": 2,
           "gc": 2,
-          "penales": null,
-          "puntos": 1,
-          "rival": "",
-          "rivalBg": null,
-          "rivalText": null,
+          "penales": {
+            "pf": 3,
+            "pc": 2,
+            "ganoEstuardos": true
+          },
+          "puntos": 2,
+          "rival": "CHELSEA GT",
+          "rivalBg": "#000000",
+          "rivalText": "#ffffff",
           "lineup": null
         }
       ],
@@ -43693,7 +43697,7 @@
         "gf": 69,
         "gc": 135,
         "dif": -66,
-        "pts": 15
+        "pts": 16
       }
     },
     "2012": {
