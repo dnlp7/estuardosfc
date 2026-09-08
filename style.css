@@ -1196,7 +1196,10 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    scaleColor_ against this player's own season totals) as every other
    stat table's own TOT column — not sticky itself, same as those. */
 #perfil-stat-detail-table th:nth-child(2), #perfil-stat-detail-table td:nth-child(2) {
-  padding: 0.6rem 1.25rem;
+  padding: 0.4rem 0.5rem;
+  width: 3.4rem;
+  min-width: 3.4rem;
+  max-width: 3.4rem;
 }
 /* Game columns (3rd onward) — as narrow as the content allows: a plain
    1-2 digit header, and a cell that's either a short number or (PI)
