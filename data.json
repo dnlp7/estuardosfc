@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T06:23:33.739Z",
+  "generatedAt": "2026-09-08T17:51:25.214Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -6160,7 +6160,7 @@
       {
         "jornada": "J10",
         "cancha": 1,
-        "fecha": "2026-09-05",
+        "fecha": "2026-09-06",
         "hora": "10:30",
         "resultado": "p",
         "gf": 2,
@@ -6236,7 +6236,15 @@
       "dif": -17,
       "pts": 13
     },
-    "proximo": null
+    "proximo": {
+      "jornada": "J11",
+      "cancha": 2,
+      "fecha": "2026-09-11",
+      "hora": "9:30",
+      "rival": "UNIÓN",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
+    }
   },
   "detail": {
     "era": "2026/27",
