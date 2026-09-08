@@ -1204,8 +1204,10 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    shrink-to-content hint, backed by minimal padding so up to ~28 of
    them stay readable side by side without ballooning the table width. */
 #perfil-stat-detail-table th:nth-child(n+3), #perfil-stat-detail-table td:nth-child(n+3) {
-  padding: 0.4rem 0.3rem;
-  width: 1%;
+  padding: 0.4rem 0.2rem;
+  width: 1.9rem;
+  min-width: 1.9rem;
+  max-width: 1.9rem;
 }
 /* A column beyond that season's own real game count (e.g. column 26 in
    a 23-game season) — a shade darker than the header grey, so it reads
