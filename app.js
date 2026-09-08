@@ -1503,11 +1503,13 @@
         // score/lineup card on the right. No separate page title -- the
         // score bands right there already say the matchup.
         var torneo = torneoForEra_(era);
-        var encabezado = (torneo ? torneo + ' / ' : '') + m.jornada;
         // Season/matchday is now a page-level title above both cards
         // (Daniel's call - bigger font than the old in-card header),
-        // not part of the game-data card itself.
-        var encabezadoHtml = '<h2 class="partido-encabezado">' + esc(encabezado) + '</h2>';
+        // not part of the game-data card itself. No "/" separator --
+        // torneo keeps the header's own accent color, jornada renders
+        // in plain white via its own span (Daniel's call).
+        var encabezadoHtml = '<h2 class="partido-encabezado">' + (torneo ? esc(torneo) + ' ' : '') +
+          '<span class="partido-encabezado-jornada">' + esc(m.jornada) + '</span></h2>';
         // Fecha/Hora/Cancha stacked one per row (plenty of vertical room
         // in this narrower card, no need to bunch them side by side), the
         // date spelled out in full ("Agosto 23, 2026") and the time given

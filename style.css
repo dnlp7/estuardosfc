@@ -734,6 +734,8 @@ main.wide { max-width: 1400px; }
   color: var(--accent-light);
   font-size: 1.6rem;
 }
+/* Jornada part of the header (e.g. J21 in SOL29 J21) stays plain white, distinct from the torneo code's accent color. */
+.partido-encabezado-jornada { color: var(--white); }
 .partido-grid { display: flex; align-items: flex-start; gap: 2rem; }
 /* Marcador (score+lineup) card on the left, same width as
    #ultimo-partido-card; game-data card on the right, same width cap
