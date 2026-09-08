@@ -39,6 +39,8 @@
     perfilPlayerId: null,     // whichever player's profile is currently rendered — lets the stat selector re-render without playerId being passed back in
     perfilNombre: null,       // same player's Nombre — kept alongside playerId as a fallback for a stats row that hasn't been through a full historical-doc rebuild since PlayerID was added yet (see statRowForPlayer_)
     perfilStat: 'BALANCE',    // Perfil page's own BALANCE/GOL/AST/PA/PI selector — independent of "stat" above (the Individuales tab's own selector)
+    perfilGrafica: 'GOL_AST', // Perfil page's own Gráficas GOL_AST/PA_PI selector — independent of perfilStat now that the charts are their own section (Stage 9)
+    maxGamesSiteWide: null,   // cached N for every GOL/AST/PA/PI per-game grid — see maxGamesSiteWide_
     perfilOrigen: 'inicio',   // which section to return to on Volver — set in irAPerfil_ from whichever section-panel was active right before navigating to a profile; defaults to inicio for a direct #jugador/<id> deep link with no prior in-app navigation
     partidoOrigen: 'inicio',  // same idea as perfilOrigen, for the standalone match-sheet page (Stage 9) — set in irAPartido_
     partidoAnterior: null,    // {era, jornada} of the previous match in full chronological order, or null — set by renderPartido_, read by setupPartido_'s Anterior button
@@ -1611,6 +1613,7 @@
 
   function setupPerfil() {
     setupPerfilStatSelector_();
+    setupPerfilGraficaSelector_();
     wirePlantelGridClicks_('plantel-grid');
     wirePlantelGridClicks_('plantel-grid-ex');
     var volver = document.getElementById('perfil-volver');
@@ -1806,8 +1809,11 @@
     state.perfilPlayerId = playerId;
     state.perfilNombre = nombre;
     state.perfilStat = 'BALANCE';
+    state.perfilGrafica = 'GOL_AST';
     resetPerfilStatSelector_();
+    resetPerfilGraficaSelector_();
     renderPerfilStatsView_(playerId, nombre);
+    renderPerfilGrafica_(playerId, nombre);
     renderPerfilRecords_(playerId, nombre);
   }
 
@@ -1973,25 +1979,25 @@
     return block.players.filter(function (p) { return p.nombre === nombre; })[0] || null;
   }
 
-  /** BALANCE shows the existing table; GOL_AST and PA_PI each show a
-   * two-line chart of that pair instead (goals+assists, attendance+
-   * starts — related numbers worth comparing side by side) — same
-   * selector look, same .stat-btn markup as the Estadísticas >
-   * Individuales tab, just scoped to its own #perfil-stat-selector (see
-   * setupPerfilStatSelector_). */
+  /** BALANCE shows the existing table; GOL/AST/PA/PI each show that
+   * one stat's own per-game grid instead (Stage 9 — see
+   * renderPerfilStatDetailTable_) — same selector look, same .stat-btn
+   * markup as the Estadísticas > Individuales tab, just scoped to its
+   * own #perfil-stat-selector (see setupPerfilStatSelector_). The
+   * GOL&AST/PA&PI charts that used to live behind this same selector
+   * are now their own always-available Gráficas section below (see
+   * renderPerfilGrafica_/setupPerfilGraficaSelector_) — a chart and a
+   * table aren't mutually exclusive views of "the same tab" any more,
+   * so they no longer share one piece of state. */
   function renderPerfilStatsView_(playerId, nombre) {
     var isBalance = state.perfilStat === 'BALANCE';
     document.getElementById('perfil-stats-wrap').hidden = !isBalance;
-    document.getElementById('perfil-stat-chart-wrap').hidden = true; // renderPerfilStatChart_ un-hides it if there's data to show
-    document.getElementById('perfil-stat-message').hidden = true;
+    document.getElementById('perfil-stat-detail-wrap').hidden = true; // renderPerfilStatDetailTable_ un-hides it once its (possibly async) data is ready
+    document.getElementById('perfil-stat-detail-message').hidden = true;
     if (isBalance) {
       renderPerfilStatsTable_(playerId, nombre);
     } else {
-      // "GOL_AST" / "PA_PI" -> ['GOL','AST'] / ['PA','PI'] — the two
-      // pairs are shown together (one line each) since they're related
-      // numbers a player/coach would naturally want to compare, rather
-      // than as four separate single-line tabs.
-      renderPerfilStatChart_(playerId, nombre, state.perfilStat.split('_'));
+      renderPerfilStatDetailTable_(playerId, nombre, state.perfilStat);
     }
   }
 
@@ -2013,6 +2019,41 @@
     if (!wrap) return;
     wrap.querySelectorAll('.stat-btn').forEach(function (b) {
       b.classList.toggle('active', b.dataset.stat === 'BALANCE');
+    });
+  }
+
+  /** Gráficas section (Stage 9) — GOL&AST / PA&PI, the same two-line
+   * charts BALANCE's old sibling tabs used to show, just decoupled from
+   * the Estadísticas selector above (see renderPerfilStatsView_'s own
+   * comment) into their own two-way toggle. */
+  function renderPerfilGrafica_(playerId, nombre) {
+    document.getElementById('perfil-stat-chart-wrap').hidden = true; // renderPerfilStatChart_ un-hides it if there's data to show
+    document.getElementById('perfil-stat-message').hidden = true;
+    // "GOL_AST" / "PA_PI" -> ['GOL','AST'] / ['PA','PI'] — the two pairs
+    // are shown together (one line each) since they're related numbers
+    // a player/coach would naturally want to compare, rather than as
+    // four separate single-line charts.
+    renderPerfilStatChart_(playerId, nombre, state.perfilGrafica.split('_'));
+  }
+
+  function setupPerfilGraficaSelector_() {
+    var wrap = document.getElementById('perfil-grafica-selector');
+    if (!wrap) return;
+    wrap.addEventListener('click', function (e) {
+      var btn = e.target.closest('.stat-btn');
+      if (!btn) return;
+      wrap.querySelectorAll('.stat-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      state.perfilGrafica = btn.dataset.grafica;
+      if (state.perfilNombre) renderPerfilGrafica_(state.perfilPlayerId, state.perfilNombre);
+    });
+  }
+
+  function resetPerfilGraficaSelector_() {
+    var wrap = document.getElementById('perfil-grafica-selector');
+    if (!wrap) return;
+    wrap.querySelectorAll('.stat-btn').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.grafica === 'GOL_AST');
     });
   }
 
@@ -2071,6 +2112,149 @@
     }).join('');
 
     tbody.innerHTML = rowsHtml + '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
+  }
+
+  /** "N" for every GOL/AST/PA/PI per-game grid on a Perfil page (Stage
+   * 9) — the real game count of the single biggest season EVER PLAYED,
+   * site-wide (Daniel's own call: one fixed N everywhere, rather than
+   * letting each profile's own N vary by whichever seasons that one
+   * player happened to play in — this way "column 12" always means "the
+   * 12th game of whichever season that row is," consistently across
+   * every player's table). Uses allEraMatches_ (the real RES-based
+   * match count) rather than any one stat's own column count, so it's
+   * correct even for a stat whose tab doesn't exist in every era (AST,
+   * pre-2022/23) — a season's real game count doesn't depend on which
+   * stats happened to be tracked that year. Computed once and cached on
+   * state — historyData never changes after its first fetch. */
+  function maxGamesSiteWide_(historyData) {
+    if (state.maxGamesSiteWide !== null) return state.maxGamesSiteWide;
+    var byEra = allEraMatches_(historyData);
+    var max = 0;
+    Object.keys(byEra).forEach(function (era) {
+      var n = (byEra[era] || []).length;
+      if (n > max) max = n;
+    });
+    state.maxGamesSiteWide = max;
+    return max;
+  }
+
+  /** GOL/AST/PA/PI per-game grid (Stage 9) — one row per season this
+   * player has a real record for THIS stat (statRowForPlayer_'s own
+   * byEra, same participation test as the BALANCE table above),
+   * most-recent-first (same convention), one column per game (1...N,
+   * see maxGamesSiteWide_) plus a TOTAL column, plus a bottom TOTAL row
+   * — same "add both" convention as the BALANCE table's own TOTAL row,
+   * except a per-game-COLUMN sum across different seasons would be
+   * comparing unrelated matches (column 12 is a different real game in
+   * every season), so the bottom row only fills in the one number that
+   * genuinely sums across seasons — the career TOTAL — and leaves every
+   * game column blank there (still gets the .total-row grey-header
+   * background, just no misleading number in it).
+   *
+   * A season with fewer real games than N gets its trailing columns
+   * styled as "off the table" (.off-game-cell, style.css — a shade
+   * darker than the header grey) rather than left blank-but-
+   * indistinguishable from a real blank/0 game value.
+   *
+   * Needs the same lazily-fetched data-history-detail.json every older
+   * era's match-level detail already comes from elsewhere on the site
+   * (renderLeaderboard, Récords) — the current season's own detail
+   * comes straight from data.json's own "detail" key instead (data.detail
+   * .era === era), no fetch needed for that one row, same branching
+   * renderLeaderboard already uses. */
+  function renderPerfilStatDetailTable_(playerId, nombre, stat) {
+    var data = state.data;
+    var msg = document.getElementById('perfil-stat-detail-message');
+    var wrap = document.getElementById('perfil-stat-detail-wrap');
+    var block = data.stats && data.stats[stat];
+    var row = statRowForPlayer_(block, playerId, nombre);
+    var eras = (data.seasons || []).map(function (s) { return s.era; })
+      .filter(function (era) { return row && row.byEra && row.byEra[era] !== undefined && row.byEra[era] !== null; })
+      .reverse();
+
+    if (!eras.length) {
+      wrap.hidden = true;
+      msg.textContent = 'Sin datos.';
+      msg.hidden = false;
+      return;
+    }
+
+    wrap.hidden = true;
+    msg.textContent = 'Cargando...';
+    msg.hidden = false;
+
+    var requestedPlayerId = playerId, requestedStat = stat;
+    fetchHistoryDetail()
+      .then(function (historyData) {
+        // Bail if the user switched player/tab while this was in flight
+        // — a fresh call already handled (or is handling) the current
+        // view; same guard convention as renderLeaderboard's own fetch.
+        if (state.perfilPlayerId !== requestedPlayerId || state.perfilStat !== requestedStat) return;
+
+        var n = maxGamesSiteWide_(historyData);
+        var cols = [];
+        for (var i = 1; i <= n; i++) cols.push(i);
+
+        // This player's own per-era detail row + real game count, one
+        // lookup per era — the current era reads data.detail (already
+        // on hand, no fetch needed for it), every older one reads the
+        // freshly-fetched historyData, same source split renderLeaderboard
+        // already uses for a single era.
+        var eraInfo = eras.map(function (era) {
+          var detailBlock = (data.detail && data.detail.era === era && data.detail[stat])
+            ? data.detail[stat]
+            : (historyData.eras && historyData.eras[era] && historyData.eras[era][stat]);
+          var playerRow = detailBlock ? statRowForPlayer_(detailBlock, playerId, nombre) : null;
+          return {
+            era: era,
+            byMatch: (playerRow && playerRow.byMatch) || [],
+            realCols: detailBlock ? (detailBlock.columns || []).length : 0
+          };
+        });
+
+        // One shared color scale across every REAL cell in this table —
+        // this player's own games only, across every season shown —
+        // same matchCellStyle_/gridValueColor_ every other per-match
+        // grid on the site already uses, just scoped to one player
+        // instead of one era's whole roster.
+        var maxVal = 0;
+        eraInfo.forEach(function (e) {
+          e.byMatch.slice(0, e.realCols).forEach(function (v) {
+            var num = Number(v);
+            if (v !== null && v !== undefined && v !== '' && !isNaN(num) && num > maxVal) maxVal = num;
+          });
+        });
+
+        var headHtml = '<tr><th>Temporada</th>' + cols.map(function (i) { return '<th>' + i + '</th>'; }).join('') + '<th>TOTAL</th></tr>';
+
+        var bodyHtml = eraInfo.map(function (e) {
+          var gameCells = cols.map(function (i) {
+            var idx = i - 1;
+            if (idx >= e.realCols) return '<td class="off-game-cell"></td>';
+            var v = e.byMatch[idx];
+            var cellStyle = matchCellStyleAttr_(matchCellStyle_(stat, v, maxVal));
+            return '<td' + cellStyle + '>' + (v === null || v === undefined || v === '' ? '' : esc(v)) + '</td>';
+          }).join('');
+          var total = row.byEra[e.era];
+          return '<tr><td class="val-strong"><span class="era-link" data-era-link="' + esc(e.era) + '">' + esc(formatEraLabel_(e.era)) + '</span></td>' +
+            gameCells + '<td class="val-strong perfil-detail-total-col">' + (total === null || total === undefined ? '' : esc(total)) + '</td></tr>';
+        }).join('');
+
+        var totalRowCells = cols.map(function () { return '<td></td>'; }).join('');
+        var totalRowHtml = '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalRowCells +
+          '<td class="val-strong">' + (row.total === null || row.total === undefined ? '' : esc(row.total)) + '</td></tr>';
+
+        document.querySelector('#perfil-stat-detail-table thead').innerHTML = headHtml;
+        document.querySelector('#perfil-stat-detail-table tbody').innerHTML = bodyHtml + totalRowHtml;
+        msg.hidden = true;
+        wrap.hidden = false;
+      })
+      .catch(function (err) {
+        if (state.perfilPlayerId !== requestedPlayerId || state.perfilStat !== requestedStat) return;
+        msg.textContent = 'No se pudo cargar el detalle histórico.';
+        msg.hidden = false;
+        console.error(err);
+      });
   }
 
   // Same blue/purple pairing GF/GC already use everywhere else on the

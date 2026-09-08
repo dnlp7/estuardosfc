@@ -18,6 +18,7 @@
   --accent-light: #18a8b6;
   --accent-dark: #062225;
   --grey-header: #262626;
+  --grey-header-dark: #1a1a1a; /* Perfil GOL/AST/PA/PI grids: a game column beyond that season's own real game count (Stage 9) */
   --grey-cell: #333333;
   --grey-cell-hover: #3d3d3d;
 
@@ -1064,7 +1065,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    additionally draws a top border and the first column additionally
    draws a left border, so the full grid reconstructs with exactly one
    border's worth of thickness at every shared edge, never two. */
-#matches-table, #leaderboard-table, #team-balance-table {
+#matches-table, #leaderboard-table, #team-balance-table, #perfil-stat-detail-table {
   border-collapse: separate;
   border-spacing: 0;
 }
@@ -1167,6 +1168,39 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   left: 0;
   z-index: 1;
 }
+
+/* Perfil GOL/AST/PA/PI per-game grid (Stage 9) — same table language
+   and same one-frozen-column pattern as #team-balance-table just above
+   (Temporada is the only column that identifies a scrolled-right row,
+   so it stays pinned at left: 0, no offset math needed). Game columns
+   get a narrower padding than Temporada/TOTAL — up to ~28 of them can
+   be on screen at once, and they only ever hold a short value. */
+#perfil-stat-detail-wrap { border: none; border-radius: 0; background: transparent; }
+#perfil-stat-detail-table th, #perfil-stat-detail-table td {
+  border-right: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+  text-align: center;
+  padding: 0.55rem 0.6rem;
+}
+#perfil-stat-detail-table thead th { border-top: 2px solid var(--black); }
+#perfil-stat-detail-table th:first-child, #perfil-stat-detail-table td:first-child {
+  text-align: left;
+  font-weight: 700;
+  padding: 0.6rem 1.25rem;
+  border-left: 2px solid var(--black);
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+/* A column beyond that season's own real game count (e.g. column 26 in
+   a 23-game season) — a shade darker than the header grey, so it reads
+   as "this game never happened" rather than a real blank/0 value. */
+.off-game-cell { background: var(--grey-header-dark); }
+/* Per-season TOTAL column (row's last cell) — plain grey-header tint,
+   same "stands apart from the scale-colored game cells" idea as
+   .total-row below, just for one column instead of one row. */
+.perfil-detail-total-col { background: var(--grey-header); }
+
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
 tbody td { background: var(--grey-cell); }

@@ -341,8 +341,10 @@
       <h3>Estadísticas</h3>
       <div class="stat-selector" id="perfil-stat-selector">
         <button class="stat-btn active" data-stat="BALANCE">BALANCE</button>
-        <button class="stat-btn" data-stat="GOL_AST">GOL &amp; AST</button>
-        <button class="stat-btn" data-stat="PA_PI">PA &amp; PI</button>
+        <button class="stat-btn" data-stat="GOL">GOL</button>
+        <button class="stat-btn" data-stat="AST">AST</button>
+        <button class="stat-btn" data-stat="PA">PA</button>
+        <button class="stat-btn" data-stat="PI">PI</button>
       </div>
 
       <div class="table-wrap compact" id="perfil-stats-wrap">
@@ -352,6 +354,35 @@
           </thead>
           <tbody></tbody>
         </table>
+      </div>
+
+      <!-- GOL/AST/PA/PI per-game grid (Stage 9) - one row per season this
+           player has real data for that stat, one column per game
+           (1...N, N = the biggest game count of any season site-wide -
+           see maxGamesSiteWide_ in app.js), plus a TOTAL column. Temporada
+           is the table's one frozen/sticky column, same convention as
+           #team-balance-table (style.css). Filled by
+           renderPerfilStatDetailTable_ whenever a GOL/AST/PA/PI tab is
+           selected above. -->
+      <p id="perfil-stat-detail-message" class="detail-message" hidden></p>
+      <div class="table-wrap" id="perfil-stat-detail-wrap" hidden>
+        <table id="perfil-stat-detail-table">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Gráficas (Stage 9) - the GOL&AST/PA&PI two-line charts that
+           used to live under the Estadísticas selector above, now their
+           own section with their own two-way toggle
+           (setupPerfilGraficaSelector_/renderPerfilStatChart_ in app.js)
+           - independent of whichever Estadísticas tab (BALANCE/GOL/AST/
+           PA/PI) is currently selected, since a chart and a table aren't
+           mutually exclusive views of the same tab any more. -->
+      <h3>Gráficas</h3>
+      <div class="stat-selector" id="perfil-grafica-selector">
+        <button class="stat-btn active" data-grafica="GOL_AST">GOL &amp; AST</button>
+        <button class="stat-btn" data-grafica="PA_PI">PA &amp; PI</button>
       </div>
 
       <p id="perfil-stat-message" class="detail-message" hidden></p>
