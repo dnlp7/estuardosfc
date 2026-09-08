@@ -796,7 +796,7 @@
    * (grouped close together, not spread to opposite edges), per
    * Daniel's own layout call. */
   function partidoMarcadorHtml_(m) {
-    var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
+    var rivalStyle = rivalPillStyle_(m);
     // Penales line — only for a match this league's shootout rule
     // actually decided (m.penales). Estuardos' own PF/PC side is
     // always shown first, matching the score bands above it (Estuardos
@@ -2487,7 +2487,7 @@
         // formatting (bg/font color) in the season doc — no separate
         // Rivales tab. A rival cell with no color set gets no inline
         // style (default cell).
-        var rivalStyle = m.rivalBg ? ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"' : '';
+        var rivalStyle = rivalPillStyle_(m);
         var marcador = esc(m.gf) + ' - ' + esc(m.gc) + penalesAnotacionHtml_(m);
 
         return '<tr class="match-row-link" data-partido="' + esc(season.era) + '::' + esc(m.jornada) + '"><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
@@ -3610,10 +3610,25 @@
 
   /** Rival name with a graceful fallback for older, incomplete match
    * records (some pre-2017 docs never recorded the rival's name) — a
-   * blank rival renders as "Rival desconocido" instead of an empty
-   * cell/label. */
+   * blank rival renders as "[N/D]" instead of an empty cell/label. */
   function rivalLabel_(rival) {
-    return rival ? rival : 'Rival desconocido';
+    return rival ? rival : '[N/D]';
+  }
+
+  /** Rival badge/pill background+text color. A named rival with real
+   * kit colors set on RES's own Rival cell (m.rivalBg/m.rivalText) uses
+   * those, same as ever. A rival with no name at all ("[N/D]") never
+   * had real cell formatting to read in the first place (readMatchLog_
+   * deliberately skips reading it for a blank Rival cell) — rather than
+   * falling through to the plain default table-cell background,
+   * hard-code the same #262626/#ffffff pair Daniel already uses as the
+   * "no real kit color known" default on plenty of real, named rivals
+   * (e.g. Real Madrid, Leones Negros) — it's always the same value, so
+   * there's nothing to read per match. */
+  function rivalPillStyle_(m) {
+    if (m.rivalBg) return ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"';
+    if (!m.rival) return ' style="background:#262626;color:#ffffff"';
+    return '';
   }
 
   function esc(v) {
