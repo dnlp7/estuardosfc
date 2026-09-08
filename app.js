@@ -42,7 +42,9 @@
     perfilOrigen: 'inicio',   // which section to return to on Volver — set in irAPerfil_ from whichever section-panel was active right before navigating to a profile; defaults to inicio for a direct #jugador/<id> deep link with no prior in-app navigation
     partidoOrigen: 'inicio',  // same idea as perfilOrigen, for the standalone match-sheet page (Stage 9) — set in irAPartido_
     partidoAnterior: null,    // {era, jornada} of the previous match in full chronological order, or null — set by renderPartido_, read by setupPartido_'s Anterior button
-    partidoSiguiente: null    // same, for the next match
+    partidoSiguiente: null,   // same, for the next match
+    partidoActualEra: null,   // era/jornada of whichever match is currently rendered — set by renderPartido_, mirrors perfilPlayerId; lets a profile's own Volver rebuild a real #partido/<era>/<jornada> hash (see setupPerfil's Volver handler)
+    partidoActualJornada: null
   };
 
   // ---------------- Color scales ----------------
@@ -1474,6 +1476,8 @@
     if (siguiente) siguiente.disabled = true;
     state.partidoAnterior = null;
     state.partidoSiguiente = null;
+    state.partidoActualEra = era;
+    state.partidoActualJornada = jornada;
 
     fetchHistoryDetail()
       .then(function (historyData) {
@@ -1587,6 +1591,21 @@
     if (volver) {
       volver.addEventListener('click', function () {
         var destino = state.partidoOrigen || 'inicio';
+        // "perfil" isn't a valid bare hash (a real profile hash needs
+        // the playerId, #jugador/<id>) -- rebuild it directly from the
+        // still-current perfilPlayerId rather than setting an invalid
+        // "#perfil" hash, which routeFromHash_ can't resolve and used
+        // to bounce back to Jugadores instead (the reported bug).
+        // Deliberately NOT going through irAPerfil_ here -- that would
+        // stomp state.perfilOrigen with "partido" (still the active
+        // section at this exact moment), losing the profile's own
+        // original Volver destination.
+        if (destino === 'perfil' && state.perfilPlayerId) {
+          location.hash = 'jugador/' + encodeURIComponent(state.perfilPlayerId);
+          renderPerfil(state.perfilPlayerId);
+          activateSection_('perfil');
+          return;
+        }
         location.hash = destino;
         activateSection_(destino);
       });
@@ -1621,6 +1640,17 @@
         // former member's profile from Miembros Previos should land
         // back on Miembros Previos, not get bounced to Plantel Actual.
         var destino = state.perfilOrigen || 'inicio';
+        // Same fix, mirrored: "partido" isn't a valid bare hash either
+        // (needs era+jornada) -- rebuild it from partidoActualEra/
+        // Jornada rather than setting an invalid "#partido" hash.
+        // Deliberately NOT going through irAPartido_ (would stomp
+        // partidoOrigen with "perfil", still active at this moment).
+        if (destino === 'partido' && state.partidoActualEra && state.partidoActualJornada) {
+          location.hash = 'partido/' + encodeURIComponent(state.partidoActualEra) + '/' + encodeURIComponent(state.partidoActualJornada);
+          renderPartido_(state.partidoActualEra, state.partidoActualJornada);
+          activateSection_('partido');
+          return;
+        }
         location.hash = destino;
         activateSection_(destino);
       });
