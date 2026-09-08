@@ -2225,7 +2225,21 @@
           });
         });
 
-        var headHtml = '<tr><th>Temporada</th>' + cols.map(function (i) { return '<th>' + i + '</th>'; }).join('') + '<th>TOTAL</th></tr>';
+        // TOTAL column scale — this player's own season totals for THIS
+        // stat, min/max, same grey-to-scaleBest gradient the main
+        // Estadísticas tables' own TOT column uses (rankTotalStyles_'s
+        // totalColor), not a flat grey tint.
+        var totals = eraInfo.map(function (e) { return Number(row.byEra[e.era]) || 0; });
+        var minTotal = totals.length ? Math.min.apply(null, totals) : 0;
+        var maxTotal = totals.length ? Math.max.apply(null, totals) : 0;
+
+        // TOTAL is the table's 2nd column (right after Temporada), same
+        // position as every other stat table on the site — no bottom
+        // TOTAL row (redundant: a per-game-COLUMN sum across seasons
+        // would mix unrelated matches, and the one number that DOES sum
+        // cleanly, the career total, already has its own home on the
+        // BALANCE tab).
+        var headHtml = '<tr><th>Temporada</th><th>TOTAL</th>' + cols.map(function (i) { return '<th>' + i + '</th>'; }).join('') + '</tr>';
 
         var bodyHtml = eraInfo.map(function (e) {
           var gameCells = cols.map(function (i) {
@@ -2233,19 +2247,22 @@
             if (idx >= e.realCols) return '<td class="off-game-cell"></td>';
             var v = e.byMatch[idx];
             var cellStyle = matchCellStyleAttr_(matchCellStyle_(stat, v, maxVal));
-            return '<td' + cellStyle + '>' + (v === null || v === undefined || v === '' ? '' : esc(v)) + '</td>';
+            // PI is a position code, not a magnitude — the color alone
+            // (POSITION_COLORS_, via matchCellStyle_) already says which
+            // position, so the text is dropped here to let the column
+            // shrink to the same narrow width as every other stat's.
+            var cellText = (v === null || v === undefined || v === '' || stat === 'PI') ? '' : esc(v);
+            return '<td' + cellStyle + '>' + cellText + '</td>';
           }).join('');
           var total = row.byEra[e.era];
+          var totalColor = scaleColor_(total, minTotal, maxTotal, COLORS.greyCell, COLORS.scaleBest);
           return '<tr><td class="val-strong"><span class="era-link" data-era-link="' + esc(e.era) + '">' + esc(formatEraLabel_(e.era)) + '</span></td>' +
-            gameCells + '<td class="val-strong perfil-detail-total-col">' + (total === null || total === undefined ? '' : esc(total)) + '</td></tr>';
+            '<td class="val-strong"' + styleAttr_(totalColor) + '>' + (total === null || total === undefined ? '' : esc(total)) + '</td>' +
+            gameCells + '</tr>';
         }).join('');
 
-        var totalRowCells = cols.map(function () { return '<td></td>'; }).join('');
-        var totalRowHtml = '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalRowCells +
-          '<td class="val-strong">' + (row.total === null || row.total === undefined ? '' : esc(row.total)) + '</td></tr>';
-
         document.querySelector('#perfil-stat-detail-table thead').innerHTML = headHtml;
-        document.querySelector('#perfil-stat-detail-table tbody').innerHTML = bodyHtml + totalRowHtml;
+        document.querySelector('#perfil-stat-detail-table tbody').innerHTML = bodyHtml;
         msg.hidden = true;
         wrap.hidden = false;
       })

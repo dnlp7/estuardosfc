@@ -1180,7 +1180,6 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   border-right: 2px solid var(--black);
   border-bottom: 2px solid var(--black);
   text-align: center;
-  padding: 0.55rem 0.6rem;
 }
 #perfil-stat-detail-table thead th { border-top: 2px solid var(--black); }
 #perfil-stat-detail-table th:first-child, #perfil-stat-detail-table td:first-child {
@@ -1192,14 +1191,26 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   left: 0;
   z-index: 1;
 }
+/* TOTAL — 2nd column (right after the frozen Temporada column), same
+   position + same grey-to-accent scale styling (set inline by app.js,
+   scaleColor_ against this player's own season totals) as every other
+   stat table's own TOT column — not sticky itself, same as those. */
+#perfil-stat-detail-table th:nth-child(2), #perfil-stat-detail-table td:nth-child(2) {
+  padding: 0.6rem 1.25rem;
+}
+/* Game columns (3rd onward) — as narrow as the content allows: a plain
+   1-2 digit header, and a cell that's either a short number or (PI)
+   just a color with no text at all — "width: 1%" is the standard
+   shrink-to-content hint, backed by minimal padding so up to ~28 of
+   them stay readable side by side without ballooning the table width. */
+#perfil-stat-detail-table th:nth-child(n+3), #perfil-stat-detail-table td:nth-child(n+3) {
+  padding: 0.4rem 0.3rem;
+  width: 1%;
+}
 /* A column beyond that season's own real game count (e.g. column 26 in
    a 23-game season) — a shade darker than the header grey, so it reads
    as "this game never happened" rather than a real blank/0 value. */
 .off-game-cell { background: var(--grey-header-dark); }
-/* Per-season TOTAL column (row's last cell) — plain grey-header tint,
-   same "stands apart from the scale-colored game cells" idea as
-   .total-row below, just for one column instead of one row. */
-.perfil-detail-total-col { background: var(--grey-header); }
 
 th, td { padding: 0.55rem 0.75rem; text-align: left; white-space: nowrap; }
 thead th { background: var(--grey-header); color: var(--muted); font-size: 0.75rem; text-transform: uppercase; border-bottom: 1px solid var(--border); }
@@ -1479,6 +1490,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    class also carries a search box/era filter/toggle this page doesn't
    have) — just its own bottom margin before the table/chart below. */
 #perfil-stat-selector { margin-bottom: 1rem; }
+#perfil-grafica-selector { margin-bottom: 1rem; }
 .stat-btn {
   background: var(--grey-header);
   border: 1px solid var(--border);
