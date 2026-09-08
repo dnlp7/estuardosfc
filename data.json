@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-07T06:23:12.424Z",
+  "generatedAt": "2026-09-08T05:12:43.171Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -819,6 +819,7 @@
       "dorsalByEra": {
         "2011": 90,
         "2012": 90,
+        "2012/13": 90,
         "2011/12": 90,
         "2010/11": 90
       }
@@ -902,7 +903,6 @@
       "dorsalByEra": {
         "2011": 19,
         "2012": 19,
-        "2012/13": 19,
         "2011/12": 19
       }
     },
@@ -929,6 +929,7 @@
       "activo": false,
       "dorsalByEra": {
         "2012": 29,
+        "2012/13": 29,
         "2011/12": 29
       }
     },
@@ -936,6 +937,7 @@
       "nombre": "Rene",
       "activo": false,
       "dorsalByEra": {
+        "2012/13": 28,
         "2011/12": 28
       }
     },
@@ -950,7 +952,9 @@
       "nombre": "Scoth",
       "activo": false,
       "dorsalByEra": {
-        "2012": 31
+        "2012": 31,
+        "2012/13": 31,
+        "2011/12": 31
       }
     },
     "P063": {
@@ -973,6 +977,13 @@
       "activo": false,
       "dorsalByEra": {
         "2016": 17
+      }
+    },
+    "P066": {
+      "nombre": "Lester",
+      "activo": false,
+      "dorsalByEra": {
+        "2012/13": 30
       }
     }
   },
@@ -1628,7 +1639,7 @@
     "P062": {
       "nombreCompleto": "Daniel Scoth",
       "posicion": "POR",
-      "debut": "2012",
+      "debut": "2011",
       "cumpleanos": null,
       "instagram": null,
       "twitter": null,
@@ -1660,6 +1671,15 @@
       "instagram": null,
       "twitter": null,
       "dorsal": 17
+    },
+    "P066": {
+      "nombreCompleto": "Lester Papadakis",
+      "posicion": "MED",
+      "debut": "2012",
+      "cumpleanos": null,
+      "instagram": null,
+      "twitter": null,
+      "dorsal": 30
     }
   },
   "logros": {
@@ -1699,12 +1719,6 @@
         "nivel": 2,
         "temporada": "2025/26",
         "imagen": "tercer-lugar-2025-26.png"
-      },
-      {
-        "insignia": "Líder Goles Anotados",
-        "nivel": 3,
-        "temporada": "2012/13",
-        "imagen": "lider-goleo-2011.png"
       },
       {
         "insignia": "Líder Partidos Asistidos",
@@ -1995,14 +2009,6 @@
         "imagen": "lider-goleo-2011.png"
       }
     ],
-    "P056": [
-      {
-        "insignia": "Campeón Recopa",
-        "nivel": 2,
-        "temporada": "2012/13",
-        "imagen": "recopa-2012-13.png"
-      }
-    ],
     "P054": [
       {
         "insignia": "Campeón Recopa",
@@ -2045,7 +2051,23 @@
         "imagen": "recopa-2018.png"
       }
     ],
-    "P038": [
+    "P006": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      }
+    ],
+    "P066": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      }
+    ],
+    "P059": [
       {
         "insignia": "Campeón Recopa",
         "nivel": 2,
@@ -2053,16 +2075,26 @@
         "imagen": "recopa-2012-13.png"
       },
       {
-        "insignia": "Líder Partidos Asistidos",
+        "insignia": "Líder Goles Anotados",
         "nivel": 3,
-        "temporada": "2015A",
-        "imagen": "lider-partidos-2015.png"
-      },
+        "temporada": "2011/12",
+        "imagen": "lider-goleo-2011.png"
+      }
+    ],
+    "P060": [
       {
-        "insignia": "Líder Partidos Asistidos",
-        "nivel": 3,
-        "temporada": "2015B",
-        "imagen": "lider-partidos-2015.png"
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
+      }
+    ],
+    "P062": [
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
       }
     ],
     "P009": [
@@ -2811,12 +2843,18 @@
         "imagen": "fundador.png"
       }
     ],
-    "P059": [
+    "P038": [
       {
-        "insignia": "Líder Goles Anotados",
+        "insignia": "Líder Partidos Asistidos",
         "nivel": 3,
-        "temporada": "2011/12",
-        "imagen": "lider-goleo-2011.png"
+        "temporada": "2015A",
+        "imagen": "lider-partidos-2015.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2015B",
+        "imagen": "lider-partidos-2015.png"
       }
     ]
   },
@@ -2879,7 +2917,7 @@
           "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
-          "total": 156,
+          "total": 172,
           "byEra": {
             "2012": 4,
             "2016": 0,
@@ -2892,7 +2930,7 @@
             "2024": 9,
             "2025": 8,
             "2026": 1,
-            "2012/13": 3,
+            "2012/13": 19,
             "2015A": 11,
             "2015B": 9,
             "2019/20": 5,
@@ -2993,7 +3031,7 @@
           "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 71,
+          "total": 72,
           "byEra": {
             "2011": 3,
             "2012": 1,
@@ -3009,7 +3047,7 @@
             "2026": 0,
             "2010/11": 3,
             "2011/12": 3,
-            "2012/13": 3,
+            "2012/13": 4,
             "2015A": 4,
             "2015B": 1,
             "2017/18": 1,
@@ -3047,7 +3085,7 @@
           "playerId": "P002",
           "dorsal": 3,
           "nombre": "Sheko",
-          "total": 55,
+          "total": 56,
           "byEra": {
             "2011": 3,
             "2012": 7,
@@ -3063,7 +3101,7 @@
             "2026": 0,
             "2010/11": 4,
             "2011/12": 4,
-            "2012/13": 1,
+            "2012/13": 2,
             "2015A": 4,
             "2015B": 8,
             "2017/18": 1,
@@ -3074,6 +3112,29 @@
             "2024/25": 1,
             "2025/26": 0,
             "2026/27": 0
+          }
+        },
+        {
+          "playerId": "P054",
+          "dorsal": 10,
+          "nombre": "Chino",
+          "total": 40,
+          "byEra": {
+            "2011": 30,
+            "2012": 1,
+            "2011/12": 6,
+            "2012/13": 3
+          }
+        },
+        {
+          "playerId": "P059",
+          "dorsal": 29,
+          "nombre": "Izaay",
+          "total": 40,
+          "byEra": {
+            "2012": 1,
+            "2011/12": 35,
+            "2012/13": 4
           }
         },
         {
@@ -3099,28 +3160,6 @@
             "2024/25": 1,
             "2025/26": 0,
             "2026/27": 0
-          }
-        },
-        {
-          "playerId": "P054",
-          "dorsal": 10,
-          "nombre": "Chino",
-          "total": 38,
-          "byEra": {
-            "2011": 30,
-            "2012": 1,
-            "2011/12": 6,
-            "2012/13": 1
-          }
-        },
-        {
-          "playerId": "P059",
-          "dorsal": 29,
-          "nombre": "Izaay",
-          "total": 36,
-          "byEra": {
-            "2012": 1,
-            "2011/12": 35
           }
         },
         {
@@ -3192,20 +3231,21 @@
           "playerId": "P049",
           "dorsal": 5,
           "nombre": "Koch",
-          "total": 15,
+          "total": 24,
           "byEra": {
             "2012": 10,
             "2011/12": 4,
-            "2012/13": 1
+            "2012/13": 10
           }
         },
         {
           "playerId": "P060",
           "dorsal": 28,
           "nombre": "Rene",
-          "total": 13,
+          "total": 15,
           "byEra": {
-            "2011/12": 13
+            "2011/12": 13,
+            "2012/13": 2
           }
         },
         {
@@ -3228,8 +3268,7 @@
           "byEra": {
             "2011": 5,
             "2012": 2,
-            "2011/12": 5,
-            "2012/13": 0
+            "2011/12": 5
           }
         },
         {
@@ -3752,12 +3791,23 @@
           }
         },
         {
+          "playerId": "P066",
+          "dorsal": 30,
+          "nombre": "Lester",
+          "total": 0,
+          "byEra": {
+            "2012/13": 0
+          }
+        },
+        {
           "playerId": "P062",
           "dorsal": 31,
           "nombre": "Scoth",
           "total": 0,
           "byEra": {
-            "2012": 0
+            "2012": 0,
+            "2011/12": 0,
+            "2012/13": 0
           }
         },
         {
