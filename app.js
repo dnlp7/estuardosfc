@@ -321,7 +321,7 @@
     });
   }
 
-  /** One delegated click listener (same pattern as setupJugadorLinks_)
+  /** One delegated click listener (same pattern as setupContentLinks_)
    * for every .stat-range-btn on the page, present or future - handles
    * the "tap to pin open on mobile" half of the hover/tap spec
    * (:hover in style.css handles desktop for free). Clicking a
@@ -431,10 +431,8 @@
     renderPlantelEx_();
     renderRecordsLeaders_();
     setupPerfil();
-    setupJugadorLinks_();
-    setupEraLinks_();
     setupPartido_();
-    setupPartidoLinks_();
+    setupContentLinks_();
     hydrateStatRangeIcons_();
     setupStatRangeIcons_();
   }
@@ -1102,20 +1100,6 @@
     activateSection_('estadisticas');
   }
 
-  // One global delegated listener for every clickable season label
-  // (team balance table's TEMP. column, a player's own Perfil stats
-  // table's Temporada column) -- data-era-link="<era>" is only ever put
-  // on a real season's own row, so this can never route to a season
-  // with no data. Same delegated-listener pattern as setupJugadorLinks_/
-  // setupPartidoLinks_ below.
-  function setupEraLinks_() {
-    document.addEventListener('click', function (e) {
-      var el = e.target.closest('[data-era-link]');
-      if (!el || !el.dataset.eraLink) return;
-      irATemporada_(el.dataset.eraLink);
-    });
-  }
-
   /** Próximo Partido — reads straight off data.currentSeason.proximo
    * (dashboard_export.gs's readMatchLog_: the first RES row with a real
    * Fecha but still-blank GF). null is the normal, expected state until
@@ -1418,7 +1402,7 @@
 
   // Shared by every way of reaching a profile page — Plantel cards
   // above, and every other player mention site-wide via
-  // setupJugadorLinks_ below (Último Partido/Alineaciones cards,
+  // setupContentLinks_ below (Último Partido/Alineaciones cards,
   // Líderes Históricos, Récords entries, Individuales/BALANCE table
   // rows). Same three steps every one of those used to repeat inline:
   // set the shareable hash, render immediately (instant on click,
@@ -1438,20 +1422,36 @@
     activateSection_('perfil');
   }
 
-  // One global delegated listener (rather than wiring each grid/table
-  // individually, unlike wirePlantelGridClicks_ above) for every OTHER
-  // clickable player mention on the site — a single listener on
-  // document survives every one of those containers' own innerHTML
-  // re-renders with no extra wiring needed as new ones are added.
-  // data-jugador-id is only ever present on an element for a player
-  // with a real Jugadores match (playerId) — a [Default]/[Autogoles]
-  // utility row or an unresolved name never gets it, so this can
-  // never navigate to a non-existent profile.
-  function setupJugadorLinks_() {
+  // ONE global delegated listener for every clickable content mention
+  // site-wide -- a player (data-jugador-id: Plantel-adjacent mentions
+  // everywhere, Récords entries, leaderboard rows), a match
+  // (data-partido="<era>::<jornada>": Resultados rows, Récords match
+  // mentions), or a season label (data-era-link: team balance table,
+  // a Perfil stats table). Handles all three instead of three separate
+  // document listeners specifically so a NESTED case -- a Récords
+  // highlight entry's data-partido match-mention span sits INSIDE its
+  // own data-jugador-id row (renderRecordCard_) -- can never double-
+  // fire. A single closest() across all three selectors always returns
+  // the nearest/innermost matching ancestor to the actual click target,
+  // so clicking the inner match-mention text resolves to the partido
+  // link (not the outer player row) and exactly one navigation happens
+  // per click. Every data attribute here is only ever put on an element
+  // with real, resolved data (a real playerId/era+jornada/era) — this
+  // can never route to something that doesn't exist.
+  function setupContentLinks_() {
     document.addEventListener('click', function (e) {
-      var el = e.target.closest('[data-jugador-id]');
-      if (!el || !el.dataset.jugadorId) return;
-      irAPerfil_(el.dataset.jugadorId);
+      var el = e.target.closest('[data-jugador-id], [data-partido], [data-era-link]');
+      if (!el) return;
+      if (el.dataset.partido) {
+        var parts = el.dataset.partido.split('::');
+        if (parts.length === 2) irAPartido_(parts[0], parts[1]);
+        return;
+      }
+      if (el.dataset.eraLink) {
+        irATemporada_(el.dataset.eraLink);
+        return;
+      }
+      if (el.dataset.jugadorId) irAPerfil_(el.dataset.jugadorId);
     });
   }
 
@@ -1569,21 +1569,6 @@
     location.hash = 'partido/' + encodeURIComponent(era) + '/' + encodeURIComponent(jornada);
     renderPartido_(era, jornada);
     activateSection_('partido');
-  }
-
-  // One global delegated listener for every clickable match mention on
-  // the site (Resultados table rows, Records entries, both tabs) —
-  // mirrors setupJugadorLinks_ below. data-partido="<era>::<jornada>"
-  // is only ever put on an element for a real played match, so this can
-  // never route to a match with no data.
-  function setupPartidoLinks_() {
-    document.addEventListener('click', function (e) {
-      var el = e.target.closest('[data-partido]');
-      if (!el || !el.dataset.partido) return;
-      var parts = el.dataset.partido.split('::');
-      if (parts.length !== 2) return;
-      irAPartido_(parts[0], parts[1]);
-    });
   }
 
   function setupPartido_() {
