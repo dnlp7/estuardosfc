@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T05:05:22.359Z",
+  "generatedAt": "2026-09-09T02:48:49.778Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -44186,7 +44186,7 @@
             "pc": 2,
             "ganoEstuardos": true
           },
-          "puntos": 2,
+          "puntos": 1,
           "rival": "CHELSEA GT",
           "rivalBg": "#000000",
           "rivalText": "#ffffff",
@@ -44201,7 +44201,7 @@
         "gf": 69,
         "gc": 135,
         "dif": -66,
-        "pts": 16
+        "pts": 15
       }
     },
     "2012": {
@@ -54809,7 +54809,7 @@
             "pc": 2,
             "ganoEstuardos": true
           },
-          "puntos": 2,
+          "puntos": 1,
           "rival": "ARSENAL",
           "rivalBg": "#262626",
           "rivalText": "#ffffff",
@@ -54839,7 +54839,7 @@
         "gf": 72,
         "gc": 140,
         "dif": -68,
-        "pts": 15
+        "pts": 14
       }
     },
     "2011/12": {
