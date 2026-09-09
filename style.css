@@ -785,24 +785,39 @@ main.wide { max-width: 1400px; }
 }
 
 /* Era-accurate match-sheet theming (Stage 9) — app.js's
-   aplicarTemaPartido_ sets --tema-* as custom properties on
-   #partido-content itself for whichever era the page is currently
-   showing; every rule below just reads them with the ORIGINAL static
-   value as its fallback, so an era with no theme (or a data.json from
-   before this feature existed) renders pixel-identical to before.
-   Scoped under #partido-content specifically so Inicio's Último/
-   Próximo Partido cards — which reuse these same .partido-card/
+   aplicarTemaPartido_ sets --tema-* as custom properties on <body>
+   itself for whichever era the page is currently showing; every rule
+   below just reads them with the ORIGINAL static value as its
+   fallback, so an era with no theme (or a data.json from before this
+   feature existed) renders pixel-identical to before. Most rules are
+   still scoped under #partido-content so Inicio's Último/Próximo
+   Partido cards — which reuse these same .partido-card/
    .partido-banda-local/.cancha-jugador classes — are never touched;
    only the standalone match-sheet page changes by era. */
-/* The whole match-sheet page area (topbar + title + both cards), not
-   just the cards themselves — Daniel's own call: the page should read
-   as one themed sheet, not two themed cards floating on the site's
-   static background. #partido-content still carries the --tema-*
-   custom properties (aplicarTemaPartido_ sets them there); this just
-   reads the same --tema-fondo one level up so the surrounding page
-   area picks it up too. */
-#section-partido.active {
+/* The background specifically is scoped by body[data-section="partido"]
+   instead (that attribute is set by activateSection_ on every nav —
+   app.js) rather than #partido-content or #section-partido: Daniel's
+   explicit ask is that EVERY part of the page below the black nav bar
+   changes color on this page, edge to edge — not just the two cards,
+   and not just #section-partido's own box, which sits inset inside
+   <main>'s centered max-width column and never reaches the viewport
+   edges. <body> is the one element that actually spans full-bleed. */
+body[data-section="partido"] {
   background: var(--tema-fondo, var(--bg));
+}
+/* Volver + the prev/next arrows sit directly on that full-bleed
+   background now, so their border/text (fixed white before theming
+   existed) need the same contrast-aware pick everything else on this
+   page uses — a light Fondo would otherwise make them nearly invisible,
+   exactly like the border-color problem above. Scoped by the same
+   data-section attribute (not just .partido-nav-btn/.partido-topbar
+   .perfil-volver's own specificity) so leftover --tema-* values never
+   bleed into the Perfil page's OWN (unthemed) Volver button, which
+   reuses the plain .perfil-volver class outside this page. */
+body[data-section="partido"] .partido-topbar .perfil-volver,
+body[data-section="partido"] .partido-nav-btn {
+  border-color: var(--tema-acento, var(--white));
+  color: var(--tema-texto-fondo, var(--white));
 }
 #partido-content .partido-card {
   background: var(--tema-fondo, var(--bg));

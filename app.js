@@ -1581,13 +1581,17 @@
     var anterior = document.getElementById('partido-anterior');
     var siguiente = document.getElementById('partido-siguiente');
     if (!content) return;
-    // Set on #section-partido, not #partido-content — CSS custom
-    // properties only cascade DOWN the DOM tree, and #section-partido's
-    // own page-background rule (style.css) is an ancestor of
-    // #partido-content, so it could never see a property set there.
-    // Setting it one level up still reaches every descendant (the cards,
-    // same as before) while also making it visible to the section rule.
-    aplicarTemaPartido_(document.getElementById('section-partido') || content, era);
+    // Set on <body>, not #section-partido or #partido-content — CSS
+    // custom properties only cascade DOWN the DOM tree, and Daniel's
+    // explicit ask ("EVERY PART OF THE BACKGROUND... EVERYTHING BELOW
+    // THE BLACK NAV BAR") means the themed background has to reach
+    // edge-to-edge, not just #section-partido's own box, which sits
+    // inset inside <main>'s centered max-width column and never spans
+    // the full viewport width. body[data-section="partido"] (that
+    // attribute is set by activateSection_ on every navigation) is the
+    // one full-bleed element both the background rule and this
+    // property-source can share — see style.css.
+    aplicarTemaPartido_(document.body, era);
     content.innerHTML = '<p class="detail-message">Cargando…</p>';
     if (anterior) anterior.disabled = true;
     if (siguiente) siguiente.disabled = true;
