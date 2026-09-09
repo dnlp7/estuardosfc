@@ -693,9 +693,14 @@ main.wide { max-width: 1400px; }
 /* Overlaid on the photo's bottom-right corner (moved here from
    bottom-left so the position pill could take that corner instead,
    Daniel's call), stacked one per row - same corner-badge treatment
-   as .jugador-card-capitan (top-right), a solid --bg border acting
-   as a cutout ring so each stays legible against any photo. Goal
-   badge on top, assist badge below when both are present. */
+   as .jugador-card-capitan (top-right), a border acting as a cutout
+   ring so each stays legible against any photo. Goal badge on top,
+   assist badge below when both are present. Border is --accent-light
+   (Stage 9 color-fix pass) — it used to be --bg, which on Inicio (page
+   background is also --bg) meant the ring just blended invisibly into
+   the surrounding page instead of reading as a deliberate ring; the
+   match-sheet page overrides this to the theme's own Acento already
+   (below), so this base rule only ever shows on Inicio/unthemed. */
 .jugador-card-badges {
   position: absolute; bottom: -4px; right: -4px;
   display: flex; flex-direction: column; gap: 2px; align-items: flex-end;
@@ -703,7 +708,7 @@ main.wide { max-width: 1400px; }
 .jugador-card-badge {
   display: inline-flex; align-items: center; gap: 0.15rem;
   padding: 0.12rem 0.4rem; border-radius: 6px; font-size: 0.68rem; font-weight: 700;
-  border: 2px solid var(--bg);
+  border: 2px solid var(--accent-light);
 }
 /* Ball icon is a CSS mask of Daniel's PNG (Stage 9 color-fix pass), not
    a plain <img> — same reasoning as the pitch outline: a mask lets the
@@ -819,14 +824,33 @@ body[data-section="partido"] .partido-nav-btn {
   border-color: var(--tema-acento, var(--white));
   color: var(--tema-texto-fondo, var(--white));
 }
+/* The site-wide footer sits directly on <body> too (a sibling of
+   <main>, below it) — same full-bleed background as everything else
+   on this page, so its own fixed-color text needs the same treatment.
+   .social-label ("@estuardosfc", normally --white per its own rule
+   further down) is the one that actually goes invisible on a light
+   Fondo; .updated ("Actualizado: ...", inherited from .site-footer's
+   own --muted-alt) is included too since that muted tone was tuned
+   for the static dark page, not an arbitrary themed one. The icons
+   themselves (.social-links) are untouched — Daniel's explicit call
+   from the very first version of this feature. */
+body[data-section="partido"] .site-footer {
+  color: var(--tema-texto-fondo, var(--muted-alt));
+}
+body[data-section="partido"] .social-label {
+  color: var(--tema-texto-fondo, var(--white));
+}
 #partido-content .partido-card {
   background: var(--tema-fondo, var(--bg));
-  /* Acento, not Principal — a theme with a white/near-white Principal
-     (e.g. some eras' score-band color) made the border nearly invisible
-     against the also-themed Fondo background; Acento reads as this
-     site's "brand" outline color elsewhere already (title, column
-     headings, field lines) so it stays visible across every theme. */
-  border-color: var(--tema-acento, var(--accent-light));
+  /* A darkened Acento (--tema-acento-oscuro, computed in app.js —
+     mixed 35% toward black), not the raw bright one — Daniel's ask,
+     matching Inicio's own unthemed card border (--main: muted, "blend
+     into the page" rather than a bright outline). Falls back to that
+     same --main when unthemed, not --accent-light, for the identical
+     reason. (Principal alone, the very first version of this rule, was
+     dropped even earlier — a theme with a white/near-white Principal
+     made the border nearly invisible against the also-themed Fondo.) */
+  border-color: var(--tema-acento-oscuro, var(--main));
 }
 #partido-content .partido-encabezado { color: var(--tema-acento, var(--accent-light)); }
 #partido-content .partido-encabezado-jornada { color: var(--tema-texto-fondo, var(--white)); }

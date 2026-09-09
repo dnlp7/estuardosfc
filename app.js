@@ -1570,9 +1570,9 @@
    * every var(--tema-x, <static fallback>) in the CSS resolves to that
    * static fallback exactly as before this feature existed. */
   var TEMA_VARS_ = [
-    '--tema-principal', '--tema-acento', '--tema-portero', '--tema-fondo',
-    '--tema-texto-principal', '--tema-texto-portero', '--tema-texto-fondo',
-    '--tema-texto-acento'
+    '--tema-principal', '--tema-acento', '--tema-acento-oscuro', '--tema-portero',
+    '--tema-fondo', '--tema-texto-principal', '--tema-texto-portero',
+    '--tema-texto-fondo', '--tema-texto-acento'
   ];
   function aplicarTemaPartido_(el, era) {
     var tema = temaForEra_(era);
@@ -1582,6 +1582,15 @@
     }
     el.style.setProperty('--tema-principal', tema.principal || '');
     el.style.setProperty('--tema-acento', tema.acento || '');
+    // Card border (Stage 9 color-fix pass): Daniel's ask was a muted,
+    // darker version of Acento rather than the raw, bright one — same
+    // spirit as Inicio's own unthemed card border (--main, a subdued
+    // color rather than the bright --accent-light), "blend into the
+    // page instead of standing out" per that rule's own original
+    // comment. Computed here (mixed 35% toward black) rather than
+    // asking Daniel to add a 10th Temas column for it — one real color
+    // per theme is enough raw material to derive this from.
+    el.style.setProperty('--tema-acento-oscuro', tema.acento ? lerpColor_(tema.acento, '#000000', 0.35) : '');
     el.style.setProperty('--tema-portero', tema.portero || '');
     el.style.setProperty('--tema-fondo', tema.fondo || '');
     // Contrast pick against Acento specifically — the goal/assist
