@@ -768,6 +768,12 @@ main.wide { max-width: 1400px; }
    started with. */
 .partido-datos-row { display: flex; flex-direction: column; gap: 1.5rem; }
 .partido-dato { display: flex; flex-direction: column; gap: 0.35rem; text-align: left; }
+/* Goles Adicionales (Stage 9) — a lone .partido-dato block reused
+   inside the marcador card itself (partidoColumnasHtml_), below the
+   last row of player photos, rather than the datos-card's own stacked
+   .partido-datos-row context — needs its own top margin since there's
+   no row/divider giving it that spacing here. */
+.partido-goles-adicionales { margin-top: 1rem; }
 .partido-dato-titulo { color: var(--accent-light); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
 .partido-dato-valor { color: var(--white); font-size: 1.1rem; font-weight: 700; }
 @media (max-width: 640px) {

@@ -601,13 +601,23 @@
    * scorers/assisters for one match. [Default]/[Autogoles] utility
    * rows ARE included (real goals credited to the team, per the
    * project's own GOL convention) — their bracketed name is shown with
-   * the brackets stripped for a cleaner match-summary read. Carries
-   * `dorsal` straight off the same detail row (already in the JSON) so
-   * callers can sort without a second lookup. */
+   * the brackets stripped for a cleaner match-summary read, and flagged
+   * `esUtilidad: true` (Stage 9 — Goles Adicionales) so callers can
+   * route them to the special-case goals summary instead of a player
+   * photo card (no Jugadores identity exists for these rows at all).
+   * Carries `dorsal` straight off the same detail row (already in the
+   * JSON) so callers can sort without a second lookup. */
   function detailScorersAt_(statBlock, idx) {
     if (!statBlock || idx < 0) return [];
     return statBlock.players
-      .map(function (p) { return { nombre: String(p.nombre || '').replace(/^\[|\]$/g, ''), dorsal: p.dorsal, playerId: p.playerId, valor: p.byMatch[idx] }; })
+      .map(function (p) {
+        var nombreCrudo = String(p.nombre || '').trim();
+        return {
+          nombre: nombreCrudo.replace(/^\[|\]$/g, ''),
+          esUtilidad: /^\[.*\]$/.test(nombreCrudo),
+          dorsal: p.dorsal, playerId: p.playerId, valor: p.byMatch[idx]
+        };
+      })
       .filter(function (p) { return Number(p.valor) > 0; });
   }
 
@@ -1035,8 +1045,37 @@
    * `detail` is {GOL, AST, PA, PI}, whichever blocks this era actually
    * has (see buildPartidoDetalle_/allEraStatDetail_). Returns
    * {colIzquierda, colDerecha}. */
+  /** "GOLES ADICIONALES" summary line (Stage 9) — the [Default]/
+   * [Autogoles]-style utility rows detailScorersAt_ flags esUtilidad,
+   * grouped by name and summed (a name can score more than once across
+   * a match, e.g. two separate default-win goals), rendered as one
+   * .partido-dato block styled exactly like the Fecha/Hora/Cancha card
+   * (same title/value classes, so it also inherits that card's era-
+   * theming rule for free) — "Default (3), Autogoles (1)". Returns ''
+   * when there are no special-case goals this match, so callers can
+   * append it unconditionally with no extra branching. */
+  function golesAdicionalesHtml_(items) {
+    if (!items.length) return '';
+    var counts = {}, orden = [];
+    items.forEach(function (p) {
+      if (!counts.hasOwnProperty(p.nombre)) { counts[p.nombre] = 0; orden.push(p.nombre); }
+      counts[p.nombre] += Number(p.valor) || 0;
+    });
+    var resumen = orden.map(function (nombre) { return nombre + ' (' + counts[nombre] + ')'; }).join(', ');
+    return '<div class="partido-dato partido-goles-adicionales">' +
+      '<span class="partido-dato-titulo">Goles Adicionales</span>' +
+      '<span class="partido-dato-valor">' + esc(resumen) + '</span></div>';
+  }
+
   function partidoColumnasHtml_(m, era, detail) {
-    var goleadores = detailScorersAt_(detail.GOL, detailColumnIndex_(detail.GOL, m.jornada));
+    var goleadoresTotales = detailScorersAt_(detail.GOL, detailColumnIndex_(detail.GOL, m.jornada));
+    // Real players only get a photo card; utility rows ([Default]/
+    // [Autogoles]) are pulled out here and summarized separately below
+    // (see golesAdicionalesHtml_) instead of rendering as a placeholder
+    // photo tile or being silently dropped from Tier A/B, where nothing
+    // used to surface them at all.
+    var goleadores = goleadoresTotales.filter(function (p) { return !p.esUtilidad; });
+    var golesAdicionales = goleadoresTotales.filter(function (p) { return p.esUtilidad; });
     var asistencias = detailScorersAt_(detail.AST, detailColumnIndex_(detail.AST, m.jornada));
     var presentesPI = detailPresentAt_(detail.PI, detailColumnIndex_(detail.PI, m.jornada));
     var presentesPA = detailPresentAt_(detail.PA, detailColumnIndex_(detail.PA, m.jornada));
@@ -1106,6 +1145,10 @@
       colIzquierda = '<p class="detail-message">(Sin datos)</p>';
       colDerecha = '';
     }
+    // Goles Adicionales — appended after whichever tier built the photo
+    // grid above (or Tier D's "Sin datos" message), so it always lands
+    // below the last row of player photos regardless of which tier fired.
+    colIzquierda += golesAdicionalesHtml_(golesAdicionales);
     return { colIzquierda: colIzquierda, colDerecha: colDerecha };
   }
 
