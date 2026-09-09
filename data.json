@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T02:49:03.488Z",
+  "generatedAt": "2026-09-09T03:57:13.063Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -217,7 +217,7 @@
       "portero": "#ffffff",
       "textoClaro": "#ffffff",
       "textoOscuro": "#000000",
-      "fondo": "#070707",
+      "fondo": "#5d8068",
       "grisPrincipal": "#262626",
       "grisSecundario": "#333333"
     },
@@ -228,7 +228,7 @@
       "portero": "#474b4d",
       "textoClaro": "#ffffff",
       "textoOscuro": "#000000",
-      "fondo": "#2a0214",
+      "fondo": "#480022",
       "grisPrincipal": "#262626",
       "grisSecundario": "#333333"
     },
@@ -250,7 +250,7 @@
       "portero": "#1d1d1d",
       "textoClaro": "#ffffff",
       "textoOscuro": "#000000",
-      "fondo": "#655942",
+      "fondo": "#a69b7f",
       "grisPrincipal": "#262626",
       "grisSecundario": "#333333"
     },
@@ -261,7 +261,7 @@
       "portero": "#218380",
       "textoClaro": "#e2d8ce",
       "textoOscuro": "#000000",
-      "fondo": "#271c36",
+      "fondo": "#36244a",
       "grisPrincipal": "#262626",
       "grisSecundario": "#333333"
     },
