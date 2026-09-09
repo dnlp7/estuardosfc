@@ -918,6 +918,13 @@
   var CANCHA_ROW_SPREAD_ = { 1: 0, 2: 100, 3: 161 };
   var CANCHA_MARKER_SIZE_ = 68;
   var CANCHA_MARKER_RX_ = 18;
+  // Stage 9 (color-fix pass): each call needs its own <mask> id — Último
+  // Partido and Próximo Partido can both have a cancha-svg in the DOM
+  // at once (Inicio), and a direct match-sheet page can be paged through
+  // without a full re-render of everything else, so ids must never
+  // collide or a later mask redefinition could silently blank an
+  // earlier field's outline.
+  var _canchaMaskSeq_ = 0;
   function canchaSvgHtml_(lineup, era) {
     // Stage 9: always renders the bare pitch image, even with no real
     // lineup (a match-sheet tier B/C match) — only the player markers
@@ -963,8 +970,19 @@
         }).join('');
       }).join('');
     }
+    // The line art is drawn via an alpha mask of the PNG, filled with a
+    // plain <rect class="cancha-lineas-fill">, rather than the PNG's own
+    // (fixed, teal) pixels directly — that's what lets CSS repaint the
+    // outline to each era's Acento color (style.css) without needing a
+    // separate pre-colored PNG per theme. mask-type:alpha (not the SVG
+    // default, luminance) keeps the recolor a clean solid fill matching
+    // the PNG's original anti-aliased line shape, regardless of what
+    // color the source PNG's lines happen to be drawn in.
+    var maskId = 'cancha-mask-' + (++_canchaMaskSeq_);
     return '<svg class="cancha-svg" viewBox="0 0 ' + CANCHA_IMG_W_ + ' ' + CANCHA_IMG_H_ + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Formación inicial">' +
-      '<image href="images/partidos/cancha-lineas2.png" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '"/>' +
+      '<defs><mask id="' + maskId + '" maskUnits="userSpaceOnUse" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '" style="mask-type:alpha">' +
+      '<image href="images/partidos/cancha-lineas2.png" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '"/></mask></defs>' +
+      '<rect class="cancha-lineas-fill" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '" mask="url(#' + maskId + ')"/>' +
       markers +
       '</svg>';
   }

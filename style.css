@@ -779,6 +779,16 @@ main.wide { max-width: 1400px; }
    Próximo Partido cards — which reuse these same .partido-card/
    .partido-banda-local/.cancha-jugador classes — are never touched;
    only the standalone match-sheet page changes by era. */
+/* The whole match-sheet page area (topbar + title + both cards), not
+   just the cards themselves — Daniel's own call: the page should read
+   as one themed sheet, not two themed cards floating on the site's
+   static background. #partido-content still carries the --tema-*
+   custom properties (aplicarTemaPartido_ sets them there); this just
+   reads the same --tema-fondo one level up so the surrounding page
+   area picks it up too. */
+#section-partido.active {
+  background: var(--tema-fondo, var(--bg));
+}
 #partido-content .partido-card {
   background: var(--tema-fondo, var(--bg));
   border-color: var(--tema-principal, var(--main));
@@ -795,6 +805,13 @@ main.wide { max-width: 1400px; }
 #partido-content .cancha-jugador text { fill: var(--tema-texto-principal, #ffffff); }
 #partido-content .cancha-jugador-por rect { fill: var(--tema-portero, var(--portero)); }
 #partido-content .cancha-jugador-por text { fill: var(--tema-texto-portero, #ffffff); }
+/* Field outline (see canchaSvgHtml_'s alpha-masked <rect>, right below
+   in the CSS source) and the Titulares/Suplentes name labels, which
+   sit directly on the now-themed card background above and need the
+   same background-aware contrast pick as .partido-dato-valor rather
+   than the fixed white they used before theming existed. */
+#partido-content .cancha-lineas-fill { fill: var(--tema-acento, var(--accent-light)); }
+#partido-content .jugador-card-nombre { color: var(--tema-texto-fondo, var(--white)); }
 
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
    comment, app.js) — the SVG here just positions player markers over
@@ -802,6 +819,13 @@ main.wide { max-width: 1400px; }
    whole column (not capped down to a small fixed width) so the pitch
    and its dorsal numbers stay legible. */
 .cancha-svg { width: 100%; max-width: 480px; height: auto; }
+/* The pitch outline itself is drawn from an alpha mask of Daniel's PNG
+   (canchaSvgHtml_, app.js) rather than the raw <image>, specifically so
+   it can be recolored per era below without needing a separate PNG per
+   theme — the fill is just the line art's own shape. Base rule here is
+   the original static teal (same hex as --accent-light); the scoped
+   #partido-content override above repaints it to each era's Acento. */
+.cancha-lineas-fill { fill: var(--accent-light); }
 .cancha-jugador rect { fill: var(--main); stroke: #ffffff; stroke-width: 3; }
 .cancha-jugador text { fill: #ffffff; font-size: 30px; font-weight: 800; text-anchor: middle; }
 /* Goalkeeper marker — the site-wide --portero var (current era's kit
