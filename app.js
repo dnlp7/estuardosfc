@@ -1567,7 +1567,13 @@
     var anterior = document.getElementById('partido-anterior');
     var siguiente = document.getElementById('partido-siguiente');
     if (!content) return;
-    aplicarTemaPartido_(content, era);
+    // Set on #section-partido, not #partido-content — CSS custom
+    // properties only cascade DOWN the DOM tree, and #section-partido's
+    // own page-background rule (style.css) is an ancestor of
+    // #partido-content, so it could never see a property set there.
+    // Setting it one level up still reaches every descendant (the cards,
+    // same as before) while also making it visible to the section rule.
+    aplicarTemaPartido_(document.getElementById('section-partido') || content, era);
     content.innerHTML = '<p class="detail-message">Cargando…</p>';
     if (anterior) anterior.disabled = true;
     if (siguiente) siguiente.disabled = true;

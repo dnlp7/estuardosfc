@@ -812,6 +812,14 @@ main.wide { max-width: 1400px; }
    than the fixed white they used before theming existed. */
 #partido-content .cancha-lineas-fill { fill: var(--tema-acento, var(--accent-light)); }
 #partido-content .jugador-card-nombre { color: var(--tema-texto-fondo, var(--white)); }
+/* Goles/asistencias count pills on each player's photo — same Principal
+   color + contrast-picked text as the field diagram's player markers
+   above, for one consistent "brand" pill color across the sheet. */
+#partido-content .jugador-card-badge-gol,
+#partido-content .jugador-card-badge-ast {
+  background: var(--tema-principal, var(--main));
+  color: var(--tema-texto-principal, #ffffff);
+}
 
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
    comment, app.js) — the SVG here just positions player markers over
