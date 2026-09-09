@@ -848,20 +848,22 @@ body[data-section="partido"] .partido-nav-btn {
    than the fixed white they used before theming existed. */
 #partido-content .cancha-lineas-fill { fill: var(--tema-acento, var(--accent-light)); }
 #partido-content .jugador-card-nombre { color: var(--tema-texto-fondo, var(--white)); }
-/* Goles/asistencias count pills on each player's photo — Acento, same
-   reasoning as the card border above (a white/near-white Principal made
-   these invisible on some themes). The ball icon (.jugador-card-badge-
-   balon, a CSS mask of Daniel's PNG rather than a plain <img> — see
-   ICON_BALON_/app.js) and the assist "A" + the count number (plain text,
-   colored via this rule's own `color`) all pick up the same contrast
-   color computed against Acento specifically (--tema-texto-acento). */
+/* Goles/asistencias count pills on each player's photo — Principal,
+   same as the field diagram's own player markers (Daniel's call: only
+   the card BORDER and the Volver/nav-arrow controls needed the Acento
+   swap, not these — Principal is the right "brand" color here). The
+   ball icon (.jugador-card-badge-balon, a CSS mask of Daniel's PNG
+   rather than a plain <img> — see ICON_BALON_/app.js) and the assist
+   "A" + the count number (plain text, colored via this rule's own
+   `color`) all pick up the same contrast color computed against
+   Principal specifically (--tema-texto-principal). */
 #partido-content .jugador-card-badge-gol,
 #partido-content .jugador-card-badge-ast {
-  background: var(--tema-acento, var(--main));
-  color: var(--tema-texto-acento, #ffffff);
+  background: var(--tema-principal, var(--main));
+  color: var(--tema-texto-principal, #ffffff);
 }
 #partido-content .jugador-card-badge-balon {
-  background-color: var(--tema-texto-acento, #ffffff);
+  background-color: var(--tema-texto-principal, #ffffff);
 }
 
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
