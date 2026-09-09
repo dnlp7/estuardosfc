@@ -1613,7 +1613,8 @@
    * every var(--tema-x, <static fallback>) in the CSS resolves to that
    * static fallback exactly as before this feature existed. */
   var TEMA_VARS_ = [
-    '--tema-principal', '--tema-acento', '--tema-acento-oscuro', '--tema-portero',
+    '--tema-principal', '--tema-secundario', '--tema-acento', '--tema-acento-oscuro',
+    '--tema-dorsales', '--tema-portero', '--tema-portero-sec', '--tema-portero-dor',
     '--tema-fondo', '--tema-texto-principal', '--tema-texto-fondo', '--tema-texto-acento'
   ];
   function aplicarTemaPartido_(el, era) {
@@ -1623,7 +1624,16 @@
       return;
     }
     el.style.setProperty('--tema-principal', tema.principal || '');
+    el.style.setProperty('--tema-secundario', tema.secundario || '');
     el.style.setProperty('--tema-acento', tema.acento || '');
+    // Field-diagram marker colors (this pass) — direct, not contrast-
+    // derived: outfield marker background/border/number text come
+    // straight off Temas' own Principal/Secundario/Dorsales columns,
+    // and the goalkeeper marker off Portero/Portero Sec/Portero Dor —
+    // Daniel's explicit per-column mapping, not computed.
+    el.style.setProperty('--tema-dorsales', tema.dorsales || '');
+    el.style.setProperty('--tema-portero-sec', tema.porteroSec || '');
+    el.style.setProperty('--tema-portero-dor', tema.porteroDor || '');
     // Card border (Stage 9 color-fix pass): Daniel's ask was a muted,
     // darker version of Acento rather than the raw, bright one — same
     // spirit as Inicio's own unthemed card border (--main, a subdued

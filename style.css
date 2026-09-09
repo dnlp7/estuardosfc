@@ -867,20 +867,26 @@ body[data-section="partido"] .social-label {
   background: var(--tema-principal, var(--main));
   color: var(--tema-texto-principal, var(--white));
 }
-#partido-content .cancha-jugador rect { fill: var(--tema-principal, var(--main)); }
-#partido-content .cancha-jugador-por rect { fill: var(--tema-portero, var(--portero)); }
-/* Marker number text is left plain white always (the base rule below,
-   never overridden here) rather than contrast-picked against the fill
-   — Daniel's report: a portero pill on this era's orange fill picked
-   black-on-orange to contrast, but the pill's own ring (.cancha-jugador
-   rect's `stroke`, base rule below) is a fixed white on EVERY marker,
-   themed or not, so the number needs to match that ring, not whatever
-   it's contrasted against. Applies to every marker, not just the
-   portero one — the same mismatch could happen on a light-Principal
-   theme's regular field markers too, which is why both text overrides
-   (not just the portero one) are simply removed here rather than fixed
-   to always resolve white — no reason to keep an unused --tema-texto-
-   principal/-portero read that could only ever cause this bug again. */
+/* Field marker colors (this pass) — each of the three visual parts of
+   a marker pill now maps to its own dedicated Temas column, rather
+   than the earlier all-white ring/text convention: outfield markers
+   use Principal (background) / Secundario (border) / Dorsales (number
+   text); the goalkeeper marker uses its own parallel trio, Portero /
+   Portero Sec / Portero Dor. This supersedes the previous "marker text
+   and ring are always fixed white" rule (see the base rules below,
+   which still carry the ORIGINAL static colors as fallbacks for an era
+   with no theme) — Daniel's explicit per-column mapping this time, not
+   a contrast computation. */
+#partido-content .cancha-jugador rect {
+  fill: var(--tema-principal, var(--main));
+  stroke: var(--tema-secundario, #ffffff);
+}
+#partido-content .cancha-jugador text { fill: var(--tema-dorsales, #ffffff); }
+#partido-content .cancha-jugador-por rect {
+  fill: var(--tema-portero, var(--portero));
+  stroke: var(--tema-portero-sec, #ffffff);
+}
+#partido-content .cancha-jugador-por text { fill: var(--tema-portero-dor, #ffffff); }
 /* Field outline (see canchaSvgHtml_'s alpha-masked <rect>, right below
    in the CSS source) and the Titulares/Suplentes name labels, which
    sit directly on the now-themed card background above and need the
