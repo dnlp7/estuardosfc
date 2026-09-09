@@ -93,9 +93,8 @@
     return rgbToHex_([a[0] + (b[0] - a[0]) * tt, a[1] + (b[1] - a[1]) * tt, a[2] + (b[2] - a[2]) * tt]);
   }
   /** Standard relative-luminance approximation (sRGB gamma-corrected) —
-   * used only to pick which of a theme's own two text colors (Texto
-   * Claro/Texto Oscuro) reads correctly against a given themed
-   * background, not for any exact WCAG contrast-ratio requirement. */
+   * feeds contrastRatio_ below, not used as a bare >0.5 cutoff any more
+   * (see pickContrastText_'s doc comment for why that was wrong). */
   function relativeLuminance_(hex) {
     var rgb = hexToRgb_(hex).map(function (c) {
       var s = c / 255;
@@ -103,17 +102,36 @@
     });
     return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
   }
+  /** WCAG contrast ratio between two colors (1:1 to 21:1). */
+  function contrastRatio_(hex1, hex2) {
+    var l1 = relativeLuminance_(hex1);
+    var l2 = relativeLuminance_(hex2);
+    var lighter = Math.max(l1, l2), darker = Math.min(l1, l2);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
   /** Picks whichever of a theme's own Texto Claro/Texto Oscuro pair
-   * contrasts against `bgHex` — a bright background gets the dark
-   * ("oscuro") text, a dark one gets the light ("claro") text. Which
-   * one that ends up being isn't fixed per theme (the first two themes
-   * have a light Principal, the rest a dark one, per Daniel's own
-   * note), so this is decided per background color, not per theme.
-   * Returns null for a missing/blank bgHex — caller already has its own
-   * static-fallback CSS var for that case. */
+   * actually contrasts BETTER against `bgHex`, by real WCAG contrast
+   * ratio — not a raw "is this background's own luminance above or
+   * below 0.5" cutoff, which is a materially different (and wrong)
+   * question: T006's gold Principal (~#b69a64) sits at luminance ~0.34,
+   * just under that 0.5 cutoff, so the naive version picked white text
+   * — but white only reaches ~2.7:1 contrast against that gold, while
+   * black reaches ~7.8:1. A mid-toned, fairly saturated color like this
+   * can easily land on the "wrong" side of 0.5 while still contrasting
+   * far better with dark text than light, which is exactly what
+   * happened here. Comparing the two ACTUAL ratios instead handles this
+   * (and any other theme) correctly regardless of where the
+   * background's raw luminance happens to fall. Which of Claro/Oscuro
+   * wins isn't fixed per theme (the first two themes have a light
+   * Principal, the rest a dark one, per Daniel's own note), so this is
+   * decided per background color, not per theme. Returns null for a
+   * missing/blank bgHex — caller already has its own static-fallback
+   * CSS var for that case. */
   function pickContrastText_(bgHex, claroHex, oscuroHex) {
     if (!bgHex) return null;
-    return relativeLuminance_(bgHex) > 0.5 ? (oscuroHex || '#000000') : (claroHex || '#ffffff');
+    var claro = claroHex || '#ffffff';
+    var oscuro = oscuroHex || '#000000';
+    return contrastRatio_(bgHex, oscuro) >= contrastRatio_(bgHex, claro) ? oscuro : claro;
   }
   /** Interpolates a color for `value` across [min,max] -> [colorMin,colorMax].
    * A degenerate range (min === max — e.g. only one row on screen)
