@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T17:51:25.214Z",
+  "generatedAt": "2026-09-09T02:49:03.488Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -39,129 +39,244 @@
     {
       "era": "2010/11",
       "torneo": "SOL1",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T001"
     },
     {
       "era": "2011",
       "torneo": "SOL2",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T002"
     },
     {
       "era": "2011/12",
       "torneo": "SOL3",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T002"
     },
     {
       "era": "2012",
       "torneo": "SOL4",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T002"
     },
     {
       "era": "2012/13",
       "torneo": "SOL5",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T002"
     },
     {
       "era": "2015A",
       "torneo": "SOL10",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T003"
     },
     {
       "era": "2015B",
       "torneo": "SOL11",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T003"
     },
     {
       "era": "2016",
       "torneo": "SOL12",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T003"
     },
     {
       "era": "2017/18",
       "torneo": "SOL16",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T004"
     },
     {
       "era": "2018",
       "torneo": "SOL17",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T004"
     },
     {
       "era": "2019",
       "torneo": "SOL18",
-      "hasTxJ": false
+      "hasTxJ": false,
+      "tema": "T004"
     },
     {
       "era": "2019/20",
       "torneo": "SOL19",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T005"
     },
     {
       "era": "2020",
       "torneo": "SOL20",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T005"
     },
     {
       "era": "2021",
       "torneo": "SOL21",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T005"
     },
     {
       "era": "2021/22",
       "torneo": "SOL22",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T005"
     },
     {
       "era": "2022",
       "torneo": "SOL23",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T005"
     },
     {
       "era": "2022/23",
       "torneo": "SOL24",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T006"
     },
     {
       "era": "2023",
       "torneo": "SOL25",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T006"
     },
     {
       "era": "2023/24",
       "torneo": "SOL26",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T006"
     },
     {
       "era": "2024",
       "torneo": "SOL27",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T007"
     },
     {
       "era": "2024/25",
       "torneo": "SOL28",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T007"
     },
     {
       "era": "2025",
       "torneo": "SOL29",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T007"
     },
     {
       "era": "2025/26",
       "torneo": "SOL30",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T007"
     },
     {
       "era": "2026",
       "torneo": "ATS1",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T007"
     },
     {
       "era": "2026/27",
       "torneo": "ATS2",
-      "hasTxJ": true
+      "hasTxJ": true,
+      "tema": "T008"
     }
   ],
+  "temas": {
+    "T001": {
+      "principal": "#ffffff",
+      "secundario": "#000000",
+      "acento": "#b69a64",
+      "portero": "#1d1d1d",
+      "textoClaro": "#ffffff",
+      "textoOscuro": "#000000",
+      "fondo": "#efefef",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    },
+    "T002": {
+      "principal": "#ffffff",
+      "secundario": "#000000",
+      "acento": "#b69a64",
+      "portero": "#1d1d1d",
+      "textoClaro": "#ffffff",
+      "textoOscuro": "#000000",
+      "fondo": "#efefef",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    },
+    "T003": {
+      "principal": "#6a9177",
+      "secundario": "#000000",
+      "acento": "#b69a64",
+      "portero": "#ffffff",
+      "textoClaro": "#ffffff",
+      "textoOscuro": "#000000",
+      "fondo": "#070707",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    },
+    "T004": {
+      "principal": "#63002e",
+      "secundario": "#000000",
+      "acento": "#b29762",
+      "portero": "#474b4d",
+      "textoClaro": "#ffffff",
+      "textoOscuro": "#000000",
+      "fondo": "#2a0214",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    },
+    "T005": {
+      "principal": "#1d1d1d",
+      "secundario": "#63002e",
+      "acento": "#b29762",
+      "portero": "#031d3c",
+      "textoClaro": "#ffffff",
+      "textoOscuro": "#000000",
+      "fondo": "#070707",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    },
+    "T006": {
+      "principal": "#bdae91",
+      "secundario": "#000000",
+      "acento": "#63002e",
+      "portero": "#1d1d1d",
+      "textoClaro": "#ffffff",
+      "textoOscuro": "#000000",
+      "fondo": "#655942",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    },
+    "T007": {
+      "principal": "#453260",
+      "secundario": "#85325c",
+      "acento": "#8661bc",
+      "portero": "#218380",
+      "textoClaro": "#e2d8ce",
+      "textoOscuro": "#000000",
+      "fondo": "#271c36",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    },
+    "T008": {
+      "principal": "#074f57",
+      "secundario": "#000000",
+      "acento": "#18a8b6",
+      "portero": "#fe7f2e",
+      "textoClaro": "#ffffff",
+      "textoOscuro": "#000000",
+      "fondo": "#062225",
+      "grisPrincipal": "#262626",
+      "grisSecundario": "#333333"
+    }
+  },
   "jugadores": {
     "P001": {
       "nombre": "Daniel",
