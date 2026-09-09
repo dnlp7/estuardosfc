@@ -705,7 +705,22 @@ main.wide { max-width: 1400px; }
   padding: 0.12rem 0.4rem; border-radius: 6px; font-size: 0.68rem; font-weight: 700;
   border: 2px solid var(--bg);
 }
-.jugador-card-badges img { width: 11px; height: 11px; display: block; }
+/* Ball icon is a CSS mask of Daniel's PNG (Stage 9 color-fix pass), not
+   a plain <img> — same reasoning as the pitch outline: a mask lets the
+   match-sheet page recolor it per era (below); a raw <img>'s own pixels
+   can't be recolored by CSS at all. Raster mask-image is alpha-based by
+   default in every real browser, so this just reuses the icon's own
+   transparent-background shape. Base/unthemed color is plain white,
+   matching the original <img> asset's own (already-white) pixels. */
+.jugador-card-badge-balon {
+  display: block; width: 11px; height: 11px;
+  background-color: #ffffff;
+  -webkit-mask-image: url(images/partidos/balon-icono.png);
+  mask-image: url(images/partidos/balon-icono.png);
+  -webkit-mask-size: contain; mask-size: contain;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+}
 .jugador-card-badge-gol { background: var(--main); color: #ffffff; }
 .jugador-card-badge-ast { background: var(--main); color: #ffffff; }
 .jugador-card-badge-count { font-size: 0.6rem; }
@@ -791,9 +806,15 @@ main.wide { max-width: 1400px; }
 }
 #partido-content .partido-card {
   background: var(--tema-fondo, var(--bg));
-  border-color: var(--tema-principal, var(--main));
+  /* Acento, not Principal — a theme with a white/near-white Principal
+     (e.g. some eras' score-band color) made the border nearly invisible
+     against the also-themed Fondo background; Acento reads as this
+     site's "brand" outline color elsewhere already (title, column
+     headings, field lines) so it stays visible across every theme. */
+  border-color: var(--tema-acento, var(--accent-light));
 }
 #partido-content .partido-encabezado { color: var(--tema-acento, var(--accent-light)); }
+#partido-content .partido-encabezado-jornada { color: var(--tema-texto-fondo, var(--white)); }
 #partido-content .partido-col h4 { color: var(--tema-acento, var(--accent-light)); }
 #partido-content .partido-dato-titulo { color: var(--tema-acento, var(--accent-light)); }
 #partido-content .partido-dato-valor { color: var(--tema-texto-fondo, var(--white)); }
@@ -812,13 +833,20 @@ main.wide { max-width: 1400px; }
    than the fixed white they used before theming existed. */
 #partido-content .cancha-lineas-fill { fill: var(--tema-acento, var(--accent-light)); }
 #partido-content .jugador-card-nombre { color: var(--tema-texto-fondo, var(--white)); }
-/* Goles/asistencias count pills on each player's photo — same Principal
-   color + contrast-picked text as the field diagram's player markers
-   above, for one consistent "brand" pill color across the sheet. */
+/* Goles/asistencias count pills on each player's photo — Acento, same
+   reasoning as the card border above (a white/near-white Principal made
+   these invisible on some themes). The ball icon (.jugador-card-badge-
+   balon, a CSS mask of Daniel's PNG rather than a plain <img> — see
+   ICON_BALON_/app.js) and the assist "A" + the count number (plain text,
+   colored via this rule's own `color`) all pick up the same contrast
+   color computed against Acento specifically (--tema-texto-acento). */
 #partido-content .jugador-card-badge-gol,
 #partido-content .jugador-card-badge-ast {
-  background: var(--tema-principal, var(--main));
-  color: var(--tema-texto-principal, #ffffff);
+  background: var(--tema-acento, var(--main));
+  color: var(--tema-texto-acento, #ffffff);
+}
+#partido-content .jugador-card-badge-balon {
+  background-color: var(--tema-texto-acento, #ffffff);
 }
 
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc

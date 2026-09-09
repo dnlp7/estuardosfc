@@ -659,10 +659,18 @@
 
   // Goal badge icon for Último Partido's player cards — Daniel's own
   // white soccer-ball asset (images/partidos/balon-icono.png, already
-  // white with a transparent background, so no recoloring needed) and
-  // a plain bold "A" for assists (no icon asset needed for that one,
-  // per Daniel's own call).
-  var ICON_BALON_ = '<img src="images/partidos/balon-icono.png" alt="Gol" class="jugador-card-badge-balon">';
+  // white with a transparent background) and a plain bold "A" for
+  // assists (no icon asset needed for that one, per Daniel's own call).
+  // Stage 9 (color-fix pass): rendered as a CSS mask on a plain <span>
+  // rather than a raw <img> — same reasoning as the pitch outline
+  // (canchaSvgHtml_/.cancha-lineas-fill): a mask lets the match-sheet
+  // page recolor the icon per era (style.css), while an <img>'s own
+  // pixels can't be recolored by CSS at all. Unlike the pitch outline
+  // (SVG <mask>, needed there for the alignment with player markers in
+  // the same viewBox), a plain CSS mask-image is enough for this
+  // isolated small icon — browsers mask raster PNGs by alpha already,
+  // no mask-type override needed.
+  var ICON_BALON_ = '<span class="jugador-card-badge-balon" aria-label="Gol"></span>';
 
   function partidoMetaItemHtml_(icon, label) {
     return '<span class="partido-meta-item">' + icon + esc(label) + '</span>';
@@ -1545,7 +1553,8 @@
    * static fallback exactly as before this feature existed. */
   var TEMA_VARS_ = [
     '--tema-principal', '--tema-acento', '--tema-portero', '--tema-fondo',
-    '--tema-texto-principal', '--tema-texto-portero', '--tema-texto-fondo'
+    '--tema-texto-principal', '--tema-texto-portero', '--tema-texto-fondo',
+    '--tema-texto-acento'
   ];
   function aplicarTemaPartido_(el, era) {
     var tema = temaForEra_(era);
@@ -1557,9 +1566,14 @@
     el.style.setProperty('--tema-acento', tema.acento || '');
     el.style.setProperty('--tema-portero', tema.portero || '');
     el.style.setProperty('--tema-fondo', tema.fondo || '');
+    // Contrast pick against Acento specifically — the goal/assist
+    // badges (Stage 9 color-fix pass) moved from Principal to Acento
+    // (border-color did too, below), since a theme with a white/near-
+    // white Principal made both invisible against a light Fondo card.
     el.style.setProperty('--tema-texto-principal', pickContrastText_(tema.principal, tema.textoClaro, tema.textoOscuro) || '');
     el.style.setProperty('--tema-texto-portero', pickContrastText_(tema.portero, tema.textoClaro, tema.textoOscuro) || '');
     el.style.setProperty('--tema-texto-fondo', pickContrastText_(tema.fondo, tema.textoClaro, tema.textoOscuro) || '');
+    el.style.setProperty('--tema-texto-acento', pickContrastText_(tema.acento, tema.textoClaro, tema.textoOscuro) || '');
   }
 
   function renderPartido_(era, jornada) {
