@@ -862,9 +862,19 @@ body[data-section="partido"] .social-label {
   color: var(--tema-texto-principal, var(--white));
 }
 #partido-content .cancha-jugador rect { fill: var(--tema-principal, var(--main)); }
-#partido-content .cancha-jugador text { fill: var(--tema-texto-principal, #ffffff); }
 #partido-content .cancha-jugador-por rect { fill: var(--tema-portero, var(--portero)); }
-#partido-content .cancha-jugador-por text { fill: var(--tema-texto-portero, #ffffff); }
+/* Marker number text is left plain white always (the base rule below,
+   never overridden here) rather than contrast-picked against the fill
+   — Daniel's report: a portero pill on this era's orange fill picked
+   black-on-orange to contrast, but the pill's own ring (.cancha-jugador
+   rect's `stroke`, base rule below) is a fixed white on EVERY marker,
+   themed or not, so the number needs to match that ring, not whatever
+   it's contrasted against. Applies to every marker, not just the
+   portero one — the same mismatch could happen on a light-Principal
+   theme's regular field markers too, which is why both text overrides
+   (not just the portero one) are simply removed here rather than fixed
+   to always resolve white — no reason to keep an unused --tema-texto-
+   principal/-portero read that could only ever cause this bug again. */
 /* Field outline (see canchaSvgHtml_'s alpha-masked <rect>, right below
    in the CSS source) and the Titulares/Suplentes name labels, which
    sit directly on the now-themed card background above and need the

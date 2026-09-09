@@ -1571,8 +1571,7 @@
    * static fallback exactly as before this feature existed. */
   var TEMA_VARS_ = [
     '--tema-principal', '--tema-acento', '--tema-acento-oscuro', '--tema-portero',
-    '--tema-fondo', '--tema-texto-principal', '--tema-texto-portero',
-    '--tema-texto-fondo', '--tema-texto-acento'
+    '--tema-fondo', '--tema-texto-principal', '--tema-texto-fondo', '--tema-texto-acento'
   ];
   function aplicarTemaPartido_(el, era) {
     var tema = temaForEra_(era);
@@ -1598,7 +1597,6 @@
     // (border-color did too, below), since a theme with a white/near-
     // white Principal made both invisible against a light Fondo card.
     el.style.setProperty('--tema-texto-principal', pickContrastText_(tema.principal, tema.textoClaro, tema.textoOscuro) || '');
-    el.style.setProperty('--tema-texto-portero', pickContrastText_(tema.portero, tema.textoClaro, tema.textoOscuro) || '');
     el.style.setProperty('--tema-texto-fondo', pickContrastText_(tema.fondo, tema.textoClaro, tema.textoOscuro) || '');
     el.style.setProperty('--tema-texto-acento', pickContrastText_(tema.acento, tema.textoClaro, tema.textoOscuro) || '');
   }
