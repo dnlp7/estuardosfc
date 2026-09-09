@@ -862,6 +862,13 @@ body[data-section="partido"] .partido-nav-btn {
   background: var(--tema-principal, var(--main));
   color: var(--tema-texto-principal, #ffffff);
 }
+/* The pill's own cutout-ring border (.jugador-card-badge's base rule,
+   above) was still hardcoded to the site's static --bg (a dark teal) —
+   visibly wrong once the page background itself is themed, per
+   Daniel's report. Acento, per his call. */
+#partido-content .jugador-card-badge {
+  border-color: var(--tema-acento, var(--bg));
+}
 #partido-content .jugador-card-badge-balon {
   background-color: var(--tema-texto-principal, #ffffff);
 }
