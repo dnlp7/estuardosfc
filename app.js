@@ -71,11 +71,7 @@
       // endpoint via JS, not just a static CSS class.
       good: v('--good') || '#25b659',
       draw: v('--draw') || '#979797',
-      bad: v('--bad') || '#ec071e',
-      // Goalkeeper kit color (current era's uniform theme) - used for
-      // the pitch's POR marker only, not the fixed-orange POR position
-      // pill elsewhere on the site.
-      portero: v('--portero') || '#fe7f2e'
+      bad: v('--bad') || '#ec071e'
     };
   }
 
@@ -95,6 +91,29 @@
     var a = hexToRgb_(hexA), b = hexToRgb_(hexB);
     var tt = Math.max(0, Math.min(1, t));
     return rgbToHex_([a[0] + (b[0] - a[0]) * tt, a[1] + (b[1] - a[1]) * tt, a[2] + (b[2] - a[2]) * tt]);
+  }
+  /** Standard relative-luminance approximation (sRGB gamma-corrected) —
+   * used only to pick which of a theme's own two text colors (Texto
+   * Claro/Texto Oscuro) reads correctly against a given themed
+   * background, not for any exact WCAG contrast-ratio requirement. */
+  function relativeLuminance_(hex) {
+    var rgb = hexToRgb_(hex).map(function (c) {
+      var s = c / 255;
+      return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+  }
+  /** Picks whichever of a theme's own Texto Claro/Texto Oscuro pair
+   * contrasts against `bgHex` — a bright background gets the dark
+   * ("oscuro") text, a dark one gets the light ("claro") text. Which
+   * one that ends up being isn't fixed per theme (the first two themes
+   * have a light Principal, the rest a dark one, per Daniel's own
+   * note), so this is decided per background color, not per theme.
+   * Returns null for a missing/blank bgHex — caller already has its own
+   * static-fallback CSS var for that case. */
+  function pickContrastText_(bgHex, claroHex, oscuroHex) {
+    if (!bgHex) return null;
+    return relativeLuminance_(bgHex) > 0.5 ? (oscuroHex || '#000000') : (claroHex || '#ffffff');
   }
   /** Interpolates a color for `value` across [min,max] -> [colorMin,colorMax].
    * A degenerate range (min === max — e.g. only one row on screen)
@@ -605,6 +624,28 @@
     return season ? season.torneo : '';
   }
 
+  /** era -> its Temas-tab color palette (Stage 9, era-accurate
+   * match-sheet theming) — via Torneos' own Tema column (each
+   * data.seasons entry's own `tema` field) joined against the small
+   * data.temas map dashboard_export.gs adds alongside it. Returns null
+   * uniformly for an era with no Tema code set, a code with no matching
+   * Temas row, OR an older cached data.json from before this feature
+   * existed (no `temas`/`tema` keys at all) — every caller already
+   * treats null as "use the static site palette", so there's no
+   * separate case to handle for stale exports. */
+  var _temaPorEraCache_ = {};
+  function temaForEra_(era) {
+    if (_temaPorEraCache_.hasOwnProperty(era)) return _temaPorEraCache_[era];
+    var season = (state.data.seasons || []).filter(function (s) { return s.era === era; })[0];
+    // Trimmed like jerseyYearPorEra_'s own join (stage4_sync.gs) does on
+    // the export side — Torneos' raw Tema cell isn't guaranteed to come
+    // back whitespace-free.
+    var temaId = season && season.tema ? String(season.tema).trim() : '';
+    var tema = (temaId && state.data.temas) ? state.data.temas[temaId] : null;
+    _temaPorEraCache_[era] = tema || null;
+    return _temaPorEraCache_[era];
+  }
+
   // Small outline icons (trophy/calendar/clock/pin) for the meta row —
   // inline SVG rather than image assets, so no new upload is needed and
   // they inherit color via CSS (currentColor) same as any text.
@@ -917,7 +958,7 @@
           var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
           var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
           var claseExtra = role === 'POR' ? ' cancha-jugador-por' : '';
-          return '<g class="cancha-jugador' + claseExtra + '"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"' + (role === 'POR' ? ' style="fill:' + COLORS.portero + '"' : '') + '/>' +
+          return '<g class="cancha-jugador' + claseExtra + '"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"/>' +
             '<text x="' + x + '" y="' + y + '" dy="0.36em">' + esc(etiqueta) + '</text></g>';
         }).join('');
       }).join('');
@@ -1468,11 +1509,47 @@
    * matches[] array this site exposes is already played-only
    * (readMatchLog_'s GF-based split), so there's no separate "unplayed
    * match" case to guard against here. */
+  /** Era-accurate match-sheet theming (Stage 9) — sets this era's own
+   * Temas palette (temaForEra_) as CSS custom properties directly on
+   * the match-sheet's own container. style.css's scoped rules
+   * (#partido-content ...) read these for the score band, both cards,
+   * the pitch diagram and the title accent; nothing outside this one
+   * container is touched, so Inicio's Último/Próximo Partido cards
+   * (the same shared .partido-card/.cancha-jugador classes) keep the
+   * static site palette unchanged regardless of era. Text color per
+   * themed background is picked for contrast from that theme's OWN
+   * Texto Claro/Texto Oscuro pair (pickContrastText_) since which one
+   * reads correctly depends on how light or dark that particular
+   * theme's own color happens to be, not a fixed choice per theme. An
+   * era with no theme (or an older cached export with no theme data at
+   * all) simply has every one of these custom properties removed, so
+   * every var(--tema-x, <static fallback>) in the CSS resolves to that
+   * static fallback exactly as before this feature existed. */
+  var TEMA_VARS_ = [
+    '--tema-principal', '--tema-acento', '--tema-portero', '--tema-fondo',
+    '--tema-texto-principal', '--tema-texto-portero', '--tema-texto-fondo'
+  ];
+  function aplicarTemaPartido_(el, era) {
+    var tema = temaForEra_(era);
+    if (!tema) {
+      TEMA_VARS_.forEach(function (v) { el.style.removeProperty(v); });
+      return;
+    }
+    el.style.setProperty('--tema-principal', tema.principal || '');
+    el.style.setProperty('--tema-acento', tema.acento || '');
+    el.style.setProperty('--tema-portero', tema.portero || '');
+    el.style.setProperty('--tema-fondo', tema.fondo || '');
+    el.style.setProperty('--tema-texto-principal', pickContrastText_(tema.principal, tema.textoClaro, tema.textoOscuro) || '');
+    el.style.setProperty('--tema-texto-portero', pickContrastText_(tema.portero, tema.textoClaro, tema.textoOscuro) || '');
+    el.style.setProperty('--tema-texto-fondo', pickContrastText_(tema.fondo, tema.textoClaro, tema.textoOscuro) || '');
+  }
+
   function renderPartido_(era, jornada) {
     var content = document.getElementById('partido-content');
     var anterior = document.getElementById('partido-anterior');
     var siguiente = document.getElementById('partido-siguiente');
     if (!content) return;
+    aplicarTemaPartido_(content, era);
     content.innerHTML = '<p class="detail-message">Cargando…</p>';
     if (anterior) anterior.disabled = true;
     if (siguiente) siguiente.disabled = true;

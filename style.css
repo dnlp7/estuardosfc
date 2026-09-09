@@ -768,6 +768,34 @@ main.wide { max-width: 1400px; }
      issue never shows). */
   .partido-marcador-card, .partido-datos-card { flex-basis: auto; max-width: none; }
 }
+
+/* Era-accurate match-sheet theming (Stage 9) — app.js's
+   aplicarTemaPartido_ sets --tema-* as custom properties on
+   #partido-content itself for whichever era the page is currently
+   showing; every rule below just reads them with the ORIGINAL static
+   value as its fallback, so an era with no theme (or a data.json from
+   before this feature existed) renders pixel-identical to before.
+   Scoped under #partido-content specifically so Inicio's Último/
+   Próximo Partido cards — which reuse these same .partido-card/
+   .partido-banda-local/.cancha-jugador classes — are never touched;
+   only the standalone match-sheet page changes by era. */
+#partido-content .partido-card {
+  background: var(--tema-fondo, var(--bg));
+  border-color: var(--tema-principal, var(--main));
+}
+#partido-content .partido-encabezado { color: var(--tema-acento, var(--accent-light)); }
+#partido-content .partido-col h4 { color: var(--tema-acento, var(--accent-light)); }
+#partido-content .partido-dato-titulo { color: var(--tema-acento, var(--accent-light)); }
+#partido-content .partido-dato-valor { color: var(--tema-texto-fondo, var(--white)); }
+#partido-content .partido-banda-local {
+  background: var(--tema-principal, var(--main));
+  color: var(--tema-texto-principal, var(--white));
+}
+#partido-content .cancha-jugador rect { fill: var(--tema-principal, var(--main)); }
+#partido-content .cancha-jugador text { fill: var(--tema-texto-principal, #ffffff); }
+#partido-content .cancha-jugador-por rect { fill: var(--tema-portero, var(--portero)); }
+#partido-content .cancha-jugador-por text { fill: var(--tema-texto-portero, #ffffff); }
+
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
    comment, app.js) — the SVG here just positions player markers over
    it at the right viewBox coordinates. Sized to fill essentially the
@@ -776,6 +804,12 @@ main.wide { max-width: 1400px; }
 .cancha-svg { width: 100%; max-width: 480px; height: auto; }
 .cancha-jugador rect { fill: var(--main); stroke: #ffffff; stroke-width: 3; }
 .cancha-jugador text { fill: #ffffff; font-size: 30px; font-weight: 800; text-anchor: middle; }
+/* Goalkeeper marker — the site-wide --portero var (current era's kit
+   color), same value the old inline style used to set per-marker in
+   app.js before this rule replaced it, now a plain class override so
+   the match-sheet page's own era-themed rule below (higher specificity,
+   #partido-content ...) can win there without an inline-style fight. */
+.cancha-jugador-por rect { fill: var(--portero); }
 
 /* Historia — all four sections render at once now (no tab-switching:
    Daniel wants the whole page scannable on load), so each one is just a
