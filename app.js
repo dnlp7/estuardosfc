@@ -1280,6 +1280,17 @@
     var card = document.getElementById('ultimo-partido-card');
     if (!card || !data || !data.currentSeason) return;
 
+    // Same era theme the standalone match-sheet page applies to
+    // <body> (Stage 9) — scoped here to this one card instead, since
+    // Inicio has other unthemed content around it. Set unconditionally
+    // (before the "no matches yet" placeholder returns) so the current
+    // season's theme is in effect either way; aplicarTemaPartido_
+    // itself already no-ops cleanly for an era with no theme. The
+    // score band, player photos, and field diagram all read these same
+    // --tema-* vars via style.css's shared #ultimo-partido-card rules —
+    // see that stylesheet's own comment for the full scope decision.
+    aplicarTemaPartido_(card, data.currentSeason.era);
+
     var matches = data.currentSeason.matches || [];
     if (!matches.length) {
       card.innerHTML = '<h3 class="partido-titulo">Último Partido</h3><p class="placeholder-text">Aún no se ha jugado ningún partido esta temporada.</p>';

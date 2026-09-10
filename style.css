@@ -861,9 +861,31 @@ body[data-section="partido"] .social-label {
 #partido-content .partido-encabezado { color: var(--tema-acento, var(--accent-light)); }
 #partido-content .partido-encabezado-jornada { color: var(--tema-texto-fondo, var(--white)); }
 #partido-content .partido-col h4 { color: var(--tema-acento, var(--accent-light)); }
-#partido-content .partido-dato-titulo { color: var(--tema-acento, var(--accent-light)); }
-#partido-content .partido-dato-valor { color: var(--tema-texto-fondo, var(--white)); }
-#partido-content .partido-banda-local {
+/* Shared theming scope (this pass) — Daniel's ask: the score band,
+   player photos, and field section stay VISUALLY IDENTICAL between the
+   standalone match-sheet page (#partido-content) and Inicio's Último
+   Partido card (#ultimo-partido-card), not just similar — any themed
+   rule for those three areas is written once, targeting both ancestors
+   together, so a future edit to one can't silently drift from the
+   other. Card background/border, the season/jornada title, and the
+   Fecha/Hora/Cancha info card (which doesn't exist on Inicio at all)
+   stay #partido-content-only — Daniel's explicit prior call (Stage 9)
+   that Inicio's card should "blend into the page" rather than stand
+   out, unaffected by this pass. .partido-dato-titulo/-valor ARE in
+   this shared list even though the Fecha/Hora/Cancha card isn't,
+   because Goles Adicionales (a later pass) reuses those same two
+   classes for its own title/value line, and that one DOES render on
+   Inicio (it's part of the shared partidoColumnasHtml_ output, same as
+   the photo grid it sits under). aplicarTemaPartido_ is called on both
+   #ultimo-partido-card (renderUltimoPartido_) and document.body
+   (renderPartido_, per Stage 9) — see app.js — so the same --tema-*
+   values reach whichever ancestor is in play. */
+#partido-content .partido-dato-titulo,
+#ultimo-partido-card .partido-dato-titulo { color: var(--tema-acento, var(--accent-light)); }
+#partido-content .partido-dato-valor,
+#ultimo-partido-card .partido-dato-valor { color: var(--tema-texto-fondo, var(--white)); }
+#partido-content .partido-banda-local,
+#ultimo-partido-card .partido-banda-local {
   background: var(--tema-principal, var(--main));
   color: var(--tema-texto-principal, var(--white));
 }
@@ -877,23 +899,29 @@ body[data-section="partido"] .social-label {
    which still carry the ORIGINAL static colors as fallbacks for an era
    with no theme) — Daniel's explicit per-column mapping this time, not
    a contrast computation. */
-#partido-content .cancha-jugador rect {
+#partido-content .cancha-jugador rect,
+#ultimo-partido-card .cancha-jugador rect {
   fill: var(--tema-principal, var(--main));
   stroke: var(--tema-secundario, #ffffff);
 }
-#partido-content .cancha-jugador text { fill: var(--tema-dorsales, #ffffff); }
-#partido-content .cancha-jugador-por rect {
+#partido-content .cancha-jugador text,
+#ultimo-partido-card .cancha-jugador text { fill: var(--tema-dorsales, #ffffff); }
+#partido-content .cancha-jugador-por rect,
+#ultimo-partido-card .cancha-jugador-por rect {
   fill: var(--tema-portero, var(--portero));
   stroke: var(--tema-portero-sec, #ffffff);
 }
-#partido-content .cancha-jugador-por text { fill: var(--tema-portero-dor, #ffffff); }
+#partido-content .cancha-jugador-por text,
+#ultimo-partido-card .cancha-jugador-por text { fill: var(--tema-portero-dor, #ffffff); }
 /* Field outline (see canchaSvgHtml_'s alpha-masked <rect>, right below
    in the CSS source) and the Titulares/Suplentes name labels, which
    sit directly on the now-themed card background above and need the
    same background-aware contrast pick as .partido-dato-valor rather
    than the fixed white they used before theming existed. */
-#partido-content .cancha-lineas-fill { fill: var(--tema-acento, var(--accent-light)); }
-#partido-content .jugador-card-nombre { color: var(--tema-texto-fondo, var(--white)); }
+#partido-content .cancha-lineas-fill,
+#ultimo-partido-card .cancha-lineas-fill { fill: var(--tema-acento, var(--accent-light)); }
+#partido-content .jugador-card-nombre,
+#ultimo-partido-card .jugador-card-nombre { color: var(--tema-texto-fondo, var(--white)); }
 /* Goles/asistencias count pills on each player's photo — Principal,
    same as the field diagram's own player markers (Daniel's call: only
    the card BORDER and the Volver/nav-arrow controls needed the Acento
@@ -904,7 +932,9 @@ body[data-section="partido"] .social-label {
    `color`) all pick up the same contrast color computed against
    Principal specifically (--tema-texto-principal). */
 #partido-content .jugador-card-badge-gol,
-#partido-content .jugador-card-badge-ast {
+#partido-content .jugador-card-badge-ast,
+#ultimo-partido-card .jugador-card-badge-gol,
+#ultimo-partido-card .jugador-card-badge-ast {
   background: var(--tema-principal, var(--main));
   color: var(--tema-texto-principal, #ffffff);
 }
@@ -912,10 +942,12 @@ body[data-section="partido"] .social-label {
    above) was still hardcoded to the site's static --bg (a dark teal) —
    visibly wrong once the page background itself is themed, per
    Daniel's report. Acento, per his call. */
-#partido-content .jugador-card-badge {
+#partido-content .jugador-card-badge,
+#ultimo-partido-card .jugador-card-badge {
   border-color: var(--tema-acento, var(--bg));
 }
-#partido-content .jugador-card-badge-balon {
+#partido-content .jugador-card-badge-balon,
+#ultimo-partido-card .jugador-card-badge-balon {
   background-color: var(--tema-texto-principal, #ffffff);
 }
 
