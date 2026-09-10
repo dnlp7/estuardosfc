@@ -1044,7 +1044,7 @@
     });
   }
   var _canchaPatternSeq_ = 0;
-  function canchaSvgHtml_(lineup, era) {
+  function canchaSvgHtml_(lineup, era, dorsalPorJugador) {
     // Stage 9: always renders the bare pitch image, even with no real
     // lineup (a match-sheet tier B/C match) — only the player markers
     // are conditional on a real lineup. Callers that used to rely on
@@ -1102,7 +1102,16 @@
           var spread = CANCHA_ROW_SPREAD_[n] !== undefined ? CANCHA_ROW_SPREAD_[n] : CANCHA_ROW_SPREAD_[3];
           var x = CANCHA_IMG_W_ / 2 + (n > 1 ? (i - (n - 1) / 2) * (2 * spread / (n - 1)) : 0);
           var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
-          var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
+          // Prefer the real per-match dorsal from PI's own detail row
+          // (dorsalPorJugador, built by partidoColumnasHtml_ from
+          // presentesPI — the same reliable source the photo cards use),
+          // falling back to the Jugadores-tab-based dorsalByEra lookup
+          // only when no PI data exists for this player/match (e.g. a
+          // lineup drawn from TxJ alone with no PI block for this era).
+          var key = j.playerId || j.nombre;
+          var dorsal = (dorsalPorJugador && dorsalPorJugador[key] !== undefined && dorsalPorJugador[key] !== null && dorsalPorJugador[key] !== '')
+            ? dorsalPorJugador[key]
+            : dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
           var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
           var esPor = role === 'POR';
           var claseExtra = esPor ? ' cancha-jugador-por' : '';
@@ -1204,6 +1213,15 @@
     (m.lineup && m.lineup.jugadores || []).forEach(function (j) {
       if (j.capitan) capitanesPorJugador[j.playerId || j.nombre] = true;
     });
+    // Real per-match dorsal, keyed the same way as golesPorJugador/
+    // capitanesPorJugador — from PI's own detail row (presentesPI),
+    // which is the same source the photo cards' own dorsal already
+    // comes from (conStats_ below). Passed into canchaSvgHtml_ so the
+    // field markers use this directly instead of re-deriving a dorsal
+    // via Jugadores' dorsalByEra (see canchaSvgHtml_'s own comment for
+    // why that path can silently come back blank).
+    var dorsalPorJugador = {};
+    presentesPI.forEach(function (p) { dorsalPorJugador[statKey_(p)] = p.dorsal; });
 
     function conStats_(p, posicion) {
       var key = statKey_(p);
@@ -1233,7 +1251,7 @@
       colIzquierda = titularesHtml +
         (titularesHtml && suplentesHtml ? '<hr class="jugadores-divider">' : '') +
         suplentesHtml;
-      colDerecha = canchaSvgHtml_(m.lineup, era);
+      colDerecha = canchaSvgHtml_(m.lineup, era, dorsalPorJugador);
     } else if (presentesPA.length) {
       // Tier B — no PI for this match: every asistente in one
       // ungrouped grid, no heading, no position pills, field always
