@@ -449,6 +449,12 @@
       ? 'Actualizado: ' + new Date(data.generatedAt).toLocaleString('es-MX')
       : '';
 
+    // Kick off the field-marker image-existence probe as early as
+    // possible (see precargarImagenesCancha_'s own doc comment) — it's
+    // async and small (2 images × however many themes exist), so by
+    // the time a user actually navigates to a match sheet the results
+    // are essentially always already cached.
+    precargarImagenesCancha_(data);
     setupSections();
     // Inicio is the site's default landing view — set here (not just in
     // index.html's static markup) so it's driven by the same single
@@ -983,11 +989,60 @@
   // attribute, specifically so it outranks the themed `.cancha-jugador
   // rect { fill: ... }` CSS rule in style.css (a plain presentation
   // attribute would lose to that rule; inline style wins the cascade).
-  // A theme with no image uploaded yet just gets a pattern whose
-  // <image> 404s — the pattern paints nothing, so the solid-color base
-  // rect underneath (unchanged, still first in paint order) shows
-  // through exactly as before this feature existed. No onerror/JS
-  // fallback needed.
+  //
+  // A missing image is NOT left to fail silently inside the SVG — an
+  // <image> whose href 404s inside a <pattern> paints a visible broken-
+  // image glyph in every affected marker (confirmed live, not the
+  // transparent no-op an <img onerror> would give), so the pattern/
+  // overlay rect must only be emitted at all once the image is already
+  // KNOWN to exist. precargarImagenesCancha_ (called once from init(),
+  // below) probes every theme's two image paths up front via a plain
+  // Image() load/error test and caches the boolean result in
+  // _canchaImgExists_; canchaSvgHtml_ only includes a pattern/overlay
+  // for a src whose cache entry is exactly `true`. An unresolved (still
+  // loading) or missing image is therefore always treated as "no
+  // image" for that render — the solid-color base rect underneath
+  // (unchanged, still painted first) is what shows, exactly like
+  // before this feature existed — rather than risk the broken-glyph
+  // failure mode above.
+  var _canchaImgExists_ = {};
+  function canchaImgSrc_(codigo, tipo) {
+    return 'images/partidos/cancha/' + codigo + '_' + tipo + '.png';
+  }
+  // A probe that resolves AFTER the view it belongs to has already
+  // rendered (the likely case for Inicio's Último Partido, rendered
+  // synchronously right after the probe is kicked off — see init())
+  // would otherwise leave that first paint stuck on the solid-color
+  // fallback until the next unrelated re-render. Debounced so up to ~16
+  // near-simultaneous onloads only trigger one re-render, not 16.
+  var _canchaImgRefreshTimer_ = null;
+  function programarRefrescoCancha_() {
+    if (_canchaImgRefreshTimer_) return;
+    _canchaImgRefreshTimer_ = setTimeout(function () {
+      _canchaImgRefreshTimer_ = null;
+      var seccionActiva = document.body.dataset.section;
+      if (seccionActiva === 'inicio') {
+        renderUltimoPartido_();
+        renderProximoPartido_();
+      } else if (seccionActiva === 'partido' && state.partidoActualEra && state.partidoActualJornada) {
+        renderPartido_(state.partidoActualEra, state.partidoActualJornada);
+      }
+    }, 150);
+  }
+  function precargarImagenesCancha_(data) {
+    var codigos = Object.keys((data && data.temas) || {});
+    codigos.forEach(function (codigo) {
+      ['j', 'p'].forEach(function (tipo) {
+        var src = canchaImgSrc_(codigo, tipo);
+        if (_canchaImgExists_.hasOwnProperty(src)) return;
+        _canchaImgExists_[src] = false;
+        var img = new Image();
+        img.onload = function () { _canchaImgExists_[src] = true; programarRefrescoCancha_(); };
+        img.onerror = function () { _canchaImgExists_[src] = false; };
+        img.src = src;
+      });
+    });
+  }
   var _canchaPatternSeq_ = 0;
   function canchaSvgHtml_(lineup, era) {
     // Stage 9: always renders the bare pitch image, even with no real
@@ -1003,13 +1058,20 @@
       var patternSeq = ++_canchaPatternSeq_;
       var patternIdJ = 'cancha-marker-img-j-' + patternSeq;
       var patternIdP = 'cancha-marker-img-p-' + patternSeq;
-      if (temaCodigo) {
-        patternDefs =
+      var srcJ = temaCodigo ? canchaImgSrc_(temaCodigo, 'j') : '';
+      var srcP = temaCodigo ? canchaImgSrc_(temaCodigo, 'p') : '';
+      var hasImgJ = !!srcJ && _canchaImgExists_[srcJ] === true;
+      var hasImgP = !!srcP && _canchaImgExists_[srcP] === true;
+      if (hasImgJ) {
+        patternDefs +=
           '<pattern id="' + patternIdJ + '" patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox" width="1" height="1">' +
-            '<image href="images/partidos/cancha/' + esc(temaCodigo) + '_j.png" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>' +
-          '</pattern>' +
+            '<image href="' + esc(srcJ) + '" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>' +
+          '</pattern>';
+      }
+      if (hasImgP) {
+        patternDefs +=
           '<pattern id="' + patternIdP + '" patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox" width="1" height="1">' +
-            '<image href="images/partidos/cancha/' + esc(temaCodigo) + '_p.png" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>' +
+            '<image href="' + esc(srcP) + '" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>' +
           '</pattern>';
       }
       var groups = {};
@@ -1045,7 +1107,8 @@
           var esPor = role === 'POR';
           var claseExtra = esPor ? ' cancha-jugador-por' : '';
           var rectAttrs = 'x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"';
-          var imgRect = temaCodigo
+          var tieneImagen = esPor ? hasImgP : hasImgJ;
+          var imgRect = tieneImagen
             ? '<rect ' + rectAttrs + ' style="fill:url(#' + (esPor ? patternIdP : patternIdJ) + ')"/>'
             : '';
           return '<g class="cancha-jugador' + claseExtra + '"><rect ' + rectAttrs + '/>' + imgRect +
