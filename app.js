@@ -674,6 +674,17 @@
     return _temaPorEraCache_[era];
   }
 
+  /** era -> its raw Temas theme CODE ("T001", ...), not the color
+   * object temaForEra_ returns — used by canchaSvgHtml_ (this pass) to
+   * build the per-theme marker background image path
+   * (images/partidos/cancha/<code>_j.png / <code>_p.png). Returns ''
+   * for an era with no Tema code set, same "no theme" case temaForEra_
+   * already handles for colors. */
+  function temaCodigoForEra_(era) {
+    var season = (state.data.seasons || []).filter(function (s) { return s.era === era; })[0];
+    return season && season.tema ? String(season.tema).trim() : '';
+  }
+
   // Small outline icons (trophy/calendar/clock/pin) for the meta row —
   // inline SVG rather than image assets, so no new upload is needed and
   // they inherit color via CSS (currentColor) same as any text.
@@ -961,6 +972,23 @@
   // collide or a later mask redefinition could silently blank an
   // earlier field's outline.
   var _canchaMaskSeq_ = 0;
+  // Marker background IMAGES (this pass) — Daniel uploads one pair per
+  // theme to images/partidos/cancha/<código>_j.png (outfield) / _p.png
+  // (goalkeeper), pre-sized to whatever looks right; the SVG scales
+  // each down to exactly the marker's own box via an objectBoundingBox
+  // pattern (below), so no client-side resizing math is needed here.
+  // Every marker of a given type shares ONE pattern per render (all
+  // markers are the same CANCHA_MARKER_SIZE_ square), referenced by
+  // `style="fill:url(#id)"` — inline style, not the bare `fill`
+  // attribute, specifically so it outranks the themed `.cancha-jugador
+  // rect { fill: ... }` CSS rule in style.css (a plain presentation
+  // attribute would lose to that rule; inline style wins the cascade).
+  // A theme with no image uploaded yet just gets a pattern whose
+  // <image> 404s — the pattern paints nothing, so the solid-color base
+  // rect underneath (unchanged, still first in paint order) shows
+  // through exactly as before this feature existed. No onerror/JS
+  // fallback needed.
+  var _canchaPatternSeq_ = 0;
   function canchaSvgHtml_(lineup, era) {
     // Stage 9: always renders the bare pitch image, even with no real
     // lineup (a match-sheet tier B/C match) — only the player markers
@@ -969,7 +997,21 @@
     // column) now get an empty-but-visible pitch instead, which is the
     // desired look for those tiers (see partidoColumnasHtml_).
     var markers = '';
+    var patternDefs = '';
     if (lineup && lineup.jugadores && lineup.jugadores.length) {
+      var temaCodigo = temaCodigoForEra_(era);
+      var patternSeq = ++_canchaPatternSeq_;
+      var patternIdJ = 'cancha-marker-img-j-' + patternSeq;
+      var patternIdP = 'cancha-marker-img-p-' + patternSeq;
+      if (temaCodigo) {
+        patternDefs =
+          '<pattern id="' + patternIdJ + '" patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox" width="1" height="1">' +
+            '<image href="images/partidos/cancha/' + esc(temaCodigo) + '_j.png" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>' +
+          '</pattern>' +
+          '<pattern id="' + patternIdP + '" patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox" width="1" height="1">' +
+            '<image href="images/partidos/cancha/' + esc(temaCodigo) + '_p.png" x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice"/>' +
+          '</pattern>';
+      }
       var groups = {};
       lineup.jugadores.forEach(function (j) {
         if (!groups[j.posicion]) groups[j.posicion] = [];
@@ -1000,8 +1042,13 @@
           var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
           var dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
           var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
-          var claseExtra = role === 'POR' ? ' cancha-jugador-por' : '';
-          return '<g class="cancha-jugador' + claseExtra + '"><rect x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"/>' +
+          var esPor = role === 'POR';
+          var claseExtra = esPor ? ' cancha-jugador-por' : '';
+          var rectAttrs = 'x="' + (x - half) + '" y="' + (y - half) + '" width="' + CANCHA_MARKER_SIZE_ + '" height="' + CANCHA_MARKER_SIZE_ + '" rx="' + CANCHA_MARKER_RX_ + '"';
+          var imgRect = temaCodigo
+            ? '<rect ' + rectAttrs + ' style="fill:url(#' + (esPor ? patternIdP : patternIdJ) + ')"/>'
+            : '';
+          return '<g class="cancha-jugador' + claseExtra + '"><rect ' + rectAttrs + '/>' + imgRect +
             '<text x="' + x + '" y="' + y + '" dy="0.36em">' + esc(etiqueta) + '</text></g>';
         }).join('');
       }).join('');
@@ -1017,7 +1064,7 @@
     var maskId = 'cancha-mask-' + (++_canchaMaskSeq_);
     return '<svg class="cancha-svg" viewBox="0 0 ' + CANCHA_IMG_W_ + ' ' + CANCHA_IMG_H_ + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Formación inicial">' +
       '<defs><mask id="' + maskId + '" maskUnits="userSpaceOnUse" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '" style="mask-type:alpha">' +
-      '<image href="images/partidos/cancha-lineas2.png" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '"/></mask></defs>' +
+      '<image href="images/partidos/cancha-lineas2.png" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '"/></mask>' + patternDefs + '</defs>' +
       '<rect class="cancha-lineas-fill" x="0" y="0" width="' + CANCHA_IMG_W_ + '" height="' + CANCHA_IMG_H_ + '" mask="url(#' + maskId + ')"/>' +
       markers +
       '</svg>';
