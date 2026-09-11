@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T02:33:15.511Z",
+  "generatedAt": "2026-09-11T02:54:12.616Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -10492,7 +10492,7 @@
             "pkWin": false
           },
           {
-            "partido": "CF PEL",
+            "partido": "LCF PEL",
             "resultado": "p",
             "pkWin": false
           },
@@ -11221,7 +11221,7 @@
             "pkWin": false
           },
           {
-            "partido": "CF PEL",
+            "partido": "LCF PEL",
             "resultado": "p",
             "pkWin": false
           },
@@ -11886,7 +11886,7 @@
             "pkWin": false
           },
           {
-            "partido": "CF PEL",
+            "partido": "LCF PEL",
             "resultado": "p",
             "pkWin": false
           },
@@ -12551,7 +12551,7 @@
             "pkWin": false
           },
           {
-            "partido": "CF PEL",
+            "partido": "LCF PEL",
             "resultado": "p",
             "pkWin": false
           },
@@ -50195,7 +50195,7 @@
           }
         },
         {
-          "jornada": "CF",
+          "jornada": "LCF",
           "cancha": 2,
           "fecha": "2023-08-20",
           "hora": "11:00",
@@ -50275,7 +50275,60 @@
           "rival": "BORUSSIA",
           "rivalBg": "#e06666",
           "rivalText": "#f3f3f3",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Ramiro",
+                "playerId": "P031",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Mane",
+                "playerId": "P022",
+                "capitan": true
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Eric",
+                "playerId": "P011",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Chuy",
+                "playerId": "P015",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Daniel",
+                "playerId": "P001",
+                "capitan": false
+              }
+            ]
+          }
         }
       ],
       "standings": {
