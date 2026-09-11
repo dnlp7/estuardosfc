@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T02:48:49.778Z",
+  "generatedAt": "2026-09-11T02:33:15.511Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -49422,7 +49422,7 @@
                 "slot": "DEL",
                 "posicion": "DEL",
                 "nombre": "Héctor",
-                "playerId": null,
+                "playerId": "P028",
                 "capitan": false
               }
             ]
@@ -49490,7 +49490,7 @@
                 "slot": "DEL",
                 "posicion": "DEL",
                 "nombre": "Héctor",
-                "playerId": null,
+                "playerId": "P028",
                 "capitan": false
               }
             ]
@@ -49916,7 +49916,7 @@
                 "slot": "DEL",
                 "posicion": "DEL",
                 "nombre": "Héctor",
-                "playerId": null,
+                "playerId": "P028",
                 "capitan": false
               }
             ]
@@ -50120,7 +50120,7 @@
                 "slot": "DEL",
                 "posicion": "DEL",
                 "nombre": "Héctor",
-                "playerId": null,
+                "playerId": "P028",
                 "capitan": false
               }
             ]
@@ -50188,7 +50188,7 @@
                 "slot": "DEL",
                 "posicion": "DEL",
                 "nombre": "Héctor",
-                "playerId": null,
+                "playerId": "P028",
                 "capitan": false
               }
             ]
@@ -55504,7 +55504,7 @@
           "lineup": null
         },
         {
-          "jornada": "J28",
+          "jornada": "J27",
           "cancha": 1,
           "fecha": "2013-04-14",
           "hora": "9:00",
@@ -55519,7 +55519,7 @@
           "lineup": null
         },
         {
-          "jornada": "J29",
+          "jornada": "J28",
           "cancha": 1,
           "fecha": "2013-04-21",
           "hora": "10:00",
@@ -55534,7 +55534,7 @@
           "lineup": null
         },
         {
-          "jornada": "J30",
+          "jornada": "J29",
           "cancha": 1,
           "fecha": "2013-04-28",
           "hora": "13:00",
