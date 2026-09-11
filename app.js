@@ -249,16 +249,28 @@
    * the Jugadores roster/profile pages, which iterate PlayerID directly
    * — see buildRoster_/renderPerfil). */
   var nombreToPlayerIdIndex_ = null;
+  var nombreToPlayerIdIndexNorm_ = null;
   function nombreToPlayerId_(nombre) {
     if (!nombreToPlayerIdIndex_) {
       nombreToPlayerIdIndex_ = {};
+      nombreToPlayerIdIndexNorm_ = {};
       var jugadores = (state.data && state.data.jugadores) || {};
       Object.keys(jugadores).forEach(function (playerId) {
         var n = jugadores[playerId].nombre;
-        if (n !== undefined && !(n in nombreToPlayerIdIndex_)) nombreToPlayerIdIndex_[n] = playerId;
+        if (n === undefined) return;
+        if (!(n in nombreToPlayerIdIndex_)) nombreToPlayerIdIndex_[n] = playerId;
+        // Accent/case-insensitive fallback index — a caller's Nombre
+        // (typed independently in a season doc's stat tab or a TxJ
+        // lineup cell) doesn't always byte-match the canonical Jugadores
+        // spelling (e.g. "Héctor" vs "Hector", confirmed real — see
+        // normalizeNombre_'s own comment). Same first-match-wins caveat
+        // as the raw index above.
+        var nn = normalizeNombre_(n);
+        if (!(nn in nombreToPlayerIdIndexNorm_)) nombreToPlayerIdIndexNorm_[nn] = playerId;
       });
     }
-    return nombreToPlayerIdIndex_[nombre];
+    if (nombre in nombreToPlayerIdIndex_) return nombreToPlayerIdIndex_[nombre];
+    return nombreToPlayerIdIndexNorm_[normalizeNombre_(nombre)];
   }
 
   /** Looks up one player's Jugadores entry (playerId + activo +
@@ -303,6 +315,20 @@
     var info = jugadorInfo_(p.nombre, p.playerId);
     if (info && info.dorsalByEra && info.dorsalByEra[era] !== undefined) return info.dorsalByEra[era];
     return p.dorsal;
+  }
+
+  /** Accent/case-insensitive name key — a TxJ lineup cell's typed text
+   * ("Héctor") sometimes doesn't byte-match the canonical roster name
+   * used everywhere else ("Hector", no accent), which makes the export
+   * script's own name->playerId resolution (buildEraNameIndex_ in
+   * dashboard_export.gs) come back null for that player even though
+   * every other stat tab (PI/GOL/etc., which are dorsal-keyed, not
+   * name-keyed) resolves them fine. Used as a last-resort join key
+   * wherever a TxJ jugador's playerId can't be trusted to be present. */
+  function normalizeNombre_(s) {
+    return String(s || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().trim();
   }
 
   /** Display-only era abbreviation: "2019/20" -> "19/20", "2017/18" ->
@@ -1104,14 +1130,31 @@
           var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
           // Prefer the real per-match dorsal from PI's own detail row
           // (dorsalPorJugador, built by partidoColumnasHtml_ from
-          // presentesPI — the same reliable source the photo cards use),
-          // falling back to the Jugadores-tab-based dorsalByEra lookup
-          // only when no PI data exists for this player/match (e.g. a
-          // lineup drawn from TxJ alone with no PI block for this era).
-          var key = j.playerId || j.nombre;
-          var dorsal = (dorsalPorJugador && dorsalPorJugador[key] !== undefined && dorsalPorJugador[key] !== null && dorsalPorJugador[key] !== '')
-            ? dorsalPorJugador[key]
-            : dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
+          // presentesPI — the same reliable source the photo cards use).
+          // Tried in order: playerId, then raw nombre, then an
+          // accent/case-normalized nombre — TxJ's own playerId (resolved
+          // server-side in dashboard_export.gs by exact name match) can
+          // come back null when the cell's typed text doesn't byte-match
+          // the canonical roster name (e.g. "Héctor" in TxJ vs "Hector"
+          // in every dorsal-keyed stat tab) even though the player is
+          // the same, real, rostered person — confirmed real case, not
+          // hypothetical. Falls back to the Jugadores-tab-based
+          // dorsalByEra lookup only when no PI data exists for this
+          // player/match at all (e.g. a lineup drawn from TxJ alone with
+          // no PI block for this era).
+          var dorsal;
+          if (dorsalPorJugador) {
+            if (j.playerId && dorsalPorJugador[j.playerId] !== undefined && dorsalPorJugador[j.playerId] !== null && dorsalPorJugador[j.playerId] !== '') {
+              dorsal = dorsalPorJugador[j.playerId];
+            } else if (j.nombre && dorsalPorJugador['n:' + j.nombre] !== undefined && dorsalPorJugador['n:' + j.nombre] !== null && dorsalPorJugador['n:' + j.nombre] !== '') {
+              dorsal = dorsalPorJugador['n:' + j.nombre];
+            } else if (j.nombre && dorsalPorJugador['nn:' + normalizeNombre_(j.nombre)] !== undefined && dorsalPorJugador['nn:' + normalizeNombre_(j.nombre)] !== null && dorsalPorJugador['nn:' + normalizeNombre_(j.nombre)] !== '') {
+              dorsal = dorsalPorJugador['nn:' + normalizeNombre_(j.nombre)];
+            }
+          }
+          if (dorsal === undefined || dorsal === null || dorsal === '') {
+            dorsal = dorsalForEra_({ nombre: j.nombre, playerId: j.playerId, dorsal: undefined }, era);
+          }
           var etiqueta = (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
           var esPor = role === 'POR';
           var claseExtra = esPor ? ' cancha-jugador-por' : '';
@@ -1219,9 +1262,19 @@
     // comes from (conStats_ below). Passed into canchaSvgHtml_ so the
     // field markers use this directly instead of re-deriving a dorsal
     // via Jugadores' dorsalByEra (see canchaSvgHtml_'s own comment for
-    // why that path can silently come back blank).
+    // why that path can silently come back blank). Keyed three ways —
+    // playerId, raw nombre ('n:' prefix), and normalized nombre ('nn:'
+    // prefix) — since canchaSvgHtml_'s TxJ-sourced jugadores can carry a
+    // null playerId or a differently-accented nombre than PI's own rows
+    // (see canchaSvgHtml_'s lookup comment for the confirmed real case).
     var dorsalPorJugador = {};
-    presentesPI.forEach(function (p) { dorsalPorJugador[statKey_(p)] = p.dorsal; });
+    presentesPI.forEach(function (p) {
+      if (p.playerId) dorsalPorJugador[p.playerId] = p.dorsal;
+      if (p.nombre) {
+        dorsalPorJugador['n:' + p.nombre] = p.dorsal;
+        dorsalPorJugador['nn:' + normalizeNombre_(p.nombre)] = p.dorsal;
+      }
+    });
 
     function conStats_(p, posicion) {
       var key = statKey_(p);
@@ -2314,7 +2367,10 @@
       var blockHasAnyPlayerId = block.players.some(function (p) { return !!p.playerId; });
       if (blockHasAnyPlayerId) return null;
     }
-    return block.players.filter(function (p) { return p.nombre === nombre; })[0] || null;
+    var byNombre = block.players.filter(function (p) { return p.nombre === nombre; })[0];
+    if (byNombre) return byNombre;
+    var nn = normalizeNombre_(nombre);
+    return block.players.filter(function (p) { return normalizeNombre_(p.nombre) === nn; })[0] || null;
   }
 
   /** BALANCE shows the existing table; GOL/AST/PA/PI each show that
