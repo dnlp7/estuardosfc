@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T06:23:08.340Z",
+  "generatedAt": "2026-09-11T10:05:25.910Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -15,7 +15,6 @@
     "2016",
     "2016/17",
     "2017",
-    "xxxx",
     "2017/18",
     "2018",
     "2019",
@@ -67,19 +66,19 @@
     },
     {
       "era": "2014/15",
-      "torneo": "SOL10",
+      "torneo": "SOL9",
       "hasTxJ": false,
       "tema": "T003"
     },
     {
       "era": "2015",
-      "torneo": "SOL11",
+      "torneo": "SOL10",
       "hasTxJ": false,
       "tema": "T003"
     },
     {
       "era": "2016",
-      "torneo": "SOL12",
+      "torneo": "SOL11",
       "hasTxJ": false,
       "tema": "T003"
     },
