@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T10:05:25.910Z",
+  "generatedAt": "2026-09-12T06:20:21.972Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -401,6 +401,7 @@
         "2019/20": 24,
         "2017/18": 24,
         "2014/15": 24,
+        "2012/13": 24,
         "2011/12": 24,
         "2010/11": 24
       }
@@ -2038,6 +2039,12 @@
         "nivel": 1,
         "temporada": "2010/11",
         "imagen": "fundador.png"
+      },
+      {
+        "insignia": "Campeón Recopa",
+        "nivel": 2,
+        "temporada": "2012/13",
+        "imagen": "recopa-2012-13.png"
       },
       {
         "insignia": "Campeón Recopa",
