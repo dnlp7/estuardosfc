@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T06:23:12.944Z",
+  "generatedAt": "2026-09-13T21:41:30.357Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -3272,21 +3272,10 @@
           }
         },
         {
-          "playerId": "P059",
-          "dorsal": 29,
-          "nombre": "Izaay",
-          "total": 40,
-          "byEra": {
-            "2012": 1,
-            "2011/12": 35,
-            "2012/13": 4
-          }
-        },
-        {
           "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
-          "total": 39,
+          "total": 40,
           "byEra": {
             "2018": 4,
             "2019": 2,
@@ -3304,7 +3293,18 @@
             "2023/24": 0,
             "2024/25": 1,
             "2025/26": 0,
-            "2026/27": 0
+            "2026/27": 1
+          }
+        },
+        {
+          "playerId": "P059",
+          "dorsal": 29,
+          "nombre": "Izaay",
+          "total": 40,
+          "byEra": {
+            "2012": 1,
+            "2011/12": 35,
+            "2012/13": 4
           }
         },
         {
@@ -4006,7 +4006,7 @@
           "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 94,
+          "total": 95,
           "byEra": {
             "2023": 5,
             "2024": 18,
@@ -4016,7 +4016,7 @@
             "2023/24": 14,
             "2024/25": 19,
             "2025/26": 7,
-            "2026/27": 4
+            "2026/27": 5
           }
         },
         {
@@ -4389,7 +4389,7 @@
           "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 398,
+          "total": 399,
           "byEra": {
             "2011": 21,
             "2015": 22,
@@ -4409,14 +4409,14 @@
             "2023/24": 26,
             "2024/25": 27,
             "2025/26": 20,
-            "2026/27": 10
+            "2026/27": 11
           }
         },
         {
           "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 321,
+          "total": 322,
           "byEra": {
             "2015": 21,
             "2016": 18,
@@ -4434,7 +4434,7 @@
             "2023/24": 25,
             "2024/25": 23,
             "2025/26": 20,
-            "2026/27": 10
+            "2026/27": 11
           }
         },
         {
@@ -4468,7 +4468,7 @@
           "playerId": "P011",
           "dorsal": 14,
           "nombre": "Eric",
-          "total": 281,
+          "total": 282,
           "byEra": {
             "2015": 26,
             "2016": 19,
@@ -4486,14 +4486,14 @@
             "2023/24": 24,
             "2024/25": 24,
             "2025/26": 18,
-            "2026/27": 9
+            "2026/27": 10
           }
         },
         {
           "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
-          "total": 240,
+          "total": 241,
           "byEra": {
             "2015": 18,
             "2016": 2,
@@ -4511,14 +4511,14 @@
             "2023/24": 16,
             "2024/25": 23,
             "2025/26": 15,
-            "2026/27": 8
+            "2026/27": 9
           }
         },
         {
           "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 235,
+          "total": 236,
           "byEra": {
             "2020": 3,
             "2021": 15,
@@ -4533,14 +4533,14 @@
             "2023/24": 21,
             "2024/25": 24,
             "2025/26": 20,
-            "2026/27": 10
+            "2026/27": 11
           }
         },
         {
           "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
-          "total": 217,
+          "total": 218,
           "byEra": {
             "2020": 4,
             "2021": 11,
@@ -4555,14 +4555,14 @@
             "2023/24": 20,
             "2024/25": 25,
             "2025/26": 19,
-            "2026/27": 9
+            "2026/27": 10
           }
         },
         {
           "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
-          "total": 210,
+          "total": 211,
           "byEra": {
             "2020": 1,
             "2021": 9,
@@ -4577,14 +4577,14 @@
             "2023/24": 23,
             "2024/25": 18,
             "2025/26": 15,
-            "2026/27": 6
+            "2026/27": 7
           }
         },
         {
           "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 199,
+          "total": 200,
           "byEra": {
             "2021": 2,
             "2022": 24,
@@ -4597,7 +4597,7 @@
             "2023/24": 25,
             "2024/25": 20,
             "2025/26": 16,
-            "2026/27": 9
+            "2026/27": 10
           }
         },
         {
@@ -4625,7 +4625,7 @@
           "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
-          "total": 159,
+          "total": 160,
           "byEra": {
             "2020": 2,
             "2021": 13,
@@ -4640,7 +4640,7 @@
             "2023/24": 0,
             "2024/25": 15,
             "2025/26": 18,
-            "2026/27": 7
+            "2026/27": 8
           }
         },
         {
@@ -4911,23 +4911,23 @@
           }
         },
         {
+          "playerId": "P036",
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 17,
+          "byEra": {
+            "2026": 2,
+            "2025/26": 4,
+            "2026/27": 11
+          }
+        },
+        {
           "playerId": "P054",
           "dorsal": 10,
           "nombre": "Chino",
           "total": 17,
           "byEra": {
             "2011": 17
-          }
-        },
-        {
-          "playerId": "P036",
-          "dorsal": 5,
-          "nombre": "Alonso",
-          "total": 16,
-          "byEra": {
-            "2026": 2,
-            "2025/26": 4,
-            "2026/27": 10
           }
         },
         {
@@ -5184,7 +5184,7 @@
           "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 215,
+          "total": 216,
           "byEra": {
             "2020": 2,
             "2021": 15,
@@ -5199,14 +5199,14 @@
             "2023/24": 19,
             "2024/25": 20,
             "2025/26": 17,
-            "2026/27": 10
+            "2026/27": 11
           }
         },
         {
           "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
-          "total": 171,
+          "total": 172,
           "byEra": {
             "2020": 3,
             "2021": 9,
@@ -5221,14 +5221,14 @@
             "2023/24": 15,
             "2024/25": 21,
             "2025/26": 18,
-            "2026/27": 8
+            "2026/27": 9
           }
         },
         {
           "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
-          "total": 168,
+          "total": 169,
           "byEra": {
             "2020": 1,
             "2021": 8,
@@ -5243,14 +5243,14 @@
             "2023/24": 15,
             "2024/25": 11,
             "2025/26": 13,
-            "2026/27": 4
+            "2026/27": 5
           }
         },
         {
           "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 160,
+          "total": 161,
           "byEra": {
             "2021": 1,
             "2022": 21,
@@ -5263,7 +5263,7 @@
             "2023/24": 20,
             "2024/25": 15,
             "2025/26": 12,
-            "2026/27": 8
+            "2026/27": 9
           }
         },
         {
@@ -5292,7 +5292,7 @@
           "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 124,
+          "total": 125,
           "byEra": {
             "2020": 2,
             "2021": 16,
@@ -5307,7 +5307,7 @@
             "2023/24": 7,
             "2024/25": 5,
             "2025/26": 16,
-            "2026/27": 8
+            "2026/27": 9
           }
         },
         {
@@ -5395,7 +5395,7 @@
           "playerId": "P012",
           "dorsal": 12,
           "nombre": "Chente",
-          "total": 86,
+          "total": 87,
           "byEra": {
             "2020": 1,
             "2021": 10,
@@ -5410,7 +5410,7 @@
             "2023/24": 0,
             "2024/25": 5,
             "2025/26": 8,
-            "2026/27": 5
+            "2026/27": 6
           }
         },
         {
@@ -5527,6 +5527,17 @@
           }
         },
         {
+          "playerId": "P036",
+          "dorsal": 5,
+          "nombre": "Alonso",
+          "total": 13,
+          "byEra": {
+            "2026": 0,
+            "2025/26": 2,
+            "2026/27": 11
+          }
+        },
+        {
           "playerId": "P016",
           "dorsal": 6,
           "nombre": "Lanuza",
@@ -5538,17 +5549,6 @@
             "2024/25": 4,
             "2025/26": 1,
             "2026/27": 0
-          }
-        },
-        {
-          "playerId": "P036",
-          "dorsal": 5,
-          "nombre": "Alonso",
-          "total": 12,
-          "byEra": {
-            "2026": 0,
-            "2025/26": 2,
-            "2026/27": 10
           }
         },
         {
@@ -6369,27 +6369,87 @@
             }
           ]
         }
+      },
+      {
+        "jornada": "J11",
+        "cancha": 2,
+        "fecha": "2026-09-12",
+        "hora": "9:30",
+        "resultado": "p",
+        "gf": 1,
+        "gc": 2,
+        "penales": null,
+        "puntos": 0,
+        "rival": "UNIÓN",
+        "rivalBg": "#ffffff",
+        "rivalText": "#000000",
+        "lineup": {
+          "formacion": "2-3-1",
+          "jugadores": [
+            {
+              "slot": "POR",
+              "posicion": "POR",
+              "nombre": "Charly",
+              "playerId": "P013",
+              "capitan": false
+            },
+            {
+              "slot": "DEF I",
+              "posicion": "DEF",
+              "nombre": "Mares",
+              "playerId": "P010",
+              "capitan": false
+            },
+            {
+              "slot": "DEF D",
+              "posicion": "DEF",
+              "nombre": "Abraham",
+              "playerId": "P021",
+              "capitan": true
+            },
+            {
+              "slot": "MED I",
+              "posicion": "MED",
+              "nombre": "Chente",
+              "playerId": "P012",
+              "capitan": false
+            },
+            {
+              "slot": "MED C",
+              "posicion": "MED",
+              "nombre": "Alonso",
+              "playerId": "P036",
+              "capitan": false
+            },
+            {
+              "slot": "MED D",
+              "posicion": "MED",
+              "nombre": "Ramiro",
+              "playerId": "P031",
+              "capitan": false
+            },
+            {
+              "slot": "DEL",
+              "posicion": "DEL",
+              "nombre": "Paco",
+              "playerId": "P014",
+              "capitan": false
+            }
+          ]
+        }
       }
     ],
     "standings": {
-      "pj": 10,
+      "pj": 11,
       "pg": 4,
       "pe": 1,
-      "pp": 5,
-      "gf": 23,
-      "gc": 40,
-      "dif": -17,
+      "pp": 6,
+      "gf": 24,
+      "gc": 42,
+      "dif": -18,
       "pts": 13
     },
-    "proximo": {
-      "jornada": "J11",
-      "cancha": 2,
-      "fecha": "2026-09-11",
-      "hora": "9:30",
-      "rival": "UNIÓN",
-      "rivalBg": "#262626",
-      "rivalText": "#ffffff"
-    }
+    "proximo": null
   },
   "detail": {
     "era": "2026/27",
@@ -6444,6 +6504,11 @@
           "partido": "J10 UZZ",
           "resultado": "p",
           "pkWin": false
+        },
+        {
+          "partido": "J11 UNI",
+          "resultado": "p",
+          "pkWin": false
         }
       ],
       "players": [
@@ -6463,7 +6528,8 @@
             1,
             null,
             null,
-            1
+            1,
+            null
           ]
         },
         {
@@ -6482,6 +6548,7 @@
             1,
             1,
             1,
+            null,
             null
           ]
         },
@@ -6497,6 +6564,7 @@
             1,
             null,
             1,
+            null,
             null,
             null,
             null,
@@ -6520,6 +6588,7 @@
             1,
             1,
             null,
+            null,
             null
           ]
         },
@@ -6539,6 +6608,7 @@
             null,
             null,
             2,
+            null,
             null
           ]
         },
@@ -6551,6 +6621,7 @@
           "byMatch": [
             null,
             2,
+            null,
             null,
             null,
             null,
@@ -6577,7 +6648,8 @@
             null,
             null,
             null,
-            1
+            1,
+            null
           ]
         },
         {
@@ -6591,6 +6663,7 @@
             null,
             null,
             1,
+            null,
             null,
             null,
             null,
@@ -6615,7 +6688,28 @@
             null,
             null,
             null,
+            null,
             null
+          ]
+        },
+        {
+          "playerId": "P012",
+          "dorsal": 12,
+          "nombre": "Chente",
+          "total": 1,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            1
           ]
         },
         {
@@ -6634,6 +6728,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -6644,6 +6739,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -6672,24 +6768,6 @@
             null,
             null,
             null,
-            null
-          ]
-        },
-        {
-          "playerId": "P012",
-          "dorsal": 12,
-          "nombre": "Chente",
-          "total": 0,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
             null,
             null
           ]
@@ -6701,6 +6779,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -6729,6 +6808,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -6739,6 +6819,7 @@
           "total": 0,
           "isUtility": true,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -6765,6 +6846,7 @@
             null,
             null,
             1,
+            null,
             null,
             null,
             null
@@ -6823,9 +6905,34 @@
           "partido": "J10 UZZ",
           "resultado": "p",
           "pkWin": false
+        },
+        {
+          "partido": "J11 UNI",
+          "resultado": "p",
+          "pkWin": false
         }
       ],
       "players": [
+        {
+          "playerId": "P031",
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 5,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            1,
+            null,
+            2,
+            null,
+            null,
+            1,
+            null,
+            null,
+            null,
+            1
+          ]
+        },
         {
           "playerId": "P036",
           "dorsal": 5,
@@ -6841,24 +6948,6 @@
             1,
             1,
             null,
-            null,
-            null
-          ]
-        },
-        {
-          "playerId": "P031",
-          "dorsal": 11,
-          "nombre": "Ramiro",
-          "total": 4,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            1,
-            null,
-            2,
-            null,
-            null,
-            1,
             null,
             null,
             null
@@ -6880,6 +6969,7 @@
             1,
             1,
             null,
+            null,
             null
           ]
         },
@@ -6894,6 +6984,7 @@
             null,
             null,
             1,
+            null,
             null,
             null,
             null,
@@ -6918,6 +7009,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -6932,6 +7024,7 @@
             null,
             null,
             1,
+            null,
             null,
             null,
             null,
@@ -6956,6 +7049,7 @@
             null,
             null,
             1,
+            null,
             null
           ]
         },
@@ -6968,6 +7062,7 @@
           "byMatch": [
             null,
             1,
+            null,
             null,
             null,
             null,
@@ -6994,6 +7089,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -7013,6 +7109,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -7023,6 +7120,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -7051,6 +7149,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -7061,6 +7160,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -7089,6 +7189,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -7099,6 +7200,7 @@
           "total": 0,
           "isUtility": false,
           "byMatch": [
+            null,
             null,
             null,
             null,
@@ -7164,6 +7266,11 @@
           "partido": "J10 UZZ",
           "resultado": "p",
           "pkWin": false
+        },
+        {
+          "partido": "J11 UNI",
+          "resultado": "p",
+          "pkWin": false
         }
       ],
       "players": [
@@ -7171,9 +7278,10 @@
           "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 10,
+          "total": 11,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -7190,9 +7298,10 @@
           "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
-          "total": 10,
+          "total": 11,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -7209,9 +7318,10 @@
           "playerId": "P001",
           "dorsal": 7,
           "nombre": "Daniel",
-          "total": 10,
+          "total": 11,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -7228,9 +7338,10 @@
           "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 10,
+          "total": 11,
           "isUtility": false,
           "byMatch": [
+            "x",
             "x",
             "x",
             "x",
@@ -7247,7 +7358,7 @@
           "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
-          "total": 9,
+          "total": 10,
           "isUtility": false,
           "byMatch": [
             "x",
@@ -7256,6 +7367,47 @@
             "x",
             "x",
             null,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "playerId": "P031",
+          "dorsal": 11,
+          "nombre": "Ramiro",
+          "total": 10,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ]
+        },
+        {
+          "playerId": "P011",
+          "dorsal": 14,
+          "nombre": "Eric",
+          "total": 10,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            null,
+            "x",
             "x",
             "x",
             "x",
@@ -7278,52 +7430,15 @@
             "x",
             null,
             "x",
-            "x"
-          ]
-        },
-        {
-          "playerId": "P031",
-          "dorsal": 11,
-          "nombre": "Ramiro",
-          "total": 9,
-          "isUtility": false,
-          "byMatch": [
-            null,
             "x",
-            "x",
-            "x",
-            "x",
-            "x",
-            "x",
-            "x",
-            "x",
-            "x"
-          ]
-        },
-        {
-          "playerId": "P011",
-          "dorsal": 14,
-          "nombre": "Eric",
-          "total": 9,
-          "isUtility": false,
-          "byMatch": [
-            "x",
-            "x",
-            "x",
-            "x",
-            "x",
-            null,
-            "x",
-            "x",
-            "x",
-            "x"
+            null
           ]
         },
         {
           "playerId": "P007",
           "dorsal": 23,
           "nombre": "Sergio",
-          "total": 8,
+          "total": 9,
           "isUtility": false,
           "byMatch": [
             "x",
@@ -7335,6 +7450,27 @@
             null,
             "x",
             null,
+            "x",
+            "x"
+          ]
+        },
+        {
+          "playerId": "P012",
+          "dorsal": 12,
+          "nombre": "Chente",
+          "total": 8,
+          "isUtility": false,
+          "byMatch": [
+            "x",
+            "x",
+            null,
+            "x",
+            null,
+            null,
+            "x",
+            "x",
+            "x",
+            "x",
             "x"
           ]
         },
@@ -7354,22 +7490,24 @@
             null,
             "x",
             "x",
+            null,
             null
           ]
         },
         {
-          "playerId": "P012",
-          "dorsal": 12,
-          "nombre": "Chente",
+          "playerId": "P014",
+          "dorsal": 10,
+          "nombre": "Paco",
           "total": 7,
           "isUtility": false,
           "byMatch": [
-            "x",
-            "x",
-            null,
-            "x",
             null,
             null,
+            null,
+            null,
+            "x",
+            "x",
+            "x",
             "x",
             "x",
             "x",
@@ -7392,26 +7530,8 @@
             "x",
             "x",
             "x",
+            null,
             null
-          ]
-        },
-        {
-          "playerId": "P014",
-          "dorsal": 10,
-          "nombre": "Paco",
-          "total": 6,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            null,
-            null,
-            null,
-            "x",
-            "x",
-            "x",
-            "x",
-            "x",
-            "x"
           ]
         },
         {
@@ -7430,6 +7550,7 @@
             null,
             null,
             null,
+            null,
             null
           ]
         },
@@ -7442,6 +7563,7 @@
           "byMatch": [
             null,
             "x",
+            null,
             null,
             null,
             null,
@@ -7505,6 +7627,11 @@
           "partido": "J10 UZZ",
           "resultado": "p",
           "pkWin": false
+        },
+        {
+          "partido": "J11 UNI",
+          "resultado": "p",
+          "pkWin": false
         }
       ],
       "players": [
@@ -7512,9 +7639,10 @@
           "playerId": "P036",
           "dorsal": 5,
           "nombre": "Alonso",
-          "total": 10,
+          "total": 11,
           "isUtility": false,
           "byMatch": [
+            "MED",
             "MED",
             "MED",
             "MED",
@@ -7531,7 +7659,7 @@
           "playerId": "P021",
           "dorsal": 20,
           "nombre": "Abraham",
-          "total": 10,
+          "total": 11,
           "isUtility": false,
           "byMatch": [
             "MED",
@@ -7543,6 +7671,7 @@
             "MED",
             "DEF",
             "DEF",
+            "DEF",
             "DEF"
           ]
         },
@@ -7550,7 +7679,7 @@
           "playerId": "P013",
           "dorsal": 1,
           "nombre": "Charly",
-          "total": 8,
+          "total": 9,
           "isUtility": false,
           "byMatch": [
             "POR",
@@ -7562,6 +7691,7 @@
             "POR",
             "SUP",
             "POR",
+            "POR",
             "POR"
           ]
         },
@@ -7569,7 +7699,7 @@
           "playerId": "P010",
           "dorsal": 4,
           "nombre": "Mares",
-          "total": 8,
+          "total": 9,
           "isUtility": false,
           "byMatch": [
             "DEF",
@@ -7578,6 +7708,7 @@
             "DEF",
             "DEF",
             "SUP",
+            "DEF",
             "DEF",
             "DEF",
             "DEF",
@@ -7588,7 +7719,7 @@
           "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
-          "total": 8,
+          "total": 9,
           "isUtility": false,
           "byMatch": [
             null,
@@ -7596,6 +7727,27 @@
             "MED",
             "MED",
             "MED",
+            "DEF",
+            "MED",
+            "MED",
+            "MED",
+            "MED",
+            "MED"
+          ]
+        },
+        {
+          "playerId": "P012",
+          "dorsal": 12,
+          "nombre": "Chente",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            "DEF",
+            "SUP",
+            null,
+            "SUP",
+            null,
+            null,
             "DEF",
             "MED",
             "MED",
@@ -7619,26 +7771,28 @@
             null,
             "SUP",
             null,
+            "SUP",
             "SUP"
           ]
         },
         {
-          "playerId": "P012",
-          "dorsal": 12,
-          "nombre": "Chente",
+          "playerId": "P014",
+          "dorsal": 10,
+          "nombre": "Paco",
           "total": 5,
           "isUtility": false,
           "byMatch": [
-            "DEF",
+            null,
+            null,
+            null,
+            null,
             "SUP",
-            null,
             "SUP",
-            null,
-            null,
-            "DEF",
-            "MED",
-            "MED",
-            "MED"
+            "DEL",
+            "DEL",
+            "DEL",
+            "DEL",
+            "DEL"
           ]
         },
         {
@@ -7657,26 +7811,8 @@
             "SUP",
             null,
             "SUP",
-            "SUP"
-          ]
-        },
-        {
-          "playerId": "P014",
-          "dorsal": 10,
-          "nombre": "Paco",
-          "total": 4,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            null,
-            null,
-            null,
             "SUP",
-            "SUP",
-            "DEL",
-            "DEL",
-            "DEL",
-            "DEL"
+            null
           ]
         },
         {
@@ -7691,6 +7827,7 @@
             null,
             "MED",
             "MED",
+            null,
             null,
             null,
             null,
@@ -7714,6 +7851,7 @@
             null,
             "POR",
             "SUP",
+            null,
             null
           ]
         },
@@ -7730,6 +7868,7 @@
             "SUP",
             "SUP",
             "DEF",
+            "SUP",
             "SUP",
             "SUP",
             "SUP",
@@ -7752,6 +7891,7 @@
             "SUP",
             "SUP",
             "SUP",
+            "SUP",
             "SUP"
           ]
         },
@@ -7771,6 +7911,7 @@
             "SUP",
             "SUP",
             "SUP",
+            null,
             null
           ]
         },
@@ -7783,6 +7924,7 @@
           "byMatch": [
             null,
             "SUP",
+            null,
             null,
             null,
             null,
