@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T03:57:41.495Z",
+  "generatedAt": "2026-09-19T04:10:51.126Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -255,7 +255,7 @@
       "grisSecundario": "#333333"
     },
     "T005": {
-      "principal": "#1d1d1d",
+      "principal": "#000000",
       "secundario": "#63002e",
       "acento": "#b29762",
       "dorsales": "#b29762",
@@ -278,7 +278,7 @@
       "porteroDor": "#bdae91",
       "textoClaro": "#ffffff",
       "textoOscuro": "#000000",
-      "fondo": "#a69b7f",
+      "fondo": "#b4a170",
       "grisPrincipal": "#262626",
       "grisSecundario": "#333333"
     },
