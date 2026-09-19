@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T02:30:30.348Z",
+  "generatedAt": "2026-09-19T03:57:23.558Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -5851,6 +5851,43 @@
             ]
           },
           {
+            "playerId": "P068",
+            "dorsal": 31,
+            "nombre": "Rodri",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
             "playerId": null,
             "dorsal": "",
             "nombre": "[Default]",
@@ -6768,6 +6805,43 @@
               null,
               null,
               null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P068",
+            "dorsal": 31,
+            "nombre": "Rodri",
+            "total": 1,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
               null,
               null,
               null,
@@ -31471,6 +31545,43 @@
             ]
           },
           {
+            "playerId": "P068",
+            "dorsal": 31,
+            "nombre": "Rodri",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
             "playerId": null,
             "dorsal": "",
             "nombre": "[Default]",
@@ -31584,8 +31695,1778 @@
         ]
       },
       "AST": null,
-      "PA": null,
-      "PI": null
+      "PA": {
+        "columns": [
+          {
+            "partido": "J1 MAQ",
+            "resultado": "e",
+            "pkWin": false
+          },
+          {
+            "partido": "J2 VAL",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J3 BLO",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J4 MAQ",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J5 BAR",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J6 FEN",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J7 ASL",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J8 PRI",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J9 CGT",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J10 RMI",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J11 BFC",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J12 CUE",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J13 DMO",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J14 PSG",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J15 ASL",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J16 AGU",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J17 WIN",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J18 BFC",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J19 BAR",
+            "resultado": "e",
+            "pkWin": false
+          },
+          {
+            "partido": "J20 CGT",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J21 CUE",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J22 PSG",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J23 BFC",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J24 MAQ",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "AM RMI",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "LCF PSG",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "RC2 CGT",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "RC3 ARA",
+            "resultado": "p",
+            "pkWin": false
+          }
+        ],
+        "players": [
+          {
+            "playerId": "P002",
+            "dorsal": 3,
+            "nombre": "Sheko",
+            "total": 15,
+            "isUtility": false,
+            "byMatch": [
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P005",
+            "dorsal": 24,
+            "nombre": "Arthie",
+            "total": 15,
+            "isUtility": false,
+            "byMatch": [
+              "x",
+              null,
+              "x",
+              "x",
+              null,
+              "x",
+              "x",
+              null,
+              "x",
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              null,
+              "x",
+              null
+            ]
+          },
+          {
+            "playerId": "P014",
+            "dorsal": 10,
+            "nombre": "Paco",
+            "total": 14,
+            "isUtility": false,
+            "byMatch": [
+              "x",
+              "x",
+              "x",
+              null,
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P010",
+            "dorsal": 4,
+            "nombre": "Mares",
+            "total": 12,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P013",
+            "dorsal": 5,
+            "nombre": "Charly",
+            "total": 12,
+            "isUtility": false,
+            "byMatch": [
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P001",
+            "dorsal": 7,
+            "nombre": "Daniel",
+            "total": 12,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P021",
+            "dorsal": 20,
+            "nombre": "Abraham",
+            "total": 11,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "x",
+              null,
+              "x",
+              "x",
+              null,
+              null,
+              "x",
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P018",
+            "dorsal": 55,
+            "nombre": "Omar",
+            "total": 11,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              "x",
+              null,
+              null,
+              "x",
+              null,
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              "x",
+              "x",
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P008",
+            "dorsal": 23,
+            "nombre": "Enrique",
+            "total": 9,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              "x",
+              "x",
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P012",
+            "dorsal": 12,
+            "nombre": "Chente",
+            "total": 8,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              "x",
+              "x",
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P011",
+            "dorsal": 14,
+            "nombre": "Eric",
+            "total": 8,
+            "isUtility": false,
+            "byMatch": [
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              null,
+              "x",
+              "x",
+              null,
+              null,
+              "x",
+              null,
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P009",
+            "dorsal": 21,
+            "nombre": "Orlando",
+            "total": 7,
+            "isUtility": false,
+            "byMatch": [
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              "x",
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P022",
+            "dorsal": 28,
+            "nombre": "Mane",
+            "total": 7,
+            "isUtility": false,
+            "byMatch": [
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              "x",
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P015",
+            "dorsal": 27,
+            "nombre": "Chuy",
+            "total": 4,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              "x",
+              null,
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P019",
+            "dorsal": 13,
+            "nombre": "David",
+            "total": 2,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null
+            ]
+          },
+          {
+            "playerId": "P025",
+            "dorsal": 30,
+            "nombre": "Neto",
+            "total": 2,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null
+            ]
+          },
+          {
+            "playerId": "P023",
+            "dorsal": 17,
+            "nombre": "Wero",
+            "total": 1,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P020",
+            "dorsal": 19,
+            "nombre": "Gabo",
+            "total": 1,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P068",
+            "dorsal": 31,
+            "nombre": "Rodri",
+            "total": 1,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "x",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P024",
+            "dorsal": 11,
+            "nombre": "Irving",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      },
+      "PI": {
+        "columns": [
+          {
+            "partido": "J1 MAQ",
+            "resultado": "e",
+            "pkWin": false
+          },
+          {
+            "partido": "J2 VAL",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J3 BLO",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J4 MAQ",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J5 BAR",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J6 FEN",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J7 ASL",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J8 PRI",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J9 CGT",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J10 RMI",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J11 BFC",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J12 CUE",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J13 DMO",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J14 PSG",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J15 ASL",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J16 AGU",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J17 WIN",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J18 BFC",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J19 BAR",
+            "resultado": "e",
+            "pkWin": false
+          },
+          {
+            "partido": "J20 CGT",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J21 CUE",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J22 PSG",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "J23 BFC",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "J24 MAQ",
+            "resultado": "g",
+            "pkWin": false
+          },
+          {
+            "partido": "AM RMI",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "LCF PSG",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "RC2 CGT",
+            "resultado": "p",
+            "pkWin": false
+          },
+          {
+            "partido": "RC3 ARA",
+            "resultado": "p",
+            "pkWin": false
+          }
+        ],
+        "players": [
+          {
+            "playerId": "P002",
+            "dorsal": 3,
+            "nombre": "Sheko",
+            "total": 14,
+            "isUtility": false,
+            "byMatch": [
+              "MED",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              null,
+              "DEF",
+              "DEF",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P013",
+            "dorsal": 5,
+            "nombre": "Charly",
+            "total": 12,
+            "isUtility": false,
+            "byMatch": [
+              "POR",
+              "POR",
+              "POR",
+              null,
+              null,
+              "POR",
+              "POR",
+              "POR",
+              "POR",
+              "POR",
+              "POR",
+              "POR",
+              null,
+              "POR",
+              "POR",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P010",
+            "dorsal": 4,
+            "nombre": "Mares",
+            "total": 11,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              null,
+              null,
+              "MED",
+              "DEF",
+              "DEF",
+              null,
+              "DEF",
+              "DEF",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P005",
+            "dorsal": 24,
+            "nombre": "Arthie",
+            "total": 9,
+            "isUtility": false,
+            "byMatch": [
+              "DEL",
+              null,
+              "MED",
+              "MED",
+              null,
+              "DEL",
+              "DEL",
+              null,
+              "SUP",
+              null,
+              "DEL",
+              "MED",
+              null,
+              "MED",
+              "MED",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P001",
+            "dorsal": 7,
+            "nombre": "Daniel",
+            "total": 6,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "SUP",
+              "DEL",
+              "DEL",
+              "DEL",
+              "SUP",
+              null,
+              "SUP",
+              "DEL",
+              "DEL",
+              "SUP",
+              "DEL",
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P014",
+            "dorsal": 10,
+            "nombre": "Paco",
+            "total": 6,
+            "isUtility": false,
+            "byMatch": [
+              "MED",
+              "DEL",
+              "MED",
+              null,
+              "MED",
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "DEL",
+              "DEL",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P012",
+            "dorsal": 12,
+            "nombre": "Chente",
+            "total": 6,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "MED",
+              null,
+              "MED",
+              null,
+              "MED",
+              null,
+              null,
+              "MED",
+              "MED",
+              null,
+              "MED",
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P021",
+            "dorsal": 20,
+            "nombre": "Abraham",
+            "total": 6,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "SUP",
+              null,
+              "MED",
+              "MED",
+              null,
+              null,
+              "DEL",
+              null,
+              null,
+              "MED",
+              "SUP",
+              null,
+              "MED",
+              "MED",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P008",
+            "dorsal": 23,
+            "nombre": "Enrique",
+            "total": 6,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              "SUP",
+              "SUP",
+              null,
+              null,
+              "MED",
+              "MED",
+              "DEF",
+              "DEF",
+              "DEF",
+              "DEF",
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P009",
+            "dorsal": 21,
+            "nombre": "Orlando",
+            "total": 5,
+            "isUtility": false,
+            "byMatch": [
+              "DEF",
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              "DEF",
+              null,
+              "DEF",
+              null,
+              null,
+              null,
+              null,
+              "DEF",
+              "DEF",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P022",
+            "dorsal": 28,
+            "nombre": "Mane",
+            "total": 5,
+            "isUtility": false,
+            "byMatch": [
+              "DEF",
+              "DEF",
+              null,
+              null,
+              null,
+              "DEF",
+              null,
+              "DEF",
+              null,
+              "DEF",
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P018",
+            "dorsal": 55,
+            "nombre": "Omar",
+            "total": 5,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              "MED",
+              "MED",
+              "MED",
+              "MED",
+              null,
+              "MED",
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P011",
+            "dorsal": 14,
+            "nombre": "Eric",
+            "total": 3,
+            "isUtility": false,
+            "byMatch": [
+              "DEF",
+              null,
+              "DEF",
+              null,
+              null,
+              null,
+              "SUP",
+              "DEF",
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              "SUP",
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P015",
+            "dorsal": 27,
+            "nombre": "Chuy",
+            "total": 1,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              "MED",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P024",
+            "dorsal": 11,
+            "nombre": "Irving",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P019",
+            "dorsal": 13,
+            "nombre": "David",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P023",
+            "dorsal": 17,
+            "nombre": "Wero",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P020",
+            "dorsal": 19,
+            "nombre": "Gabo",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P025",
+            "dorsal": 30,
+            "nombre": "Neto",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          {
+            "playerId": "P068",
+            "dorsal": 31,
+            "nombre": "Rodri",
+            "total": 0,
+            "isUtility": false,
+            "byMatch": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "SUP",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        ]
+      }
     },
     "2019/20": {
       "GOL": {
@@ -61216,7 +63097,60 @@
           "rival": "MAQUINA 501",
           "rivalBg": "#6fa8dc",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mane",
+                "playerId": "P022",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Orlando",
+                "playerId": "P009",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Eric",
+                "playerId": "P011",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Paco",
+                "playerId": "P014",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J2",
@@ -61231,7 +63165,60 @@
           "rival": "VALEDORES",
           "rivalBg": "#cc0000",
           "rivalText": "#00b050",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mane",
+                "playerId": "P022",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Chuy",
+                "playerId": "P015",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Chente",
+                "playerId": "P012",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Paco",
+                "playerId": "P014",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J3",
@@ -61246,7 +63233,60 @@
           "rival": "BARCE LOMA",
           "rivalBg": "#ff5c19",
           "rivalText": "#850d43",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Eric",
+                "playerId": "P011",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Paco",
+                "playerId": "P014",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Daniel",
+                "playerId": "P001",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J4",
@@ -61261,7 +63301,60 @@
           "rival": "MAQUINA 501",
           "rivalBg": "#6fa8dc",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "2-3-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "[Refuerzo]",
+                "playerId": null,
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "MED I",
+                "posicion": "MED",
+                "nombre": "Chente",
+                "playerId": "P012",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Abraham",
+                "playerId": "P021",
+                "capitan": false
+              },
+              {
+                "slot": "MED D",
+                "posicion": "MED",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Daniel",
+                "playerId": "P001",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J5",
@@ -61276,7 +63369,60 @@
           "rival": "BARCELONA",
           "rivalBg": "#002060",
           "rivalText": "#f2041b",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "[Refuerzo]",
+                "playerId": null,
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "[Refuerzo]",
+                "playerId": null,
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Abraham",
+                "playerId": "P021",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Paco",
+                "playerId": "P014",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Daniel",
+                "playerId": "P001",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J6",
@@ -61291,7 +63437,60 @@
           "rival": "FENIX",
           "rivalBg": "#0060e7",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mane",
+                "playerId": "P022",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Omar",
+                "playerId": "P018",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Chente",
+                "playerId": "P012",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J7",
@@ -61306,7 +63505,60 @@
           "rival": "ATL SL",
           "rivalBg": "#ffffff",
           "rivalText": "#000000",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Orlando",
+                "playerId": "P009",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Omar",
+                "playerId": "P018",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Enrique",
+                "playerId": "P008",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J8",
@@ -61321,7 +63573,60 @@
           "rival": "PRIMOS",
           "rivalBg": "#000000",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mane",
+                "playerId": "P022",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Eric",
+                "playerId": "P011",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Enrique",
+                "playerId": "P008",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Omar",
+                "playerId": "P018",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Abraham",
+                "playerId": "P021",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J9",
@@ -61336,7 +63641,60 @@
           "rival": "CHELSEA GT",
           "rivalBg": "#000000",
           "rivalText": "#ffff00",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Orlando",
+                "playerId": "P009",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Enrique",
+                "playerId": "P008",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Chente",
+                "playerId": "P012",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Omar",
+                "playerId": "P018",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Daniel",
+                "playerId": "P001",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J10",
@@ -61351,7 +63709,60 @@
           "rival": "REAL MIRAVALLE",
           "rivalBg": "#b7b7b7",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mane",
+                "playerId": "P022",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Enrique",
+                "playerId": "P008",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Chente",
+                "playerId": "P012",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Daniel",
+                "playerId": "P001",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J11",
@@ -61366,7 +63777,60 @@
           "rival": "BARRIO FC",
           "rivalBg": "#f2041b",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Enrique",
+                "playerId": "P008",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Abraham",
+                "playerId": "P021",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Omar",
+                "playerId": "P018",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J12",
@@ -61381,7 +63845,60 @@
           "rival": "CUERVOS FC",
           "rivalBg": "#000000",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Enrique",
+                "playerId": "P008",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Chente",
+                "playerId": "P012",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Daniel",
+                "playerId": "P001",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J13",
@@ -61396,7 +63913,10 @@
           "rival": "DPVO. MORELOS",
           "rivalBg": "#cc0000",
           "rivalText": "#ffc000",
-          "lineup": null
+          "lineup": {
+            "formacion": "TPD",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J14",
@@ -61411,7 +63931,60 @@
           "rival": "PARIS ST GERMAIN",
           "rivalBg": "#002060",
           "rivalText": "#f2041b",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Orlando",
+                "playerId": "P009",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Abraham",
+                "playerId": "P021",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Paco",
+                "playerId": "P014",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J15",
@@ -61426,7 +63999,60 @@
           "rival": "ATL SL",
           "rivalBg": "#ffffff",
           "rivalText": "#000000",
-          "lineup": null
+          "lineup": {
+            "formacion": "3-2-1",
+            "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "Charly",
+                "playerId": "P013",
+                "capitan": false
+              },
+              {
+                "slot": "DEF I",
+                "posicion": "DEF",
+                "nombre": "Mares",
+                "playerId": "P010",
+                "capitan": false
+              },
+              {
+                "slot": "DEF C",
+                "posicion": "DEF",
+                "nombre": "Orlando",
+                "playerId": "P009",
+                "capitan": false
+              },
+              {
+                "slot": "DEF D",
+                "posicion": "DEF",
+                "nombre": "Sheko",
+                "playerId": "P002",
+                "capitan": false
+              },
+              {
+                "slot": "MED C",
+                "posicion": "MED",
+                "nombre": "Arthie",
+                "playerId": "P005",
+                "capitan": false
+              },
+              {
+                "slot": "MED C2",
+                "posicion": "MED",
+                "nombre": "Abraham",
+                "playerId": "P021",
+                "capitan": false
+              },
+              {
+                "slot": "DEL",
+                "posicion": "DEL",
+                "nombre": "Paco",
+                "playerId": "P014",
+                "capitan": false
+              }
+            ]
+          }
         },
         {
           "jornada": "J16",
@@ -61441,7 +64067,10 @@
           "rival": "AGUAPRIETA",
           "rivalBg": "#000000",
           "rivalText": "#0070c0",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J17",
@@ -61456,7 +64085,10 @@
           "rival": "WINLAND",
           "rivalBg": "#000000",
           "rivalText": "#f2041b",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J18",
@@ -61471,7 +64103,10 @@
           "rival": "BARRIO FC",
           "rivalBg": "#f2041b",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J19",
@@ -61486,7 +64121,10 @@
           "rival": "BARCELONA",
           "rivalBg": "#002060",
           "rivalText": "#f2041b",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J20",
@@ -61501,7 +64139,10 @@
           "rival": "CHELSEA GT",
           "rivalBg": "#000000",
           "rivalText": "#ffff00",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J21",
@@ -61516,7 +64157,10 @@
           "rival": "CUERVOS FC",
           "rivalBg": "#000000",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J22",
@@ -61531,7 +64175,10 @@
           "rival": "PSG",
           "rivalBg": "#000000",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J23",
@@ -61546,7 +64193,10 @@
           "rival": "BARRIO FC",
           "rivalBg": "#f2041b",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "J24",
@@ -61561,7 +64211,10 @@
           "rival": "MAQUINA 501",
           "rivalBg": "#6fa8dc",
           "rivalText": "#ffffff",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "AM",
@@ -61606,7 +64259,10 @@
           "rival": "CHELSEA GT",
           "rivalBg": "#000000",
           "rivalText": "#ffff00",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         },
         {
           "jornada": "RC3",
@@ -61621,7 +64277,10 @@
           "rival": "ASOC. RAMIREZ",
           "rivalBg": "#000000",
           "rivalText": "#f2041b",
-          "lineup": null
+          "lineup": {
+            "formacion": "",
+            "jugadores": []
+          }
         }
       ],
       "standings": {
