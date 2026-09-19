@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-19T04:10:51.126Z",
+  "generatedAt": "2026-09-19T04:47:32.612Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -278,7 +278,7 @@
       "porteroDor": "#bdae91",
       "textoClaro": "#ffffff",
       "textoOscuro": "#000000",
-      "fondo": "#b4a170",
+      "fondo": "#a69b7f",
       "grisPrincipal": "#262626",
       "grisSecundario": "#333333"
     },
