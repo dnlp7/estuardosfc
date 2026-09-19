@@ -887,7 +887,14 @@ body[data-section="partido"] .social-label {
 #partido-content .partido-banda-local,
 #ultimo-partido-card .partido-banda-local {
   background: var(--tema-principal, var(--main));
-  color: var(--tema-texto-principal, var(--white));
+  /* Daniel's explicit call (same per-column-mapping convention as the
+     field markers, see below): this bar always pairs Principal with
+     Dorsales specifically — not a WCAG contrast pick against Principal
+     (--tema-texto-principal, still used elsewhere on this page, e.g.
+     the goal/assist badges) — so it stays fixed regardless of how
+     Principal/Dorsales's own contrast happens to work out for a given
+     theme. */
+  color: var(--tema-dorsales, var(--white));
 }
 /* Field marker colors (this pass) — each of the three visual parts of
    a marker pill now maps to its own dedicated Temas column, rather
