@@ -2000,6 +2000,27 @@
         if (state.partidoSiguiente) irAPartido_(state.partidoSiguiente.era, state.partidoSiguiente.jornada);
       });
     }
+    // Left/Right arrow keys drive the same Anterior/Siguiente navigation
+    // as the on-screen buttons — a single document-level listener
+    // (setupPartido_ only runs once, at init, so this never double-
+    // registers), scoped to only fire while the match-sheet section is
+    // actually the active one (body[data-section="partido"], set by
+    // activateSection_ on every nav — see the Stage 9 theming code's own
+    // use of this same attribute). Ignored while focus is in a form
+    // field (input/select/textarea) or a contentEditable element, so
+    // typing elsewhere on the page (e.g. a future search box) is never
+    // hijacked by this.
+    document.addEventListener('keydown', function (e) {
+      if (document.body.dataset.section !== 'partido') return;
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      var tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'select' || tag === 'textarea' || (document.activeElement && document.activeElement.isContentEditable)) return;
+      if (e.key === 'ArrowLeft') {
+        if (state.partidoAnterior) { e.preventDefault(); irAPartido_(state.partidoAnterior.era, state.partidoAnterior.jornada); }
+      } else if (e.key === 'ArrowRight') {
+        if (state.partidoSiguiente) { e.preventDefault(); irAPartido_(state.partidoSiguiente.era, state.partidoSiguiente.jornada); }
+      }
+    });
   }
 
   function setupPerfil() {
@@ -3571,11 +3592,11 @@
 
   // ---------------- Récords ----------------
 
-  /** Líderes Históricos — top 5 per stat, all-time. No fetch needed:
+  /** Líderes Históricos — top 10 per stat, all-time. No fetch needed:
    * data.stats[stat].players already arrives sorted by all-time total
    * (dorsal-ascending tiebreak) straight from the Apps Script export
    * (writeStatTab_ physically re-sorts the historical doc's own tabs on
-   * every write) — this just takes the first 5 rows as-is. Dorsal isn't
+   * every write) — this just takes the first 10 rows as-is. Dorsal isn't
    * shown here (Daniel: unnecessary, can even be misleading — a
    * player's dorsal has changed across eras, so printing whichever one
    * happens to be "current" next to an ALL-TIME total reads oddly). */
@@ -3585,7 +3606,7 @@
     if (!data || !wrap) return;
     wrap.innerHTML = STATS_ORDER.map(function (stat) {
       var block = data.stats && data.stats[stat];
-      var top = block ? block.players.slice(0, 5) : [];
+      var top = block ? block.players.slice(0, 10) : [];
       // Standard competition ranking (same convention as the Sheets
       // RANK.EQ this data is sorted by) — a tie shares one rank number
       // instead of counting sequentially, e.g. two players tied for
