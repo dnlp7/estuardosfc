@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T05:45:47.305Z",
+  "generatedAt": "2026-09-22T05:54:14.937Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -2170,6 +2170,18 @@
         "insignia": "Líder Partidos Iniciados",
         "nivel": 3,
         "temporada": "2017/18",
+        "imagen": "lider-titularidades-2018.png"
+      },
+      {
+        "insignia": "Líder Partidos Asistidos",
+        "nivel": 3,
+        "temporada": "2018",
+        "imagen": "lider-partidos-2018.png"
+      },
+      {
+        "insignia": "Líder Partidos Iniciados",
+        "nivel": 3,
+        "temporada": "2018",
         "imagen": "lider-titularidades-2018.png"
       }
     ],
