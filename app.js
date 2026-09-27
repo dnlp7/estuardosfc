@@ -58,7 +58,8 @@
     function v(name) { return s.getPropertyValue(name).trim(); }
     return {
       scaleBest: v('--scale-best') || '#0b5394',
-      greyCell: v('--grey-cell') || '#333333',
+      greyHeader: v('--grey-header') || '#181a1c',
+      greyCell: v('--grey-cell') || '#222528',
       accentLight: v('--accent-light') || '#18a8b6',
       canchaLight: v('--cancha-light') || '#4a86c9',
       canchaDark: v('--cancha-dark') || '#0d2b4a',
@@ -773,6 +774,28 @@
     return ' <span class="marcador-penales" title="Definido por penales">(P ' + esc(m.penales.pf) + '-' + esc(m.penales.pc) + ')</span>';
   }
 
+  /** Score display helper — a real number renders as usual, but an
+   * unknown-score match (readMatchLog_'s "x" R-override rows,
+   * dashboard_export.gs) has gf/gc as null: renders as an empty string
+   * (Daniel's call — leave the score blank, not a "?" placeholder)
+   * everywhere a score number is shown. */
+  function marcadorNum_(v) {
+    return (v === null || v === undefined) ? '' : esc(v);
+  }
+
+  /** Result-chip/bar/marcador CSS class for a match's own resultado
+   * (g/p/e, ex for a shootout-won tie, unknown for a real match with no
+   * surviving score record) — the same four-way mapping is repeated at
+   * every place a match's outcome gets colored (Resultados table,
+   * Alineaciones marcador pill), so it lives here once. */
+  function resultChipClass_(m) {
+    if (m.resultado === 'unknown') return 'result-chip-unknown';
+    if (m.resultado === 'g') return 'result-chip-g';
+    if (m.resultado === 'p') return 'result-chip-p';
+    if (m.resultado === 'e') return (m.penales && m.penales.ganoEstuardos) ? 'result-chip-ex' : 'result-chip-e';
+    return '';
+  }
+
   /** Color-coded position pill (POR/DEF/MED/DEL/SUP) — reuses the exact
    * same POSITION_COLORS_ map the PI detailed leaderboard view already
    * uses, instead of introducing a second color scheme for the same
@@ -937,10 +960,10 @@
       : '';
     return '<div class="partido-marcador">' +
       '<div class="partido-banda partido-banda-local">' +
-        '<span class="partido-banda-score">' + esc(m.gf) + '</span><span class="partido-banda-nombre">Estuardos FC</span>' +
+        '<span class="partido-banda-score">' + marcadorNum_(m.gf) + '</span><span class="partido-banda-nombre">Estuardos FC</span>' +
       '</div>' +
       '<div class="partido-banda"' + rivalStyle + '>' +
-        '<span class="partido-banda-score">' + esc(m.gc) + '</span><span class="partido-banda-nombre">' + esc(rivalLabel_(m.rival)) + '</span>' +
+        '<span class="partido-banda-score">' + marcadorNum_(m.gc) + '</span><span class="partido-banda-nombre">' + esc(rivalLabel_(m.rival)) + '</span>' +
       '</div>' +
     '</div>' + penalesHtml + defaultHtml;
   }
@@ -3109,7 +3132,7 @@
       // first (visible without scrolling on a phone), with Jornada
       // staying first/sticky throughout.
       tbody.innerHTML = matches.map(function (m) {
-        var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? (m.penales && m.penales.ganoEstuardos ? 'result-chip-ex' : 'result-chip-e') : '';
+        var resClass = resultChipClass_(m);
         var canchaNum = Number(m.cancha);
         var canchaColor = isNaN(canchaNum) ? null : scaleColor_(canchaNum, canchaMin, canchaMax, COLORS.canchaLight, COLORS.canchaDark);
         var horaVal = parseHoraMinutes_(m.hora);
@@ -3119,7 +3142,7 @@
         // Rivales tab. A rival cell with no color set gets no inline
         // style (default cell).
         var rivalStyle = rivalPillStyle_(m);
-        var marcador = esc(m.gf) + ' - ' + esc(m.gc) + penalesAnotacionHtml_(m);
+        var marcador = marcadorNum_(m.gf) + ' - ' + marcadorNum_(m.gc) + penalesAnotacionHtml_(m);
 
         return '<tr class="match-row-link" data-partido="' + esc(season.era) + '::' + esc(m.jornada) + '"><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
           '<td class="val-strong">' + marcador + '</td>' +
@@ -3156,8 +3179,8 @@
       // Marcador pill — same result color scheme (good/draw/bad) as the
       // Resultados table's result-chip, between the jornada and rival,
       // e.g. "J8 2-3 CHOMPIRAS 2-3-1".
-      var resClass = m.resultado === 'g' ? 'result-chip-g' : m.resultado === 'p' ? 'result-chip-p' : m.resultado === 'e' ? (m.penales && m.penales.ganoEstuardos ? 'result-chip-ex' : 'result-chip-e') : '';
-      var marcadorHtml = '<span class="alineacion-marcador ' + resClass + '">' + esc(m.gf) + '-' + esc(m.gc) + '</span>' + penalesAnotacionHtml_(m);
+      var resClass = resultChipClass_(m);
+      var marcadorHtml = '<span class="alineacion-marcador ' + resClass + '">' + marcadorNum_(m.gf) + '-' + marcadorNum_(m.gc) + '</span>' + penalesAnotacionHtml_(m);
       var header = '<div class="alineacion-match-header">' +
         '<span class="jornada-cell">' + esc(m.jornada) + '</span>' +
         marcadorHtml +
@@ -3215,14 +3238,25 @@
     document.getElementById('season-goals-chart-wrap').hidden = !matches.length;
     if (!matches.length) return;
 
+    // Unknown-score matches (m.resultado === 'unknown') have no real
+    // GF/GC to plot — excluded from this chart entirely (both label and
+    // point) rather than plotting a misleading 0, same "not counted"
+    // treatment as computeStandingsFromMatches_ on the backend.
+    var conocidos = matches.filter(function (m) { return m.resultado !== 'unknown'; });
+    if (!conocidos.length) {
+      document.getElementById('season-goals-title').hidden = true;
+      document.getElementById('season-goals-chart-wrap').hidden = true;
+      return;
+    }
+
     var options = chartBaseOptions_();
     renderChart_('season-goals-chart', {
       type: 'line',
       data: {
-        labels: matches.map(function (m) { return m.jornada; }),
+        labels: conocidos.map(function (m) { return m.jornada; }),
         datasets: [
-          { label: 'GF', data: matches.map(function (m) { return Number(m.gf) || 0; }), borderColor: COLORS.scaleBest, backgroundColor: COLORS.scaleBest, tension: 0.2 },
-          { label: 'GC', data: matches.map(function (m) { return Number(m.gc) || 0; }), borderColor: COLORS.gcColor, backgroundColor: COLORS.gcColor, tension: 0.2 }
+          { label: 'GF', data: conocidos.map(function (m) { return Number(m.gf) || 0; }), borderColor: COLORS.scaleBest, backgroundColor: COLORS.scaleBest, tension: 0.2 },
+          { label: 'GC', data: conocidos.map(function (m) { return Number(m.gc) || 0; }), borderColor: COLORS.gcColor, backgroundColor: COLORS.gcColor, tension: 0.2 }
         ]
       },
       options: options
@@ -4252,13 +4286,13 @@
    * had real cell formatting to read in the first place (readMatchLog_
    * deliberately skips reading it for a blank Rival cell) — rather than
    * falling through to the plain default table-cell background,
-   * hard-code the same #262626/#ffffff pair Daniel already uses as the
-   * "no real kit color known" default on plenty of real, named rivals
+   * hard-code the same --grey-header/#ffffff pair Daniel already uses as
+   * the "no real kit color known" default on plenty of real, named rivals
    * (e.g. Real Madrid, Leones Negros) — it's always the same value, so
    * there's nothing to read per match. */
   function rivalPillStyle_(m) {
     if (m.rivalBg) return ' style="background:' + esc(m.rivalBg) + ';color:' + esc(m.rivalText || '#ffffff') + '"';
-    if (!m.rival) return ' style="background:#262626;color:#ffffff"';
+    if (!m.rival) return ' style="background:' + esc(COLORS.greyHeader || '#181a1c') + ';color:#ffffff"';
     return '';
   }
 
