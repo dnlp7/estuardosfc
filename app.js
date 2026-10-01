@@ -293,6 +293,22 @@
     return { playerId: id, nombre: info.nombre, activo: info.activo, dorsalByEra: info.dorsalByEra };
   }
 
+  /** Daniel's per-player display-name override (Datos tab's "Nombre
+   * Estadisticas" column) for exactly two places: the Individuales stat
+   * tables (GOL/AST/PA/PI/BALANCE leaderboards) and the Récords section
+   * — every other place a player's name shows (Plantel, Alineaciones,
+   * Perfil, the Resultados/match-sheet rosters) keeps using the regular
+   * Nombre, untouched. Falls back to `nombreFallback` (the row's own
+   * Nombre, already in hand at every call site) whenever there's no
+   * playerId, no Datos entry, or the override cell is blank for that
+   * player — adding the column is opt-in per player, not an all-or-
+   * nothing switch. */
+  function statsDisplayNombre_(playerId, nombreFallback) {
+    var datos = (state.data && state.data.datos) || {};
+    var o = playerId && datos[playerId];
+    return (o && o.nombreEstadisticas) ? o.nombreEstadisticas : nombreFallback;
+  }
+
   /** Dorsal/name cell background — main-color for a current roster
    * player, dark grey for a former one, per Jugadores' Activo flag.
    * Fails open to "active" (main color) when the player isn't listed.
@@ -3654,7 +3670,7 @@
             var linkAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '';
             var linkClass = p.playerId ? ' jugador-link' : '';
             return '<div class="record-leader-row' + linkClass + '"' + linkAttrs + '><span class="record-leader-rank">' + rank + '</span>' +
-              '<span class="record-leader-nombre">' + esc(p.nombre) + '</span>' +
+              '<span class="record-leader-nombre">' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</span>' +
               '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
           }).join('')
         : '<p class="detail-message">Sin datos.</p>';
@@ -3974,16 +3990,16 @@
     fetchHistoryDetail()
       .then(function (historyData) {
         renderRecordCard_('record-goles-partido', mostStatInMatchRecord_(historyData, 'GOL'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
+          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
         });
         renderRecordCard_('record-goles-temporada', mostStatInSeasonRecord_('GOL'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-asistencias-partido', mostStatInMatchRecord_(historyData, 'AST'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
+          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
         });
         renderRecordCard_('record-asistencias-temporada', mostStatInSeasonRecord_('AST'), function (e) {
-          return esc(e.nombre) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-goles-partido-equipo', mostTeamGoalsInMatchRecord_(historyData), function (e) {
           return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
@@ -4071,7 +4087,7 @@
     });
 
     var rows = allRows.filter(function (r) {
-      if (!matchesSearch_(r.nombre)) return false;
+      if (!matchesSearch_(statsDisplayNombre_(r.playerId, r.nombre))) return false;
       // "Todas" -> anyone who ever has a real all-time record (as with
       // every other stat table). A specific season -> only players with
       // a defined value in at least one of the 4 stats that era, same
@@ -4105,7 +4121,7 @@
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
       var trAttrs = r.playerId ? ' data-jugador-id="' + esc(r.playerId) + '" class="jugador-link"' : '';
-      return '<tr' + trAttrs + '><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.nombre) + '</td>' + statCells + '</tr>';
+      return '<tr' + trAttrs + '><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(r.playerId, r.nombre)) + '</td>' + statCells + '</tr>';
     }).join(''));
   }
 
@@ -4130,7 +4146,7 @@
     // Rank on the full list first, then filter — ties share a rank and
     // the search box never renumbers what's left visible.
     assignRanks_(allRows, function (r) { return r.val; });
-    var rows = allRows.filter(function (r) { return matchesSearch_(r.p.nombre); });
+    var rows = allRows.filter(function (r) { return matchesSearch_(statsDisplayNombre_(r.p.playerId, r.p.nombre)); });
 
     if (!rows.length) {
       setTableBody('<tr><td colspan="4" style="color:#7fa3a8;">Sin resultados.</td></tr>');
@@ -4146,7 +4162,7 @@
       var idBg = activoBackground_(r.p.nombre, r.p.playerId);
       var trAttrs = r.p.playerId ? ' data-jugador-id="' + esc(r.p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(r.p.nombre) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
   }
@@ -4164,7 +4180,7 @@
     // rank the full list before the search box filters it down.
     var allRows = statBlock.players.map(function (p) { return { p: p }; });
     assignRanks_(allRows, function (r) { return r.p.total; });
-    var rows = allRows.filter(function (r) { return matchesSearch_(r.p.nombre); });
+    var rows = allRows.filter(function (r) { return matchesSearch_(statsDisplayNombre_(r.p.playerId, r.p.nombre)); });
     if (!rows.length) {
       setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
@@ -4190,7 +4206,7 @@
       }).join('');
       var trAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(p.nombre) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(p.total)) + '>' + esc(p.total) + '</td>' + eraCells + '</tr>';
     }).join(''));
   }
@@ -4223,7 +4239,7 @@
       allRows.filter(function (r) { return !r.p.isUtility; }),
       function (r) { return r.p.total; }
     );
-    var rankedPlayers = allRows.filter(function (r) { return matchesSearch_(r.p.nombre); });
+    var rankedPlayers = allRows.filter(function (r) { return matchesSearch_(statsDisplayNombre_(r.p.playerId, r.p.nombre)); });
     if (!rankedPlayers.length) {
       setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
@@ -4258,7 +4274,7 @@
       if (p.playerId) rowClasses.push('jugador-link');
       var trAttrs = (rowClasses.length ? ' class="' + rowClasses.join(' ') + '"' : '') + (p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '');
       return '<tr' + trAttrs + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
-        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(p.nombre) + '</td><td class="val-strong"' + totalStyle + '>' +
+        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' + totalStyle + '>' +
         esc(p.total) + '</td>' + matchCells + '</tr>';
     }).join(''));
   }
