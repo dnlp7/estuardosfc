@@ -3906,7 +3906,18 @@
     var streaks = [];
     var current = null;
     all.forEach(function (entry) {
-      if (matchOk(entry.match.resultado)) {
+      // Unknown-score matches (resultado === 'unknown', see the
+      // unknown-score-matches feature) are treated as a loss ('p') for
+      // streak purposes specifically — Daniel's explicit call: with no
+      // real score on record, there's no way to confirm the streak
+      // actually held through that game, and a streak record should
+      // only ever claim what's genuinely verified. So it breaks BOTH
+      // the win streak (never an actual recorded win) and the unbeaten
+      // streak (can't be confirmed as not-a-loss either) — never
+      // extends either one, and can never become a streak's own
+      // start/end edge.
+      var r = entry.match.resultado === 'unknown' ? 'p' : entry.match.resultado;
+      if (matchOk(r)) {
         if (!current) current = { length: 0, start: entry };
         current.length++;
         current.end = entry;
