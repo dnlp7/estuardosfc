@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-30T06:24:02.099Z",
+  "generatedAt": "2026-10-01T05:05:33.220Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -1274,6 +1274,7 @@
   "datos": {
     "P001": {
       "nombreCompleto": "Daniel Pérez",
+      "nombreEstadisticas": "Daniel Pérez",
       "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": {
@@ -1286,6 +1287,7 @@
     },
     "P002": {
       "nombreCompleto": "Sergio Molina",
+      "nombreEstadisticas": "Sheko Molina",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": {
@@ -1298,6 +1300,7 @@
     },
     "P003": {
       "nombreCompleto": "Bismark Estuardo López",
+      "nombreEstadisticas": "Bismark López",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": {
@@ -1310,6 +1313,7 @@
     },
     "P004": {
       "nombreCompleto": "Diego Mercado",
+      "nombreEstadisticas": "Diego Mercado",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": {
@@ -1322,6 +1326,7 @@
     },
     "P005": {
       "nombreCompleto": "Arthie Martínez",
+      "nombreEstadisticas": "Arthie Martínez",
       "posicion": "MED",
       "debut": "2010",
       "cumpleanos": {
@@ -1334,6 +1339,7 @@
     },
     "P006": {
       "nombreCompleto": "Luis Jesús Quiñones",
+      "nombreEstadisticas": "Luis Quiñones",
       "posicion": "MED",
       "debut": "2011",
       "cumpleanos": {
@@ -1346,6 +1352,7 @@
     },
     "P007": {
       "nombreCompleto": "Sergio Alarcón",
+      "nombreEstadisticas": "Sergio Alarcón",
       "posicion": "DEL",
       "debut": "2012",
       "cumpleanos": {
@@ -1358,6 +1365,7 @@
     },
     "P008": {
       "nombreCompleto": "Enrique Pellat",
+      "nombreEstadisticas": "Enrique Pellat",
       "posicion": "MED",
       "debut": "2012",
       "cumpleanos": null,
@@ -1367,6 +1375,7 @@
     },
     "P009": {
       "nombreCompleto": "Orlando Guzmán",
+      "nombreEstadisticas": "Orlando Guzmán",
       "posicion": "DEF",
       "debut": "2015",
       "cumpleanos": {
@@ -1379,6 +1388,7 @@
     },
     "P010": {
       "nombreCompleto": "Carlos Mares",
+      "nombreEstadisticas": "Carlos Mares",
       "posicion": "DEF",
       "debut": "2014",
       "cumpleanos": {
@@ -1391,6 +1401,7 @@
     },
     "P011": {
       "nombreCompleto": "Eric Chávez",
+      "nombreEstadisticas": "Eric Chávez",
       "posicion": "DEF",
       "debut": "2014",
       "cumpleanos": {
@@ -1403,6 +1414,7 @@
     },
     "P012": {
       "nombreCompleto": "Vicente Partida",
+      "nombreEstadisticas": "Chente Partida",
       "posicion": "DEF",
       "debut": "2016",
       "cumpleanos": {
@@ -1415,6 +1427,7 @@
     },
     "P013": {
       "nombreCompleto": "Carlos Vargas",
+      "nombreEstadisticas": "Charly Vargas",
       "posicion": "POR",
       "debut": "2016",
       "cumpleanos": {
@@ -1427,6 +1440,7 @@
     },
     "P014": {
       "nombreCompleto": "Francisco Bravo",
+      "nombreEstadisticas": "Paco Bravo",
       "posicion": "DEL",
       "debut": "2016",
       "cumpleanos": {
@@ -1439,6 +1453,7 @@
     },
     "P015": {
       "nombreCompleto": "Jesús Hermosillo",
+      "nombreEstadisticas": "Chuy Hermosillo",
       "posicion": "MED",
       "debut": "2016",
       "cumpleanos": {
@@ -1451,6 +1466,7 @@
     },
     "P016": {
       "nombreCompleto": "Manuel Lanuza",
+      "nombreEstadisticas": "Manuel Lanuza",
       "posicion": "MED",
       "debut": "2016",
       "cumpleanos": {
@@ -1463,6 +1479,7 @@
     },
     "P017": {
       "nombreCompleto": "Miguel Márquez",
+      "nombreEstadisticas": "Miguel Márquez",
       "posicion": "DEF",
       "debut": "2016",
       "cumpleanos": {
@@ -1475,6 +1492,7 @@
     },
     "P018": {
       "nombreCompleto": "Omar Rojas",
+      "nombreEstadisticas": "Omar Rojas",
       "posicion": "MED",
       "debut": "2017",
       "cumpleanos": null,
@@ -1484,6 +1502,7 @@
     },
     "P019": {
       "nombreCompleto": "David Clifton",
+      "nombreEstadisticas": "David Clifton",
       "posicion": "DEL",
       "debut": "2018",
       "cumpleanos": null,
@@ -1493,6 +1512,7 @@
     },
     "P020": {
       "nombreCompleto": "Gabriel Gómez",
+      "nombreEstadisticas": "Gabo Gómez",
       "posicion": "MED",
       "debut": "2018",
       "cumpleanos": {
@@ -1505,6 +1525,7 @@
     },
     "P021": {
       "nombreCompleto": "Abraham Moreno",
+      "nombreEstadisticas": "Abraham Moreno",
       "posicion": "DEF",
       "debut": "2017",
       "cumpleanos": {
@@ -1517,6 +1538,7 @@
     },
     "P022": {
       "nombreCompleto": "Manuel González",
+      "nombreEstadisticas": "Mane González",
       "posicion": "DEF",
       "debut": "2017",
       "cumpleanos": {
@@ -1529,6 +1551,7 @@
     },
     "P023": {
       "nombreCompleto": "Carlos Godínez",
+      "nombreEstadisticas": "Wero Godínez",
       "posicion": "DEF",
       "debut": "2018",
       "cumpleanos": null,
@@ -1538,6 +1561,7 @@
     },
     "P024": {
       "nombreCompleto": "Irving Talamantes",
+      "nombreEstadisticas": "Irving Talamantes",
       "posicion": "MED",
       "debut": "2018",
       "cumpleanos": {
@@ -1550,6 +1574,7 @@
     },
     "P025": {
       "nombreCompleto": "Ernesto Vargas",
+      "nombreEstadisticas": "Neto Vargas",
       "posicion": "MED",
       "debut": "2017",
       "cumpleanos": null,
@@ -1559,6 +1584,7 @@
     },
     "P026": {
       "nombreCompleto": "Antonio Vivar",
+      "nombreEstadisticas": "Antonio Vivar",
       "posicion": "DEL",
       "debut": "2018",
       "cumpleanos": null,
@@ -1568,6 +1594,7 @@
     },
     "P027": {
       "nombreCompleto": "César Sobrino",
+      "nombreEstadisticas": "Coco Sobrino",
       "posicion": "MED",
       "debut": "2018",
       "cumpleanos": {
@@ -1580,6 +1607,7 @@
     },
     "P028": {
       "nombreCompleto": "Héctor Vázquez",
+      "nombreEstadisticas": "Héctor Vázquez",
       "posicion": "MED",
       "debut": "2020",
       "cumpleanos": {
@@ -1592,6 +1620,7 @@
     },
     "P029": {
       "nombreCompleto": "Francisco Sandoval",
+      "nombreEstadisticas": "Paquito Sandoval",
       "posicion": "MED",
       "debut": "2020",
       "cumpleanos": {
@@ -1604,6 +1633,7 @@
     },
     "P030": {
       "nombreCompleto": "Javier Paván",
+      "nombreEstadisticas": "Pavel Paván",
       "posicion": "MED",
       "debut": "2021",
       "cumpleanos": {
@@ -1616,6 +1646,7 @@
     },
     "P031": {
       "nombreCompleto": "Ramiro López",
+      "nombreEstadisticas": "Ramiro López",
       "posicion": "MED",
       "debut": "2021",
       "cumpleanos": {
@@ -1628,6 +1659,7 @@
     },
     "P032": {
       "nombreCompleto": "René Benavides",
+      "nombreEstadisticas": "René Benavides",
       "posicion": "POR",
       "debut": "2021",
       "cumpleanos": {
@@ -1640,6 +1672,7 @@
     },
     "P033": {
       "nombreCompleto": "Pablo Vargas",
+      "nombreEstadisticas": "Pablo Vargas",
       "posicion": "MED",
       "debut": "2024",
       "cumpleanos": null,
@@ -1649,6 +1682,7 @@
     },
     "P034": {
       "nombreCompleto": "Erik Aviña",
+      "nombreEstadisticas": "Paleta Aviña",
       "posicion": "POR",
       "debut": "2025",
       "cumpleanos": {
@@ -1661,6 +1695,7 @@
     },
     "P035": {
       "nombreCompleto": "Noé Pérez",
+      "nombreEstadisticas": "Noé Pérez",
       "posicion": "MED",
       "debut": "2026",
       "cumpleanos": {
@@ -1673,6 +1708,7 @@
     },
     "P036": {
       "nombreCompleto": "Alonso Moreno",
+      "nombreEstadisticas": "Alonso Moreno",
       "posicion": "MED",
       "debut": "2026",
       "cumpleanos": {
@@ -1685,6 +1721,7 @@
     },
     "P037": {
       "nombreCompleto": "José Carlos López",
+      "nombreEstadisticas": "Pepe López",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": {
@@ -1697,6 +1734,7 @@
     },
     "P038": {
       "nombreCompleto": "Guadalupe Mariscal",
+      "nombreEstadisticas": "Lupe Mariscal",
       "posicion": "POR",
       "debut": "2013",
       "cumpleanos": null,
@@ -1706,6 +1744,7 @@
     },
     "P039": {
       "nombreCompleto": "Juan Pablo de Alba",
+      "nombreEstadisticas": "Juan Pablo de Alba",
       "posicion": "MED",
       "debut": "2010",
       "cumpleanos": {
@@ -1718,6 +1757,7 @@
     },
     "P040": {
       "nombreCompleto": "Mauricio Polanco",
+      "nombreEstadisticas": "Mauricio Polanco",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": {
@@ -1730,6 +1770,7 @@
     },
     "P041": {
       "nombreCompleto": "José de Jesús Loera",
+      "nombreEstadisticas": "Grillo Loera",
       "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": null,
@@ -1739,6 +1780,7 @@
     },
     "P042": {
       "nombreCompleto": "Daniel Soto",
+      "nombreEstadisticas": "Mirmo Soto",
       "posicion": "POR",
       "debut": "2010",
       "cumpleanos": null,
@@ -1748,6 +1790,7 @@
     },
     "P043": {
       "nombreCompleto": "Andrés Limón",
+      "nombreEstadisticas": "Oso Limón",
       "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": null,
@@ -1757,6 +1800,7 @@
     },
     "P044": {
       "nombreCompleto": "Diego Gudiño",
+      "nombreEstadisticas": "Diego Gudiño",
       "posicion": "DEF",
       "debut": "2014",
       "cumpleanos": null,
@@ -1766,6 +1810,7 @@
     },
     "P045": {
       "nombreCompleto": "Pablo Pellat",
+      "nombreEstadisticas": "Pablo Pellat",
       "posicion": "MED",
       "debut": "2015",
       "cumpleanos": null,
@@ -1775,6 +1820,7 @@
     },
     "P046": {
       "nombreCompleto": "Vicente Perales",
+      "nombreEstadisticas": "Chente Perales",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": null,
@@ -1784,6 +1830,7 @@
     },
     "P047": {
       "nombreCompleto": "Glenn Martínez",
+      "nombreEstadisticas": "Glenn Martínez",
       "posicion": "MED",
       "debut": "2010",
       "cumpleanos": null,
@@ -1793,6 +1840,7 @@
     },
     "P048": {
       "nombreCompleto": "Guillermo Alonso",
+      "nombreEstadisticas": "Memo Alonso",
       "posicion": "MED",
       "debut": "2013",
       "cumpleanos": null,
@@ -1802,6 +1850,7 @@
     },
     "P049": {
       "nombreCompleto": "José Luis Rodríguez",
+      "nombreEstadisticas": "Koch Rodríguez",
       "posicion": "MED",
       "debut": "2012",
       "cumpleanos": null,
@@ -1811,6 +1860,7 @@
     },
     "P050": {
       "nombreCompleto": "Gibran Ascencio",
+      "nombreEstadisticas": "Gibran Ascencio",
       "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": null,
@@ -1820,6 +1870,7 @@
     },
     "P051": {
       "nombreCompleto": null,
+      "nombreEstadisticas": "Rafa",
       "posicion": "DEF",
       "debut": "2010",
       "cumpleanos": null,
@@ -1829,6 +1880,7 @@
     },
     "P052": {
       "nombreCompleto": "Jerónimo Ramos",
+      "nombreEstadisticas": "Jero Ramos",
       "posicion": "DEL",
       "debut": "2010",
       "cumpleanos": null,
@@ -1838,6 +1890,7 @@
     },
     "P053": {
       "nombreCompleto": "Mijael Bueno",
+      "nombreEstadisticas": "Mijael Bueno",
       "posicion": "MED",
       "debut": "2010",
       "cumpleanos": null,
@@ -1847,6 +1900,7 @@
     },
     "P054": {
       "nombreCompleto": "Rodrigo Vargas",
+      "nombreEstadisticas": "Chino Vargas",
       "posicion": "DEL",
       "debut": "2011",
       "cumpleanos": null,
@@ -1856,6 +1910,7 @@
     },
     "P055": {
       "nombreCompleto": "José Antonio Raygosa",
+      "nombreEstadisticas": "Toño Raygosa",
       "posicion": "DEL",
       "debut": "2011",
       "cumpleanos": null,
@@ -1865,6 +1920,7 @@
     },
     "P056": {
       "nombreCompleto": "Vicente Benavent",
+      "nombreEstadisticas": "Vicente Benavent",
       "posicion": "MED",
       "debut": "2011",
       "cumpleanos": null,
@@ -1874,6 +1930,7 @@
     },
     "P057": {
       "nombreCompleto": "Ricardo Lizarraga",
+      "nombreEstadisticas": "Ricardo Lizarraga",
       "posicion": "DEF",
       "debut": "2011",
       "cumpleanos": null,
@@ -1883,6 +1940,7 @@
     },
     "P058": {
       "nombreCompleto": "Rodrigo Arpio",
+      "nombreEstadisticas": "Rodrigo Arpio",
       "posicion": "DEF",
       "debut": "2011",
       "cumpleanos": {
@@ -1895,6 +1953,7 @@
     },
     "P059": {
       "nombreCompleto": "Isai Saucedo",
+      "nombreEstadisticas": "Izaay Saucedo",
       "posicion": "DEL",
       "debut": "2011",
       "cumpleanos": null,
@@ -1904,6 +1963,7 @@
     },
     "P060": {
       "nombreCompleto": "René Santos",
+      "nombreEstadisticas": "René Santos",
       "posicion": "MED",
       "debut": "2011",
       "cumpleanos": null,
@@ -1913,6 +1973,7 @@
     },
     "P061": {
       "nombreCompleto": "Daniel Romero",
+      "nombreEstadisticas": "Daniel Romero",
       "posicion": "DEF",
       "debut": "2012",
       "cumpleanos": null,
@@ -1922,6 +1983,7 @@
     },
     "P062": {
       "nombreCompleto": "Daniel Scoth",
+      "nombreEstadisticas": "Daniel Scoth",
       "posicion": "POR",
       "debut": "2011",
       "cumpleanos": null,
@@ -1931,6 +1993,7 @@
     },
     "P063": {
       "nombreCompleto": "Miguel Ramón",
+      "nombreEstadisticas": "Miguel Ramón",
       "posicion": "DEL",
       "debut": "2014",
       "cumpleanos": null,
@@ -1940,6 +2003,7 @@
     },
     "P064": {
       "nombreCompleto": "Samuel Simonnet",
+      "nombreEstadisticas": "Samuel Simonnet",
       "posicion": "MED",
       "debut": "2015",
       "cumpleanos": null,
@@ -1949,6 +2013,7 @@
     },
     "P065": {
       "nombreCompleto": "Diego Montemayor",
+      "nombreEstadisticas": "Diego Montemayor",
       "posicion": "MED",
       "debut": "2016",
       "cumpleanos": null,
@@ -1958,6 +2023,7 @@
     },
     "P066": {
       "nombreCompleto": "Lester Papadakis",
+      "nombreEstadisticas": "Lester Papadakis",
       "posicion": "MED",
       "debut": "2012",
       "cumpleanos": null,
@@ -1967,6 +2033,7 @@
     },
     "P067": {
       "nombreCompleto": "Sergio Hermosillo",
+      "nombreEstadisticas": "Sergio Hermosillo",
       "posicion": "MED",
       "debut": "2016",
       "cumpleanos": null,
@@ -1976,6 +2043,7 @@
     },
     "P068": {
       "nombreCompleto": "Rodrigo López",
+      "nombreEstadisticas": "Rodri López",
       "posicion": "POR",
       "debut": "2017",
       "cumpleanos": null,
@@ -1985,6 +2053,7 @@
     },
     "P069": {
       "nombreCompleto": "Benjamín Torres",
+      "nombreEstadisticas": "Benja Torres",
       "posicion": "MED",
       "debut": "2012",
       "cumpleanos": null,
@@ -1994,6 +2063,7 @@
     },
     "P070": {
       "nombreCompleto": "Alberto López",
+      "nombreEstadisticas": "Beto López",
       "posicion": "MED",
       "debut": "2026",
       "cumpleanos": null,
@@ -2003,6 +2073,7 @@
     },
     "P071": {
       "nombreCompleto": "Manuel Salcedo",
+      "nombreEstadisticas": "Mane Salcedo",
       "posicion": "DEF",
       "debut": "2014",
       "cumpleanos": null,
