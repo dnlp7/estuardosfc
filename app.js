@@ -858,13 +858,13 @@
    * off of, but passed through FOTO_TEMA_ALIAS_ first, since T002
    * resolves to T001 for photo purposes only — see FOTO_TEMA_ALIAS_'s
    * own comment; every real era has a code, per Daniel) and the photo
-   * tried is images/fotos_perfiles/<playerId>-<temaCodigo>.jpg — a specific photo
+   * tried is images/fotos-perfiles/<playerId>-<temaCodigo>.jpg — a specific photo
    * of THIS player from THAT era, so a 2012 match sheet shows a 2012
    * photo rather than whatever their current one happens to be. Only
    * SOME players have a photo for a given era (most won't, for most of
    * the team's 17-era history) — that's expected, not an error, so a
    * missing one falls back via onerror to
-   * images/fotos_perfiles/default-<temaCodigo>.jpg, an era-appropriate
+   * images/fotos-perfiles/default-<temaCodigo>.jpg, an era-appropriate
    * generic placeholder Daniel supplies one of per era (distinct from
    * Perfil's per-PLAYER default behavior, which instead falls through to
    * a text placeholder tile — a grid of several cards reads better as
@@ -888,14 +888,14 @@
       // a photo filename with no era suffix to key off of.
       return '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
     }
-    var defaultSrc = 'images/fotos_perfiles/default-' + temaCodigo + '.jpg';
+    var defaultSrc = 'images/fotos-perfiles/default-' + temaCodigo + '.jpg';
     if (!info || !info.playerId) {
       if (/^\[.*\]$/.test(String(nombre).trim())) {
         return '<img src="' + esc(defaultSrc) + '" alt="' + esc(nombre) + '" loading="lazy">';
       }
       return '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
     }
-    var src = 'images/fotos_perfiles/' + info.playerId + '-' + temaCodigo + '.jpg';
+    var src = 'images/fotos-perfiles/' + info.playerId + '-' + temaCodigo + '.jpg';
     var onerrorAttr = ' onerror="this.onerror=null;this.src=\'' + defaultSrc + '\';"';
     return '<img src="' + esc(src) + '" alt="' + esc(nombre) + '" loading="lazy"' + onerrorAttr + '>';
   }
@@ -1123,11 +1123,22 @@
     if (_canchaImgRefreshTimer_) return;
     _canchaImgRefreshTimer_ = setTimeout(function () {
       _canchaImgRefreshTimer_ = null;
-      var seccionActiva = document.body.dataset.section;
-      if (seccionActiva === 'inicio') {
-        renderUltimoPartido_();
-        renderProximoPartido_();
-      } else if (seccionActiva === 'partido' && state.partidoActualEra && state.partidoActualJornada) {
+      // Inicio's cards are rendered ONCE at init() and never again on
+      // tab switches (activateSection_ only toggles visibility), so they
+      // must be repainted whenever a probe resolves, EVEN IF Inicio isn't
+      // the visible section right now (a deep link landing elsewhere, or
+      // the user clicking away before the probes finished) — otherwise
+      // returning to Inicio later shows the stale pre-image render until
+      // a full reload. Safe while hidden: init() renders them regardless
+      // of visibility too.
+      renderUltimoPartido_();
+      renderProximoPartido_();
+      // The match sheet, by contrast, is re-rendered from scratch on every
+      // entry (see the renderPartido_ call sites), so it can't go stale
+      // while hidden — and renderPartido_ has visible side effects
+      // (document.title, body theme variables) that shouldn't fire for a
+      // section the user isn't looking at. Only repaint it if active.
+      if (document.body.dataset.section === 'partido' && state.partidoActualEra && state.partidoActualJornada) {
         renderPartido_(state.partidoActualEra, state.partidoActualJornada);
       }
     }, 150);
@@ -1615,8 +1626,8 @@
 
   /** Shared renderer for both Jugadores sub-tabs — grouped into position
    * sections, each sorted by dorsal ascending within itself. `imgDir` is
-   * the roster-photo folder: images/fotos_plantel/ for the current squad,
-   * images/fotos_plantel/ex/ for former members (Daniel's own split,
+   * the roster-photo folder: images/fotos-plantel/ for the current squad,
+   * images/fotos-plantel/ex/ for former members (Daniel's own split,
    * since they're a separate photo set). */
   function renderRosterGrid_(gridId, activoWanted, imgDir) {
     var grid = document.getElementById(gridId);
@@ -1641,10 +1652,10 @@
   }
 
   function renderPlantel() {
-    renderRosterGrid_('plantel-grid', true, 'images/fotos_plantel/');
+    renderRosterGrid_('plantel-grid', true, 'images/fotos-plantel/');
   }
   function renderPlantelEx_() {
-    renderRosterGrid_('plantel-grid-ex', false, 'images/fotos_plantel/ex/');
+    renderRosterGrid_('plantel-grid-ex', false, 'images/fotos-plantel/ex/');
   }
 
   /** One position section: heading + its own 4-per-row card grid.
@@ -2211,7 +2222,7 @@
       ? (info.dorsalByEra && info.dorsalByEra[data.currentEra])
       : formerPlayerDorsal_(playerId, info);
 
-    // images/fotos_perfiles — a dedicated, era-accurate photo set (see
+    // images/fotos-perfiles — a dedicated, era-accurate photo set (see
     // the era-accurate match-sheet photos feature below for the
     // PXXX-TYYY.jpg/default-TYYY.jpg files that feature uses from this
     // same directory). Perfil specifically uses each player's own
@@ -2219,7 +2230,7 @@
     // photo per player, independent of any era — rather than resolving
     // an era-accurate one, since there's no one "current match" context
     // on this page to pick an era from. A plain headshot set, distinct
-    // from Plantel's (images/fotos_plantel/), which has dorsal/name
+    // from Plantel's (images/fotos-plantel/), which has dorsal/name
     // baked into the graphic itself — this page renders that text
     // itself instead.
     document.title = 'Estuardos FC — ' + nombre;
@@ -2232,7 +2243,7 @@
     document.getElementById('perfil-foto').hidden = false;
     document.getElementById('perfil-foto-placeholder').hidden = true;
     document.getElementById('perfil-foto-placeholder').textContent = nombre;
-    document.getElementById('perfil-foto').src = 'images/fotos_perfiles/' + playerId + '-perfil.jpg';
+    document.getElementById('perfil-foto').src = 'images/fotos-perfiles/' + playerId + '-perfil.jpg';
     document.getElementById('perfil-foto').alt = nombre;
     document.getElementById('perfil-dorsal').textContent =
       (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';

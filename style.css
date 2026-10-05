@@ -633,14 +633,14 @@ main.wide { max-width: 1400px; }
    rendered between them when both are non-empty (see app.js). */
 .jugadores-divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
 .jugador-card { text-align: center; }
-/* No border/radius here — the images/fotos_perfiles photos already have
+/* No border/radius here — the images/fotos-perfiles photos already have
    their own border baked into the asset, so adding a second one on
    top looked doubled/odd. No fixed height/object-fit:cover either —
-   images/fotos_perfiles isn't square (300x360), so cropping it into a 76x76
+   images/fotos-perfiles isn't square (300x360), so cropping it into a 76x76
    box cut the top/bottom edge of that baked-in border off. Scaled to
    the card's width, full image, natural aspect ratio, nothing cropped. */
 .jugador-card img { width: 100%; height: auto; display: block; }
-/* Same aspect ratio as the real images/fotos_perfiles photos (300x360) so a
+/* Same aspect ratio as the real images/fotos-perfiles photos (300x360) so a
    placeholder tile lines up with real photo tiles in the same grid. */
 .jugador-card-placeholder {
   width: 100%; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
