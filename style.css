@@ -504,6 +504,24 @@ main.wide { max-width: 1400px; }
 .insignia-label { font-weight: 700; color: var(--white); font-size: 0.8rem; margin-top: 0.4rem; }
 .insignia-temporada { color: var(--muted); font-size: 0.75rem; }
 
+/* Perfil — Tarjetas (collectible cards, one per year a card was
+   designed for that player; see renderPerfil). Same card language as
+   .insignia-card (rounded box, image + subtitle, no title needed — the
+   year alone is the label, same as .historia-card's crest/jersey
+   subtitle-only cards) but a narrower auto-fill floor than
+   .insignias-grid's, since a trading-card graphic is portrait-oriented
+   rather than square like a badge icon. */
+.tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(max(100px, calc((100% - 5 * 1rem) / 6)), 1fr)); gap: 1rem; margin-bottom: 0.5rem; }
+.tarjeta-card {
+  text-align: center;
+  background: var(--grey-header);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.6rem;
+}
+.tarjeta-card img { width: 100%; height: auto; display: block; border-radius: 8px; }
+.tarjeta-anio { color: var(--muted); font-size: 0.75rem; margin-top: 0.4rem; }
+
 /* Inicio — Último Partido / Próximo Partido cards. Side by side on
    desktop again (Daniel's later call, reversing the note above) —
    Próximo Partido has much less content than Último Partido (no
@@ -615,14 +633,14 @@ main.wide { max-width: 1400px; }
    rendered between them when both are non-empty (see app.js). */
 .jugadores-divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
 .jugador-card { text-align: center; }
-/* No border/radius here — the images/perfiles photos already have
+/* No border/radius here — the images/fotos_perfiles photos already have
    their own border baked into the asset, so adding a second one on
    top looked doubled/odd. No fixed height/object-fit:cover either —
-   images/perfiles isn't square (300x360), so cropping it into a 76x76
+   images/fotos_perfiles isn't square (300x360), so cropping it into a 76x76
    box cut the top/bottom edge of that baked-in border off. Scaled to
    the card's width, full image, natural aspect ratio, nothing cropped. */
 .jugador-card img { width: 100%; height: auto; display: block; }
-/* Same aspect ratio as the real images/perfiles photos (300x360) so a
+/* Same aspect ratio as the real images/fotos_perfiles photos (300x360) so a
    placeholder tile lines up with real photo tiles in the same grid. */
 .jugador-card-placeholder {
   width: 100%; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);

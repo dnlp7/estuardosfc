@@ -734,6 +734,30 @@
     return season && season.tema ? String(season.tema).trim() : '';
   }
 
+  /** Theme-code aliases used ONLY for era-accurate player photo lookup
+   * (jugadorFotoHtml_), never for coloring/graphics (temaForEra_,
+   * canchaSvgHtml_'s per-theme marker images stay keyed off the real,
+   * un-aliased code). Daniel's call: T001/T002 (the team's first two
+   * theme eras) have an identical color scheme AND very few surviving
+   * photos between them, so rather than asking him to duplicate every
+   * photo under two filenames, T002 resolves to T001's photo set for
+   * photo purposes only — one PXXX-T001.jpg/default-T001.jpg pair
+   * covers both. Add further entries here if Daniel wants to fuse any
+   * other adjacent theme eras' photos later; each entry is one-way
+   * (alias -> real code to use instead), so T001 itself is unaffected
+   * and still needs its own photos uploaded as before. */
+  var FOTO_TEMA_ALIAS_ = { T002: 'T001' };
+
+  /** Photo-lookup theme code for `era` — temaCodigoForEra_'s result,
+   * passed through FOTO_TEMA_ALIAS_ (see above). Used by
+   * jugadorFotoHtml_ only; every other temaCodigoForEra_ call site
+   * (coloring, cancha graphics) should keep calling temaCodigoForEra_
+   * directly, not this. */
+  function fotoTemaCodigo_(era) {
+    var codigo = temaCodigoForEra_(era);
+    return FOTO_TEMA_ALIAS_[codigo] || codigo;
+  }
+
   // Small outline icons (trophy/calendar/clock/pin) for the meta row —
   // inline SVG rather than image assets, so no new upload is needed and
   // they inherit color via CSS (currentColor) same as any text.
@@ -822,45 +846,57 @@
     return '<span class="jugador-card-pos"' + style + '>' + esc(pos) + '</span>';
   }
 
-  /** Photo (or placeholder) for one player card — shared by
-   * jugadorCardHtml_ (Titulares/Suplentes/Asistentes) and
-   * lineupCardHtml_ (Alineaciones), the two card grids on the site that
-   * show a player photo rather than Perfil's single dedicated <img>
-   * element. A current roster player's photo lives in images/perfiles/;
-   * a former one's lives in images/perfiles/ex/ (Daniel's own split,
-   * same convention renderPerfil already uses for its one photo). The
-   * ex/ set is incomplete, so a missing former-player photo falls back
-   * via onerror to images/perfiles/ex/default.jpg — a real placeholder
-   * photo Daniel added for exactly this, swapped in live rather than
-   * hiding the <img> and showing a text tile (Perfil's own pattern),
-   * since a grid of several cards reads better as photos of one
-   * consistent size than a mix of photos and text tiles. No onerror
-   * fallback for an active player's own missing photo — that set is
-   * expected to be complete; a genuinely broken one shows as a broken
-   * image icon, same as before this change. A player with no Jugadores
-   * entry at all (info is null — no identity to look up a photo for;
-   * covers TxJ's guest/reinforcement names like "[Refuerzo]") still
-   * falls back to the plain text placeholder tile. */
-  function jugadorFotoHtml_(info, nombre) {
+  /** Photo for one player card — shared by jugadorCardHtml_ (Titulares/
+   * Suplentes/Asistentes) and lineupCardHtml_ (Alineaciones), the two
+   * card grids on the site tied to a SPECIFIC match/era, as opposed to
+   * Perfil's single dedicated <img> (always that player's one curated
+   * PXXX-perfil.jpg, era-independent — see renderPerfil).
+   *
+   * Era-accurate photos (the feature this became): `era` picks the
+   * Temas-tab theme code for that match (fotoTemaCodigo_ — built on the
+   * same temaCodigoForEra_ canchaSvgHtml_'s own per-theme images key
+   * off of, but passed through FOTO_TEMA_ALIAS_ first, since T002
+   * resolves to T001 for photo purposes only — see FOTO_TEMA_ALIAS_'s
+   * own comment; every real era has a code, per Daniel) and the photo
+   * tried is images/fotos_perfiles/<playerId>-<temaCodigo>.jpg — a specific photo
+   * of THIS player from THAT era, so a 2012 match sheet shows a 2012
+   * photo rather than whatever their current one happens to be. Only
+   * SOME players have a photo for a given era (most won't, for most of
+   * the team's 17-era history) — that's expected, not an error, so a
+   * missing one falls back via onerror to
+   * images/fotos_perfiles/default-<temaCodigo>.jpg, an era-appropriate
+   * generic placeholder Daniel supplies one of per era (distinct from
+   * Perfil's per-PLAYER default behavior, which instead falls through to
+   * a text placeholder tile — a grid of several cards reads better as
+   * photos of one consistent size than a mix of photos and text tiles,
+   * which is also why a bracketed utility name below gets this same
+   * generic era photo rather than the text tile).
+   *
+   * A player with no Jugadores entry at all (info is null — no identity
+   * to look up a photo for; covers TxJ's guest/reinforcement names like
+   * "[Refuerzo]") gets the era's generic default photo if the name is a
+   * real bracketed stand-in, or the plain text placeholder tile for a
+   * genuinely unresolved name (a typo or data gap), where showing the
+   * raw text is more useful for spotting the problem than a photo would
+   * be. */
+  function jugadorFotoHtml_(info, nombre, era) {
+    var temaCodigo = fotoTemaCodigo_(era);
+    if (!temaCodigo) {
+      // Defensive only — every real era has a Temas-tab theme (Daniel
+      // confirmed), so this isn't expected to run in practice. Falls
+      // through to the plain text placeholder rather than constructing
+      // a photo filename with no era suffix to key off of.
+      return '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
+    }
+    var defaultSrc = 'images/fotos_perfiles/default-' + temaCodigo + '.jpg';
     if (!info || !info.playerId) {
-      // A bracketed name ("[Refuerzo]", "[Invitado]") is a real person
-      // filling in for a match, just never added to Jugadores (no
-      // dorsal/roster row to give them a photo) — same bracketed-row
-      // convention as GOL's [Default]/[Autogoles] utility rows. That's
-      // worth the same default placeholder photo as a former player
-      // with no ex/ photo of their own, not the plain text tile — the
-      // text tile stays for a genuinely unresolved real name (a typo
-      // or data gap), where showing the raw text is more useful for
-      // spotting the problem than a generic photo would be.
       if (/^\[.*\]$/.test(String(nombre).trim())) {
-        return '<img src="images/perfiles/ex/default.jpg" alt="' + esc(nombre) + '" loading="lazy">';
+        return '<img src="' + esc(defaultSrc) + '" alt="' + esc(nombre) + '" loading="lazy">';
       }
       return '<div class="jugador-card-placeholder">' + esc(nombre) + '</div>';
     }
-    var fotoDir = info.activo ? 'images/perfiles/' : 'images/perfiles/ex/';
-    var src = fotoDir + info.playerId + '.jpg';
-    var onerrorAttr = info.activo ? '' :
-      ' onerror="this.onerror=null;this.src=\'images/perfiles/ex/default.jpg\';"';
+    var src = 'images/fotos_perfiles/' + info.playerId + '-' + temaCodigo + '.jpg';
+    var onerrorAttr = ' onerror="this.onerror=null;this.src=\'' + defaultSrc + '\';"';
     return '<img src="' + esc(src) + '" alt="' + esc(nombre) + '" loading="lazy"' + onerrorAttr + '>';
   }
 
@@ -895,8 +931,10 @@
    * badge (top-right of the photo, same treatment as Alineaciones'
    * lineupCardHtml_) + optional goal/assist badges for this specific
    * match. `item` is {nombre, dorsal, posicion, playerId, capitan,
-   * goles, asistencias} — capitan/goles/asistencias all optional. */
-  function jugadorCardHtml_(item) {
+   * goles, asistencias} — capitan/goles/asistencias all optional. `era`
+   * is this match's own era, passed straight through to jugadorFotoHtml_
+   * for its era-accurate photo lookup. */
+  function jugadorCardHtml_(item, era) {
     var info = jugadorInfo_(item.nombre, item.playerId);
     var etiqueta = (item.dorsal !== undefined && item.dorsal !== null && item.dorsal !== '') ? item.dorsal + ' ' + item.nombre : item.nombre;
     var capitanBadge = item.capitan
@@ -906,7 +944,7 @@
     var linkAttrs = item.playerId ? ' data-jugador-id="' + esc(item.playerId) + '"' : '';
     var linkClass = item.playerId ? ' jugador-link' : '';
     return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
-      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre) + capitanBadge +
+      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre, era) + capitanBadge +
       (item.posicion ? posicionPillHtml_(item.posicion) : '') +
       (badgesHtml ? '<div class="jugador-card-badges">' + badgesHtml + '</div>' : '') +
       '</div>' +
@@ -924,10 +962,10 @@
    * match detail row (see detailScorersAt_/detailPresentAt_) so two
    * same-named players in the same lineup resolve to the right
    * photo/identity. */
-  function partidoJugadoresGridHtml_(titulo, items) {
+  function partidoJugadoresGridHtml_(titulo, items, era) {
     if (!items.length) return '';
     return '<h4>' + esc(titulo) + '</h4><div class="partido-jugadores-grid">' +
-      items.map(jugadorCardHtml_).join('') +
+      items.map(function (item) { return jugadorCardHtml_(item, era); }).join('') +
       '</div>';
   }
 
@@ -937,10 +975,10 @@
    * divider between them instead (see the caller below). Asistentes
    * (the default-win case) keeps its heading via the original
    * function, since there's no second grid to divide it from. */
-  function partidoJugadoresGridSinTituloHtml_(items) {
+  function partidoJugadoresGridSinTituloHtml_(items, era) {
     if (!items.length) return '';
     return '<div class="partido-jugadores-grid">' +
-      items.map(jugadorCardHtml_).join('') +
+      items.map(function (item) { return jugadorCardHtml_(item, era); }).join('') +
       '</div>';
   }
 
@@ -1338,8 +1376,8 @@
     var colIzquierda, colDerecha;
     if (titulares.length || suplentes.length) {
       // Tier A — full lineup.
-      var titularesHtml = partidoJugadoresGridSinTituloHtml_(titulares.map(function (p) { return conStats_(p, String(p.valor).trim().toUpperCase()); }));
-      var suplentesHtml = partidoJugadoresGridSinTituloHtml_(suplentes.map(function (p) { return conStats_(p, 'SUP'); }));
+      var titularesHtml = partidoJugadoresGridSinTituloHtml_(titulares.map(function (p) { return conStats_(p, String(p.valor).trim().toUpperCase()); }), era);
+      var suplentesHtml = partidoJugadoresGridSinTituloHtml_(suplentes.map(function (p) { return conStats_(p, 'SUP'); }), era);
       colIzquierda = titularesHtml +
         (titularesHtml && suplentesHtml ? '<hr class="jugadores-divider">' : '') +
         suplentesHtml;
@@ -1352,13 +1390,13 @@
       // instead (see partidoMarcadorHtml_), rather than replacing the
       // field diagram.
       var asistentes = presentesPA.slice().sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
-      colIzquierda = partidoJugadoresGridSinTituloHtml_(asistentes.map(function (p) { return conStats_(p, null); }));
+      colIzquierda = partidoJugadoresGridSinTituloHtml_(asistentes.map(function (p) { return conStats_(p, null); }), era);
       colDerecha = canchaSvgHtml_(null, era);
     } else if (goleadores.length) {
       // Tier C — no PA or PI tracked at all for this era/match: only
       // the scorers, as photos, no heading, no position pills, field
       // empty.
-      colIzquierda = partidoJugadoresGridSinTituloHtml_(goleadores.map(function (p) { return conStats_(p, null); }));
+      colIzquierda = partidoJugadoresGridSinTituloHtml_(goleadores.map(function (p) { return conStats_(p, null); }), era);
       colDerecha = canchaSvgHtml_(null, era);
     } else {
       // Tier D — not even GOL data for this match.
@@ -1577,9 +1615,9 @@
 
   /** Shared renderer for both Jugadores sub-tabs — grouped into position
    * sections, each sorted by dorsal ascending within itself. `imgDir` is
-   * the roster-photo folder: images/plantel/ for the current squad,
-   * images/plantel/ex/ for former members (Daniel's own split, since
-   * they're a separate photo set). */
+   * the roster-photo folder: images/fotos_plantel/ for the current squad,
+   * images/fotos_plantel/ex/ for former members (Daniel's own split,
+   * since they're a separate photo set). */
   function renderRosterGrid_(gridId, activoWanted, imgDir) {
     var grid = document.getElementById(gridId);
     if (!state.data || !grid) return;
@@ -1603,10 +1641,10 @@
   }
 
   function renderPlantel() {
-    renderRosterGrid_('plantel-grid', true, 'images/plantel/');
+    renderRosterGrid_('plantel-grid', true, 'images/fotos_plantel/');
   }
   function renderPlantelEx_() {
-    renderRosterGrid_('plantel-grid-ex', false, 'images/plantel/ex/');
+    renderRosterGrid_('plantel-grid-ex', false, 'images/fotos_plantel/ex/');
   }
 
   /** One position section: heading + its own 4-per-row card grid.
@@ -2173,12 +2211,17 @@
       ? (info.dorsalByEra && info.dorsalByEra[data.currentEra])
       : formerPlayerDorsal_(playerId, info);
 
-    // images/perfiles — a separate, plain-headshot photo set from
-    // Plantel's (images/plantel), which has dorsal/name baked into the
-    // graphic itself. These don't, so the page renders that text itself.
-    // Former members' photos live in their own images/perfiles/ex/
-    // subfolder (Daniel's own split, since it's a separate photo set).
-    var fotoDir = info.activo ? 'images/perfiles/' : 'images/perfiles/ex/';
+    // images/fotos_perfiles — a dedicated, era-accurate photo set (see
+    // the era-accurate match-sheet photos feature below for the
+    // PXXX-TYYY.jpg/default-TYYY.jpg files that feature uses from this
+    // same directory). Perfil specifically uses each player's own
+    // PXXX-perfil.jpg — a single, Daniel-curated "best current likeness"
+    // photo per player, independent of any era — rather than resolving
+    // an era-accurate one, since there's no one "current match" context
+    // on this page to pick an era from. A plain headshot set, distinct
+    // from Plantel's (images/fotos_plantel/), which has dorsal/name
+    // baked into the graphic itself — this page renders that text
+    // itself instead.
     document.title = 'Estuardos FC — ' + nombre;
     // Reset both the photo and its placeholder to their default visible/
     // hidden state before setting the new src — otherwise switching from
@@ -2189,7 +2232,7 @@
     document.getElementById('perfil-foto').hidden = false;
     document.getElementById('perfil-foto-placeholder').hidden = true;
     document.getElementById('perfil-foto-placeholder').textContent = nombre;
-    document.getElementById('perfil-foto').src = fotoDir + playerId + '.jpg';
+    document.getElementById('perfil-foto').src = 'images/fotos_perfiles/' + playerId + '-perfil.jpg';
     document.getElementById('perfil-foto').alt = nombre;
     document.getElementById('perfil-dorsal').textContent =
       (dorsal !== undefined && dorsal !== null && dorsal !== '') ? dorsal : '';
@@ -2250,6 +2293,38 @@
         return '<div class="insignia-card">' + icon +
           '<div class="insignia-label">' + esc(b.insignia) + '</div>' +
           '<div class="insignia-temporada">' + esc(b.temporada) + '</div></div>';
+      }).join('');
+    }
+
+    // Tarjetas — collectible-card images, one per year a player had a
+    // card designed (not necessarily every year they played — Daniel
+    // only designs these when he gets to it). images/fotos-tarjetas,
+    // PXXX-YYYY.jpg (a YEAR, not a theme code, since a player who
+    // joined mid-era can have a card for just the one calendar year
+    // they were actually around for — that's the whole reason this
+    // uses Año instead of reusing temaCodigoForEra_ like the
+    // era-accurate match-sheet photos feature does). Driven entirely by
+    // the Tarjetas tab (data.tarjetas, see buildTarjetasJson_) — Daniel
+    // adds a row there exactly when he's uploaded the matching image,
+    // so there's no "guess and check" probing here, same division of
+    // labor as Logros' Imagen column. A player with no rows in that tab
+    // (common — most players won't have designed cards yet) gets the
+    // whole section hidden, heading included, rather than an empty
+    // "Tarjetas" label with nothing under it.
+    var tarjetaAnios = ((data.tarjetas && data.tarjetas[playerId]) || []).slice().sort(function (a, b) { return a - b; });
+    var tarjetasHeading = document.getElementById('perfil-tarjetas-heading');
+    var tarjetasWrap = document.getElementById('perfil-tarjetas');
+    if (!tarjetaAnios.length) {
+      tarjetasHeading.hidden = true;
+      tarjetasWrap.innerHTML = '';
+    } else {
+      tarjetasHeading.hidden = false;
+      tarjetasWrap.innerHTML = tarjetaAnios.map(function (anio) {
+        var src = 'images/fotos-tarjetas/' + playerId + '-' + anio + '.jpg';
+        return '<div class="tarjeta-card">' +
+          '<img src="' + esc(src) + '" alt="' + esc(nombre) + ' ' + anio + '" loading="lazy" ' +
+          'onerror="this.closest(\'.tarjeta-card\').hidden=true;">' +
+          '<div class="tarjeta-anio">' + anio + '</div></div>';
       }).join('');
     }
 
@@ -3169,7 +3244,7 @@
 
     var seasonMeta = ((state.data && state.data.seasons) || []).filter(function (s) { return s.era === season.era; })[0];
     state.teamEraHasTxJ = seasonMeta ? !!seasonMeta.hasTxJ : true;
-    document.getElementById('alineaciones-wrap').innerHTML = alineacionesHtml_(matches);
+    document.getElementById('alineaciones-wrap').innerHTML = alineacionesHtml_(matches, season.era);
     applyTemporadaView_();
 
     renderSeasonGoalsChart_(matches);
@@ -3184,7 +3259,7 @@
    * array (shouldn't happen given how readTxJLineups_ builds it, but
    * treated the same as "no lineup" defensively either way) also fall
    * through to the placeholder. */
-  function alineacionesHtml_(matches) {
+  function alineacionesHtml_(matches, era) {
     if (!matches.length) return '<p class="detail-message">Sin partidos jugados todavía.</p>';
     return matches.map(function (m) {
       var lineup = m.lineup;
@@ -3210,7 +3285,7 @@
         : formacion === 'DPD' ? 'Derrota por default.'
         : 'Sin datos.';
       var body = jugadores.length
-        ? '<div class="partido-jugadores-grid">' + jugadores.map(lineupCardHtml_).join('') + '</div>'
+        ? '<div class="partido-jugadores-grid">' + jugadores.map(function (j) { return lineupCardHtml_(j, era); }).join('') + '</div>'
         : '<p class="detail-message">' + placeholder + '</p>';
       return '<div class="alineacion-match">' + header + body + '</div>';
     }).join('');
@@ -3223,7 +3298,7 @@
    * through the shared helper's other callers. Same photo/placeholder
    * fallback and posicionPillHtml_ position pill as jugadorCardHtml_,
    * for a consistent look between the two. */
-  function lineupCardHtml_(j) {
+  function lineupCardHtml_(j, era) {
     var info = jugadorInfo_(j.nombre, j.playerId);
     var capitanBadge = j.capitan
       ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
@@ -3231,7 +3306,7 @@
     var linkAttrs = j.playerId ? ' data-jugador-id="' + esc(j.playerId) + '"' : '';
     var linkClass = j.playerId ? ' jugador-link' : '';
     return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
-      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, j.nombre) + capitanBadge +
+      '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, j.nombre, era) + capitanBadge +
       posicionPillHtml_(j.posicion) +
       '</div>' +
       '<div class="jugador-card-nombre">' + esc(j.nombre) + '</div>' +
