@@ -1625,11 +1625,13 @@
   }
 
   /** Shared renderer for both Jugadores sub-tabs — grouped into position
-   * sections, each sorted by dorsal ascending within itself. `imgDir` is
-   * the roster-photo folder: images/fotos-plantel/ for the current squad,
-   * images/fotos-plantel/ex/ for former members (Daniel's own split,
-   * since they're a separate photo set). */
-  function renderRosterGrid_(gridId, activoWanted, imgDir) {
+   * sections, each sorted by dorsal ascending within itself. Current and
+   * former members share ONE photo folder (images/fotos-plantel/, flat,
+   * PXXX.jpg) — Daniel dropped the old ex/ subfolder split, since the
+   * Activo flag in Jugadores already decides which sub-tab a player is
+   * on and a second, folder-based source of truth could drift. */
+  var PLANTEL_IMG_DIR_ = 'images/fotos-plantel/';
+  function renderRosterGrid_(gridId, activoWanted) {
     var grid = document.getElementById(gridId);
     if (!state.data || !grid) return;
     var roster = buildRoster_(activoWanted);
@@ -1642,9 +1644,9 @@
     });
 
     var html = POSICION_ORDER_.map(function (pos) {
-      return plantelSectionHtml_(POSICION_LABELS_[pos], groups[pos], imgDir);
+      return plantelSectionHtml_(POSICION_LABELS_[pos], groups[pos]);
     }).join('');
-    if (otros.length) html += plantelSectionHtml_('Otros', otros, imgDir);
+    if (otros.length) html += plantelSectionHtml_('Otros', otros);
 
     grid.innerHTML = html;
     var emptyMsg = document.getElementById('plantel-ex-message');
@@ -1652,21 +1654,21 @@
   }
 
   function renderPlantel() {
-    renderRosterGrid_('plantel-grid', true, 'images/fotos-plantel/');
+    renderRosterGrid_('plantel-grid', true);
   }
   function renderPlantelEx_() {
-    renderRosterGrid_('plantel-grid-ex', false, 'images/fotos-plantel/ex/');
+    renderRosterGrid_('plantel-grid-ex', false);
   }
 
   /** One position section: heading + its own 4-per-row card grid.
    * Returns '' for an empty group so, e.g., a squad with no Porteros
    * entered yet doesn't leave a heading floating over nothing. */
-  function plantelSectionHtml_(titulo, players, imgDir) {
+  function plantelSectionHtml_(titulo, players) {
     if (!players.length) return '';
     var cards = players.slice().sort(function (a, b) {
       return (Number(a.dorsal) || 0) - (Number(b.dorsal) || 0);
     }).map(function (p) {
-      var img = imgDir + p.playerId + '.jpg';
+      var img = PLANTEL_IMG_DIR_ + p.playerId + '.jpg';
       // A real <button>, not a clickable <div> — free keyboard focus/
       // activation (Tab + Enter/Space) and correct screen-reader role,
       // rather than needing a hand-rolled tabindex + keydown handler.
