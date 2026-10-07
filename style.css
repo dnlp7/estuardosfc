@@ -1901,3 +1901,12 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
   .jugador-icono { height: 24px; max-width: 32px; margin-right: 0.35rem; }
   .record-highlight-entry .jugador-icono { height: 22px; }
 }
+
+/* Récords individual cards: icon spans the full two-line row height, name
+   and game/season reference stacked beside it. */
+.record-highlight-con-icono { display: flex; align-items: center; gap: 0.6rem; }
+.record-highlight-con-icono .jugador-icono { height: 40px; max-width: 48px; margin-right: 0; flex-shrink: 0; }
+.record-highlight-text { min-width: 0; }
+@media (max-width: 640px) {
+  .record-highlight-con-icono .jugador-icono { height: 36px; max-width: 42px; }
+}

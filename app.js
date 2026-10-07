@@ -4371,16 +4371,16 @@
     fetchHistoryDetail()
       .then(function (historyData) {
         renderRecordCard_('record-goles-partido', mostStatInMatchRecord_(historyData, 'GOL'), function (e) {
-          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + '<span class="record-highlight-text">' + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span></span>';
         });
         renderRecordCard_('record-goles-temporada', mostStatInSeasonRecord_('GOL'), function (e) {
-          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + '<span class="record-highlight-text">' + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span></span>';
         });
         renderRecordCard_('record-asistencias-partido', mostStatInMatchRecord_(historyData, 'AST'), function (e) {
-          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + '<span class="record-highlight-text">' + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span></span>';
         });
         renderRecordCard_('record-asistencias-temporada', mostStatInSeasonRecord_('AST'), function (e) {
-          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + '<span class="record-highlight-text">' + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span></span>';
         });
         renderRecordCard_('record-goles-partido-equipo', mostTeamGoalsInMatchRecord_(historyData), function (e) {
           return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
@@ -4417,7 +4417,7 @@
           // records) never has one, so those stay plain, unclickable
           // entries.
           var linkAttrs = e.playerId ? ' data-jugador-id="' + esc(e.playerId) + '"' : '';
-          var cls = 'record-highlight-entry' + (e.playerId ? ' jugador-link' : '');
+          var cls = 'record-highlight-entry' + (e.playerId ? ' jugador-link record-highlight-con-icono' : '');
           return '<div class="' + cls + '"' + linkAttrs + '>' + entryHtml(e) + '</div>';
         }).join('')
       : '<p class="detail-message">Sin datos.</p>';
