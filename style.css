@@ -1319,7 +1319,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    additionally draws a top border and the first column additionally
    draws a left border, so the full grid reconstructs with exactly one
    border's worth of thickness at every shared edge, never two. */
-#matches-table, #leaderboard-table, #team-balance-table, #perfil-stat-detail-table {
+#matches-table, #leaderboard-table, #team-balance-table, #otras-rivales-table, #otras-horarios-table, #perfil-stat-detail-table {
   border-collapse: separate;
   border-spacing: 0;
 }
@@ -1402,20 +1402,20 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 /* Right + bottom on every cell, plus top on the header row and left on
    the first column — see the border-collapse: separate comment further
    up for why it's split this way instead of a plain 4-side border. */
-#team-balance-table th, #team-balance-table td {
+#team-balance-table th, #team-balance-table td, #otras-rivales-table th, #otras-rivales-table td, #otras-horarios-table th, #otras-horarios-table td {
   border-right: 2px solid var(--black);
   border-bottom: 2px solid var(--black);
   text-align: center;
   padding: 0.6rem 1.25rem;
 }
-#team-balance-table thead th { border-top: 2px solid var(--black); }
+#team-balance-table thead th, #otras-rivales-table thead th, #otras-horarios-table thead th { border-top: 2px solid var(--black); }
 /* Temporada column — the only text (not numeric-scale) column, so it
    stays left-aligned like Rival does on the Results table. Also the
    frozen/sticky column — the one thing that identifies which season a
    scrolled-right row belongs to, same reasoning as #matches-table's
    Jornada column above (only one column to freeze, so left is always
    0, no offset math needed). */
-#team-balance-table th:first-child, #team-balance-table td:first-child {
+#team-balance-table th:first-child, #team-balance-table td:first-child, #otras-rivales-table th:first-child, #otras-rivales-table td:first-child, #otras-horarios-table th:first-child, #otras-horarios-table td:first-child {
   text-align: left;
   font-weight: 700;
   border-left: 2px solid var(--black);
@@ -1852,7 +1852,9 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
      how much visually empty space sits in each cell. Tightening it
      here lets both fit a phone screen with no scrolling at all. */
   #standings-table th, #standings-table td,
-  #team-balance-table th, #team-balance-table td {
+  #team-balance-table th, #team-balance-table td,
+  #otras-rivales-table th, #otras-rivales-table td,
+  #otras-horarios-table th, #otras-horarios-table td {
     padding: 0.45rem 0.4rem;
   }
   .chart-wrap { height: 220px; padding: 1rem 0.6rem 0.75rem; }
@@ -1876,3 +1878,10 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
     padding: 0.45rem 0.4rem;
   }
 }
+
+/* Otras (Estadísticas) — Rivales más comunes / Horarios tables reuse the
+   #team-balance-table look; the wrappers just drop the outer frame. */
+#otras-rivales-wrap, #otras-horarios-wrap { border: none; border-radius: 0; background: transparent; }
+.otras-section-title { margin: 1.5rem 0 0.75rem; }
+.otras-section-title:first-child { margin-top: 0; }
+#otras-horarios-chart-wrap { margin-bottom: 1rem; }

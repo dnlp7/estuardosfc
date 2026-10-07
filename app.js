@@ -2973,6 +2973,7 @@
     // init(), see renderRecordsLeaders_) so it shows instantly even
     // while this one's still loading.
     if (tab === 'records') renderRecordsHighlights_();
+    if (tab === 'otras') renderOtras_();
   }
 
   function setupTabs() {
@@ -3789,6 +3790,182 @@
       });
     }
     return state.historyDetailPromise;
+  }
+
+  // ---------------- Otras (Estadísticas) ----------------
+  // Miscellaneous extra team stats. Both tables are computed client-side
+  // straight from every era's match log (same source as the Récords
+  // streaks): current season from data.json, every older era from the
+  // lazily-fetched data-history-detail.json. Standings math mirrors
+  // computeStandingsFromMatches_ in dashboard_export.gs: PJ counts every
+  // played match (unknown-score included), RD counts unknown-score ones,
+  // which add nothing to PG/PE/PP/GF/GC/DIF/PTS.
+
+  function emptyStandings_() {
+    return { pj: 0, pg: 0, pe: 0, pp: 0, rd: 0, gf: 0, gc: 0, dif: 0, pts: 0 };
+  }
+
+  function addMatchToStandings_(s, m) {
+    s.pj++;
+    if (m.resultado === 'unknown') { s.rd++; return; }
+    if (m.resultado === 'g') s.pg++;
+    else if (m.resultado === 'e') s.pe++;
+    else if (m.resultado === 'p') s.pp++;
+    s.gf += Number(m.gf) || 0;
+    s.gc += Number(m.gc) || 0;
+    s.dif = s.gf - s.gc;
+    s.pts += Number(m.puntos) || 0;
+  }
+
+  /** Normalizes a raw hora ("8:00", "13:00", bare "1:00") to minutes
+   * since midnight for ordering. Same rule as formatHoraAmPm_: games are
+   * only ever played 8:00-14:00, so an hour of 1-2 means PM. */
+  function horaOrdenMinutos_(hora) {
+    var mins = parseHoraMinutes_(hora);
+    if (mins === null) return null;
+    if (mins < 3 * 60) mins += 12 * 60;
+    return mins;
+  }
+
+  /** Top-N rivals by PJ (ties: more PTS, then name). Rivals grouped by
+   * accent/case-insensitive name; the most frequent spelling is shown.
+   * Blank rivals are skipped. */
+  function buildRivalesRows_(byEra, limit) {
+    var groups = {};
+    Object.keys(byEra).forEach(function (era) {
+      (byEra[era] || []).forEach(function (m) {
+        if (!m.rival) return;
+        var key = normalizeNombre_(m.rival);
+        var g = groups[key] || (groups[key] = { labels: {}, standings: emptyStandings_() });
+        g.labels[m.rival] = (g.labels[m.rival] || 0) + 1;
+        addMatchToStandings_(g.standings, m);
+      });
+    });
+    var rows = Object.keys(groups).map(function (k) {
+      var g = groups[k];
+      var label = Object.keys(g.labels).sort(function (a, b) { return g.labels[b] - g.labels[a] || a.localeCompare(b); })[0];
+      return { label: label, standings: g.standings };
+    });
+    rows.sort(function (a, b) {
+      return b.standings.pj - a.standings.pj || b.standings.pts - a.standings.pts || a.label.localeCompare(b.label);
+    });
+    return rows.slice(0, limit);
+  }
+
+  /** One row per distinct game time, earliest -> latest. Matches with no
+   * parseable hora are left out. */
+  function buildHorariosRows_(byEra) {
+    var groups = {};
+    Object.keys(byEra).forEach(function (era) {
+      (byEra[era] || []).forEach(function (m) {
+        var mins = horaOrdenMinutos_(m.hora);
+        if (mins === null) return;
+        var g = groups[mins] || (groups[mins] = { mins: mins, label: formatHoraAmPm_(m.hora), standings: emptyStandings_() });
+        addMatchToStandings_(g.standings, m);
+      });
+    });
+    return Object.keys(groups).map(function (k) { return groups[k]; })
+      .sort(function (a, b) { return a.mins - b.mins; });
+  }
+
+  var OTRAS_STAT_KEYS_ = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'];
+
+  /** Fills one of the Otras tables. Same per-column color scales and
+   * plain PJ/RD as the all-seasons balance table. */
+  function renderOtrasTable_(tableId, rows, withTotal) {
+    var tbody = document.querySelector('#' + tableId + ' tbody');
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="10" style="color:#7fa3a8;">Sin datos.</td></tr>';
+      return;
+    }
+    var SCALE = {
+      pg: { low: COLORS.greyCell, high: COLORS.good },
+      pe: { low: COLORS.greyCell, high: COLORS.draw },
+      pp: { low: COLORS.greyCell, high: COLORS.bad },
+      gf: { low: COLORS.greyCell, high: COLORS.scaleBest },
+      gc: { low: COLORS.greyCell, high: COLORS.gcColor },
+      dif: { low: COLORS.gcColor, high: COLORS.scaleBest },
+      pts: { low: COLORS.greyCell, high: COLORS.good }
+    };
+    var ranges = {};
+    OTRAS_STAT_KEYS_.forEach(function (k) {
+      if (!SCALE[k]) return;
+      var vals = rows.map(function (r) { return Number(r.standings[k]) || 0; });
+      ranges[k] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
+    });
+    var html = rows.map(function (r) {
+      var cells = OTRAS_STAT_KEYS_.map(function (k) {
+        var color = SCALE[k] ? scaleColor_(r.standings[k], ranges[k].min, ranges[k].max, SCALE[k].low, SCALE[k].high) : null;
+        return '<td class="val-strong"' + styleAttr_(color) + '>' + esc(r.standings[k]) + '</td>';
+      }).join('');
+      return '<tr><td class="val-strong">' + esc(r.label) + '</td>' + cells + '</tr>';
+    }).join('');
+    if (withTotal) {
+      var totalCells = OTRAS_STAT_KEYS_.map(function (k) {
+        var total = rows.reduce(function (sum, r) { return sum + (Number(r.standings[k]) || 0); }, 0);
+        return '<td class="val-strong">' + esc(total) + '</td>';
+      }).join('');
+      html += '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
+    }
+    tbody.innerHTML = html;
+  }
+
+  /** Bar chart: games (PJ) per game time, with each bar's % of the total
+   * shown in the tooltip and on the x-axis label. */
+  function renderHorariosChart_(rows) {
+    var total = rows.reduce(function (sum, r) { return sum + r.standings.pj; }, 0) || 1;
+    var options = chartBaseOptions_();
+    options.interaction = { mode: 'nearest', intersect: true };
+    options.plugins.legend = { display: false };
+    options.plugins.tooltip.callbacks = {
+      label: function (ctx) {
+        var pj = ctx.parsed.y;
+        return pj + ' partidos (' + (pj * 100 / total).toFixed(1) + '%)';
+      }
+    };
+    renderChart_('otras-horarios-chart', {
+      type: 'bar',
+      data: {
+        labels: rows.map(function (r) {
+          return [r.label, (r.standings.pj * 100 / total).toFixed(1) + '%'];
+        }),
+        datasets: [{ label: 'PJ', data: rows.map(function (r) { return r.standings.pj; }), backgroundColor: COLORS.scaleBest }]
+      },
+      options: options
+    });
+  }
+
+  function renderOtras_() {
+    var msg = document.getElementById('otras-message');
+    var content = document.getElementById('otras-content');
+    if (!state.data || !msg || !content) return;
+    msg.textContent = 'Cargando...';
+    msg.hidden = false;
+    content.hidden = true;
+    fetchHistoryDetail()
+      .then(function (historyData) { showOtras_(allEraMatches_(historyData)); })
+      .catch(function (err) {
+        // Degrade to what's already in hand (current season only).
+        var cur = state.data.currentSeason;
+        if (cur && cur.matches && cur.matches.length) {
+          var only = {}; only[cur.era] = cur.matches;
+          showOtras_(only);
+          return;
+        }
+        msg.textContent = 'No se pudo cargar el detalle histórico.';
+        console.error(err);
+      });
+  }
+
+  function showOtras_(byEra) {
+    var msg = document.getElementById('otras-message');
+    var content = document.getElementById('otras-content');
+    msg.hidden = true;
+    content.hidden = false; // visible before charting so Chart.js can measure the canvas
+    renderOtrasTable_('otras-rivales-table', buildRivalesRows_(byEra, 10), false);
+    var horarios = buildHorariosRows_(byEra);
+    renderOtrasTable_('otras-horarios-table', horarios, true);
+    renderHorariosChart_(horarios);
   }
 
   // ---------------- Récords ----------------
