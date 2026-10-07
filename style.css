@@ -1098,21 +1098,46 @@ h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; 
    their shared border (collapse only keeps a line if at least one side
    still specifies one), while the two real group boundaries — PP|GF
    and DIF|PTS — are left alone and keep their default 2px border. */
+/* Clusters (RD added between PP and GF): [PJ PG PE PP RD] [GF GC DIF]
+   [PTS] — columns 1-5, 6-8, 9. */
 #standings-table td:nth-child(1), #standings-table th:nth-child(1),
-#standings-table td:nth-child(5), #standings-table th:nth-child(5) {
+#standings-table td:nth-child(6), #standings-table th:nth-child(6) {
   border-right: none;
 }
 #standings-table td:nth-child(2), #standings-table th:nth-child(2),
 #standings-table td:nth-child(3), #standings-table th:nth-child(3),
-#standings-table td:nth-child(6), #standings-table th:nth-child(6) {
-  border-left: none;
-  border-right: none;
-}
 #standings-table td:nth-child(4), #standings-table th:nth-child(4),
 #standings-table td:nth-child(7), #standings-table th:nth-child(7) {
   border-left: none;
+  border-right: none;
+}
+#standings-table td:nth-child(5), #standings-table th:nth-child(5),
+#standings-table td:nth-child(8), #standings-table th:nth-child(8) {
+  border-left: none;
 }
 #standings-table td { font-weight: 700; color: var(--white); font-size: 1.35rem; }
+
+/* Column-title tooltips (th[data-tip]) — one shared floating element
+   (#th-tip, built by setupTablaTooltips_ in app.js), position: fixed on
+   <body> so no overflow:auto .table-wrap can clip it. Hover on desktop,
+   tap/focus on touch. */
+th[data-tip] { cursor: help; }
+#th-tip {
+  position: fixed;
+  z-index: 1000;
+  max-width: 14rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
+  background: var(--black);
+  color: var(--white);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+#th-tip[hidden] { display: none; }
 
 .table-wrap {
   overflow-x: auto;

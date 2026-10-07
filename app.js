@@ -487,6 +487,64 @@
     if (overlay) overlay.style.display = 'none';
   }
 
+  /** Column-title tooltips: any <th data-tip="Full name"> (the Equipo
+   * standings tables) shows its full name in one shared floating
+   * element. Mouse: shown on hover. Touch: tap toggles it, tapping
+   * anywhere else (or scrolling) closes it. Keyboard: shown on focus
+   * (th has tabindex 0), hidden on blur/Escape. One delegated set of
+   * document listeners, so it survives any table re-render. */
+  function setupTablaTooltips_() {
+    var tip = document.createElement('div');
+    tip.id = 'th-tip';
+    tip.setAttribute('role', 'tooltip');
+    tip.hidden = true;
+    document.body.appendChild(tip);
+    var activo = null;
+
+    function mostrar(th) {
+      activo = th;
+      tip.textContent = th.getAttribute('data-tip');
+      tip.hidden = false;
+      var r = th.getBoundingClientRect();
+      var w = tip.offsetWidth;
+      var left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), window.innerWidth - w - 8);
+      tip.style.left = left + 'px';
+      tip.style.top = (r.bottom + 6) + 'px';
+    }
+    function ocultar() { activo = null; tip.hidden = true; }
+    function thDe(e) { return e.target.closest ? e.target.closest('th[data-tip]') : null; }
+
+    // Hover is mouse-only (pointerType check): a touch tap also fires
+    // emulated mouse events, which would show the tip on mouseover and
+    // then immediately hide it again on the tap's click (toggle).
+    var ultimoPuntero = 'mouse';
+    // Focus-triggered display is for keyboard users only: a tap/click
+    // also focuses the th (tabindex 0), which would show the tip and then
+    // have the click toggle it straight back off.
+    var viaTeclado = false;
+    document.addEventListener('pointerdown', function (e) { ultimoPuntero = e.pointerType || 'mouse'; viaTeclado = false; }, true);
+    document.addEventListener('pointerover', function (e) {
+      var th = thDe(e);
+      if (th && e.pointerType === 'mouse' && th !== activo) mostrar(th);
+    });
+    document.addEventListener('pointerout', function (e) {
+      var th = thDe(e);
+      if (th && e.pointerType === 'mouse' && th === activo && !th.contains(e.relatedTarget)) ocultar();
+    });
+    document.addEventListener('click', function (e) {
+      var th = thDe(e);
+      if (!th) { ocultar(); return; }
+      // Touch/pen: tap toggles. Mouse: hover already showed it, a click
+      // just keeps it visible.
+      if (ultimoPuntero !== 'mouse' && activo === th && !tip.hidden) ocultar(); else mostrar(th);
+    });
+    document.addEventListener('focusin', function (e) { var th = thDe(e); if (th && viaTeclado) mostrar(th); });
+    document.addEventListener('focusout', function (e) { if (thDe(e)) ocultar(); });
+    document.addEventListener('keydown', function (e) { viaTeclado = true; if (e.key === 'Escape') ocultar(); });
+    window.addEventListener('scroll', ocultar, true);
+    window.addEventListener('resize', ocultar);
+  }
+
   function init(data) {
     document.getElementById('updated-at').textContent = data.generatedAt
       ? 'Actualizado: ' + new Date(data.generatedAt).toLocaleString('es-MX')
@@ -498,6 +556,7 @@
     // the time a user actually navigates to a match sheet the results
     // are essentially always already cached.
     precargarImagenesCancha_(data);
+    setupTablaTooltips_();
     setupSections();
     // Inicio is the site's default landing view — set here (not just in
     // index.html's static markup) so it's driven by the same single
@@ -3107,14 +3166,14 @@
     showTeamBalance_();
     var tbody = document.querySelector('#team-balance-table tbody');
     if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="9" style="color:#7fa3a8;">Sin datos.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="10" style="color:#7fa3a8;">Sin datos.</td></tr>';
       return;
     }
 
-    var STAT_KEYS = ['pj', 'pg', 'pe', 'pp', 'gf', 'gc', 'dif', 'pts'];
+    var STAT_KEYS = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'];
     // Per-column scale endpoints — not the uniform grey -> blue gradient
-    // every other table on the site uses. PJ has no entry (no scale at
-    // all, just a plain count). DIF's low end is GC's own high color
+    // every other table on the site uses. PJ and RD have no entry (no
+    // scale at all, just plain counts). DIF's low end is GC's own high color
     // (purple) rather than the usual grey, since it's framed as "as bad
     // as the worst GC" to "as good as the best GF" instead of a plain
     // low/high spread.
@@ -3130,7 +3189,7 @@
 
     var ranges = {};
     STAT_KEYS.forEach(function (k) {
-      if (!SCALE_ENDPOINTS[k]) return; // pj — no scale, nothing to range
+      if (!SCALE_ENDPOINTS[k]) return; // pj/rd — no scale, nothing to range
       var vals = rows.map(function (r) { return Number(r.standings[k]) || 0; });
       ranges[k] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
     });
@@ -3189,14 +3248,18 @@
     var standingsBody = document.querySelector('#standings-table tbody');
     if (season.standings) {
       var s = season.standings;
-      var STANDINGS_KEYS = ['pj', 'pg', 'pe', 'pp', 'gf', 'gc', 'dif', 'pts'];
+      var STANDINGS_KEYS = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'];
       // Single-row table, so there's no set of other rows to scale
       // against — each column instead scales against its own natural
-      // ceiling: PG/PE/PP can't exceed PJ (matches played), PTS can't
-      // exceed PJ*3 (a win every match). GF/GC aren't scaled at all,
-      // just always shown in their "high" color — DIF is the one that
-      // scales, from GC*-1 (worst possible) to GF (best possible).
-      var pj = Number(s.pj) || 0;
+      // ceiling: PG/PE/PP can't exceed the matches with a KNOWN result,
+      // PTS can't exceed that count*3 (a win every match). PJ itself
+      // also includes unknown-score matches (RD), which can't produce
+      // any W/D/L or points, so the ceilings use PJ - RD instead —
+      // otherwise a season with unknown games would look artificially
+      // pale. GF/GC aren't scaled at all, just always shown in their
+      // "high" color — DIF is the one that scales, from GC*-1 (worst
+      // possible) to GF (best possible). RD gets no color (like PJ).
+      var pj = Math.max(0, (Number(s.pj) || 0) - (Number(s.rd) || 0));
       var gf = Number(s.gf) || 0;
       var gc = Number(s.gc) || 0;
       var STANDINGS_COLOR = {
@@ -3214,7 +3277,7 @@
         return '<td' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('') + '</tr>';
     } else {
-      standingsBody.innerHTML = '<tr><td colspan="8" style="color:#7fa3a8;">Tabla de posiciones no disponible aún.</td></tr>';
+      standingsBody.innerHTML = '<tr><td colspan="9" style="color:#7fa3a8;">Tabla de posiciones no disponible aún.</td></tr>';
     }
 
     var tbody = document.querySelector('#matches-table tbody');
