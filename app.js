@@ -309,6 +309,20 @@
     return (o && o.nombreEstadisticas) ? o.nombreEstadisticas : nombreFallback;
   }
 
+  /** Small player icon for the Individuales leaderboards and Récords —
+   * images/iconos-jugadores/<playerId>.png, one icon per player (not
+   * era-specific), shown at its own natural shape (no circle, no
+   * background). A player with no icon file yet falls back to
+   * default.png; a row with no playerId at all (a [Default]/[Autogoles]
+   * utility row) gets no icon. `onerror = null` guards against a loop if
+   * default.png itself is missing. */
+  var ICONOS_JUGADORES_DIR_ = 'images/iconos-jugadores/';
+  function jugadorIconoHtml_(playerId) {
+    if (!playerId) return '';
+    return '<img class="jugador-icono" src="' + ICONOS_JUGADORES_DIR_ + esc(playerId) + '.png" alt="" loading="lazy" ' +
+      'onerror="this.onerror=null;this.src=\'' + ICONOS_JUGADORES_DIR_ + 'default.png\'">';
+  }
+
   /** Dorsal/name cell background — main-color for a current roster
    * player, dark grey for a former one, per Jugadores' Activo flag.
    * Fails open to "active" (main color) when the player isn't listed.
@@ -4026,7 +4040,7 @@
             var linkAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '';
             var linkClass = p.playerId ? ' jugador-link' : '';
             return '<div class="record-leader-row' + linkClass + '"' + linkAttrs + '><span class="record-leader-rank">' + rank + '</span>' +
-              '<span class="record-leader-nombre">' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</span>' +
+              '<span class="record-leader-nombre">' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</span>' +
               '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
           }).join('')
         : '<p class="detail-message">Sin datos.</p>';
@@ -4357,16 +4371,16 @@
     fetchHistoryDetail()
       .then(function (historyData) {
         renderRecordCard_('record-goles-partido', mostStatInMatchRecord_(historyData, 'GOL'), function (e) {
-          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
         });
         renderRecordCard_('record-goles-temporada', mostStatInSeasonRecord_('GOL'), function (e) {
-          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-asistencias-partido', mostStatInMatchRecord_(historyData, 'AST'), function (e) {
-          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel)) + '</span>';
         });
         renderRecordCard_('record-asistencias-temporada', mostStatInSeasonRecord_('AST'), function (e) {
-          return esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
+          return jugadorIconoHtml_(e.playerId) + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + esc(formatEraLabel_(e.era)) + '</span>';
         });
         renderRecordCard_('record-goles-partido-equipo', mostTeamGoalsInMatchRecord_(historyData), function (e) {
           return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
@@ -4488,7 +4502,7 @@
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
       var trAttrs = r.playerId ? ' data-jugador-id="' + esc(r.playerId) + '" class="jugador-link"' : '';
-      return '<tr' + trAttrs + '><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(r.playerId, r.nombre)) + '</td>' + statCells + '</tr>';
+      return '<tr' + trAttrs + '><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(r.playerId) + esc(statsDisplayNombre_(r.playerId, r.nombre)) + '</td>' + statCells + '</tr>';
     }).join(''));
   }
 
@@ -4529,7 +4543,7 @@
       var idBg = activoBackground_(r.p.nombre, r.p.playerId);
       var trAttrs = r.p.playerId ? ' data-jugador-id="' + esc(r.p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(r.p.playerId) + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
   }
@@ -4573,7 +4587,7 @@
       }).join('');
       var trAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(p.total)) + '>' + esc(p.total) + '</td>' + eraCells + '</tr>';
     }).join(''));
   }
@@ -4641,7 +4655,7 @@
       if (p.playerId) rowClasses.push('jugador-link');
       var trAttrs = (rowClasses.length ? ' class="' + rowClasses.join(' ') + '"' : '') + (p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '');
       return '<tr' + trAttrs + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
-        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' + totalStyle + '>' +
+        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' + totalStyle + '>' +
         esc(p.total) + '</td>' + matchCells + '</tr>';
     }).join(''));
   }
