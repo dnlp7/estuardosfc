@@ -3910,28 +3910,56 @@
     tbody.innerHTML = html;
   }
 
-  /** Bar chart: games (PJ) per game time, with each bar's % of the total
-   * shown in the tooltip and on the x-axis label. */
+  /** Horizontal bar chart: games (PJ) per game time, earliest at the
+   * top. Each bar ends with its own "PJ · %" label (drawn by a small
+   * inline plugin — no extra Chart.js plugin dependency), so even the
+   * very short bars stay readable. Value axis and gridlines are hidden
+   * since the labels carry the numbers; the wrapper's height grows with
+   * the number of rows so every time keeps a comfortable row height. */
   function renderHorariosChart_(rows) {
     var total = rows.reduce(function (sum, r) { return sum + r.standings.pj; }, 0) || 1;
+    var wrap = document.getElementById('otras-horarios-chart-wrap');
+    if (wrap) wrap.style.height = (rows.length * 30 + 40) + 'px';
     var options = chartBaseOptions_();
+    options.indexAxis = 'y';
     options.interaction = { mode: 'nearest', intersect: true };
+    options.layout = { padding: { right: 90 } };
     options.plugins.legend = { display: false };
     options.plugins.tooltip.callbacks = {
       label: function (ctx) {
-        var pj = ctx.parsed.y;
+        var pj = ctx.parsed.x;
         return pj + ' partidos (' + (pj * 100 / total).toFixed(1) + '%)';
+      }
+    };
+    options.scales = {
+      x: { display: false, beginAtZero: true, grid: { display: false } },
+      y: { ticks: { color: '#ffffff', autoSkip: false }, grid: { display: false } }
+    };
+    var endLabels = {
+      id: 'horariosEndLabels',
+      afterDatasetsDraw: function (chart) {
+        var ctx = chart.ctx;
+        var meta = chart.getDatasetMeta(0);
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 12px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        meta.data.forEach(function (bar, i) {
+          var pj = rows[i].standings.pj;
+          ctx.fillText(pj + ' · ' + (pj * 100 / total).toFixed(1) + '%', bar.x + 6, bar.y);
+        });
+        ctx.restore();
       }
     };
     renderChart_('otras-horarios-chart', {
       type: 'bar',
       data: {
-        labels: rows.map(function (r) {
-          return [r.label, (r.standings.pj * 100 / total).toFixed(1) + '%'];
-        }),
-        datasets: [{ label: 'PJ', data: rows.map(function (r) { return r.standings.pj; }), backgroundColor: COLORS.scaleBest }]
+        labels: rows.map(function (r) { return r.label; }),
+        datasets: [{ label: 'PJ', data: rows.map(function (r) { return r.standings.pj; }), backgroundColor: COLORS.scaleBest, barPercentage: 0.7, categoryPercentage: 0.9 }]
       },
-      options: options
+      options: options,
+      plugins: [endLabels]
     });
   }
 
