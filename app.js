@@ -3961,7 +3961,7 @@
         ctx.textBaseline = 'middle';
         meta.data.forEach(function (bar, i) {
           var pj = rows[i].standings.pj;
-          ctx.fillText(pj + ' · ' + (pj * 100 / total).toFixed(1) + '%', bar.x + 6, bar.y);
+          ctx.fillText(pj + ' (' + (pj * 100 / total).toFixed(1) + '%)', bar.x + 6, bar.y);
         });
         ctx.restore();
       }
