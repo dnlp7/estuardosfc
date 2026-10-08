@@ -455,7 +455,8 @@
    * of all 4 stats, so it has no single range of its own to show).
    * Shared by both call sites below so they can't drift apart. */
   function statTitleHtml_(stat) {
-    return esc(STAT_TITLES[stat] || stat) + (stat === 'BALANCE' ? '' : statRangeBtnHtml_(stat));
+    if (stat === 'BALANCE') return ''; // the BALANCE button already says it, and it has no info icon
+    return esc(STAT_TITLES[stat] || stat) + statRangeBtnHtml_(stat);
   }
 
   function formatEraRanges_(eras) {
