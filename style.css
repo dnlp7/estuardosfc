@@ -1916,3 +1916,11 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 .dorsal-icono-wrap { display: inline-flex; align-items: center; gap: 0.5rem; }
 .dorsal-icono-wrap .jugador-icono { margin-right: 0; }
 .dorsal-num { min-width: 1.6rem; text-align: center; }
+
+/* Home-page PARTIDOS counter: black rounded digit squares, white text,
+   no border (unlike the sibling .partido-card boxes). */
+.partidos-contador { text-align: center; }
+.partidos-contador[hidden] { display: none; }
+.partidos-digitos { display: flex; justify-content: center; gap: 0.4rem; }
+.partidos-digito { flex: 0 1 4.2rem; aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; background: var(--black, #000); color: var(--white, #fff); font-size: 3.2rem; font-weight: 800; border-radius: 10px; font-variant-numeric: tabular-nums; }
+.partidos-etiqueta { color: var(--white, #fff); font-weight: 800; letter-spacing: 0.3em; font-size: 1.3rem; margin-top: 0.7rem; }

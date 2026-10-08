@@ -596,6 +596,7 @@
     setupInicio_();
     renderUltimoPartido_();
     renderProximoPartido_();
+    renderPartidosContador_();
     setupTabs();
     setupJugadoresTabs_();
     setupHistoria_();
@@ -1660,6 +1661,27 @@
    * match hasn't happened yet), so this gets the plain centered
    * "ESTUARDOS FC / VS / RIVAL" treatment instead of Último's colored
    * scoreboard bands. */
+  /** Home-page "PARTIDOS" counter: total games played in team history
+   * (every era, unknown-score games included, upcoming game excluded),
+   * one black rounded square per digit. Computed client-side from the
+   * same per-era match logs as Otras; hidden until the history loads. */
+  function renderPartidosContador_() {
+    var el = document.getElementById('partidos-contador');
+    if (!el) return;
+    fetchHistoryDetail().then(function (historyData) {
+      var byEra = allEraMatches_(historyData);
+      var total = 0;
+      Object.keys(byEra).forEach(function (era) { total += byEra[era].length; });
+      if (!total) return;
+      var digits = String(total).split('').map(function (d) {
+        return '<span class="partidos-digito">' + esc(d) + '</span>';
+      }).join('');
+      el.innerHTML = '<div class="partidos-digitos" aria-label="' + total + ' partidos">' + digits + '</div>' +
+        '<div class="partidos-etiqueta">PARTIDOS</div>';
+      el.hidden = false;
+    }).catch(function () { /* counter simply stays hidden */ });
+  }
+
   function renderProximoPartido_() {
     var data = state.data;
     var card = document.getElementById('proximo-partido-card');
