@@ -1925,3 +1925,25 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 .partidos-digito { flex: 0 1 4.2rem; aspect-ratio: 3 / 4; display: flex; align-items: center; justify-content: center; background: var(--black, #000); color: var(--white, #fff); font-size: 3.2rem; font-weight: 800; border-radius: 10px; font-variant-numeric: tabular-nums; }
 .partidos-etiqueta { color: var(--white, #fff); font-weight: 800; letter-spacing: 0.3em; font-size: 1.3rem; margin-top: 0.7rem; }
 .partidos-desde { color: var(--white, #fff); font-weight: 600; letter-spacing: 0.12em; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* Mobile fixes. Kept at the END of the file on purpose: the earlier
+   max-width:640px block sits above these elements' base rules, so its
+   .records-*-grid / .historia-cards overrides were silently losing the
+   cascade (equal specificity, later rule wins). */
+@media (max-width: 640px) {
+  /* Records: one card per row (two never fit side by side on a phone). */
+  .records-leaders-grid, .records-highlights-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .record-card { padding: 1rem; }
+  /* Historia crests/jerseys: two per row so the artwork stays legible. */
+  .historia-cards { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+  /* Stats / Jugadores sub-nav: tighter buttons so all fit on one line,
+     with a horizontal-scroll fallback on the narrowest screens. */
+  .sub-nav { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .sub-nav::-webkit-scrollbar { display: none; }
+  .sub-nav.tabs { gap: 0.25rem; padding: 0.75rem 0.5rem; }
+  .sub-nav .tab-btn { flex: 0 0 auto; padding: 0.5rem 0.65rem; font-size: 0.9rem; }
+}
+@media (max-width: 380px) {
+  .sub-nav .tab-btn { padding: 0.45rem 0.5rem; font-size: 0.82rem; }
+}
+
