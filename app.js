@@ -2847,6 +2847,8 @@
    * so they no longer share one piece of state. */
   function renderPerfilStatsView_(playerId, nombre) {
     var isBalance = state.perfilStat === 'BALANCE';
+    var titleEl = document.getElementById('perfil-stat-title');
+    if (titleEl) titleEl.innerHTML = statTitleHtml_(state.perfilStat);
     document.getElementById('perfil-stats-wrap').hidden = !isBalance;
     document.getElementById('perfil-stat-detail-wrap').hidden = true; // renderPerfilStatDetailTable_ un-hides it once its (possibly async) data is ready
     document.getElementById('perfil-stat-detail-message').hidden = true;
