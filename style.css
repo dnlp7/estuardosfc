@@ -1554,7 +1554,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   min-width: 8rem;
 }
 #leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(3) {
-  padding-left: 0.15rem;
+  padding-left: 0.5rem;
   padding-right: 1.5rem;
 }
 /* No-dorsal layout (.sin-dorsal: all-time stat tables) — columns are
@@ -1910,3 +1910,9 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 @media (max-width: 640px) {
   .record-highlight-con-icono .jugador-icono { height: 36px; max-width: 42px; }
 }
+
+/* Dorsal cell with the player icon in front of the number (tables that keep
+   a dorsal column): icon, dorsal, then name in the next cell. */
+.dorsal-icono-wrap { display: inline-flex; align-items: center; gap: 0.5rem; }
+.dorsal-icono-wrap .jugador-icono { margin-right: 0; }
+.dorsal-num { min-width: 1.6rem; text-align: center; }

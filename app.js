@@ -317,6 +317,11 @@
    * utility row) gets no icon. `onerror = null` guards against a loop if
    * default.png itself is missing. */
   var ICONOS_JUGADORES_DIR_ = 'images/iconos-jugadores/';
+  /** Dorsal cell content for tables that still show a dorsal column:
+   * icon, then dorsal (the name sits in the next cell). */
+  function dorsalConIconoHtml_(playerId, dorsal) {
+    return '<span class="dorsal-icono-wrap">' + jugadorIconoHtml_(playerId) + '<span class="dorsal-num">' + esc(dorsal) + '</span></span>';
+  }
   function jugadorIconoHtml_(playerId) {
     if (!playerId) return '';
     return '<img class="jugador-icono" src="' + ICONOS_JUGADORES_DIR_ + esc(playerId) + '.png" alt="" loading="lazy" ' +
@@ -4783,7 +4788,7 @@
       var idBg = activoBackground_(r.p.nombre, r.p.playerId);
       var trAttrs = r.p.playerId ? ' data-jugador-id="' + esc(r.p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td>' + (todas ? '' : '<td' + idBg + '>' + esc(dorsal) + '</td>') + '<td' + idBg + '>' + jugadorIconoHtml_(r.p.playerId) + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
+        '</td>' + (todas ? '' : '<td' + idBg + '>' + dorsalConIconoHtml_(r.p.playerId, dorsal) + '</td>') + '<td' + idBg + '>' + (todas ? jugadorIconoHtml_(r.p.playerId) : '') + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
   }
@@ -4896,7 +4901,7 @@
       if (p.playerId) rowClasses.push('jugador-link');
       var trAttrs = (rowClasses.length ? ' class="' + rowClasses.join(' ') + '"' : '') + (p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '');
       return '<tr' + trAttrs + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
-        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' + totalStyle + '>' +
+        '</td><td' + idBg + '>' + dorsalConIconoHtml_(p.playerId, p.dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' + totalStyle + '>' +
         esc(p.total) + '</td>' + matchCells + '</tr>';
     }).join(''));
   }
