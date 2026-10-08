@@ -1677,7 +1677,8 @@
         return '<span class="partidos-digito">' + esc(d) + '</span>';
       }).join('');
       el.innerHTML = '<div class="partidos-digitos" aria-label="' + total + ' partidos">' + digits + '</div>' +
-        '<div class="partidos-etiqueta">PARTIDOS</div>';
+        '<div class="partidos-etiqueta">PARTIDOS</div>' +
+        '<div class="partidos-desde">Desde 18/JUL/2010</div>';
       el.hidden = false;
     }).catch(function () { /* counter simply stays hidden */ });
   }
