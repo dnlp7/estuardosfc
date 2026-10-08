@@ -227,7 +227,7 @@ thead th, table th {
 /* Main nav's active state drops the border (bold text alone is enough
    of a marker there) — kept for the Equipo/Individuales sub-nav, which
    still uses the shared .tab-btn.active rule above. */
-.main-nav .tab-btn.active { border-color: transparent; }
+.main-nav .tab-btn.active { border-color: transparent; color: var(--accent-light); }
 /* Home icon — first item in the main nav, reuses the site favicon
    instead of a text label. Padding trimmed from the shared .tab-btn
    rule since an icon needs less breathing room than a text label to
@@ -1033,6 +1033,13 @@ body[data-section="partido"] .social-label {
 }
 .timeline-date { display: block; color: var(--accent-light); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
 .timeline-desc { color: var(--white); margin: 0.2rem 0 0; }
+/* Entries linked to a match sheet (linkHistoriaEventos_): whole entry is clickable. */
+.timeline li.timeline-link { cursor: pointer; }
+.timeline li.timeline-link .timeline-date::after { content: ' \2192'; opacity: 0.6; }
+.timeline li.timeline-link:hover .timeline-date,
+.timeline li.timeline-link:focus-visible .timeline-date { text-decoration: underline; }
+.timeline li.timeline-link:hover .timeline-date::after { opacity: 1; }
+.timeline li.timeline-link:focus-visible { outline: 2px solid var(--accent-light); outline-offset: 4px; border-radius: 4px; }
 
 /* Historia — Escudos / Jerseys. Same card language as .insignia-card
    (badge icon + label underneath) but sized for a crest/jersey graphic
@@ -1504,9 +1511,10 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    excluded here with :not(.balance-mode) instead of being listed
    unconditionally — otherwise this would center player names in
    BALANCE while every other view left-aligns them. */
-#leaderboard-table td:first-child,
-#leaderboard-table:not(.balance-mode) td:nth-child(2),
+#leaderboard-table:not(.balance-mode) td:first-child,
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(2),
 #leaderboard-table td:nth-child(4),
+#leaderboard-table.sin-dorsal td:nth-child(3),
 #leaderboard-table td:last-child {
   text-align: center;
 }
@@ -1542,13 +1550,23 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    every other cell. Slightly wider than a plain content-fit column,
    and pulled in tight against the dorsal cell on the left (no divider
    between them) while keeping normal breathing room on the right. */
-#leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) {
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) th:nth-child(3), #leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(3) {
   min-width: 8rem;
 }
-#leaderboard-table:not(.balance-mode) td:nth-child(3) {
-  padding-left: 0.5rem;
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(3) {
+  padding-left: 0.15rem;
   padding-right: 1.5rem;
 }
+/* No-dorsal layout (.sin-dorsal: all-time stat tables) — columns are
+   # | Jugador | TOT | eras..., so Jugador is column 2 and the narrow
+   era columns start at 4 instead of 5. */
+#leaderboard-table.sin-dorsal th:nth-child(2), #leaderboard-table.sin-dorsal td:nth-child(2) { min-width: 8rem; }
+#leaderboard-table.sin-dorsal td:nth-child(2) { padding-left: 0.75rem; padding-right: 1.5rem; }
+#leaderboard-table.sin-dorsal th:nth-child(4), #leaderboard-table.sin-dorsal td:nth-child(4) {
+  padding: 0.5rem 0.6rem;
+  text-align: center;
+}
+#leaderboard-table.sin-dorsal th:nth-child(4) { white-space: normal; line-height: 1.2; }
 /* Dorsal column — narrow (just enough for a 2-digit number); the
    active/inactive background is set inline per row, same as the name
    cell — the header stays the same grey as every other header. Also a
@@ -1563,12 +1581,12 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    property. That stray width hint was fighting the real content width,
    widening the visual gap between the dorsal and Jugador cells instead
    of the tight pairing every other table gets. */
-#leaderboard-table:not(.balance-mode) td:nth-child(2) {
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(2) {
   width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
 }
-#leaderboard-table:not(.balance-mode) th:nth-child(2) {
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) th:nth-child(2) {
   width: 2.4rem;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
@@ -1594,7 +1612,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    winner" step like collapse had, so the right-hand cell simply never
    draws a left border of its own in this grid to begin with — nothing
    to separately suppress there). */
-#leaderboard-table:not(.balance-mode) th:nth-child(2), #leaderboard-table:not(.balance-mode) td:nth-child(2) { border-right: none; }
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) th:nth-child(2), #leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(2) { border-right: none; }
 /* The thin result-bar row needs no border overrides at all now — it's
    a normal body row, so it never gets a top border (only the header
    row does) and its own bottom border (from the base rule above) is
@@ -1615,25 +1633,13 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    alone), so these safely override the normal-mode column widths/
    borders without touching any other view. */
 #leaderboard-table.balance-mode td:nth-child(1) {
-  width: 2.4rem;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
-  text-align: center;
-  border-right: none;
-}
-#leaderboard-table.balance-mode th:nth-child(1) {
-  width: 2.4rem;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
-  text-align: center;
-  border-right: none;
-}
-#leaderboard-table.balance-mode td:nth-child(2) {
   min-width: 8rem;
-  padding-left: 0.5rem;
+  width: auto;
+  padding-left: 0.75rem;
   padding-right: 1.5rem;
+  text-align: left;
 }
-#leaderboard-table.balance-mode th:nth-child(2) { min-width: 8rem; }
+#leaderboard-table.balance-mode th:nth-child(1) { min-width: 8rem; width: auto; padding-left: 0.75rem; padding-right: 1.5rem; }
 
 /* Frozen leading columns — the identity of a row (dorsal + name, plus
    rank outside BALANCE mode) stays pinned to the left edge while
@@ -1666,7 +1672,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   left: var(--sticky-left-2, 2.75rem);
   z-index: 2;
 }
-#leaderboard-table:not(.balance-mode) th:nth-child(3), #leaderboard-table:not(.balance-mode) td:nth-child(3) {
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) th:nth-child(3), #leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(3) {
   position: sticky;
   left: var(--sticky-left-3, 5.15rem);
   z-index: 2;
@@ -1676,14 +1682,8 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   left: 0;
   z-index: 2;
 }
-#leaderboard-table.balance-mode th:nth-child(2), #leaderboard-table.balance-mode td:nth-child(2) {
-  position: sticky;
-  left: var(--sticky-left-2, 2.4rem);
-  z-index: 2;
-}
-
-#leaderboard-table.balance-mode th:nth-child(n+3),
-#leaderboard-table.balance-mode td:nth-child(n+3) {
+#leaderboard-table.balance-mode th:nth-child(n+2),
+#leaderboard-table.balance-mode td:nth-child(n+2) {
   text-align: center;
   padding: 0.6rem 1.25rem;
 }
@@ -1787,10 +1787,10 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    this targets each mode's real dorsal/name columns separately
    instead of a fixed 2/3 that silently bolded the GOL column
    instead of the dorsal in BALANCE mode. */
-#leaderboard-table:not(.balance-mode) td:nth-child(2),
-#leaderboard-table:not(.balance-mode) td:nth-child(3),
-#leaderboard-table.balance-mode td:nth-child(1),
-#leaderboard-table.balance-mode td:nth-child(2) {
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(2),
+#leaderboard-table:not(.balance-mode):not(.sin-dorsal) td:nth-child(3),
+#leaderboard-table.sin-dorsal td:nth-child(2),
+#leaderboard-table.balance-mode td:nth-child(1) {
   font-weight: 700;
   color: var(--white);
 }
@@ -1867,8 +1867,8 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
   #leaderboard-table th, #leaderboard-table td {
     padding: 0.45rem 0.4rem;
   }
-  #leaderboard-table.balance-mode th:nth-child(n+3),
-  #leaderboard-table.balance-mode td:nth-child(n+3) {
+  #leaderboard-table.balance-mode th:nth-child(n+2),
+  #leaderboard-table.balance-mode td:nth-child(n+2) {
     padding: 0.45rem 0.4rem;
   }
   /* Same fix again for the Perfil career-stats table — same shape/issue
@@ -1894,7 +1894,7 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
   max-width: 40px;
   object-fit: contain;
   vertical-align: middle;
-  margin-right: 0.5rem;
+  margin-right: 0.6rem;
 }
 .record-highlight-entry .jugador-icono { height: 26px; }
 @media (max-width: 640px) {

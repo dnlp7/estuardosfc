@@ -393,12 +393,21 @@
    * stat has no eras at all - there's no range to show. See
    * setupStatRangeIcons_ for the click-to-pin-open behavior; :hover in
    * style.css handles the desktop-mouse case for free. */
+  // Tooltip text per stat — fixed messages (the stats-rescue work left some
+  // seasons incomplete, so a computed era range would be misleading).
+  var STAT_INFO_TEXT_ = {
+    GOL: 'El total no es exacto. Algunos torneos tienen datos incompletos',
+    PA: 'El total no es exacto. Algunos torneos tienen datos incompletos',
+    AST: 'Datos desde el torneo 2022/23',
+    PI: 'Datos desde el torneo 2017/18'
+  };
   function statRangeBtnHtml_(stat) {
     var block = state.data && state.data.stats && state.data.stats[stat];
     var eras = block ? block.eras : [];
     if (!eras || !eras.length) return '';
-    var rangeText = formatEraRanges_(eras);
-    return '<button type="button" class="stat-range-btn" aria-label="Rango de temporadas: ' + esc(rangeText) + '">' + ICON_INFO_ +
+    var rangeText = STAT_INFO_TEXT_[stat] || '';
+    if (!rangeText) return '';
+    return '<button type="button" class="stat-range-btn" aria-label="' + esc(rangeText) + '">' + ICON_INFO_ +
       '<span class="stat-range-popover" role="tooltip">' + esc(rangeText) + '</span></button>';
   }
 
@@ -681,6 +690,60 @@
     renderEscudos_();
     renderJerseys_();
     setupJerseysTipoSelector_();
+    linkHistoriaEventos_();
+  }
+
+  var MESES_NUM_ = { enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6, julio: 7, agosto: 8, septiembre: 9, octubre: 10, noviembre: 11, diciembre: 12 };
+
+  /** Converts "18 de julio de 2010" to "2010-07-18" (null if it does not parse). */
+  function fechaTextoAIso_(texto) {
+    var p = String(texto || '').trim().split(' ');
+    if (p.length !== 5) return null;
+    var mes = MESES_NUM_[p[2].toLowerCase()];
+    var dia = Number(p[0]);
+    if (!mes || !dia || !/^[0-9]{4}$/.test(p[4])) return null;
+    return p[4] + '-' + (mes < 10 ? '0' : '') + mes + '-' + (dia < 10 ? '0' : '') + dia;
+  }
+
+  /** Eventos Importantes: link each entry to its match sheet. Each timeline
+   * entry's date is matched against every era's match log (same fecha, ISO);
+   * the entry becomes a link via the site-wide data-partido delegation. No
+   * match for a date means the entry stays plain text. If two matches ever
+   * share a date the first (chronological era order) wins; an entry can
+   * override by carrying its own data-partido="era::jornada" in index.html.
+   * Uses the same lazily-fetched history file as the Equipo tab, so there is
+   * no extra download once it is cached. */
+  function linkHistoriaEventos_() {
+    var items = document.querySelectorAll('.timeline li');
+    if (!items.length) return;
+    fetchHistoryDetail().then(function (historyData) {
+      var byEra = allEraMatches_(historyData);
+      var byFecha = {};
+      (state.data.seasons || []).forEach(function (s) {
+        (byEra[s.era] || []).forEach(function (m) {
+          if (m.fecha && !byFecha[m.fecha]) byFecha[m.fecha] = { era: s.era, jornada: m.jornada };
+        });
+      });
+      items.forEach(function (li) {
+        if (!li.dataset.partido) {
+          var dateEl = li.querySelector('.timeline-date');
+          var hit = byFecha[fechaTextoAIso_(dateEl && dateEl.textContent)];
+          if (!hit) return;
+          li.dataset.partido = hit.era + '::' + hit.jornada;
+        }
+        li.classList.add('timeline-link');
+        li.setAttribute('role', 'link');
+        li.setAttribute('tabindex', '0');
+      });
+    }).catch(function (err) { console.error(err); });
+    // Keyboard: Enter opens the match, same as a click.
+    document.querySelector('.timeline').addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      var li = e.target.closest && e.target.closest('li.timeline-link');
+      if (!li) return;
+      var parts = li.dataset.partido.split('::');
+      if (parts.length === 2) irAPartido_(parts[0], parts[1]);
+    });
   }
 
   // ---------------- Inicio (home page) ----------------
@@ -3891,6 +3954,9 @@
     if (!data) return;
 
     document.getElementById('leaderboard-table').classList.toggle('balance-mode', state.stat === 'BALANCE');
+    // All-time stat tables (and BALANCE) have no dorsal column — a dorsal
+    // only means something within one season. See style.css (.sin-dorsal).
+    document.getElementById('leaderboard-table').classList.toggle('sin-dorsal', state.stat !== 'BALANCE' && state.era === '__all__');
 
     if (state.stat === 'BALANCE') {
       showLeaderboardTable();
@@ -4588,7 +4654,7 @@
    * per-era values), but never the detail toggle (disabled whenever
    * BALANCE is active — see updateDetailToggleAvailability_). */
   function renderBalanceLeaderboard(data) {
-    setTableHead('<tr><th>N°</th><th>Jugador</th><th>GOL</th><th>AST</th><th>PA</th><th>PI</th></tr>');
+    setTableHead('<tr><th>Jugador</th><th>GOL</th><th>AST</th><th>PA</th><th>PI</th></tr>');
 
     // Union of every player appearing in ANY of the 4 stat blocks — GOL
     // alone isn't guaranteed exhaustive (e.g. a player who only ever
@@ -4614,15 +4680,16 @@
     });
 
     var allRows = Object.keys(byPlayer).map(function (key) { return byPlayer[key]; });
-    // Dorsal ascending — non-numeric/missing dorsals sort after every
-    // real number, alphabetically among themselves.
+    // Current players first, then name ascending (accent/case-insensitive).
+    // No dorsal column here — a dorsal changes across seasons.
+    allRows.forEach(function (r) {
+      var info = jugadorInfo_(r.nombre, r.playerId);
+      r.activo = info ? !!info.activo : true;
+      r.sortName = statsDisplayNombre_(r.playerId, r.nombre);
+    });
     allRows.sort(function (a, b) {
-      var da = Number(a.dorsal), db = Number(b.dorsal);
-      var aValid = !isNaN(da) && a.dorsal !== '', bValid = !isNaN(db) && b.dorsal !== '';
-      if (aValid && bValid) return da - db;
-      if (aValid) return -1;
-      if (bValid) return 1;
-      return String(a.nombre).localeCompare(String(b.nombre));
+      if (a.activo !== b.activo) return a.activo ? -1 : 1;
+      return String(a.sortName).localeCompare(String(b.sortName), 'es', { sensitivity: 'base' });
     });
 
     var rows = allRows.filter(function (r) {
@@ -4637,7 +4704,7 @@
       return STATS_ORDER.some(function (stat) { return r.values[stat] !== undefined && r.values[stat] !== null; });
     });
     if (!rows.length) {
-      setTableBody('<tr><td colspan="6" style="color:#7fa3a8;">Sin resultados.</td></tr>');
+      setTableBody('<tr><td colspan="5" style="color:#7fa3a8;">Sin resultados.</td></tr>');
       return;
     }
 
@@ -4651,7 +4718,6 @@
     });
 
     setTableBody(rows.map(function (r) {
-      var dorsal = state.era === '__all__' ? r.dorsal : dorsalForEra_(r, state.era);
       var idBg = activoBackground_(r.nombre, r.playerId);
       var statCells = STATS_ORDER.map(function (stat) {
         var v = r.values[stat];
@@ -4660,18 +4726,34 @@
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
       var trAttrs = r.playerId ? ' data-jugador-id="' + esc(r.playerId) + '" class="jugador-link"' : '';
-      return '<tr' + trAttrs + '><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(r.playerId) + esc(statsDisplayNombre_(r.playerId, r.nombre)) + '</td>' + statCells + '</tr>';
+      return '<tr' + trAttrs + '><td' + idBg + '>' + jugadorIconoHtml_(r.playerId) + esc(statsDisplayNombre_(r.playerId, r.nombre)) + '</td>' + statCells + '</tr>';
     }).join(''));
+  }
+
+  /** Total descending, then name ascending (accent/case-insensitive) — the
+   * order of every all-time stat table. Sorts `rows` in place. */
+  function sortByTotalThenName_(rows, getTotal) {
+    rows.forEach(function (r) {
+      var p = r.p;
+      r._sortName = statsDisplayNombre_(p.playerId, p.nombre);
+    });
+    rows.sort(function (a, b) {
+      var diff = (Number(getTotal(b)) || 0) - (Number(getTotal(a)) || 0);
+      if (diff !== 0) return diff;
+      return String(a._sortName).localeCompare(String(b._sortName), 'es', { sensitivity: 'base' });
+    });
   }
 
   /** Simple mode (toggle off) — TOT, or one specific era's total. */
   function renderSimpleLeaderboard(statBlock) {
     var valueHeader = state.era === '__all__' ? 'TOT' : formatEraLabel_(state.era);
-    setTableHead('<tr><th>#</th><th>N°</th><th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
+    var todas = state.era === '__all__';
+    setTableHead('<tr><th>#</th>' + (todas ? '' : '<th>N°</th>') + '<th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
 
     var allRows;
-    if (state.era === '__all__') {
+    if (todas) {
       allRows = statBlock.players.map(function (p) { return { p: p, val: p.total }; });
+      sortByTotalThenName_(allRows, function (r) { return r.val; });
     } else {
       allRows = statBlock.players
         .filter(function (p) { return p.byEra && p.byEra[state.era] !== undefined; })
@@ -4701,7 +4783,7 @@
       var idBg = activoBackground_(r.p.nombre, r.p.playerId);
       var trAttrs = r.p.playerId ? ' data-jugador-id="' + esc(r.p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td' + idBg + '>' + esc(dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(r.p.playerId) + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
+        '</td>' + (todas ? '' : '<td' + idBg + '>' + esc(dorsal) + '</td>') + '<td' + idBg + '>' + jugadorIconoHtml_(r.p.playerId) + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
   }
@@ -4712,12 +4794,13 @@
    * sorted (total desc, dorsal-tiebreak) physical row order. */
   function renderEraWideLeaderboard(statBlock) {
     var eras = statBlock.eras; // oldest-first, matches the historical doc's own layout — real keys, never abbreviated
-    var headCells = ['#', 'N°', 'Jugador', 'TOT'].concat(eras.map(formatEraLabel_));
+    var headCells = ['#', 'Jugador', 'TOT'].concat(eras.map(formatEraLabel_));
     setTableHead('<tr>' + headCells.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr>');
 
     // statBlock.players is already sorted total desc, dorsal-tiebreak —
     // rank the full list before the search box filters it down.
     var allRows = statBlock.players.map(function (p) { return { p: p }; });
+    sortByTotalThenName_(allRows, function (r) { return r.p.total; });
     assignRanks_(allRows, function (r) { return r.p.total; });
     var rows = allRows.filter(function (r) { return matchesSearch_(statsDisplayNombre_(r.p.playerId, r.p.nombre)); });
     if (!rows.length) {
@@ -4745,7 +4828,7 @@
       }).join('');
       var trAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td><td' + idBg + '>' + esc(p.dorsal) + '</td><td' + idBg + '>' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(p.total)) + '>' + esc(p.total) + '</td>' + eraCells + '</tr>';
     }).join(''));
   }
