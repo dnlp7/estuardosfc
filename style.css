@@ -1898,7 +1898,7 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 }
 .record-highlight-entry .jugador-icono { height: 26px; }
 @media (max-width: 640px) {
-  .jugador-icono { height: 24px; max-width: 32px; margin-right: 0.35rem; }
+  .jugador-icono { height: 24px; max-width: 32px; margin-right: 0.7rem; }
   .record-highlight-entry .jugador-icono { height: 22px; }
 }
 
