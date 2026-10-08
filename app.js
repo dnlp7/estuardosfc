@@ -667,6 +667,7 @@
       btn.classList.add('active');
       historiaJerseyTipo_ = btn.dataset.tipo;
       renderJerseys_();
+      syncHash_(true);
     });
   }
 
@@ -692,8 +693,8 @@
     var badge = document.getElementById('site-badge-btn');
     if (badge) {
       badge.addEventListener('click', function () {
-        location.hash = 'inicio';
         activateSection_('inicio');
+        syncHash_();
       });
     }
   }
@@ -1579,8 +1580,8 @@
     state.teamView = 'resultados';
     renderEquipo();
     activateEstadisticasTab_('temporada');
-    location.hash = 'estadisticas';
     activateSection_('estadisticas');
+    syncHash_();
   }
 
   /** Próximo Partido — reads straight off data.currentSeason.proximo
@@ -1841,7 +1842,6 @@
         // rather than waiting for the resulting hashchange event, so the
         // click feels instant. This also naturally overwrites/clears any
         // stale #jugador/<id> hash left over from a profile page.
-        location.hash = btn.dataset.section;
         // Jugadores always opens on Plantel Actual from the nav bar,
         // regardless of whichever sub-tab was showing last time — unlike
         // Estadísticas' sub-tab, which is left as-is (and unlike "Volver"
@@ -1849,6 +1849,7 @@
         // Miembros Previos — see setupPerfil).
         if (btn.dataset.section === 'jugadores') activateJugadoresTab_('actual');
         activateSection_(btn.dataset.section);
+        syncHash_();
       });
     });
   }
@@ -2147,8 +2148,8 @@
           activateSection_('perfil');
           return;
         }
-        location.hash = destino;
         activateSection_(destino);
+        syncHash_();
       });
     }
     var anterior = document.getElementById('partido-anterior');
@@ -2214,52 +2215,201 @@
           activateSection_('partido');
           return;
         }
-        location.hash = destino;
         activateSection_(destino);
+        syncHash_();
       });
     }
     window.addEventListener('hashchange', routeFromHash_);
     if (location.hash) routeFromHash_();
   }
 
-  // Every main section has its own dedicated hash now, same idea as
-  // #jugador/<id> — mirrors the .main-tab-btn data-section values 1:1,
-  // so any of these is a shareable/deep-linkable URL straight to that
-  // page (#inicio, #estadisticas, #jugadores, #historia).
-  var SECTION_HASHES_ = ['inicio', 'estadisticas', 'jugadores', 'historia'];
+  // ---------------- URLs (hash routing) ----------------
+  // Every page, sub-tab and page-changing control has its own shareable,
+  // refresh-safe URL. GitHub Pages has no server-side routing, so these
+  // are hash URLs (the existing #jugador/<id> and #partido/<era>/<jornada>
+  // links keep working unchanged):
+  //   #inicio                      #historia[?tipo=Portero]
+  //   #jugadores/actual | previos
+  //   #estadisticas/equipo[?era=<era>&vista=alineaciones]
+  //   #estadisticas/individuales[?stat=GOL&era=<era>&detalle=1&q=<texto>]
+  //   #estadisticas/records        #estadisticas/otras
+  //   #jugador/<id>[?stat=GOL&grafica=PA_PI]
+  //   #partido/<era>/<jornada>
+  // Query values appear only when they differ from the default, so the
+  // default view of each page has the shortest URL. The URL is produced
+  // by buildHash_() from the live UI state (single source of truth) and
+  // read back by routeFromHash_().
 
-  /** Two hash shapes matter: #jugador/<playerId> (profile) and a bare
-   * section name (#inicio/#estadisticas/#jugadores/#historia). Matching
-   * either renders + shows the right page — used both on initial load
-   * (deep links) and on hashchange (back/forward, or the redundant fire
-   * after a nav click already set the hash directly, see setupSections).
-   * Any OTHER hash value (including empty, e.g. the back button leaving
-   * a profile) only matters if the profile is what's currently on
-   * screen; if some other section is already showing, there's nothing
-   * to do here — the nav-button and "Volver" handlers already handle
-   * their own section switch directly rather than depending on this
-   * firing. */
+  var SECTION_HASHES_ = ['inicio', 'estadisticas', 'jugadores', 'historia'];
+  // URL slug <-> internal tab id (Estadísticas)
+  var ESTAD_SLUG_TO_TAB_ = { equipo: 'temporada', individuales: 'historial', records: 'records', otras: 'otras' };
+  var ESTAD_TAB_TO_SLUG_ = { temporada: 'equipo', historial: 'individuales', records: 'records', otras: 'otras' };
+
+  function activeSubTab_(navSel, attr) {
+    var b = document.querySelector(navSel + ' .tab-btn.active');
+    return b ? b.dataset[attr] : null;
+  }
+
+  /** Builds the canonical hash (no leading '#') for what's on screen now. */
+  function buildHash_() {
+    var section = document.body.dataset.section || 'inicio';
+    var params = [];
+    function add(k, v) { params.push(k + '=' + encodeURIComponent(v)); }
+    var path;
+    if (section === 'perfil') {
+      if (!state.perfilPlayerId) return 'jugadores/actual';
+      path = 'jugador/' + encodeURIComponent(state.perfilPlayerId);
+      if (state.perfilStat !== 'BALANCE') add('stat', state.perfilStat);
+      if (state.perfilGrafica !== 'GOL_AST') add('grafica', state.perfilGrafica);
+    } else if (section === 'partido') {
+      if (!state.partidoActualEra) return 'inicio';
+      path = 'partido/' + encodeURIComponent(state.partidoActualEra) + '/' + encodeURIComponent(state.partidoActualJornada);
+    } else if (section === 'jugadores') {
+      path = 'jugadores/' + (activeSubTab_('#jugadores-subnav', 'jtab') || 'actual');
+    } else if (section === 'estadisticas') {
+      var tab = activeSubTab_('#estadisticas-subnav', 'tab') || 'temporada';
+      path = 'estadisticas/' + (ESTAD_TAB_TO_SLUG_[tab] || 'equipo');
+      if (tab === 'temporada') {
+        if (state.teamEra !== '__all__') {
+          add('era', state.teamEra);
+          if (state.teamView !== 'resultados') add('vista', state.teamView);
+        }
+      } else if (tab === 'historial') {
+        if (state.stat !== 'BALANCE') add('stat', state.stat);
+        if (state.era !== '__all__') add('era', state.era);
+        if (state.detail) add('detalle', '1');
+        if (state.search) add('q', state.search);
+      }
+    } else if (section === 'historia') {
+      path = 'historia';
+      if (historiaJerseyTipo_ !== 'Jugador') add('tipo', historiaJerseyTipo_);
+    } else {
+      path = section;
+    }
+    return path + (params.length ? '?' + params.join('&') : '');
+  }
+
+  /** Reflects the current UI state in the URL. pushState for navigation
+   * (back goes to the previous page/tab), replaceState for filter-style
+   * controls (back doesn't have to unwind every dropdown change).
+   * Neither fires hashchange, so nothing re-renders. */
+  function syncHash_(replace) {
+    var h = '#' + buildHash_();
+    if (h === location.hash) return;
+    try {
+      history[replace ? 'replaceState' : 'pushState'](null, '', h);
+    } catch (e) {
+      location.hash = h; // fall back (e.g. sandboxed iframe) — hashchange re-applies the same state, harmless
+    }
+  }
+
+  function parseHash_() {
+    var raw = location.hash.replace(/^#/, '');
+    var q = raw.indexOf('?');
+    var path = q === -1 ? raw : raw.slice(0, q);
+    var params = {};
+    if (q !== -1) {
+      raw.slice(q + 1).split('&').forEach(function (kv) {
+        if (!kv) return;
+        var i = kv.indexOf('=');
+        var k = i === -1 ? kv : kv.slice(0, i);
+        var v = i === -1 ? '' : kv.slice(i + 1);
+        try { params[decodeURIComponent(k)] = decodeURIComponent(v); } catch (e) { params[k] = v; }
+      });
+    }
+    var segs = path.split('/').map(function (x) { try { return decodeURIComponent(x); } catch (e) { return x; } });
+    return { segs: segs, params: params };
+  }
+
+  function setSelectValue_(sel, value) {
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === value) { sel.value = value; return true; }
+    }
+    return false;
+  }
+
+  /** Reads the hash and puts the whole UI into that state. Used on first
+   * load (deep links / refresh) and on hashchange (back/forward, edited
+   * URL). Everything it sets is idempotent, and it ends by canonicalizing
+   * the URL (replace) so e.g. a bare #estadisticas becomes
+   * #estadisticas/equipo. */
   function routeFromHash_() {
-    var mp = /^#partido\/([^/]+)\/(.+)$/.exec(location.hash);
-    if (mp) {
-      renderPartido_(decodeURIComponent(mp[1]), decodeURIComponent(mp[2]));
+    var r = parseHash_();
+    var seg0 = r.segs[0], p = r.params, data = state.data;
+    if (!data) return;
+
+    if (seg0 === 'partido' && r.segs.length >= 3) {
+      renderPartido_(r.segs[1], r.segs.slice(2).join('/'));
       activateSection_('partido');
-      return;
-    }
-    var m = /^#jugador\/(.+)$/.exec(location.hash);
-    if (m) {
-      renderPerfil(decodeURIComponent(m[1]));
+    } else if (seg0 === 'jugador' && r.segs[1]) {
+      renderPerfil(r.segs[1]);
       activateSection_('perfil');
-      return;
-    }
-    var name = location.hash.replace(/^#/, '');
-    if (SECTION_HASHES_.indexOf(name) !== -1) {
-      activateSection_(name);
+      var nombre = state.perfilNombre;
+      if (nombre && /^(GOL|AST|PA|PI)$/.test(p.stat || '')) {
+        state.perfilStat = p.stat;
+        document.querySelectorAll('#perfil-stat-selector .stat-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.stat === p.stat); });
+        renderPerfilStatsView_(state.perfilPlayerId, nombre);
+      }
+      if (nombre && /^(GOL_AST|PA_PI)$/.test(p.grafica || '')) {
+        state.perfilGrafica = p.grafica;
+        document.querySelectorAll('#perfil-grafica-selector .stat-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.grafica === p.grafica); });
+        renderPerfilGrafica_(state.perfilPlayerId, nombre);
+      }
+    } else if (seg0 === 'jugadores') {
+      activateSection_('jugadores');
+      activateJugadoresTab_(r.segs[1] === 'previos' ? 'previos' : 'actual');
+    } else if (seg0 === 'historia') {
+      activateSection_('historia');
+      var tipo = p.tipo === 'Portero' ? 'Portero' : 'Jugador';
+      if (tipo !== historiaJerseyTipo_) {
+        historiaJerseyTipo_ = tipo;
+        document.querySelectorAll('#jerseys-tipo-selector .stat-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.tipo === tipo); });
+        renderJerseys_();
+      }
+    } else if (seg0 === 'estadisticas') {
+      activateSection_('estadisticas');
+      // Bare #estadisticas (older links, or any code path that sets just
+      // the section) keeps whichever sub-tab is already showing.
+      var tab = ESTAD_SLUG_TO_TAB_[r.segs[1]] || activeSubTab_('#estadisticas-subnav', 'tab') || 'temporada';
+      if (tab === 'temporada') {
+        var teamSel = document.getElementById('team-era-filter');
+        var era = p.era && setSelectValue_(teamSel, p.era) ? p.era : '__all__';
+        teamSel.value = era;
+        state.teamEra = era;
+        state.teamView = (era !== '__all__' && p.vista === 'alineaciones') ? 'alineaciones' : 'resultados';
+        activateEstadisticasTab_(tab);
+        renderEquipo();
+      } else if (tab === 'historial') {
+        var eraSel = document.getElementById('era-filter');
+        var hEra = p.era && setSelectValue_(eraSel, p.era) ? p.era : '__all__';
+        eraSel.value = hEra;
+        state.era = hEra;
+        updateStatButtonAvailability_(data);
+        var stat = /^(GOL|AST|PA|PI)$/.test(p.stat || '') ? p.stat : 'BALANCE';
+        state.stat = stat;
+        document.querySelectorAll('#stat-selector .stat-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.stat === stat); });
+        document.getElementById('stat-title').innerHTML = statTitleHtml_(stat);
+        state.detail = p.detalle === '1';
+        document.getElementById('detail-toggle').checked = state.detail;
+        updateDetailToggleAvailability_();
+        var search = document.getElementById('player-search');
+        search.value = p.q || '';
+        state.search = (p.q || '').trim().toLowerCase();
+        activateEstadisticasTab_(tab);
+        renderLeaderboard();
+      } else {
+        activateEstadisticasTab_(tab);
+      }
+    } else if (seg0 === 'inicio' || SECTION_HASHES_.indexOf(seg0) !== -1) {
+      activateSection_('inicio');
     } else if (document.getElementById('section-perfil').classList.contains('active')) {
       activateSection_('jugadores');
     } else if (document.getElementById('section-partido').classList.contains('active')) {
       activateSection_(state.partidoOrigen || 'inicio');
+    } else {
+      return; // unknown/empty hash — leave the page as it is
     }
+    syncHash_(true);
   }
 
   /** Looks a player up by playerId (data.jugadores/datos/logros are all
@@ -2626,6 +2776,7 @@
       btn.classList.add('active');
       state.perfilStat = btn.dataset.stat;
       if (state.perfilNombre) renderPerfilStatsView_(state.perfilPlayerId, state.perfilNombre);
+      syncHash_(true);
     });
   }
 
@@ -2661,6 +2812,7 @@
       btn.classList.add('active');
       state.perfilGrafica = btn.dataset.grafica;
       if (state.perfilNombre) renderPerfilGrafica_(state.perfilPlayerId, state.perfilNombre);
+      syncHash_(true);
     });
   }
 
@@ -2992,7 +3144,7 @@
 
   function setupTabs() {
     document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () { activateEstadisticasTab_(btn.dataset.tab); });
+      btn.addEventListener('click', function () { activateEstadisticasTab_(btn.dataset.tab); syncHash_(); });
     });
   }
 
@@ -3013,7 +3165,7 @@
 
   function setupJugadoresTabs_() {
     document.querySelectorAll('#jugadores-subnav .tab-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () { activateJugadoresTab_(btn.dataset.jtab); });
+      btn.addEventListener('click', function () { activateJugadoresTab_(btn.dataset.jtab); syncHash_(); });
     });
   }
 
@@ -3022,6 +3174,7 @@
     document.getElementById('team-era-filter').addEventListener('change', function (e) {
       state.teamEra = e.target.value;
       renderEquipo();
+      syncHash_(true);
     });
     setupTemporadaViewToggle_();
     populateTeamEraFilter(data);
@@ -3039,6 +3192,7 @@
       btn.addEventListener('click', function () {
         state.teamView = btn.dataset.view;
         applyTemporadaView_();
+        syncHash_(true);
       });
     });
   }
@@ -3525,23 +3679,27 @@
         document.getElementById('stat-title').innerHTML = statTitleHtml_(state.stat);
         updateDetailToggleAvailability_();
         renderLeaderboard();
+        syncHash_(true);
       });
     });
 
     document.getElementById('player-search').addEventListener('input', function (e) {
       state.search = e.target.value.trim().toLowerCase();
       renderLeaderboard();
+      syncHash_(true);
     });
 
     document.getElementById('era-filter').addEventListener('change', function (e) {
       state.era = e.target.value;
       updateStatButtonAvailability_(data);
       renderLeaderboard();
+      syncHash_(true);
     });
 
     document.getElementById('detail-toggle').addEventListener('change', function (e) {
       state.detail = e.target.checked;
       renderLeaderboard();
+      syncHash_(true);
     });
 
     document.getElementById('stat-title').innerHTML = statTitleHtml_(state.stat);
