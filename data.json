@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T06:23:31.306Z",
+  "generatedAt": "2026-10-09T05:58:12.840Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -3404,7 +3404,11 @@
       }
     ]
   },
-  "tarjetas": {},
+  "tarjetas": {
+    "P001": [
+      2010
+    ]
+  },
   "stats": {
     "GOL": {
       "eras": [
