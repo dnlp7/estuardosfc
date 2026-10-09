@@ -511,7 +511,7 @@ main.wide { max-width: 1400px; }
    subtitle-only cards) but a narrower auto-fill floor than
    .insignias-grid's, since a trading-card graphic is portrait-oriented
    rather than square like a badge icon. */
-.tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(max(100px, calc((100% - 5 * 1rem) / 6)), 1fr)); gap: 1rem; margin-bottom: 0.5rem; }
+.tarjetas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 0.5rem; }
 .tarjeta-card {
   text-align: center;
   background: var(--grey-header);
@@ -1947,3 +1947,4 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
   .sub-nav .tab-btn { padding: 0.45rem 0.5rem; font-size: 0.82rem; }
 }
 #stat-title:empty, #perfil-stat-title:empty { display: none; }
+@media (max-width: 640px) { .tarjetas-grid { grid-template-columns: repeat(2, 1fr); } }
