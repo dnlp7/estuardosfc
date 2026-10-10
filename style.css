@@ -420,12 +420,12 @@ main.wide { max-width: 1400px; }
   flex-wrap: wrap;
   margin-bottom: 2rem;
 }
-.perfil-foto { width: 180px; height: auto; display: block; flex-shrink: 0; }
+.perfil-foto { width: min(300px, 100%); height: auto; display: block; flex-shrink: 0; }
 /* Same missing-photo fallback as .plantel-card-placeholder, sized for
    the profile header instead of a grid card — swapped in via the
    img's onerror in renderPerfil. */
 .perfil-foto-placeholder {
-  width: 180px; aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
+  width: min(300px, 100%); aspect-ratio: 5 / 6; border-radius: 8px; background: var(--grey-cell);
   display: flex; align-items: center; justify-content: center;
   color: var(--muted); font-size: 1rem; font-weight: 600; padding: 0.75rem; text-align: center;
   flex-shrink: 0;
