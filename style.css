@@ -1015,7 +1015,7 @@ body[data-section="partido"] .social-label {
 .historia-block h3 { margin-top: 0; }
 
 /* Historia — ¿Quiénes somos? placeholder copy. */
-.placeholder-text { color: var(--muted); font-size: 0.95rem; max-width: 640px; }
+.placeholder-text { color: var(--muted-alt); font-size: 0.95rem; max-width: 640px; }
 
 /* Historia — Línea de Tiempo. A plain vertical rail (border-left) with
    a dot per event, same accent-light/muted color language as the rest
