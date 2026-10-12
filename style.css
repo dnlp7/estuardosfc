@@ -2014,7 +2014,7 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 /* ---- Round of tweaks ---- */
 /* Divider lines: a touch darker than the solid box beneath. The match
    sheet overrides with a value computed from the era's own Fondo. */
-:root { --box-divider: color-mix(in srgb, var(--box-solid) 75%, #000); }
+:root { --box-divider: color-mix(in srgb, var(--box-solid) 45%, #000); }
 .jugadores-divider { border-top-color: var(--box-divider); }
 #partido-content .jugadores-divider { border-top-color: var(--tema-divider, var(--box-divider)); }
 .alineacion-match { border-bottom-color: var(--box-divider); }
@@ -2041,3 +2041,7 @@ body[data-section="partido"] {
 .pos-legend-item { display: inline-flex; align-items: center; gap: 0.4rem; }
 .pos-legend-swatch { width: 14px; height: 14px; display: inline-block; }
 .pos-legend-code { font-weight: 700; }
+
+/* Profile: the section title (Estadísticas) stays left-aligned like the
+   other profile sections; only the selected stat's own title is centered. */
+#section-perfil .solid-box > h3:first-child { text-align: left; }

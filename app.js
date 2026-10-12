@@ -2098,8 +2098,8 @@
     // slightly lighter line instead, since darker is invisible there.
     if (tema.fondo) {
       var dividerHex = relativeLuminance_(tema.fondo) < 0.01
-        ? lerpColor_(tema.fondo, '#ffffff', 0.12)
-        : lerpColor_(tema.fondo, '#000000', 0.25);
+        ? lerpColor_(tema.fondo, '#ffffff', 0.22)
+        : lerpColor_(tema.fondo, '#000000', 0.55);
       el.style.setProperty('--tema-divider', dividerHex);
     } else {
       el.style.removeProperty('--tema-divider');
