@@ -2024,8 +2024,9 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
    era's own background image (images/fondos/<themeCode>.jpg), falling
    back to the default pattern when the file is missing. */
 body[data-section="partido"] {
-  background: var(--tema-fondo-img, none) repeat, url("images/Base-verde-dark-lowRes.jpg") repeat, var(--bg);
-  background-size: 2100px auto;
+  background: var(--tema-fondo-img, none, none), url("images/Base-verde-dark-lowRes.jpg") repeat, var(--bg);
+  /* Themed image: native pixel size (any tile size works); default pattern: scaled as on the other pages. */
+  background-size: auto, auto, 2100px auto, auto; /* png layer, jpg layer, default pattern, color */
 }
 #partido-content .partido-card {
   background: var(--tema-fondo, var(--box-solid));

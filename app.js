@@ -2108,7 +2108,7 @@
     // (see style.css's body[data-section="partido"] rule — a missing
     // file simply falls through to the default pattern).
     var fondoCodigo = temaCodigoForEra_(era);
-    if (fondoCodigo) el.style.setProperty('--tema-fondo-img', 'url("images/fondos/' + fondoCodigo + '.jpg")');
+    if (fondoCodigo) el.style.setProperty('--tema-fondo-img', 'url("images/fondos/' + fondoCodigo + '.png"), url("images/fondos/' + fondoCodigo + '.jpg")');
     else el.style.removeProperty('--tema-fondo-img');
     // Contrast pick against Acento specifically — the goal/assist
     // badges (Stage 9 color-fix pass) moved from Principal to Acento
