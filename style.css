@@ -1958,11 +1958,11 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
    the same solid box. Scoped to #section-inicio so the match-sheet page
    (era-themed cards) is untouched. */
 #section-inicio .partido-card {
-  background: #072a2d;
+  background: #082f32;
   border: none;
   border-radius: 0;
 }
 .partidos-contador {
-  background: #072a2d;
+  background: #082f32;
   padding: 1.5rem;
 }
