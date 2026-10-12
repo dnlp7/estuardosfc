@@ -2637,7 +2637,7 @@
           : '<div class="insignia-placeholder">' + esc(b.insignia) + '</div>';
         return '<div class="insignia-card">' + icon +
           '<div class="insignia-label">' + esc(b.insignia) + '</div>' +
-          '<div class="insignia-temporada">' + esc(b.temporada) + '</div></div>';
+          '<div class="insignia-temporada">' + esc(b.temporada ? ((torneoForEra_(b.temporada) ? torneoForEra_(b.temporada) + ' ' : '') + formatEraLabel_(b.temporada)) : '') + '</div></div>';
       }).join('');
     }
 
@@ -2873,7 +2873,7 @@
     el.innerHTML = POS_LEGEND_LABELS_.map(function (p) {
       var c = POSITION_COLORS_[p[0]];
       return '<span class="pos-legend-item"><span class="pos-legend-swatch" style="background:' + c.bg + '"></span>' +
-        '<span class="pos-legend-code">' + esc(p[0]) + '</span> ' + esc(p[1]) + '</span>';
+        esc(p[1]) + '</span>';
     }).join('');
   }
 
