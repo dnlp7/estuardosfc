@@ -121,6 +121,7 @@
         <p id="team-message" class="detail-message" hidden></p>
 
         <div id="team-season-detail" hidden>
+          <div class="solid-box">
           <div class="table-wrap compact" id="standings-wrap">
             <table id="standings-table">
               <thead>
@@ -132,7 +133,9 @@
               <tbody></tbody>
             </table>
           </div>
+          </div>
 
+          <div class="solid-box">
           <div class="stat-selector" id="temporada-view-selector">
             <button class="stat-btn active" data-view="resultados">Resultados</button>
             <button class="stat-btn" data-view="alineaciones">Alineaciones</button>
@@ -151,13 +154,17 @@
           </div>
 
           <div id="alineaciones-wrap" hidden></div>
+          </div>
 
+          <div class="solid-box">
           <h3 id="season-goals-title">Goles por Jornada</h3>
           <div class="chart-wrap" id="season-goals-chart-wrap">
             <canvas id="season-goals-chart"></canvas>
           </div>
+          </div>
         </div>
 
+        <div class="solid-box">
         <div class="table-wrap compact" id="team-balance-wrap">
           <table id="team-balance-table">
             <thead>
@@ -169,10 +176,13 @@
             <tbody></tbody>
           </table>
         </div>
+        </div>
 
+        <div class="solid-box">
         <h3 id="team-goals-title" hidden>Goles por Temporada</h3>
         <div class="chart-wrap" id="team-goals-chart-wrap" hidden>
           <canvas id="team-goals-chart"></canvas>
+        </div>
         </div>
       </section>
 
@@ -195,6 +205,7 @@
           </label>
         </div>
 
+        <div class="solid-box">
         <h3 id="stat-title"></h3>
 
         <p id="detail-message" class="detail-message" hidden></p>
@@ -207,12 +218,16 @@
             <tbody></tbody>
           </table>
         </div>
+        </div>
       </section>
 
       <section id="tab-records" class="tab-panel">
+        <div class="solid-box">
         <h3>Líderes Históricos</h3>
         <div class="records-leaders-grid" id="records-leaders"></div>
+        </div>
 
+        <div class="solid-box">
         <h3>Récords</h3>
         <p id="records-message" class="detail-message" hidden></p>
         <div id="records-highlights" hidden>
@@ -256,11 +271,13 @@
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       <section id="tab-otras" class="tab-panel">
         <p id="otras-message" class="detail-message" hidden></p>
         <div id="otras-content" hidden>
+          <div class="solid-box">
           <h3 class="otras-section-title">Rivales más comunes</h3>
           <div class="table-wrap compact" id="otras-rivales-wrap">
             <table id="otras-rivales-table">
@@ -273,7 +290,9 @@
               <tbody></tbody>
             </table>
           </div>
+          </div>
 
+          <div class="solid-box">
           <h3 class="otras-section-title">Horarios</h3>
           <div class="chart-wrap" id="otras-horarios-chart-wrap">
             <canvas id="otras-horarios-chart"></canvas>
@@ -288,6 +307,7 @@
               </thead>
               <tbody></tbody>
             </table>
+          </div>
           </div>
         </div>
       </section>
@@ -372,11 +392,16 @@
         </div>
       </div>
 
+      <div class="solid-box" id="perfil-insignias-box">
       <div class="insignias-grid" id="perfil-insignias"></div>
+      </div>
 
+      <div class="solid-box" id="perfil-tarjetas-box">
       <h3 id="perfil-tarjetas-heading" hidden>Tarjetas</h3>
       <div class="tarjetas-grid" id="perfil-tarjetas"></div>
+      </div>
 
+      <div class="solid-box">
       <h3>Estadísticas</h3>
       <div class="stat-selector" id="perfil-stat-selector">
         <button class="stat-btn active" data-stat="BALANCE">BALANCE</button>
@@ -412,6 +437,7 @@
           <tbody></tbody>
         </table>
       </div>
+      </div>
 
       <!-- Gráficas (Stage 9) - the GOL&AST/PA&PI two-line charts that
            used to live under the Estadísticas selector above, now their
@@ -420,6 +446,7 @@
            - independent of whichever Estadísticas tab (BALANCE/GOL/AST/
            PA/PI) is currently selected, since a chart and a table aren't
            mutually exclusive views of the same tab any more. -->
+      <div class="solid-box">
       <h3>Gráficas</h3>
       <div class="stat-selector" id="perfil-grafica-selector">
         <button class="stat-btn active" data-grafica="GOL_AST">GOL &amp; AST</button>
@@ -430,6 +457,7 @@
       <div class="chart-wrap" id="perfil-stat-chart-wrap" hidden>
         <canvas id="perfil-stat-chart"></canvas>
       </div>
+      </div>
 
       <!-- Per-player Récords (Stage 9) - same card language as the
            Estadísticas > Récords tab (.record-card/.records-highlights-
@@ -437,6 +465,7 @@
            player - no name under the number since it's already this
            player's own page (Daniel's call). Filled by
            renderPerfilRecords_ (app.js) on every profile load. -->
+      <div class="solid-box">
       <h3>Récords</h3>
       <h4 class="records-subheading">Partido</h4>
       <div class="records-highlights-grid">
@@ -448,6 +477,7 @@
           <h5>Asistencias<span class="stat-range-slot" data-stat="AST"></span></h5>
           <div id="perfil-record-asistencias-partido"></div>
         </div>
+      </div>
       </div>
       <h4 class="records-subheading">Temporada</h4>
       <div class="records-highlights-grid">

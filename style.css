@@ -1958,11 +1958,50 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
    the same solid box. Scoped to #section-inicio so the match-sheet page
    (era-themed cards) is untouched. */
 #section-inicio .partido-card {
-  background: #082f32;
+  background: var(--box-solid, #082f32);
   border: none;
   border-radius: 0;
 }
 .partidos-contador {
-  background: #082f32;
+  background: var(--box-solid, #082f32);
   padding: 1.5rem;
+}
+
+/* Solid-box design, site-wide. --box-solid is the single reference for
+   the solid color. Grey boxes (cards, charts, messages) lose their border
+   and rounded corners; subsections sit above a solid box of consistent
+   width. Table designs are untouched. Roll back by deleting this block. */
+:root { --box-solid: #082f32; }
+
+.solid-box,
+.plantel-section,
+.historia-block,
+.perfil-header {
+  background: var(--box-solid);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: none;
+  border-radius: 0;
+}
+.historia-block:last-child { margin-bottom: 1.5rem; }
+.solid-box > h3:first-child,
+.plantel-section > h3:first-child,
+.historia-block > h3:first-child { margin-top: 0; }
+.solid-box > :last-child { margin-bottom: 0; }
+
+/* Auto-hide boxes whose content is all hidden/empty. */
+.solid-box:not(:has(> :not([hidden]))) { display: none; }
+#perfil-insignias-box:has(#perfil-insignias:empty),
+#perfil-tarjetas-box:has(#perfil-tarjetas:empty) { display: none; }
+
+/* Grey boxes: no border, no rounded corners (images keep theirs). */
+.insignia-card, .tarjeta-card, .historia-card, .chart-wrap,
+.record-leader-col, .record-card, .detail-message {
+  border: none;
+  border-radius: 0;
+}
+.tarjeta-card img { border-radius: 8px; }
+
+@media (max-width: 640px) {
+  .solid-box, .plantel-section, .historia-block, .perfil-header { padding: 1rem; margin-bottom: 1rem; }
 }
