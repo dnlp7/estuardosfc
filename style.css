@@ -2005,3 +2005,8 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 @media (max-width: 640px) {
   .solid-box, .plantel-section, .historia-block, .perfil-header { padding: 1rem; margin-bottom: 1rem; }
 }
+
+/* Boxes holding a narrow (compact) table: center the headings and
+   selectors on the same axis as the table. */
+.solid-box:has(.table-wrap.compact) > :is(h3, h4, .detail-message) { text-align: center; }
+.solid-box:has(.table-wrap.compact) > .stat-selector { justify-content: center; }
