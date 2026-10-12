@@ -455,7 +455,7 @@
    * of all 4 stats, so it has no single range of its own to show).
    * Shared by both call sites below so they can't drift apart. */
   function statTitleHtml_(stat) {
-    if (stat === 'BALANCE') return ''; // the BALANCE button already says it, and it has no info icon
+    if (stat === 'BALANCE') return 'Balance General'; // no info icon (it spans all 4 stats, no single range)
     return esc(STAT_TITLES[stat] || stat) + statRangeBtnHtml_(stat);
   }
 
@@ -2063,7 +2063,7 @@
   var TEMA_VARS_ = [
     '--tema-principal', '--tema-secundario', '--tema-acento', '--tema-acento-oscuro',
     '--tema-dorsales', '--tema-portero', '--tema-portero-sec', '--tema-portero-dor',
-    '--tema-fondo', '--tema-texto-principal', '--tema-texto-fondo', '--tema-texto-acento'
+    '--tema-fondo', '--tema-divider', '--tema-fondo-img', '--tema-texto-principal', '--tema-texto-fondo', '--tema-texto-acento'
   ];
   function aplicarTemaPartido_(el, era) {
     var tema = temaForEra_(era);
@@ -2093,6 +2093,23 @@
     el.style.setProperty('--tema-acento-oscuro', tema.acento ? lerpColor_(tema.acento, '#000000', 0.35) : '');
     el.style.setProperty('--tema-portero', tema.portero || '');
     el.style.setProperty('--tema-fondo', tema.fondo || '');
+    // Divider line color (starters/subs hr): slightly darker than the
+    // solid box it sits on (the theme's Fondo); a near-black box gets a
+    // slightly lighter line instead, since darker is invisible there.
+    if (tema.fondo) {
+      var dividerHex = relativeLuminance_(tema.fondo) < 0.01
+        ? lerpColor_(tema.fondo, '#ffffff', 0.12)
+        : lerpColor_(tema.fondo, '#000000', 0.25);
+      el.style.setProperty('--tema-divider', dividerHex);
+    } else {
+      el.style.removeProperty('--tema-divider');
+    }
+    // Per-theme page background image: images/fondos/<themeCode>.jpg
+    // (see style.css's body[data-section="partido"] rule — a missing
+    // file simply falls through to the default pattern).
+    var fondoCodigo = temaCodigoForEra_(era);
+    if (fondoCodigo) el.style.setProperty('--tema-fondo-img', 'url("images/fondos/' + fondoCodigo + '.jpg")');
+    else el.style.removeProperty('--tema-fondo-img');
     // Contrast pick against Acento specifically — the goal/assist
     // badges (Stage 9 color-fix pass) moved from Principal to Acento
     // (border-color did too, below), since a theme with a white/near-
@@ -2846,6 +2863,20 @@
    * renderPerfilGrafica_/setupPerfilGraficaSelector_) — a chart and a
    * table aren't mutually exclusive views of "the same tab" any more,
    * so they no longer share one piece of state. */
+  // Legend for the PI grid's color codes (position per match).
+  var POS_LEGEND_LABELS_ = [['POR', 'Portero'], ['DEF', 'Defensa'], ['MED', 'Medio'], ['DEL', 'Delantero'], ['SUP', 'Suplente']];
+  function renderPerfilPosLegend_(show) {
+    var el = document.getElementById('perfil-pos-legend');
+    if (!el) return;
+    el.hidden = !show;
+    if (!show) return;
+    el.innerHTML = POS_LEGEND_LABELS_.map(function (p) {
+      var c = POSITION_COLORS_[p[0]];
+      return '<span class="pos-legend-item"><span class="pos-legend-swatch" style="background:' + c.bg + '"></span>' +
+        '<span class="pos-legend-code">' + esc(p[0]) + '</span> ' + esc(p[1]) + '</span>';
+    }).join('');
+  }
+
   function renderPerfilStatsView_(playerId, nombre) {
     var isBalance = state.perfilStat === 'BALANCE';
     var titleEl = document.getElementById('perfil-stat-title');
@@ -2853,6 +2884,7 @@
     document.getElementById('perfil-stats-wrap').hidden = !isBalance;
     document.getElementById('perfil-stat-detail-wrap').hidden = true; // renderPerfilStatDetailTable_ un-hides it once its (possibly async) data is ready
     document.getElementById('perfil-stat-detail-message').hidden = true;
+    renderPerfilPosLegend_(state.perfilStat === 'PI');
     if (isBalance) {
       renderPerfilStatsTable_(playerId, nombre);
     } else {

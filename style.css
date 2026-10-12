@@ -1081,7 +1081,7 @@ body[data-section="partido"] .social-label {
 #perfil-stats-table td { font-weight: 700; color: var(--white); }
 
 h2 { margin-top: 0; }
-h3 { color: var(--accent-light); font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
+h3 { color: var(--accent-light); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
 
 /* Team stats — single-season standings snapshot. Same two-row table
    language as every other table on the site (grey header row, thick
@@ -2010,3 +2010,34 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
    selectors on the same axis as the table. */
 .solid-box:has(.table-wrap.compact) > :is(h3, h4, .detail-message) { text-align: center; }
 .solid-box:has(.table-wrap.compact) > .stat-selector { justify-content: center; }
+
+/* ---- Round of tweaks ---- */
+/* Divider lines: a touch darker than the solid box beneath. The match
+   sheet overrides with a value computed from the era's own Fondo. */
+:root { --box-divider: color-mix(in srgb, var(--box-solid) 75%, #000); }
+.jugadores-divider { border-top-color: var(--box-divider); }
+#partido-content .jugadores-divider { border-top-color: var(--tema-divider, var(--box-divider)); }
+.alineacion-match { border-bottom-color: var(--box-divider); }
+
+/* Match sheet: same solid-box look as Inicio's Último Partido. The card
+   is a solid box in the era's Fondo; the page behind it shows that
+   era's own background image (images/fondos/<themeCode>.jpg), falling
+   back to the default pattern when the file is missing. */
+body[data-section="partido"] {
+  background: var(--tema-fondo-img, none) repeat, url("images/Base-verde-dark-lowRes.jpg") repeat, var(--bg);
+  background-size: 2100px auto;
+}
+#partido-content .partido-card {
+  background: var(--tema-fondo, var(--box-solid));
+  border: none;
+  border-radius: 0;
+}
+
+/* Individuales: season chooser on its own row above the other filters. */
+.controls-season { margin-bottom: 0.75rem; }
+
+/* Position color legend (player profile, PI table). */
+.pos-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; justify-content: center; margin-top: 1rem; font-size: 0.85rem; color: var(--white); }
+.pos-legend-item { display: inline-flex; align-items: center; gap: 0.4rem; }
+.pos-legend-swatch { width: 14px; height: 14px; display: inline-block; }
+.pos-legend-code { font-weight: 700; }

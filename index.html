@@ -187,6 +187,11 @@
       </section>
 
       <section id="tab-historial" class="tab-panel">
+        <div class="controls controls-season">
+          <select id="era-filter">
+            <option value="__all__">Todas las temporadas</option>
+          </select>
+        </div>
         <div class="controls">
           <div class="stat-selector" id="stat-selector">
             <button class="stat-btn active" data-stat="BALANCE">BALANCE</button>
@@ -196,9 +201,6 @@
             <button class="stat-btn" data-stat="PI">PI</button>
           </div>
           <input type="search" id="player-search" placeholder="Buscar jugador...">
-          <select id="era-filter">
-            <option value="__all__">Todas las temporadas</option>
-          </select>
           <label class="detail-toggle">
             <input type="checkbox" id="detail-toggle">
             <span>Mostrar detalle</span>
@@ -431,6 +433,7 @@
            renderPerfilStatDetailTable_ whenever a GOL/AST/PA/PI tab is
            selected above. -->
       <p id="perfil-stat-detail-message" class="detail-message" hidden></p>
+      <div class="pos-legend" id="perfil-pos-legend" hidden></div>
       <div class="table-wrap" id="perfil-stat-detail-wrap" hidden>
         <table id="perfil-stat-detail-table">
           <thead></thead>
@@ -478,7 +481,6 @@
           <div id="perfil-record-asistencias-partido"></div>
         </div>
       </div>
-      </div>
       <h4 class="records-subheading">Temporada</h4>
       <div class="records-highlights-grid">
         <div class="record-card">
@@ -497,6 +499,7 @@
           <h5>Partidos Iniciados<span class="stat-range-slot" data-stat="PI"></span></h5>
           <div id="perfil-record-pi-temporada"></div>
         </div>
+      </div>
       </div>
     </section>
   </main>
