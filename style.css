@@ -108,7 +108,10 @@ html, body {
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* Seamless dark diamond pattern, tiled at the same scale as the banner
+     (see .site-header). --bg is the fallback while the image loads. */
+  background: var(--bg) url("images/Base-verde-dark-lowRes.jpg") repeat;
+  background-size: 2100px auto;
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.5;
@@ -209,7 +212,7 @@ thead th, table th {
   padding: 1rem;
 }
 .main-nav { background: var(--black); }
-.sub-nav { background: var(--bg); }
+.sub-nav { background: transparent; }
 .tab-btn {
   border: 2px solid transparent;
   border-radius: 8px;
@@ -219,7 +222,7 @@ thead th, table th {
   cursor: pointer;
 }
 .main-nav .tab-btn { background: var(--black); }
-.sub-nav .tab-btn { background: var(--bg); }
+.sub-nav .tab-btn { background: transparent; }
 .tab-btn.active {
   border-color: var(--white);
   font-weight: 600;
@@ -1948,3 +1951,18 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 }
 #stat-title:empty, #perfil-stat-title:empty { display: none; }
 @media (max-width: 640px) { .tarjetas-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Background test (easy to roll back: delete this block plus the pattern
+   lines in the body rule and the two .sub-nav rules). Inicio boxes get a
+   solid color with square corners and no border; the PARTIDOS counter gets
+   the same solid box. Scoped to #section-inicio so the match-sheet page
+   (era-themed cards) is untouched. */
+#section-inicio .partido-card {
+  background: #072a2d;
+  border: none;
+  border-radius: 0;
+}
+.partidos-contador {
+  background: #072a2d;
+  padding: 1.5rem;
+}
