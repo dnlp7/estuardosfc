@@ -2075,11 +2075,12 @@ a.jugador-card { display: block; }
 a.partido-link { color: inherit; }
 
 /* "Récord histórico" tag on a profile record that equals the all-time
-   best of any player (Récords tab). Sits next to the Activa tag. Gold on
+   best of any player (Récords tab). Sits next to the big total number
+   (the Activa tag stays on the streak's start/end games). Gold on
    dark text - team-level meaning, so deliberately not era-themed. */
 .record-historico {
   display: inline-block;
-  margin-left: 0.4rem;
+  margin-left: 0.75rem;
   padding: 0.05rem 0.4rem;
   background: #e0b341;
   color: #1a1400;

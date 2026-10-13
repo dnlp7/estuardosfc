@@ -2824,9 +2824,9 @@
     // records (ties) count for every holder; a 0 never qualifies.
     var esHistorico = teamMax != null && Number(record.max) > 0 && Number(record.max) === Number(teamMax);
     var tagHistorico = esHistorico ? ' <span class="record-historico">Récord histórico</span>' : '';
-    el.innerHTML = '<div class="record-highlight-value">' + esc(record.max) + '</div>' +
+    el.innerHTML = '<div class="record-highlight-value">' + esc(record.max) + tagHistorico + '</div>' +
       (record.entries && record.entries.length
-        ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + tagHistorico + '</div>'; }).join('')
+        ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')
         : '') +
       (record.more ? '<div class="record-highlight-entry record-highlight-more">+' + esc(record.more) + ' más</div>' : '');
   }
