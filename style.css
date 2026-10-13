@@ -2061,3 +2061,5 @@ body[data-section="partido"] {
   border-radius: 3px;
   vertical-align: middle;
 }
+
+.record-highlight-more { color: var(--muted-alt); font-size: 0.85rem; }

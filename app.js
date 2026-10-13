@@ -2773,7 +2773,8 @@
     el.innerHTML = '<div class="record-highlight-value">' + esc(record.max) + '</div>' +
       (record.entries && record.entries.length
         ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')
-        : '');
+        : '') +
+      (record.more ? '<div class="record-highlight-entry record-highlight-more">+' + esc(record.more) + ' más</div>' : '');
   }
 
   /** Renders the whole per-player Récords section (see renderPerfil).
@@ -2788,6 +2789,8 @@
    * while this is still in flight must not paint a stale player's
    * match records onto whichever profile is showing by the time it
    * resolves. */
+  var PERFIL_RACHA_STATS_ = ['GOL', 'AST', 'PA', 'PI'];
+  var PERFIL_RACHA_IDS_ = ['perfil-racha-gol', 'perfil-racha-ast', 'perfil-racha-pa', 'perfil-racha-pi'];
   function renderPerfilRecords_(playerId, nombre) {
     renderPerfilRecordCard_('perfil-record-goles-temporada', playerSeasonRecord_('GOL', playerId, nombre), function (e) {
       return esc(formatEraLabel_(e.era));
@@ -2802,7 +2805,7 @@
       return esc(formatEraLabel_(e.era));
     });
 
-    ['perfil-record-goles-partido', 'perfil-record-asistencias-partido'].forEach(function (id) {
+    PERFIL_RACHA_IDS_.concat(['perfil-record-goles-partido', 'perfil-record-asistencias-partido']).forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.innerHTML = '<p class="detail-message">Cargando…</p>';
     });
@@ -2815,11 +2818,14 @@
         renderPerfilRecordCard_('perfil-record-asistencias-partido', playerMatchRecord_(historyData, 'AST', playerId, nombre), function (e) {
           return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
         });
+        PERFIL_RACHA_STATS_.forEach(function (stat, i) {
+          renderPerfilRecordCard_(PERFIL_RACHA_IDS_[i], playerStreakRecord_(historyData, stat, playerId), streakRangeLinkHtml_);
+        });
       })
       .catch(function (err) {
         if (state.perfilPlayerId !== playerId) return;
         console.error(err);
-        ['perfil-record-goles-partido', 'perfil-record-asistencias-partido'].forEach(function (id) {
+        PERFIL_RACHA_IDS_.concat(['perfil-record-goles-partido', 'perfil-record-asistencias-partido']).forEach(function (id) {
           var el = document.getElementById(id);
           if (el) el.innerHTML = '<p class="detail-message">No se pudo cargar el detalle histórico.</p>';
         });
@@ -4671,7 +4677,7 @@
    *  - An era/game with no data for the stat (e.g. AST before 2022/23,
    *    PI before 2017/18) breaks every streak — a gap is never bridged.
    *  - A streak still open after the latest game is flagged active. */
-  function individualStreaksRecord_(historyData, stat) {
+  function computeIndividualStreaks_(historyData, stat) {
     var data = state.data;
     var test = STREAK_TESTS_[stat];
     var matchesByEra = allEraMatches_(historyData);
@@ -4727,11 +4733,9 @@
       if (cur) { cur.active = true; streaks.push(cur); }
     });
 
-    var max = streaks.reduce(function (m, s) { return Math.max(m, s.length); }, 0);
-    var top = streaks.filter(function (s) { return s.length === max; });
     return {
-      max: max,
-      entries: sortRecordEntriesRecentFirst_(top.map(function (s) {
+      nombres: nombres,
+      streaks: streaks.map(function (s) {
         return {
           playerId: s.pid,
           nombre: nombres[s.pid],
@@ -4743,7 +4747,44 @@
           single: s.start === s.end,
           active: !!s.active
         };
-      }))
+      })
+    };
+  }
+
+  // Computed once per stat (the history data never changes in a session).
+  var _individualStreaksCache_ = {};
+  function individualStreaksAll_(historyData, stat) {
+    if (!_individualStreaksCache_[stat]) _individualStreaksCache_[stat] = computeIndividualStreaks_(historyData, stat);
+    return _individualStreaksCache_[stat];
+  }
+
+  /** Récords tab: the longest streak(s) of any player, every tie kept. */
+  function individualStreaksRecord_(historyData, stat) {
+    var all = individualStreaksAll_(historyData, stat).streaks;
+    var max = all.reduce(function (m, s) { return Math.max(m, s.length); }, 0);
+    return {
+      max: max,
+      entries: sortRecordEntriesRecentFirst_(all.filter(function (s) { return s.length === max; }))
+    };
+  }
+
+  /** Player profile: this player's own longest streak for a stat. Ties
+   * (very common) are capped: the 3 most recent are listed and the rest
+   * collapse into a "+N más" line (record.more). hasData is false when
+   * the stat has no data at all for this player (e.g. AST before
+   * 2022/23). */
+  var PERFIL_RACHA_MAX_ENTRIES_ = 3;
+  function playerStreakRecord_(historyData, stat, playerId) {
+    var block = individualStreaksAll_(historyData, stat);
+    if (!playerId || !block.nombres[playerId]) return { hasData: false };
+    var mine = block.streaks.filter(function (s) { return s.playerId === playerId; });
+    var max = mine.reduce(function (m, s) { return Math.max(m, s.length); }, 0);
+    var top = sortRecordEntriesRecentFirst_(mine.filter(function (s) { return s.length === max; }));
+    return {
+      hasData: true,
+      max: max,
+      entries: top.slice(0, PERFIL_RACHA_MAX_ENTRIES_),
+      more: Math.max(0, top.length - PERFIL_RACHA_MAX_ENTRIES_)
     };
   }
 
