@@ -4665,7 +4665,8 @@
    * condition (GOL/AST > 0, PA attended, PI started), across every era,
    * every tie at the max kept. Rules (Daniel's):
    *  - Games decided by default are ignored for GOL/AST/PI (neither
-   *    extend nor break) but BREAK attendance (PA): nobody could attend.
+   *    extend nor break). For attendance (PA) they count like any game:
+   *    attended extends the streak, missing it breaks it.
    *  - Unknown-score games break GOL/AST streaks; PA/PI use the data as is.
    *  - An era/game with no data for the stat (e.g. AST before 2022/23,
    *    PI before 2017/18) breaks every streak — a gap is never bridged.
@@ -4711,7 +4712,7 @@
       function close() { if (cur) { streaks.push(cur); cur = null; } }
       games.forEach(function (g) {
         if (g.gap) { close(); return; }
-        if (g.isDefault) { if (stat === 'PA') close(); return; }
+        if (g.isDefault && stat !== 'PA') return; // ignored (neither extends nor breaks); attendance is judged normally below
         if (g.idx < 0) { close(); return; }
         if (g.unknown && (stat === 'GOL' || stat === 'AST')) { close(); return; }
         var row = rowsByEra[g.era] && rowsByEra[g.era][pid];
