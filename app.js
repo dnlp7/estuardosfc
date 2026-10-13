@@ -2111,7 +2111,7 @@
   var TEMA_VARS_ = [
     '--tema-principal', '--tema-secundario', '--tema-acento', '--tema-acento-oscuro',
     '--tema-dorsales', '--tema-portero', '--tema-portero-sec', '--tema-portero-dor',
-    '--tema-fondo', '--tema-divider', '--tema-fondo-img', '--tema-texto-principal', '--tema-texto-fondo', '--tema-texto-acento'
+    '--tema-fondo', '--tema-divider', '--tema-fondo-img', '--tema-texto-principal', '--tema-texto-fondo', '--tema-texto-acento', '--tema-texto-secundario'
   ];
   function aplicarTemaPartido_(el, era) {
     var tema = temaForEra_(era);
@@ -2165,6 +2165,7 @@
     el.style.setProperty('--tema-texto-principal', pickContrastText_(tema.principal, tema.textoClaro, tema.textoOscuro) || '');
     el.style.setProperty('--tema-texto-fondo', pickContrastText_(tema.fondo, tema.textoClaro, tema.textoOscuro) || '');
     el.style.setProperty('--tema-texto-acento', pickContrastText_(tema.acento, tema.textoClaro, tema.textoOscuro) || '');
+    el.style.setProperty('--tema-texto-secundario', pickContrastText_(tema.secundario, tema.textoClaro, tema.textoOscuro) || '');
   }
 
   function renderPartido_(era, jornada) {

@@ -956,7 +956,9 @@ body[data-section="partido"] .social-label {
 #ultimo-partido-card .cancha-lineas-fill { fill: var(--tema-acento, var(--accent-light)); }
 #partido-content .jugador-card-nombre,
 #ultimo-partido-card .jugador-card-nombre { color: var(--tema-texto-fondo, var(--white)); }
-/* Goles/asistencias count pills on each player's photo — Principal,
+/* Goles/asistencias count pills (UPDATED: Secundario background, Acento
+   border, text/icon = --tema-texto-secundario; older wording below says
+   Principal and is superseded). Originally: Principal,
    same as the field diagram's own player markers (Daniel's call: only
    the card BORDER and the Volver/nav-arrow controls needed the Acento
    swap, not these — Principal is the right "brand" color here). The
@@ -969,8 +971,8 @@ body[data-section="partido"] .social-label {
 #partido-content .jugador-card-badge-ast,
 #ultimo-partido-card .jugador-card-badge-gol,
 #ultimo-partido-card .jugador-card-badge-ast {
-  background: var(--tema-principal, var(--main));
-  color: var(--tema-texto-principal, #ffffff);
+  background: var(--tema-secundario, var(--main));
+  color: var(--tema-texto-secundario, #ffffff);
 }
 /* The pill's own cutout-ring border (.jugador-card-badge's base rule,
    above) was still hardcoded to the site's static --bg (a dark teal) —
@@ -982,7 +984,7 @@ body[data-section="partido"] .social-label {
 }
 #partido-content .jugador-card-badge-balon,
 #ultimo-partido-card .jugador-card-badge-balon {
-  background-color: var(--tema-texto-principal, #ffffff);
+  background-color: var(--tema-texto-secundario, #ffffff);
 }
 
 /* Field art is Daniel's own line drawing (see canchaSvgHtml_'s doc
