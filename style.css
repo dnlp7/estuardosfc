@@ -2073,3 +2073,20 @@ a.tab-btn { text-decoration: none; text-align: center; line-height: normal; }
 a.plantel-card, a.jugador-card, a.record-leader-row, a.era-link { color: inherit; text-decoration: none; }
 a.jugador-card { display: block; }
 a.partido-link { color: inherit; }
+
+/* "Récord histórico" tag on a profile record that equals the all-time
+   best of any player (Récords tab). Sits next to the Activa tag. Gold on
+   dark text - team-level meaning, so deliberately not era-themed. */
+.record-historico {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  background: #e0b341;
+  color: #1a1400;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  vertical-align: middle;
+}

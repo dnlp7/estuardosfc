@@ -2812,16 +2812,21 @@
    * which also have no name to show) - it's already this player's own
    * page. entries can be empty even with hasData: true (see
    * playerMatchRecord_) - the bare value then renders alone. */
-  function renderPerfilRecordCard_(elId, record, entryHtml) {
+  function renderPerfilRecordCard_(elId, record, entryHtml, teamMax) {
     var el = document.getElementById(elId);
     if (!el) return;
     if (!record.hasData) {
       el.innerHTML = '<p class="detail-message">Sin datos.</p>';
       return;
     }
+    // "Récord histórico": this player's best equals the all-time best of
+    // anyone (teamMax, same functions the Récords tab uses). Shared
+    // records (ties) count for every holder; a 0 never qualifies.
+    var esHistorico = teamMax != null && Number(record.max) > 0 && Number(record.max) === Number(teamMax);
+    var tagHistorico = esHistorico ? ' <span class="record-historico">Récord histórico</span>' : '';
     el.innerHTML = '<div class="record-highlight-value">' + esc(record.max) + '</div>' +
       (record.entries && record.entries.length
-        ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')
+        ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + tagHistorico + '</div>'; }).join('')
         : '') +
       (record.more ? '<div class="record-highlight-entry record-highlight-more">+' + esc(record.more) + ' más</div>' : '');
   }
@@ -2843,10 +2848,10 @@
   function renderPerfilRecords_(playerId, nombre) {
     renderPerfilRecordCard_('perfil-record-goles-temporada', playerSeasonRecord_('GOL', playerId, nombre), function (e) {
       return esc(formatEraLabel_(e.era));
-    });
+    }, mostStatInSeasonRecord_('GOL').max);
     renderPerfilRecordCard_('perfil-record-asistencias-temporada', playerSeasonRecord_('AST', playerId, nombre), function (e) {
       return esc(formatEraLabel_(e.era));
-    });
+    }, mostStatInSeasonRecord_('AST').max);
     renderPerfilRecordCard_('perfil-record-pa-temporada', playerSeasonRecord_('PA', playerId, nombre), function (e) {
       return esc(formatEraLabel_(e.era));
     });
@@ -2863,12 +2868,12 @@
         if (state.perfilPlayerId !== playerId) return;
         renderPerfilRecordCard_('perfil-record-goles-partido', playerMatchRecord_(historyData, 'GOL', playerId, nombre), function (e) {
           return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
-        });
+        }, mostStatInMatchRecord_(historyData, 'GOL').max);
         renderPerfilRecordCard_('perfil-record-asistencias-partido', playerMatchRecord_(historyData, 'AST', playerId, nombre), function (e) {
           return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
-        });
+        }, mostStatInMatchRecord_(historyData, 'AST').max);
         PERFIL_RACHA_STATS_.forEach(function (stat, i) {
-          renderPerfilRecordCard_(PERFIL_RACHA_IDS_[i], playerStreakRecord_(historyData, stat, playerId), streakRangeLinkHtml_);
+          renderPerfilRecordCard_(PERFIL_RACHA_IDS_[i], playerStreakRecord_(historyData, stat, playerId), streakRangeLinkHtml_, individualStreaksRecord_(historyData, stat).max);
         });
       })
       .catch(function (err) {
