@@ -2046,3 +2046,18 @@ body[data-section="partido"] {
 /* Profile: the section title (Estadísticas) stays left-aligned like the
    other profile sections; only the selected stat's own title is centered. */
 #section-perfil .solid-box > h3:first-child { text-align: left; }
+
+/* "Activa" tag on a streak that is still running through the latest game. */
+.streak-activa {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  background: var(--accent-light);
+  color: var(--black);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  vertical-align: middle;
+}

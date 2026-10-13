@@ -4552,9 +4552,13 @@
    * (Daniel: showing just the two EDGE matches' rivals doesn't convey
    * anything about the whole streak and just clutters the read), so it's
    * only ever era + jornada. */
-  function longestStreakRecord_(historyData, matchOk) {
+  function longestStreakRecord_(historyData, matchOk, opts) {
     var data = state.data;
     var matchesByEra = allEraMatches_(historyData);
+    // Optional: games decided by default are ignored (neither extend nor
+    // break the streak) — used by the scoring streak, since default-
+    // awarded goals aren't real goals.
+    var defaults = (opts && opts.skipDefaults) ? defaultJornadasByEra_(historyData) : null;
     var all = [];
     (data.seasons || []).forEach(function (s) {
       (matchesByEra[s.era] || []).forEach(function (m) { all.push({ era: s.era, match: m }); });
@@ -4563,6 +4567,7 @@
     var streaks = [];
     var current = null;
     all.forEach(function (entry) {
+      if (defaults && defaults[entry.era] && defaults[entry.era][entry.match.jornada]) return;
       // Unknown-score matches (resultado === 'unknown', see the
       // unknown-score-matches feature) are treated as a loss ('p') for
       // streak purposes specifically — Daniel's explicit call: with no
@@ -4574,7 +4579,7 @@
       // extends either one, and can never become a streak's own
       // start/end edge.
       var r = entry.match.resultado === 'unknown' ? 'p' : entry.match.resultado;
-      if (matchOk(r)) {
+      if (matchOk(r, entry.match, entry.match.resultado === 'unknown')) {
         if (!current) current = { length: 0, start: entry };
         current.length++;
         current.end = entry;
@@ -4583,7 +4588,7 @@
         current = null;
       }
     });
-    if (current) streaks.push(current);
+    if (current) { current.active = true; streaks.push(current); } // still running through the latest game
 
     var max = streaks.reduce(function (m, s) { return Math.max(m, s.length); }, 0);
     var top = streaks.filter(function (s) { return s.length === max; });
@@ -4600,7 +4605,8 @@
           _fecha: s.end.match.fecha,
           start: { era: s.start.era, jornada: s.start.match.jornada },
           end: { era: s.end.era, jornada: s.end.match.jornada },
-          single: s.start === s.end
+          single: s.start === s.end,
+          active: !!s.active
         };
       }))
     };
@@ -4611,6 +4617,133 @@
   }
   function longestUnbeatenStreakRecord_(historyData) {
     return longestStreakRecord_(historyData, function (r) { return r !== 'p'; });
+  }
+  /** Consecutive games scoring at least one goal — default-decided
+   * games are ignored, an unknown-score game breaks the streak. */
+  function longestScoringStreakRecord_(historyData) {
+    return longestStreakRecord_(historyData, function (r, m, unknown) {
+      return !unknown && Number(m.gf) > 0;
+    }, { skipDefaults: true });
+  }
+
+  /** era -> { jornada: true } for every game decided by default. The
+   * lineup formation (TPD/DPD) is authoritative when the era tracks
+   * lineups; older eras fall back to the GOL tab's [Default] row. */
+  function defaultJornadasByEra_(historyData) {
+    var matchesByEra = allEraMatches_(historyData);
+    var golByEra = allEraStatDetail_(historyData, 'GOL');
+    var out = {};
+    Object.keys(matchesByEra).forEach(function (era) {
+      var set = {};
+      var block = golByEra[era];
+      var defaultRow = block && block.players
+        ? block.players.filter(function (p) { return p.isUtility && String(p.nombre).toLowerCase() === '[default]'; })[0]
+        : null;
+      (matchesByEra[era] || []).forEach(function (m) {
+        var f = m.lineup && m.lineup.formacion;
+        if (f) {
+          if (f === 'TPD' || f === 'DPD') set[m.jornada] = true;
+        } else if (defaultRow) {
+          var idx = detailColumnIndex_(block, m.jornada);
+          if (idx >= 0 && Number(defaultRow.byMatch[idx]) > 0) set[m.jornada] = true;
+        }
+      });
+      out[era] = set;
+    });
+    return out;
+  }
+
+  var STARTER_POS_ = { POR: true, DEF: true, MED: true, DEL: true };
+  var STREAK_TESTS_ = {
+    GOL: function (v) { return Number(v) > 0; },
+    AST: function (v) { return Number(v) > 0; },
+    PA: function (v) { return String(v == null ? '' : v).toLowerCase() === 'x'; },
+    PI: function (v) { return !!STARTER_POS_[String(v == null ? '' : v).toUpperCase()]; }
+  };
+
+  /** Longest run of consecutive games in which one player met a stat's
+   * condition (GOL/AST > 0, PA attended, PI started), across every era,
+   * every tie at the max kept. Rules (Daniel's):
+   *  - Games decided by default are ignored for GOL/AST/PI (neither
+   *    extend nor break) but BREAK attendance (PA): nobody could attend.
+   *  - Unknown-score games break GOL/AST streaks; PA/PI use the data as is.
+   *  - An era/game with no data for the stat (e.g. AST before 2022/23,
+   *    PI before 2017/18) breaks every streak — a gap is never bridged.
+   *  - A streak still open after the latest game is flagged active. */
+  function individualStreaksRecord_(historyData, stat) {
+    var data = state.data;
+    var test = STREAK_TESTS_[stat];
+    var matchesByEra = allEraMatches_(historyData);
+    var blocks = allEraStatDetail_(historyData, stat);
+    var defaults = defaultJornadasByEra_(historyData);
+
+    var games = [];
+    (data.seasons || []).forEach(function (s) {
+      var matches = matchesByEra[s.era] || [];
+      if (!matches.length) { games.push({ gap: true }); return; }
+      var block = blocks[s.era];
+      matches.forEach(function (m) {
+        games.push({
+          era: s.era,
+          match: m,
+          idx: block ? detailColumnIndex_(block, m.jornada) : -1,
+          isDefault: !!(defaults[s.era] && defaults[s.era][m.jornada]),
+          unknown: m.resultado !== 'g' && m.resultado !== 'p' && m.resultado !== 'e'
+        });
+      });
+    });
+
+    var rowsByEra = {};
+    var nombres = {};
+    Object.keys(blocks).forEach(function (era) {
+      var map = {};
+      (blocks[era].players || []).forEach(function (p) {
+        if (p.isUtility || !p.playerId) return;
+        map[p.playerId] = p.byMatch || [];
+        nombres[p.playerId] = p.nombre;
+      });
+      rowsByEra[era] = map;
+    });
+
+    var streaks = [];
+    Object.keys(nombres).forEach(function (pid) {
+      var cur = null;
+      function close() { if (cur) { streaks.push(cur); cur = null; } }
+      games.forEach(function (g) {
+        if (g.gap) { close(); return; }
+        if (g.isDefault) { if (stat === 'PA') close(); return; }
+        if (g.idx < 0) { close(); return; }
+        if (g.unknown && (stat === 'GOL' || stat === 'AST')) { close(); return; }
+        var row = rowsByEra[g.era] && rowsByEra[g.era][pid];
+        if (row && test(row[g.idx])) {
+          if (!cur) cur = { pid: pid, length: 0, start: g };
+          cur.length++;
+          cur.end = g;
+        } else {
+          close();
+        }
+      });
+      if (cur) { cur.active = true; streaks.push(cur); }
+    });
+
+    var max = streaks.reduce(function (m, s) { return Math.max(m, s.length); }, 0);
+    var top = streaks.filter(function (s) { return s.length === max; });
+    return {
+      max: max,
+      entries: sortRecordEntriesRecentFirst_(top.map(function (s) {
+        return {
+          playerId: s.pid,
+          nombre: nombres[s.pid],
+          length: s.length,
+          era: s.end.era,
+          _fecha: s.end.match.fecha,
+          start: { era: s.start.era, jornada: s.start.match.jornada },
+          end: { era: s.end.era, jornada: s.end.match.jornada },
+          single: s.start === s.end,
+          active: !!s.active
+        };
+      }))
+    };
   }
 
   /** Wraps a game-level record entry's label in a clickable span that
@@ -4631,11 +4764,12 @@
   function streakRangeLinkHtml_(e) {
     var startLabel = esc(formatEraLabel_(e.start.era) + ' ' + e.start.jornada);
     var startLink = '<span class="partido-link" data-partido="' + esc(e.start.era) + '::' + esc(e.start.jornada) + '">' + startLabel + '</span>';
-    if (e.single) return startLink;
+    if (e.single) return startLink + activaHtml_(e);
     var endLabel = esc(formatEraLabel_(e.end.era) + ' ' + e.end.jornada);
     var endLink = '<span class="partido-link" data-partido="' + esc(e.end.era) + '::' + esc(e.end.jornada) + '">' + endLabel + '</span>';
-    return startLink + ' → ' + endLink;
+    return startLink + ' → ' + endLink + activaHtml_(e);
   }
+  function activaHtml_(e) { return e.active ? ' <span class="streak-activa">Activa</span>' : ''; }
 
   /** All 8 highlight cards — the team/season records and both streaks
    * need the full historical detail (data-history-detail.json), lazily
@@ -4675,8 +4809,18 @@
         renderRecordCard_('record-goles-temporada-equipo', mostTeamGoalsInSeasonRecord_(historyData), function (e) {
           return esc(formatEraLabel_(e.era));
         });
-        renderRecordCard_('record-racha', longestWinStreakRecord_(historyData), streakRangeLinkHtml_);
-        renderRecordCard_('record-invicto', longestUnbeatenStreakRecord_(historyData), streakRangeLinkHtml_);
+        function rachaJugadorHtml_(e) {
+          return jugadorIconoHtml_(e.playerId) + '<span class="record-highlight-text">' + esc(statsDisplayNombre_(e.playerId, e.nombre)) + '<span class="record-highlight-meta">' + streakRangeLinkHtml_(e) + '</span></span>';
+        }
+        renderRecordCard_('racha-gol', individualStreaksRecord_(historyData, 'GOL'), rachaJugadorHtml_);
+        renderRecordCard_('racha-ast', individualStreaksRecord_(historyData, 'AST'), rachaJugadorHtml_);
+        renderRecordCard_('racha-pa', individualStreaksRecord_(historyData, 'PA'), rachaJugadorHtml_);
+        renderRecordCard_('racha-pi', individualStreaksRecord_(historyData, 'PI'), rachaJugadorHtml_);
+        renderRecordCard_('racha-equipo-ganados', longestWinStreakRecord_(historyData), streakRangeLinkHtml_);
+        renderRecordCard_('racha-equipo-invictos', longestUnbeatenStreakRecord_(historyData), streakRangeLinkHtml_);
+        renderRecordCard_('racha-equipo-anotando', longestScoringStreakRecord_(historyData), streakRangeLinkHtml_);
+        var rachasBox = document.getElementById('rachas-box');
+        if (rachasBox) rachasBox.hidden = false;
 
         msg.hidden = true;
         grid.hidden = false;
