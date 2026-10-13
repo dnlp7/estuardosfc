@@ -1085,15 +1085,16 @@
       ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
       : '';
     var badgesHtml = jugadorCardBadgeHtml_('gol', item.goles) + jugadorCardBadgeHtml_('ast', item.asistencias);
-    var linkAttrs = item.playerId ? ' data-jugador-id="' + esc(item.playerId) + '"' : '';
+    var linkAttrs = item.playerId ? ' href="' + esc(hrefPerfil_(item.playerId)) + '" data-jugador-id="' + esc(item.playerId) + '"' : '';
     var linkClass = item.playerId ? ' jugador-link' : '';
-    return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
+    var cardTag = item.playerId ? 'a' : 'div';
+    return '<' + cardTag + ' class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
       '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, item.nombre, era) + capitanBadge +
       (item.posicion ? posicionPillHtml_(item.posicion) : '') +
       (badgesHtml ? '<div class="jugador-card-badges">' + badgesHtml + '</div>' : '') +
       '</div>' +
       '<div class="jugador-card-nombre">' + esc(etiqueta) + '</div>' +
-      '</div>';
+      '</' + cardTag + '>';
   }
 
   /** One Titulares/Suplentes/Asistentes card grid (with its own "h4"
@@ -1845,10 +1846,10 @@
       // never blocks the rest of the grid from rendering either way; a
       // missing file is just a failed network request for that one
       // <img>, not a script error.
-      return '<button type="button" class="plantel-card" data-player-id="' + esc(p.playerId) + '" aria-label="Ver perfil de ' + esc(p.nombre) + '">' +
+      return '<a class="plantel-card" href="' + esc(hrefPerfil_(p.playerId)) + '" data-player-id="' + esc(p.playerId) + '" aria-label="Ver perfil de ' + esc(p.nombre) + '">' +
         '<img src="' + img + '" alt="" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false;">' +
         '<div class="plantel-card-placeholder" hidden>' + esc(p.nombre) + '</div>' +
-        '</button>';
+        '</a>';
     }).join('');
     return '<section class="plantel-section"><h3>' + esc(titulo) + '</h3>' +
       '<div class="plantel-cards-grid">' + cards + '</div></section>';
@@ -1926,7 +1927,9 @@
 
   function setupSections() {
     document.querySelectorAll('.main-tab-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
+      btn.addEventListener('click', function (e) {
+        if (isModifiedClick_(e)) return; // real link: the browser opens the new tab/window itself
+        e.preventDefault();
         // Same instant-render + shareable-hash pattern as the Jugadores
         // cards below: set the hash so every main section has its own
         // dedicated, shareable/deep-linkable URL (#inicio, #estadisticas,
@@ -1974,6 +1977,8 @@
     grid.addEventListener('click', function (e) {
       var card = e.target.closest('.plantel-card');
       if (!card || !card.dataset.playerId) return;
+      if (isModifiedClick_(e)) return; // real link: the browser opens the new tab/window itself
+      e.preventDefault();
       irAPerfil_(card.dataset.playerId);
     });
   }
@@ -2016,10 +2021,43 @@
   // per click. Every data attribute here is only ever put on an element
   // with real, resolved data (a real playerId/era+jornada/era) — this
   // can never route to something that doesn't exist.
+  // URL builders for every clickable content mention. The same hashes the
+  // app already uses (buildHash_/routeFromHash_), so a link opened in a new
+  // tab lands on exactly the same view.
+  function hrefPerfil_(id) { return '#jugador/' + encodeURIComponent(id); }
+  function hrefPartido_(era, jornada) { return '#partido/' + encodeURIComponent(era) + '/' + encodeURIComponent(jornada); }
+  function hrefEra_(era) { return '#estadisticas/equipo?era=' + encodeURIComponent(era); }
+  // Ctrl/Cmd/Shift-click or middle-click: the user wants a new tab/window,
+  // not the in-page navigation. Real <a href> elements get that from the
+  // browser natively; every handler just steps aside for these clicks.
+  function isModifiedClick_(e) { return e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1; }
+  function abrirEnPestanaNueva_(href) {
+    try { window.open(new URL(href, location.href).href, '_blank', 'noopener'); } catch (err) { /* popup blocked: nothing to do */ }
+  }
+  var CONTENT_LINK_SEL_ = '[data-jugador-id], [data-partido], [data-era-link]';
+  function contentLinkHref_(el) {
+    if (el.dataset.partido) {
+      var parts = el.dataset.partido.split('::');
+      return parts.length === 2 ? hrefPartido_(parts[0], parts[1]) : null;
+    }
+    if (el.dataset.eraLink) return hrefEra_(el.dataset.eraLink);
+    if (el.dataset.jugadorId) return hrefPerfil_(el.dataset.jugadorId);
+    return null;
+  }
+
   function setupContentLinks_() {
     document.addEventListener('click', function (e) {
-      var el = e.target.closest('[data-jugador-id], [data-partido], [data-era-link]');
+      var el = e.target.closest(CONTENT_LINK_SEL_);
       if (!el) return;
+      var href = contentLinkHref_(el);
+      if (!href) return;
+      if (isModifiedClick_(e)) {
+        // Real links: the browser handles it. Non-link elements (table
+        // rows, some entries): emulate "open in new tab".
+        if (el.tagName !== 'A') { e.preventDefault(); abrirEnPestanaNueva_(href); }
+        return;
+      }
+      if (el.tagName === 'A') e.preventDefault(); // we navigate in-page below, no double hashchange
       if (el.dataset.partido) {
         var parts = el.dataset.partido.split('::');
         if (parts.length === 2) irAPartido_(parts[0], parts[1]);
@@ -2030,6 +2068,16 @@
         return;
       }
       if (el.dataset.jugadorId) irAPerfil_(el.dataset.jugadorId);
+    });
+    // Middle-click on non-link elements (real links already open a tab natively).
+    document.addEventListener('auxclick', function (e) {
+      if (e.button !== 1) return;
+      var el = e.target.closest(CONTENT_LINK_SEL_);
+      if (!el || el.tagName === 'A') return;
+      var href = contentLinkHref_(el);
+      if (!href) return;
+      e.preventDefault();
+      abrirEnPestanaNueva_(href);
     });
   }
 
@@ -3000,7 +3048,7 @@
         var color = (v === null || v === undefined) ? null : scaleColor_(v, ranges[stat].min, ranges[stat].max, COLORS.greyCell, COLORS.scaleBest);
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td class="val-strong"><span class="era-link" data-era-link="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</span></td>' + cells + '</tr>';
+      return '<tr><td class="val-strong"><a class="era-link" href="' + esc(hrefEra_(era)) + '" data-era-link="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</a></td>' + cells + '</tr>';
     }).join('');
 
     var totalCells = STATS_ORDER.map(function (stat) {
@@ -3155,7 +3203,7 @@
           }).join('');
           var total = row.byEra[e.era];
           var totalColor = scaleColor_(total, minTotal, maxTotal, COLORS.greyCell, COLORS.scaleBest);
-          return '<tr><td class="val-strong"><span class="era-link" data-era-link="' + esc(e.era) + '">' + esc(formatEraLabel_(e.era)) + '</span></td>' +
+          return '<tr><td class="val-strong"><a class="era-link" href="' + esc(hrefEra_(e.era)) + '" data-era-link="' + esc(e.era) + '">' + esc(formatEraLabel_(e.era)) + '</a></td>' +
             '<td class="val-strong"' + styleAttr_(totalColor) + '>' + (total === null || total === undefined ? '' : esc(total)) + '</td>' +
             gameCells + '</tr>';
         }).join('');
@@ -3276,7 +3324,7 @@
 
   function setupTabs() {
     document.querySelectorAll('#estadisticas-subnav .tab-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () { activateEstadisticasTab_(btn.dataset.tab); syncHash_(); });
+      btn.addEventListener('click', function (e) { if (isModifiedClick_(e)) return; e.preventDefault(); activateEstadisticasTab_(btn.dataset.tab); syncHash_(); });
     });
   }
 
@@ -3297,7 +3345,7 @@
 
   function setupJugadoresTabs_() {
     document.querySelectorAll('#jugadores-subnav .tab-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () { activateJugadoresTab_(btn.dataset.jtab); syncHash_(); });
+      btn.addEventListener('click', function (e) { if (isModifiedClick_(e)) return; e.preventDefault(); activateJugadoresTab_(btn.dataset.jtab); syncHash_(); });
     });
   }
 
@@ -3502,7 +3550,7 @@
         var color = (v === null || v === undefined || !endpoints) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, endpoints.low, endpoints.high);
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
       }).join('');
-      return '<tr><td class="val-strong"><span class="era-link" data-era-link="' + esc(r.era) + '">' + esc(formatEraLabel_(r.era)) + '</span></td>' + cells + '</tr>';
+      return '<tr><td class="val-strong"><a class="era-link" href="' + esc(hrefEra_(r.era)) + '" data-era-link="' + esc(r.era) + '">' + esc(formatEraLabel_(r.era)) + '</a></td>' + cells + '</tr>';
     }).join('');
 
     // TOTAL row — plain sums across every season shown, no color scale
@@ -3680,14 +3728,15 @@
     var capitanBadge = j.capitan
       ? '<span class="jugador-card-capitan" style="background:' + CAPTAIN_COLOR_.bg + ';color:' + CAPTAIN_COLOR_.text + '">C</span>'
       : '';
-    var linkAttrs = j.playerId ? ' data-jugador-id="' + esc(j.playerId) + '"' : '';
+    var linkAttrs = j.playerId ? ' href="' + esc(hrefPerfil_(j.playerId)) + '" data-jugador-id="' + esc(j.playerId) + '"' : '';
     var linkClass = j.playerId ? ' jugador-link' : '';
-    return '<div class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
+    var cardTag = j.playerId ? 'a' : 'div';
+    return '<' + cardTag + ' class="jugador-card' + linkClass + '"' + linkAttrs + '>' +
       '<div class="jugador-card-photo-wrap">' + jugadorFotoHtml_(info, j.nombre, era) + capitanBadge +
       posicionPillHtml_(j.posicion) +
       '</div>' +
       '<div class="jugador-card-nombre">' + esc(j.nombre) + '</div>' +
-      '</div>';
+      '</' + cardTag + '>';
   }
 
   /** GF/GC per jornada, one season — a line chart (unlike the all-seasons
@@ -4330,11 +4379,12 @@
             var rank = (lastTotal !== null && p.total === lastTotal) ? lastRank : i + 1;
             lastTotal = p.total;
             lastRank = rank;
-            var linkAttrs = p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '';
+            var linkAttrs = p.playerId ? ' href="' + esc(hrefPerfil_(p.playerId)) + '" data-jugador-id="' + esc(p.playerId) + '"' : '';
             var linkClass = p.playerId ? ' jugador-link' : '';
-            return '<div class="record-leader-row' + linkClass + '"' + linkAttrs + '><span class="record-leader-rank">' + rank + '</span>' +
+            var rowTag = p.playerId ? 'a' : 'div';
+            return '<' + rowTag + ' class="record-leader-row' + linkClass + '"' + linkAttrs + '><span class="record-leader-rank">' + rank + '</span>' +
               '<span class="record-leader-nombre">' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</span>' +
-              '<span class="record-leader-total">' + esc(p.total) + '</span></div>';
+              '<span class="record-leader-total">' + esc(p.total) + '</span></' + rowTag + '>';
           }).join('')
         : '<p class="detail-message">Sin datos.</p>';
       // Era-range info icon (Stage 9) - replaces the old always-
@@ -4797,7 +4847,7 @@
    * jornada code doesn't match any RES row — see the Mane/RC2 bug). */
   function partidoLinkSpanHtml_(e, label) {
     if (!e.jornada) return label;
-    return '<span class="partido-link" data-partido="' + esc(e.era) + '::' + esc(e.jornada) + '">' + label + '</span>';
+    return '<a class="partido-link" href="' + esc(hrefPartido_(e.era, e.jornada)) + '" data-partido="' + esc(e.era) + '::' + esc(e.jornada) + '">' + label + '</a>';
   }
 
   /** Same idea for a streak record's range label (longestStreakRecord_)
@@ -4805,10 +4855,10 @@
    * Daniel's own call), rather than the whole range being one link. */
   function streakRangeLinkHtml_(e) {
     var startLabel = esc(formatEraLabel_(e.start.era) + ' ' + e.start.jornada);
-    var startLink = '<span class="partido-link" data-partido="' + esc(e.start.era) + '::' + esc(e.start.jornada) + '">' + startLabel + '</span>';
+    var startLink = '<a class="partido-link" href="' + esc(hrefPartido_(e.start.era, e.start.jornada)) + '" data-partido="' + esc(e.start.era) + '::' + esc(e.start.jornada) + '">' + startLabel + '</a>';
     if (e.single) return startLink + activaHtml_(e);
     var endLabel = esc(formatEraLabel_(e.end.era) + ' ' + e.end.jornada);
-    var endLink = '<span class="partido-link" data-partido="' + esc(e.end.era) + '::' + esc(e.end.jornada) + '">' + endLabel + '</span>';
+    var endLink = '<a class="partido-link" href="' + esc(hrefPartido_(e.end.era, e.end.jornada)) + '" data-partido="' + esc(e.end.era) + '::' + esc(e.end.jornada) + '">' + endLabel + '</a>';
     return startLink + ' → ' + endLink + activaHtml_(e);
   }
   function activaHtml_(e) { return e.active ? ' <span class="streak-activa">Activa</span>' : ''; }

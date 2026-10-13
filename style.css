@@ -2063,3 +2063,11 @@ body[data-section="partido"] {
 }
 
 .record-highlight-more { color: var(--muted-alt); font-size: 0.85rem; }
+
+/* ---- Real links (open-in-new-tab support) ----
+   Nav tabs, cards and mentions are <a href> now; reset the link look so
+   they read exactly like the buttons/spans they replaced. */
+a.tab-btn { text-decoration: none; text-align: center; line-height: normal; }
+a.plantel-card, a.jugador-card, a.record-leader-row, a.era-link { color: inherit; text-decoration: none; }
+a.jugador-card { display: block; }
+a.partido-link { color: inherit; }
