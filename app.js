@@ -2819,11 +2819,11 @@
       el.innerHTML = '<p class="detail-message">Sin datos.</p>';
       return;
     }
-    // "Récord histórico": this player's best equals the all-time best of
+    // "Récord del equipo": this player's best equals the all-time best of
     // anyone (teamMax, same functions the Récords tab uses). Shared
     // records (ties) count for every holder; a 0 never qualifies.
     var esHistorico = teamMax != null && Number(record.max) > 0 && Number(record.max) === Number(teamMax);
-    var tagHistorico = esHistorico ? ' <span class="record-historico">Récord histórico</span>' : '';
+    var tagHistorico = esHistorico ? ' <span class="record-historico">Récord del equipo</span>' : '';
     el.innerHTML = '<div class="record-highlight-value">' + esc(record.max) + tagHistorico + '</div>' +
       (record.entries && record.entries.length
         ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')

@@ -2057,6 +2057,7 @@ body[data-section="partido"] {
   background: var(--accent-light);
   color: var(--black);
   font-size: 0.65rem;
+  line-height: 1.4;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -2074,7 +2075,7 @@ a.plantel-card, a.jugador-card, a.record-leader-row, a.era-link { color: inherit
 a.jugador-card { display: block; }
 a.partido-link { color: inherit; }
 
-/* "Récord histórico" tag on a profile record that equals the all-time
+/* "Récord del equipo" tag on a profile record that equals the all-time
    best of any player (Récords tab). Sits next to the big total number
    (the Activa tag stays on the streak's start/end games). Gold on
    dark text - team-level meaning, so deliberately not era-themed. */
@@ -2085,6 +2086,7 @@ a.partido-link { color: inherit; }
   background: #e0b341;
   color: #1a1400;
   font-size: 0.65rem;
+  line-height: 1.4;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
