@@ -2713,8 +2713,14 @@
       tarjetasWrap.innerHTML = '';
     } else {
       tarjetasHeading.hidden = false;
+      // A repeated year = a 2nd (3rd...) card the same calendar year: the
+      // first keeps PXXX-YYYY.jpg, the next ones are PXXX-YYYY-2.jpg,
+      // -3.jpg, ... (the export keeps repeats; only the COUNT matters,
+      // not sheet row order). Displayed by year, then by suffix.
+      var anioVisto = {};
       tarjetasWrap.innerHTML = tarjetaAnios.map(function (anio) {
-        var src = 'images/fotos-tarjetas/' + playerId + '-' + anio + '.jpg';
+        anioVisto[anio] = (anioVisto[anio] || 0) + 1;
+        var src = 'images/fotos-tarjetas/' + playerId + '-' + anio + (anioVisto[anio] > 1 ? '-' + anioVisto[anio] : '') + '.jpg';
         return '<div class="tarjeta-card">' +
           '<img src="' + esc(src) + '" alt="' + esc(nombre) + ' ' + anio + '" loading="lazy" ' +
           'onerror="this.closest(\'.tarjeta-card\').hidden=true;">' +
