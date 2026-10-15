@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T01:44:08.692Z",
+  "generatedAt": "2026-10-15T09:22:24.473Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -24818,42 +24818,6 @@
             ]
           },
           {
-            "playerId": "P032",
-            "dorsal": 43,
-            "nombre": "Rene",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
             "playerId": null,
             "dorsal": "",
             "nombre": "[Default]",
@@ -25677,42 +25641,6 @@
               null,
               null
             ]
-          },
-          {
-            "playerId": "P032",
-            "dorsal": 43,
-            "nombre": "Rene",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
           }
         ]
       },
@@ -26466,42 +26394,6 @@
               null,
               null
             ]
-          },
-          {
-            "playerId": "P032",
-            "dorsal": 43,
-            "nombre": "Rene",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
           }
         ]
       },
@@ -27243,42 +27135,6 @@
               null,
               null,
               "SUP",
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            "playerId": "P032",
-            "dorsal": 43,
-            "nombre": "Rene",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
               null,
               null,
               null,
@@ -75339,6 +75195,13 @@
           "lineup": {
             "formacion": "2-3-1",
             "jugadores": [
+              {
+                "slot": "POR",
+                "posicion": "POR",
+                "nombre": "[Refuerzo]",
+                "playerId": null,
+                "capitan": false
+              },
               {
                 "slot": "DEF I",
                 "posicion": "DEF",
