@@ -1036,8 +1036,9 @@ body[data-section="partido"] .social-label {
   background: var(--accent-light);
   border: 2px solid var(--bg);
 }
-.timeline-date { display: block; color: var(--accent-light); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.timeline-date { display: block; color: var(--accent-light); font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.04em; }
 .timeline-desc { color: var(--white); margin: 0.2rem 0 0; }
+.timeline-titulo { font-weight: 700; }
 /* Entries linked to a match sheet (linkHistoriaEventos_): whole entry is clickable. */
 .timeline li.timeline-link { cursor: pointer; }
 .timeline li.timeline-link .timeline-date::after { content: ' \2192'; opacity: 0.6; }
