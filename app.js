@@ -322,6 +322,13 @@
   function dorsalConIconoHtml_(playerId, dorsal) {
     return '<span class="dorsal-icono-wrap">' + jugadorIconoHtml_(playerId) + '<span class="dorsal-num">' + esc(dorsal) + '</span></span>';
   }
+  /** "N°" column header built like dorsalConIconoHtml_'s cells (an empty
+   * icon-width spacer, then the label in the same .dorsal-num box) so the
+   * header sits exactly over the dorsal numbers, not midway between the
+   * icon and the number. */
+  function dorsalHeaderHtml_() {
+    return '<span class="dorsal-icono-wrap"><span class="dorsal-icono-espacio"></span><span class="dorsal-num">N°</span></span>';
+  }
   function jugadorIconoHtml_(playerId) {
     if (!playerId) return '';
     return '<img class="jugador-icono" src="' + ICONOS_JUGADORES_DIR_ + esc(playerId) + '.png" alt="" loading="lazy" ' +
@@ -5057,9 +5064,9 @@
 
   /** Simple mode (toggle off) — TOT, or one specific era's total. */
   function renderSimpleLeaderboard(statBlock) {
-    var valueHeader = state.era === '__all__' ? 'TOT' : formatEraLabel_(state.era);
+    var valueHeader = 'TOT';
     var todas = state.era === '__all__';
-    setTableHead('<tr><th>#</th>' + (todas ? '' : '<th>N°</th>') + '<th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
+    setTableHead('<tr><th>#</th>' + (todas ? '' : '<th>' + dorsalHeaderHtml_() + '</th>') + '<th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
 
     var allRows;
     if (todas) {
@@ -5152,7 +5159,7 @@
    * and left out of the rank count. */
   function renderMatchDetailLeaderboard(detail) {
     var columns = detail.columns || [];
-    var fixedHeadHtml = ['#', 'N°', 'Jugador', 'TOT'].map(function (h) { return '<th>' + esc(h) + '</th>'; });
+    var fixedHeadHtml = ['#', 'N°', 'Jugador', 'TOT'].map(function (h) { return '<th>' + (h === 'N°' ? dorsalHeaderHtml_() : esc(h)) + '</th>'; });
     var matchHeadHtml = columns.map(function (c) { return '<th>' + jornadaHeaderHtml(c.partido) + '</th>'; });
     var barCellsHtml = ['<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>'].concat(
       columns.map(function (c) {

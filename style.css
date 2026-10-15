@@ -1918,8 +1918,11 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
 
 /* Dorsal cell with the player icon in front of the number (tables that keep
    a dorsal column): icon, dorsal, then name in the next cell. */
-.dorsal-icono-wrap { display: inline-flex; align-items: center; gap: 0.5rem; }
+.dorsal-icono-wrap { display: inline-flex; align-items: center; gap: 0.5rem; vertical-align: middle; }
 .dorsal-icono-wrap .jugador-icono { margin-right: 0; }
+/* Empty stand-in for the icon in the "N°" header, same width as .jugador-icono. */
+.dorsal-icono-espacio { display: inline-block; flex-shrink: 0; width: 30px; height: 1px; }
+@media (max-width: 640px) { .dorsal-icono-espacio { width: 24px; } }
 .dorsal-num { min-width: 1.6rem; text-align: center; }
 
 /* Home-page PARTIDOS counter: black rounded digit squares, white text,
