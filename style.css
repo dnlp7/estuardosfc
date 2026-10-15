@@ -1629,7 +1629,7 @@ tbody tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
    to apply, under border-collapse: separate.) The 4 leading
    (non-match) cells get the header's dark-grey background instead of
    standing out as bare black gaps. */
-#leaderboard-table td.result-bar:nth-child(-n+4) { background: var(--grey-header); }
+#leaderboard-table td.result-bar-lead { background: var(--grey-header); }
 
 /* BALANCE mode — no rank column, so dorsal/name shift one column left
    (1,2 instead of 2,3); the 4 stat columns start at 3, each centered
@@ -1916,13 +1916,10 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
   .record-highlight-con-icono .jugador-icono { height: 36px; max-width: 42px; }
 }
 
-/* Dorsal cell with the player icon in front of the number (tables that keep
-   a dorsal column): icon, dorsal, then name in the next cell. */
-.dorsal-icono-wrap { display: inline-flex; align-items: center; gap: 0.5rem; vertical-align: middle; }
-.dorsal-icono-wrap .jugador-icono { margin-right: 0; }
-/* Empty stand-in for the icon in the "N°" header, same width as .jugador-icono. */
-.dorsal-icono-espacio { display: inline-block; flex-shrink: 0; width: 30px; height: 1px; }
-@media (max-width: 640px) { .dorsal-icono-espacio { width: 24px; } }
+/* Leaderboard "Jugador" cell: icon, dorsal and name as one tight group. */
+.jugador-celda { display: inline-flex; align-items: center; gap: 0.5rem; vertical-align: middle; }
+.jugador-celda .jugador-icono { margin-right: 0; }
+.jugador-celda .dorsal-num { min-width: 1.5rem; text-align: right; margin-right: -0.15rem; }
 .dorsal-num { min-width: 1.6rem; text-align: center; }
 
 /* Home-page PARTIDOS counter: black rounded digit squares, white text,

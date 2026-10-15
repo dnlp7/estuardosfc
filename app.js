@@ -317,17 +317,13 @@
    * utility row) gets no icon. `onerror = null` guards against a loop if
    * default.png itself is missing. */
   var ICONOS_JUGADORES_DIR_ = 'images/iconos-jugadores/';
-  /** Dorsal cell content for tables that still show a dorsal column:
-   * icon, then dorsal (the name sits in the next cell). */
-  function dorsalConIconoHtml_(playerId, dorsal) {
-    return '<span class="dorsal-icono-wrap">' + jugadorIconoHtml_(playerId) + '<span class="dorsal-num">' + esc(dorsal) + '</span></span>';
-  }
-  /** "N°" column header built like dorsalConIconoHtml_'s cells (an empty
-   * icon-width spacer, then the label in the same .dorsal-num box) so the
-   * header sits exactly over the dorsal numbers, not midway between the
-   * icon and the number. */
-  function dorsalHeaderHtml_() {
-    return '<span class="dorsal-icono-wrap"><span class="dorsal-icono-espacio"></span><span class="dorsal-num">N°</span></span>';
+  /** The leaderboard's single "Jugador" cell: icon, dorsal (omitted when
+   * null - all-time views have no single dorsal) and name, tightly
+   * grouped under one header. */
+  function jugadorCeldaHtml_(playerId, dorsal, nombre) {
+    return '<span class="jugador-celda">' + jugadorIconoHtml_(playerId) +
+      (dorsal === null || dorsal === undefined ? '' : '<span class="dorsal-num">' + esc(dorsal) + '</span>') +
+      '<span class="jugador-nombre">' + esc(nombre) + '</span></span>';
   }
   function jugadorIconoHtml_(playerId) {
     if (!playerId) return '';
@@ -4091,9 +4087,11 @@
     if (!data) return;
 
     document.getElementById('leaderboard-table').classList.toggle('balance-mode', state.stat === 'BALANCE');
-    // All-time stat tables (and BALANCE) have no dorsal column — a dorsal
-    // only means something within one season. See style.css (.sin-dorsal).
-    document.getElementById('leaderboard-table').classList.toggle('sin-dorsal', state.stat !== 'BALANCE' && state.era === '__all__');
+    // Every non-BALANCE view is "# | Jugador | TOT | ..." with icon, dorsal
+    // (season views only) and name merged into the one Jugador cell. The
+    // class name is historical (it started as the all-time, dorsal-less
+    // layout); see style.css (.sin-dorsal).
+    document.getElementById('leaderboard-table').classList.toggle('sin-dorsal', state.stat !== 'BALANCE');
 
     if (state.stat === 'BALANCE') {
       showLeaderboardTable();
@@ -4107,7 +4105,7 @@
     if (!statBlock || !statBlock.players.length) {
       showLeaderboardTable();
       setWideLayout(false);
-      setTableHead('<tr><th>#</th><th>N°</th><th>Jugador</th><th>TOT</th></tr>');
+      setTableHead('<tr><th>#</th><th>Jugador</th><th>TOT</th></tr>');
       setTableBody('<tr><td colspan="100" style="color:#7fa3a8;">Sin datos.</td></tr>');
       return;
     }
@@ -5066,7 +5064,7 @@
   function renderSimpleLeaderboard(statBlock) {
     var valueHeader = 'TOT';
     var todas = state.era === '__all__';
-    setTableHead('<tr><th>#</th>' + (todas ? '' : '<th>' + dorsalHeaderHtml_() + '</th>') + '<th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
+    setTableHead('<tr><th>#</th><th>Jugador</th><th>' + esc(valueHeader) + '</th></tr>');
 
     var allRows;
     if (todas) {
@@ -5101,7 +5099,7 @@
       var idBg = activoBackground_(r.p.nombre, r.p.playerId);
       var trAttrs = r.p.playerId ? ' data-jugador-id="' + esc(r.p.playerId) + '" class="jugador-link"' : '';
       return '<tr' + trAttrs + '><td class="rank-cell"' + styleAttr_(scales.rankColor(r.rank)) + '>' + rankPillHtml(r.rank) +
-        '</td>' + (todas ? '' : '<td' + idBg + '>' + dorsalConIconoHtml_(r.p.playerId, dorsal) + '</td>') + '<td' + idBg + '>' + (todas ? jugadorIconoHtml_(r.p.playerId) : '') + esc(statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
+        '</td><td' + idBg + '>' + jugadorCeldaHtml_(r.p.playerId, todas ? null : dorsal, statsDisplayNombre_(r.p.playerId, r.p.nombre)) + '</td><td class="val-strong"' +
         styleAttr_(scales.totalColor(r.val)) + '>' + esc(r.val) + '</td></tr>';
     }).join(''));
   }
@@ -5159,9 +5157,9 @@
    * and left out of the rank count. */
   function renderMatchDetailLeaderboard(detail) {
     var columns = detail.columns || [];
-    var fixedHeadHtml = ['#', 'N°', 'Jugador', 'TOT'].map(function (h) { return '<th>' + (h === 'N°' ? dorsalHeaderHtml_() : esc(h)) + '</th>'; });
+    var fixedHeadHtml = ['#', 'Jugador', 'TOT'].map(function (h) { return '<th>' + esc(h) + '</th>'; });
     var matchHeadHtml = columns.map(function (c) { return '<th>' + jornadaHeaderHtml(c.partido) + '</th>'; });
-    var barCellsHtml = ['<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>', '<td class="result-bar"></td>'].concat(
+    var barCellsHtml = ['<td class="result-bar result-bar-lead"></td>', '<td class="result-bar result-bar-lead"></td>', '<td class="result-bar result-bar-lead"></td>'].concat(
       columns.map(function (c) {
         var cls = c.resultado === 'g' ? 'result-bar-g' : c.resultado === 'p' ? 'result-bar-p' : c.resultado === 'e' ? (c.pkWin ? 'result-bar-ex' : 'result-bar-e') : '';
         return '<td class="result-bar' + (cls ? ' ' + cls : '') + '"></td>';
@@ -5214,7 +5212,7 @@
       if (p.playerId) rowClasses.push('jugador-link');
       var trAttrs = (rowClasses.length ? ' class="' + rowClasses.join(' ') + '"' : '') + (p.playerId ? ' data-jugador-id="' + esc(p.playerId) + '"' : '');
       return '<tr' + trAttrs + '><td class="rank-cell"' + rankStyle + '>' + rankCell +
-        '</td><td' + idBg + '>' + dorsalConIconoHtml_(p.playerId, p.dorsal) + '</td><td' + idBg + '>' + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' + totalStyle + '>' +
+        '</td><td' + idBg + '>' + jugadorCeldaHtml_(p.playerId, p.dorsal, statsDisplayNombre_(p.playerId, p.nombre)) + '</td><td class="val-strong"' + totalStyle + '>' +
         esc(p.total) + '</td>' + matchCells + '</tr>';
     }).join(''));
   }
