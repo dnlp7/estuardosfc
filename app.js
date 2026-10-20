@@ -1485,6 +1485,13 @@
       '<span class="partido-dato-valor">' + esc(resumen) + '</span></div>';
   }
 
+  /** Small section title above a group of player photos (VII Inicial /
+   * Suplentes / Asistentes) — same classes as the Goles Adicionales
+   * title, so it gets the same look and era theming. */
+  function partidoSubtituloHtml_(texto) {
+    return '<span class="partido-dato-titulo partido-subtitulo">' + esc(texto) + '</span>';
+  }
+
   function partidoColumnasHtml_(m, era, detail) {
     var goleadoresTotales = detailScorersAt_(detail.GOL, detailColumnIndex_(detail.GOL, m.jornada));
     // Real players only get a photo card; utility rows ([Default]/
@@ -1557,9 +1564,9 @@
       // Tier A — full lineup.
       var titularesHtml = partidoJugadoresGridSinTituloHtml_(titulares.map(function (p) { return conStats_(p, String(p.valor).trim().toUpperCase()); }), era);
       var suplentesHtml = partidoJugadoresGridSinTituloHtml_(suplentes.map(function (p) { return conStats_(p, 'SUP'); }), era);
-      colIzquierda = titularesHtml +
+      colIzquierda = (titularesHtml ? partidoSubtituloHtml_('VII Inicial') + titularesHtml : '') +
         (titularesHtml && suplentesHtml ? '<hr class="jugadores-divider">' : '') +
-        suplentesHtml;
+        (suplentesHtml ? partidoSubtituloHtml_('Suplentes') + suplentesHtml : '');
       colDerecha = canchaSvgHtml_(m.lineup, era, dorsalPorJugador);
     } else if (presentesPA.length) {
       // Tier B — no PI for this match: every asistente in one
@@ -1569,13 +1576,15 @@
       // instead (see partidoMarcadorHtml_), rather than replacing the
       // field diagram.
       var asistentes = presentesPA.slice().sort(function (a, b) { return dorsalSortKey_(a.dorsal) - dorsalSortKey_(b.dorsal); });
-      colIzquierda = partidoJugadoresGridSinTituloHtml_(asistentes.map(function (p) { return conStats_(p, null); }), era);
+      colIzquierda = partidoSubtituloHtml_('Asistentes') +
+        partidoJugadoresGridSinTituloHtml_(asistentes.map(function (p) { return conStats_(p, null); }), era);
       colDerecha = canchaSvgHtml_(null, era);
     } else if (goleadores.length) {
       // Tier C — no PA or PI tracked at all for this era/match: only
       // the scorers, as photos, no heading, no position pills, field
       // empty.
-      colIzquierda = partidoJugadoresGridSinTituloHtml_(goleadores.map(function (p) { return conStats_(p, null); }), era);
+      colIzquierda = partidoSubtituloHtml_('Asistentes') +
+        partidoJugadoresGridSinTituloHtml_(goleadores.map(function (p) { return conStats_(p, null); }), era);
       colDerecha = canchaSvgHtml_(null, era);
     } else {
       // Tier D — not even GOL data for this match.
