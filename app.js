@@ -69,7 +69,7 @@
       gcColor: v('--gc-color') || '#8f2eb3',
       // Win/draw/loss — same colors as .result-chip-g/p/e etc. (see
       // style.css), read here too since the all-time balance table's
-      // PG/PE/PP/PTS column scales use these as their high-value
+      // PG/PE/PP column scales use these as their high-value
       // endpoint via JS, not just a static CSS class.
       good: v('--good') || '#25b659',
       draw: v('--draw') || '#979797',
@@ -3544,7 +3544,7 @@
       return;
     }
 
-    var STAT_KEYS = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'];
+    var STAT_KEYS = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'ef'];
     // Per-column scale endpoints — not the uniform grey -> blue gradient
     // every other table on the site uses. PJ and RD have no entry (no
     // scale at all, just plain counts). DIF's low end is GC's own high color
@@ -3558,31 +3558,35 @@
       gf: { low: COLORS.greyCell, high: COLORS.scaleBest },
       gc: { low: COLORS.greyCell, high: COLORS.gcColor },
       dif: { low: COLORS.gcColor, high: COLORS.scaleBest },
-      pts: { low: COLORS.greyCell, high: COLORS.good }
+      ef: { low: COLORS.greyCell, high: COLORS.good }
     };
 
     var ranges = {};
     STAT_KEYS.forEach(function (k) {
       if (!SCALE_ENDPOINTS[k]) return; // pj/rd — no scale, nothing to range
+      if (k === 'ef') { ranges[k] = { min: 0, max: 1 }; return; } // EF%: fixed 0%-100%
       var vals = rows.map(function (r) { return Number(r.standings[k]) || 0; });
       ranges[k] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
     });
 
     tbody.innerHTML = rows.map(function (r) {
       var cells = STAT_KEYS.map(function (k) {
-        var v = r.standings[k];
+        var v = standingsStat_(r.standings, k);
         var endpoints = SCALE_ENDPOINTS[k];
         var color = (v === null || v === undefined || !endpoints) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, endpoints.low, endpoints.high);
-        return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+        return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(k === 'ef' ? formatEf_(v) : v)) + '</td>';
       }).join('');
       return '<tr><td class="val-strong"><a class="era-link" href="' + esc(hrefEra_(r.era)) + '" data-era-link="' + esc(r.era) + '">' + esc(formatEraLabel_(r.era)) + '</a></td>' + cells + '</tr>';
     }).join('');
 
     // TOTAL row — plain sums across every season shown, no color scale
     // (matches PJ's own always-plain treatment above).
+    var totals = {};
+    ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'].forEach(function (k) {
+      totals[k] = rows.reduce(function (sum, r) { return sum + (Number(r.standings[k]) || 0); }, 0);
+    });
     var totalCells = STAT_KEYS.map(function (k) {
-      var total = rows.reduce(function (sum, r) { return sum + (Number(r.standings[k]) || 0); }, 0);
-      return '<td class="val-strong">' + esc(total) + '</td>';
+      return '<td class="val-strong">' + esc(k === 'ef' ? formatEf_(efectividad_(totals)) : totals[k]) + '</td>';
     }).join('');
     tbody.innerHTML += '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
 
@@ -3622,11 +3626,11 @@
     var standingsBody = document.querySelector('#standings-table tbody');
     if (season.standings) {
       var s = season.standings;
-      var STANDINGS_KEYS = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'];
+      var STANDINGS_KEYS = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'ef'];
       // Single-row table, so there's no set of other rows to scale
       // against — each column instead scales against its own natural
       // ceiling: PG/PE/PP can't exceed the matches with a KNOWN result,
-      // PTS can't exceed that count*3 (a win every match). PJ itself
+      // EF% is a fixed 0%-100% scale. PJ itself
       // also includes unknown-score matches (RD), which can't produce
       // any W/D/L or points, so the ceilings use PJ - RD instead —
       // otherwise a season with unknown games would look artificially
@@ -3643,12 +3647,12 @@
         gf: function () { return COLORS.scaleBest; },
         gc: function () { return COLORS.gcColor; },
         dif: function (v) { return scaleColor_(v, -gc, gf, COLORS.gcColor, COLORS.scaleBest); },
-        pts: function (v) { return scaleColor_(v, 0, pj * 3, COLORS.greyCell, COLORS.good); }
+        ef: function (v) { return scaleColor_(v, 0, 1, COLORS.greyCell, COLORS.good); }
       };
       standingsBody.innerHTML = '<tr>' + STANDINGS_KEYS.map(function (k) {
-        var v = s[k];
+        var v = standingsStat_(s, k);
         var color = (v === null || v === undefined || !STANDINGS_COLOR[k]) ? null : STANDINGS_COLOR[k](v);
-        return '<td' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(v)) + '</td>';
+        return '<td' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(k === 'ef' ? formatEf_(v) : v)) + '</td>';
       }).join('') + '</tr>';
     } else {
       standingsBody.innerHTML = '<tr><td colspan="9" style="color:#7fa3a8;">Tabla de posiciones no disponible aún.</td></tr>';
@@ -4188,6 +4192,22 @@
     return { pj: 0, pg: 0, pe: 0, pp: 0, rd: 0, gf: 0, gc: 0, dif: 0, pts: 0 };
   }
 
+  /** Efectividad: points / (games with a known result * 3), 0..1 (null
+   * when there are no such games). Unknown-score games (RD) carry no
+   * points, so they're excluded from the games played, like the other
+   * ceilings here. */
+  function efectividad_(st) {
+    var games = (Number(st.pj) || 0) - (Number(st.rd) || 0);
+    return games > 0 ? (Number(st.pts) || 0) / (games * 3) : null;
+  }
+  function formatEf_(v) {
+    return (v === null || v === undefined) ? '' : (v * 100).toFixed(1) + '%';
+  }
+  /** Cell value for a standings column: 'ef' is derived, the rest are raw. */
+  function standingsStat_(st, k) {
+    return k === 'ef' ? efectividad_(st) : st[k];
+  }
+
   function addMatchToStandings_(s, m) {
     s.pj++;
     if (m.resultado === 'unknown') { s.rd++; return; }
@@ -4251,7 +4271,7 @@
       .sort(function (a, b) { return a.mins - b.mins; });
   }
 
-  var OTRAS_STAT_KEYS_ = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'];
+  var OTRAS_STAT_KEYS_ = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'ef'];
 
   /** Fills one of the Otras tables. Same per-column color scales and
    * plain PJ/RD as the all-seasons balance table. */
@@ -4268,25 +4288,30 @@
       gf: { low: COLORS.greyCell, high: COLORS.scaleBest },
       gc: { low: COLORS.greyCell, high: COLORS.gcColor },
       dif: { low: COLORS.gcColor, high: COLORS.scaleBest },
-      pts: { low: COLORS.greyCell, high: COLORS.good }
+      ef: { low: COLORS.greyCell, high: COLORS.good }
     };
     var ranges = {};
     OTRAS_STAT_KEYS_.forEach(function (k) {
       if (!SCALE[k]) return;
+      if (k === 'ef') { ranges[k] = { min: 0, max: 1 }; return; } // EF%: fixed 0%-100%
       var vals = rows.map(function (r) { return Number(r.standings[k]) || 0; });
       ranges[k] = { min: Math.min.apply(null, vals), max: Math.max.apply(null, vals) };
     });
     var html = rows.map(function (r) {
       var cells = OTRAS_STAT_KEYS_.map(function (k) {
-        var color = SCALE[k] ? scaleColor_(r.standings[k], ranges[k].min, ranges[k].max, SCALE[k].low, SCALE[k].high) : null;
-        return '<td class="val-strong"' + styleAttr_(color) + '>' + esc(r.standings[k]) + '</td>';
+        var v = standingsStat_(r.standings, k);
+        var color = (SCALE[k] && v !== null) ? scaleColor_(v, ranges[k].min, ranges[k].max, SCALE[k].low, SCALE[k].high) : null;
+        return '<td class="val-strong"' + styleAttr_(color) + '>' + esc(k === 'ef' ? formatEf_(v) : v) + '</td>';
       }).join('');
       return '<tr><td class="val-strong">' + esc(r.label) + '</td>' + cells + '</tr>';
     }).join('');
     if (withTotal) {
+      var totals = {};
+      ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'pts'].forEach(function (k) {
+        totals[k] = rows.reduce(function (sum, r) { return sum + (Number(r.standings[k]) || 0); }, 0);
+      });
       var totalCells = OTRAS_STAT_KEYS_.map(function (k) {
-        var total = rows.reduce(function (sum, r) { return sum + (Number(r.standings[k]) || 0); }, 0);
-        return '<td class="val-strong">' + esc(total) + '</td>';
+        return '<td class="val-strong">' + esc(k === 'ef' ? formatEf_(efectividad_(totals)) : totals[k]) + '</td>';
       }).join('');
       html += '<tr class="total-row"><td class="val-strong">TOTAL</td>' + totalCells + '</tr>';
     }
