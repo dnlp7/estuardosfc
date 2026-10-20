@@ -146,6 +146,15 @@
     if (min === max) return lerpColor_(colorMin, colorMax, 0.5);
     return lerpColor_(colorMin, colorMax, (n - min) / (max - min));
   }
+  /** EF% scale: 0% = loss red, 50% = base grey, 100% = win green. */
+  function efColor_(v) {
+    var n = Number(v);
+    if (isNaN(n)) return null;
+    n = Math.max(0, Math.min(1, n));
+    return n <= 0.5
+      ? scaleColor_(n, 0, 0.5, COLORS.bad, COLORS.greyCell)
+      : scaleColor_(n, 0.5, 1, COLORS.greyCell, COLORS.good);
+  }
   function styleAttr_(hex) {
     return hex ? ' style="background:' + hex + '"' : '';
   }
@@ -3573,7 +3582,7 @@
       var cells = STAT_KEYS.map(function (k) {
         var v = standingsStat_(r.standings, k);
         var endpoints = SCALE_ENDPOINTS[k];
-        var color = (v === null || v === undefined || !endpoints) ? null : scaleColor_(v, ranges[k].min, ranges[k].max, endpoints.low, endpoints.high);
+        var color = (v === null || v === undefined || !endpoints) ? null : (k === 'ef' ? efColor_(v) : scaleColor_(v, ranges[k].min, ranges[k].max, endpoints.low, endpoints.high));
         return '<td class="val-strong"' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(k === 'ef' ? formatEf_(v) : v)) + '</td>';
       }).join('');
       return '<tr><td class="val-strong"><a class="era-link" href="' + esc(hrefEra_(r.era)) + '" data-era-link="' + esc(r.era) + '">' + esc(formatEraLabel_(r.era)) + '</a></td>' + cells + '</tr>';
@@ -3647,7 +3656,7 @@
         gf: function () { return COLORS.scaleBest; },
         gc: function () { return COLORS.gcColor; },
         dif: function (v) { return scaleColor_(v, -gc, gf, COLORS.gcColor, COLORS.scaleBest); },
-        ef: function (v) { return scaleColor_(v, 0, 1, COLORS.greyCell, COLORS.good); }
+        ef: efColor_
       };
       standingsBody.innerHTML = '<tr>' + STANDINGS_KEYS.map(function (k) {
         var v = standingsStat_(s, k);
@@ -4300,7 +4309,7 @@
     var html = rows.map(function (r) {
       var cells = OTRAS_STAT_KEYS_.map(function (k) {
         var v = standingsStat_(r.standings, k);
-        var color = (SCALE[k] && v !== null) ? scaleColor_(v, ranges[k].min, ranges[k].max, SCALE[k].low, SCALE[k].high) : null;
+        var color = (SCALE[k] && v !== null) ? (k === 'ef' ? efColor_(v) : scaleColor_(v, ranges[k].min, ranges[k].max, SCALE[k].low, SCALE[k].high)) : null;
         return '<td class="val-strong"' + styleAttr_(color) + '>' + esc(k === 'ef' ? formatEf_(v) : v) + '</td>';
       }).join('');
       return '<tr><td class="val-strong">' + esc(r.label) + '</td>' + cells + '</tr>';
