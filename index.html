@@ -56,6 +56,7 @@
       <img src="images/favicon.png" alt="" class="nav-home-icon">
     </a>
     <a class="tab-btn main-tab-btn" href="#jugadores/actual" data-section="jugadores">Jugadores</a>
+    <a class="tab-btn main-tab-btn" href="#resultados" data-section="resultados">Resultados</a>
     <a class="tab-btn main-tab-btn" href="#estadisticas/equipo" data-section="estadisticas">Estadísticas</a>
     <a class="tab-btn main-tab-btn" href="#historia" data-section="historia">Historia</a>
   </nav>
@@ -113,31 +114,14 @@
       </div>
     </section>
 
-    <section id="section-estadisticas" class="section-panel">
-      <section id="tab-temporada" class="tab-panel active">
+    <section id="section-resultados" class="section-panel">
         <div class="controls">
-          <select id="team-era-filter">
-            <option value="__all__">Todas las temporadas</option>
-          </select>
+          <select id="team-era-filter"></select>
         </div>
 
-        <p id="team-message" class="detail-message" hidden></p>
+        <p id="resultados-message" class="detail-message" hidden></p>
 
         <div id="team-season-detail" hidden>
-          <div class="solid-box">
-          <div class="table-wrap compact" id="standings-wrap">
-            <table id="standings-table">
-              <thead>
-                <tr>
-                  <th data-tip="Partidos Jugados" tabindex="0">PJ</th><th data-tip="Partidos Ganados" tabindex="0">PG</th><th data-tip="Partidos Empatados" tabindex="0">PE</th><th data-tip="Partidos Perdidos" tabindex="0">PP</th><th data-tip="Resultado Desconocido" tabindex="0">RD</th>
-                  <th data-tip="Goles a Favor" tabindex="0">GF</th><th data-tip="Goles en Contra" tabindex="0">GC</th><th data-tip="Diferencia de Goleo" tabindex="0">DIF</th><th data-tip="Efectividad" tabindex="0">EF%</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-          </div>
-
           <div class="solid-box">
           <div class="stat-selector" id="temporada-view-selector">
             <button class="stat-btn active" data-view="resultados">Resultados</button>
@@ -166,6 +150,11 @@
           </div>
           </div>
         </div>
+    </section>
+
+    <section id="section-estadisticas" class="section-panel">
+      <section id="tab-temporada" class="tab-panel active">
+        <p id="team-message" class="detail-message" hidden></p>
 
         <div class="solid-box">
         <div class="table-wrap compact" id="team-balance-wrap">

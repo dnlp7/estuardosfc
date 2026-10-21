@@ -30,7 +30,7 @@
     data: null,
     stat: 'BALANCE',
     era: '__all__',
-    teamEra: '__all__',      // Equipo tab's own season dropdown — independent of "era" above (Jugadores tab)
+    teamEra: '',             // Resultados page's season dropdown (set to the current era in populateTeamEraFilter) — independent of "era" above (Individuales)
     teamView: 'resultados',
     teamEraHasTxJ: true,  // Equipo tab's Resultados/Alineaciones toggle (Stage 7) — independent of teamEra
     search: '',
@@ -1652,7 +1652,7 @@
         '<div class="partido-col">' + partidoMarcadorHtml_(m) + colIzquierdaHtml + '</div>' +
         '<div class="partido-col partido-col-cancha">' + colDerechaHtml + '</div>' +
       '</div>' +
-      '<a href="#estadisticas" class="partido-ver-todos" id="ultimo-partido-ver-todos">Ver todos los resultados →</a>';
+      '<a href="#resultados" class="partido-ver-todos" id="ultimo-partido-ver-todos">Ver todos los resultados →</a>';
     card.innerHTML = html;
 
     // A real <a href="#estadisticas"> — works with no JS at all (lands
@@ -1671,19 +1671,18 @@
     }
   }
 
-  /** Jumps to Estadisticas > Equipo, that one season selected, landed on
-   * its Resultados view -- shared by Ultimo Partido's "Ver todos los
+  /** Jumps to Resultados with that one season selected, on its
+   * Resultados view -- shared by Ultimo Partido's "Ver todos los
    * resultados" link and every clickable season label (team balance
    * table, a player's own Perfil stats table). Same "drive it directly"
-   * pattern as irAPerfil_/irAPartido_ above. */
+   * pattern as irAPerfil_/irAPartido_ above; activateSection_ renders
+   * the page from state.teamEra/teamView. */
   function irATemporada_(era) {
     var select = document.getElementById('team-era-filter');
     if (select) select.value = era;
     state.teamEra = era;
     state.teamView = 'resultados';
-    renderEquipo();
-    activateEstadisticasTab_('temporada');
-    activateSection_('estadisticas');
+    activateSection_('resultados');
     syncHash_();
   }
 
@@ -1913,6 +1912,7 @@
   // after it's set.
   var SECTION_TITLES_ = {
     inicio: 'Estuardos FC',
+    resultados: 'Estuardos FC — Resultados',
     estadisticas: 'Estuardos FC — Estadísticas',
     jugadores: 'Estuardos FC — Jugadores',
     historia: 'Estuardos FC — Historia'
@@ -1955,6 +1955,10 @@
     // just for this section.
     document.querySelector('main').classList.toggle('wide', name === 'inicio' || name === 'partido' || (isEstadisticas && historialActive && state.detail));
     if (isEstadisticas) syncStickyOffsets_();
+    // Resultados renders from state.teamEra/teamView each time it is
+    // shown (after its panel is visible, so the goals chart can size
+    // itself); older seasons come from the cached history fetch.
+    if (name === 'resultados') renderResultados();
   }
 
   function setupSections() {
@@ -2058,7 +2062,7 @@
   // tab lands on exactly the same view.
   function hrefPerfil_(id) { return '#jugador/' + encodeURIComponent(id); }
   function hrefPartido_(era, jornada) { return '#partido/' + encodeURIComponent(era) + '/' + encodeURIComponent(jornada); }
-  function hrefEra_(era) { return '#estadisticas/equipo?era=' + encodeURIComponent(era); }
+  function hrefEra_(era) { return '#resultados?era=' + encodeURIComponent(era); }
   // Ctrl/Cmd/Shift-click or middle-click: the user wants a new tab/window,
   // not the in-page navigation. Real <a href> elements get that from the
   // browser natively; every handler just steps aside for these clicks.
@@ -2420,7 +2424,8 @@
   // links keep working unchanged):
   //   #inicio                      #historia[?tipo=Portero]
   //   #jugadores/actual | previos
-  //   #estadisticas/equipo[?era=<era>&vista=alineaciones]
+  //   #resultados[?era=<era>&vista=alineaciones]   (era omitted = current season)
+  //   #estadisticas/equipo
   //   #estadisticas/individuales[?stat=GOL&era=<era>&detalle=1&q=<texto>]
   //   #estadisticas/records        #estadisticas/otras
   //   #jugador/<id>[?stat=GOL&grafica=PA_PI]
@@ -2430,7 +2435,7 @@
   // by buildHash_() from the live UI state (single source of truth) and
   // read back by routeFromHash_().
 
-  var SECTION_HASHES_ = ['inicio', 'estadisticas', 'jugadores', 'historia'];
+  var SECTION_HASHES_ = ['inicio', 'resultados', 'estadisticas', 'jugadores', 'historia'];
   // URL slug <-> internal tab id (Estadísticas)
   var ESTAD_SLUG_TO_TAB_ = { equipo: 'temporada', individuales: 'historial', records: 'records', otras: 'otras' };
   var ESTAD_TAB_TO_SLUG_ = { temporada: 'equipo', historial: 'individuales', records: 'records', otras: 'otras' };
@@ -2438,6 +2443,12 @@
   function activeSubTab_(navSel, attr) {
     var b = document.querySelector(navSel + ' .tab-btn.active');
     return b ? b.dataset[attr] : null;
+  }
+
+  /** The season Resultados opens on by default: the current one. */
+  function currentEraValue_() {
+    var d = state.data;
+    return (d && d.currentSeason && d.currentSeason.era) || '';
   }
 
   /** Builds the canonical hash (no leading '#') for what's on screen now. */
@@ -2456,15 +2467,14 @@
       path = 'partido/' + encodeURIComponent(state.partidoActualEra) + '/' + encodeURIComponent(state.partidoActualJornada);
     } else if (section === 'jugadores') {
       path = 'jugadores/' + (activeSubTab_('#jugadores-subnav', 'jtab') || 'actual');
+    } else if (section === 'resultados') {
+      path = 'resultados';
+      if (state.teamEra !== currentEraValue_()) add('era', state.teamEra);
+      if (state.teamView !== 'resultados') add('vista', state.teamView);
     } else if (section === 'estadisticas') {
       var tab = activeSubTab_('#estadisticas-subnav', 'tab') || 'temporada';
       path = 'estadisticas/' + (ESTAD_TAB_TO_SLUG_[tab] || 'equipo');
-      if (tab === 'temporada') {
-        if (state.teamEra !== '__all__') {
-          add('era', state.teamEra);
-          if (state.teamView !== 'resultados') add('vista', state.teamView);
-        }
-      } else if (tab === 'historial') {
+      if (tab === 'historial') {
         if (state.stat !== 'BALANCE') add('stat', state.stat);
         if (state.era !== '__all__') add('era', state.era);
         if (state.detail) add('detalle', '1');
@@ -2545,6 +2555,14 @@
         document.querySelectorAll('#perfil-grafica-selector .stat-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.grafica === p.grafica); });
         renderPerfilGrafica_(state.perfilPlayerId, nombre);
       }
+    } else if (seg0 === 'resultados' || (seg0 === 'estadisticas' && (!r.segs[1] || r.segs[1] === 'equipo') && p.era && p.era !== '__all__')) {
+      // (The second form is the old #estadisticas/equipo?era=... link.)
+      var resSel = document.getElementById('team-era-filter');
+      var resEra = p.era && setSelectValue_(resSel, p.era) ? p.era : currentEraValue_();
+      resSel.value = resEra;
+      state.teamEra = resEra;
+      state.teamView = p.vista === 'alineaciones' ? 'alineaciones' : 'resultados';
+      activateSection_('resultados');
     } else if (seg0 === 'jugadores') {
       activateSection_('jugadores');
       activateJugadoresTab_(r.segs[1] === 'previos' ? 'previos' : 'actual');
@@ -2562,11 +2580,6 @@
       // the section) keeps whichever sub-tab is already showing.
       var tab = ESTAD_SLUG_TO_TAB_[r.segs[1]] || activeSubTab_('#estadisticas-subnav', 'tab') || 'temporada';
       if (tab === 'temporada') {
-        var teamSel = document.getElementById('team-era-filter');
-        var era = p.era && setSelectValue_(teamSel, p.era) ? p.era : '__all__';
-        teamSel.value = era;
-        state.teamEra = era;
-        state.teamView = (era !== '__all__' && p.vista === 'alineaciones') ? 'alineaciones' : 'resultados';
         activateEstadisticasTab_(tab);
         renderEquipo();
       } else if (tab === 'historial') {
@@ -3396,7 +3409,7 @@
   function setupEquipoControls(data) {
     document.getElementById('team-era-filter').addEventListener('change', function (e) {
       state.teamEra = e.target.value;
-      renderEquipo();
+      renderResultados();
       syncHash_(true);
     });
     setupTemporadaViewToggle_();
@@ -3443,22 +3456,15 @@
   function populateTeamEraFilter(data) {
     var select = document.getElementById('team-era-filter');
     var eras = (data.seasons || []).map(function (s) { return s.era; }).slice().reverse();
-    select.innerHTML = '<option value="__all__">Todas las temporadas</option>' +
-      eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</option>'; }).join('');
-    select.value = '__all__'; // default: all-time balance, not the current season
+    select.innerHTML = eras.map(function (era) { return '<option value="' + esc(era) + '">' + esc(formatEraLabel_(era)) + '</option>'; }).join('');
+    // Resultados opens on the current season.
+    select.value = currentEraValue_() || (eras[0] || '');
     state.teamEra = select.value;
   }
 
-  function showTeamSeasonDetail_() {
-    document.getElementById('team-message').hidden = true;
-    document.getElementById('team-season-detail').hidden = false;
-    document.getElementById('team-balance-wrap').hidden = true;
-    document.getElementById('team-goals-title').hidden = true;
-    document.getElementById('team-goals-chart-wrap').hidden = true;
-  }
+  // Equipo (all-time balance) helpers.
   function showTeamBalance_() {
     document.getElementById('team-message').hidden = true;
-    document.getElementById('team-season-detail').hidden = true;
     document.getElementById('team-balance-wrap').hidden = false;
     document.getElementById('team-goals-title').hidden = false;
     document.getElementById('team-goals-chart-wrap').hidden = false;
@@ -3467,49 +3473,60 @@
     var msg = document.getElementById('team-message');
     msg.textContent = text;
     msg.hidden = false;
-    document.getElementById('team-season-detail').hidden = true;
     document.getElementById('team-balance-wrap').hidden = true;
     document.getElementById('team-goals-title').hidden = true;
     document.getElementById('team-goals-chart-wrap').hidden = true;
   }
+  // Resultados helpers.
+  function showResultadosDetail_() {
+    document.getElementById('resultados-message').hidden = true;
+    document.getElementById('team-season-detail').hidden = false;
+  }
+  function showResultadosMessage_(text) {
+    var msg = document.getElementById('resultados-message');
+    msg.textContent = text;
+    msg.hidden = false;
+    document.getElementById('team-season-detail').hidden = true;
+  }
 
-  /** Main Equipo dispatcher — "Todas" shows the all-time balance table
-   * (one row per season); a specific season shows that season's
-   * standings + results, sourced from data.json directly if it's the
-   * current era, or lazily fetched (and cached) from
-   * data-history-detail.json's "equipo" section otherwise — same
-   * lazy-fetch pattern as the player Historial tab's older-era detail. */
+  /** Equipo tab: the all-time balance table (one row per season) and the
+   * goals-per-season chart. */
   function renderEquipo() {
     var data = state.data;
     if (!data) return;
+    renderTeamBalanceTable_(data);
+  }
 
-    if (state.teamEra === '__all__') {
-      renderTeamBalanceTable_(data);
-      return;
-    }
+  /** Resultados page: the selected season's results/lineups and goals
+   * chart, sourced from data.json directly if it's the current era, or
+   * lazily fetched (and cached) from data-history-detail.json's
+   * "equipo" section otherwise. */
+  function renderResultados() {
+    var data = state.data;
+    if (!data) return;
 
     if (data.currentSeason && state.teamEra === data.currentSeason.era) {
-      showTeamSeasonDetail_();
+      showResultadosDetail_();
       renderTemporadaSeason_(data.currentSeason);
       return;
     }
 
-    showTeamMessage_('Cargando temporada...');
+    showResultadosMessage_('Cargando temporada...');
     var requestedEra = state.teamEra;
     fetchHistoryDetail()
       .then(function (historyData) {
         if (state.teamEra !== requestedEra) return; // stale — a newer request already handled it
         var season = historyData && historyData.equipo && historyData.equipo[requestedEra];
         if (!season) {
-          showTeamMessage_('Detalle no disponible para esta temporada.');
+          showResultadosMessage_('Detalle no disponible para esta temporada.');
           return;
         }
-        showTeamSeasonDetail_();
+        showResultadosDetail_();
         renderTemporadaSeason_({ era: requestedEra, matches: season.matches, standings: season.standings });
       })
       .catch(function (err) {
         if (state.teamEra !== requestedEra) return;
-        showTeamMessage_('No se pudo cargar el detalle histórico.');
+        showResultadosMessage_('No se pudo cargar el detalle histórico.');
         console.error(err);
       });
   }
@@ -3531,11 +3548,9 @@
 
     fetchHistoryDetail()
       .then(function (historyData) {
-        if (state.teamEra !== '__all__') return;
         renderTeamBalanceRows_(buildTeamBalanceRows_(data, eras, historyData));
       })
       .catch(function (err) {
-        if (state.teamEra !== '__all__') return;
         // Degrade gracefully — the current season's own standings are
         // already in hand even if the historical file fails to load.
         var rows = buildTeamBalanceRows_(data, eras, null);
@@ -3636,45 +3651,6 @@
    * (lazily fetched from data-history-detail.json's "equipo" section). */
   function renderTemporadaSeason_(season) {
     if (!season) return;
-
-    // Single-row PJ/PG/PE/PP/GF/GC/DIF/PTS table — same column order as
-    // #standings-table's header in index.html and the all-time
-    // #team-balance-table (minus its leading Temporada column, implicit
-    // here from the season dropdown/heading instead).
-    var standingsBody = document.querySelector('#standings-table tbody');
-    if (season.standings) {
-      var s = season.standings;
-      var STANDINGS_KEYS = ['pj', 'pg', 'pe', 'pp', 'rd', 'gf', 'gc', 'dif', 'ef'];
-      // Single-row table, so there's no set of other rows to scale
-      // against — each column instead scales against its own natural
-      // ceiling: PG/PE/PP can't exceed the matches with a KNOWN result,
-      // EF% is a fixed 0%-100% scale. PJ itself
-      // also includes unknown-score matches (RD), which can't produce
-      // any W/D/L or points, so the ceilings use PJ - RD instead —
-      // otherwise a season with unknown games would look artificially
-      // pale. GF/GC aren't scaled at all, just always shown in their
-      // "high" color — DIF is the one that scales, from GC*-1 (worst
-      // possible) to GF (best possible). RD gets no color (like PJ).
-      var pj = Math.max(0, (Number(s.pj) || 0) - (Number(s.rd) || 0));
-      var gf = Number(s.gf) || 0;
-      var gc = Number(s.gc) || 0;
-      var STANDINGS_COLOR = {
-        pg: function (v) { return scaleColor_(v, 0, pj, COLORS.greyCell, COLORS.good); },
-        pe: function (v) { return scaleColor_(v, 0, pj, COLORS.greyCell, COLORS.draw); },
-        pp: function (v) { return scaleColor_(v, 0, pj, COLORS.greyCell, COLORS.bad); },
-        gf: function () { return COLORS.scaleBest; },
-        gc: function () { return COLORS.gcColor; },
-        dif: function (v) { return scaleColor_(v, -gc, gf, COLORS.gcColor, COLORS.scaleBest); },
-        ef: efColor_
-      };
-      standingsBody.innerHTML = '<tr>' + STANDINGS_KEYS.map(function (k) {
-        var v = standingsStat_(s, k);
-        var color = (v === null || v === undefined || !STANDINGS_COLOR[k]) ? null : STANDINGS_COLOR[k](v);
-        return '<td' + styleAttr_(color) + '>' + (v === null || v === undefined ? '' : esc(k === 'ef' ? formatEf_(v) : v)) + '</td>';
-      }).join('') + '</tr>';
-    } else {
-      standingsBody.innerHTML = '<tr><td colspan="9" style="color:#7fa3a8;">Tabla de posiciones no disponible aún.</td></tr>';
-    }
 
     var tbody = document.querySelector('#matches-table tbody');
     var matches = season.matches || []; // chronological order: J1 first

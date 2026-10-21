@@ -362,9 +362,9 @@ main.wide { max-width: 1400px; }
     scrollbar-width: none;
   }
   .main-nav::-webkit-scrollbar { display: none; }
-  .main-nav.tabs { gap: 0.35rem; padding: 0.75rem 0.5rem; }
+  .main-nav.tabs { gap: 0.3rem; padding: 0.75rem 0.4rem; }
   .main-nav .main-tab-btn { flex-shrink: 0; }
-  .main-nav .main-tab-btn:not(.nav-home-btn) { padding: 0.55rem 0.8rem; font-size: 0.9rem; }
+  .main-nav .main-tab-btn:not(.nav-home-btn) { padding: 0.5rem 0.5rem; font-size: 0.85rem; }
   /* Divider ::after is centered at half the .tabs gap (see its own rule
      above) — re-centered here since the mobile gap is narrower. */
   .main-nav .main-tab-btn:not(:last-child)::after { right: -0.175rem; }
@@ -1087,50 +1087,6 @@ body[data-section="partido"] .social-label {
 
 h2 { margin-top: 0; }
 h3 { color: var(--accent-light); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 2rem 0 0.75rem; font-weight: 700; }
-
-/* Team stats — single-season standings snapshot. Same two-row table
-   language as every other table on the site (grey header row, thick
-   black grid) instead of the old rounded flex "card", which read as
-   visually inconsistent and didn't adapt well to a phone screen. No
-   color scale on the values — that only makes sense comparing across
-   multiple rows (like the all-time balance table below it), and would
-   be meaningless against a single season's own numbers. No sticky
-   columns needed either: just 8 narrow numeric columns and one row,
-   so it fits a phone screen without any scrolling — plain
-   border-collapse: collapse (the site's default) is fine here, unlike
-   the tables that need border-collapse: separate for their sticky
-   columns. */
-#standings-wrap { border: none; border-radius: 0; background: transparent; }
-#standings-table th, #standings-table td {
-  border: 2px solid var(--black);
-  text-align: center;
-  padding: 0.6rem 1.25rem;
-}
-/* Grouped like the real RES tab's "Torneo de Liga" box — [PJ PG PE PP]
-   [GF GC DIF] [PTS] read as three clusters, not 8 uniform cells. Same
-   "no divider within a pair" technique already used for dorsal/Jugador
-   on the leaderboard: both cells on an internal boundary suppress
-   their shared border (collapse only keeps a line if at least one side
-   still specifies one), while the two real group boundaries — PP|GF
-   and DIF|PTS — are left alone and keep their default 2px border. */
-/* Clusters (RD added between PP and GF): [PJ PG PE PP RD] [GF GC DIF]
-   [PTS] — columns 1-5, 6-8, 9. */
-#standings-table td:nth-child(1), #standings-table th:nth-child(1),
-#standings-table td:nth-child(6), #standings-table th:nth-child(6) {
-  border-right: none;
-}
-#standings-table td:nth-child(2), #standings-table th:nth-child(2),
-#standings-table td:nth-child(3), #standings-table th:nth-child(3),
-#standings-table td:nth-child(4), #standings-table th:nth-child(4),
-#standings-table td:nth-child(7), #standings-table th:nth-child(7) {
-  border-left: none;
-  border-right: none;
-}
-#standings-table td:nth-child(5), #standings-table th:nth-child(5),
-#standings-table td:nth-child(8), #standings-table th:nth-child(8) {
-  border-left: none;
-}
-#standings-table td { font-weight: 700; color: var(--white); font-size: 1.35rem; }
 
 /* Column-title tooltips (th[data-tip]) — one shared floating element
    (#th-tip, built by setupTablaTooltips_ in app.js), position: fixed on
@@ -1859,7 +1815,6 @@ body[data-section="inicio"] .site-footer .social-links { display: none; }
      alone was enough to force horizontal scrolling on a phone despite
      how much visually empty space sits in each cell. Tightening it
      here lets both fit a phone screen with no scrolling at all. */
-  #standings-table th, #standings-table td,
   #team-balance-table th, #team-balance-table td,
   #otras-rivales-table th, #otras-rivales-table td,
   #otras-horarios-table th, #otras-horarios-table td {
@@ -2095,4 +2050,9 @@ a.partido-link { color: inherit; }
   text-transform: uppercase;
   border-radius: 3px;
   vertical-align: middle;
+}
+
+/* Very narrow phones (<= 390px): the five-item main nav needs a little less room still. */
+@media (max-width: 390px) {
+  .main-nav .main-tab-btn:not(.nav-home-btn) { padding: 0.5rem 0.35rem; font-size: 0.8rem; }
 }
