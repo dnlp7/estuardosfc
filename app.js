@@ -3678,9 +3678,9 @@
           '<a class="resultado-item" href="' + esc(hrefPartido_(season.era, m.jornada)) + '" data-partido="' + esc(season.era) + '::' + esc(m.jornada) + '">' +
           '<span class="resultado-linea ' + resultChipClass_(m) + '"></span>' +
           '<span class="resultado-jor">' + esc(m.jornada) + '</span>' +
+          '<span class="resultado-marc"><span class="resultado-score">' + score + '</span>' + pen + '</span>' +
           '<span class="resultado-info"><span class="resultado-rival"' + rivalPillStyle_(m) + '>' + esc(rivalLabel_(m.rival)) + '</span>' +
-          '<span class="resultado-meta">' + esc(meta) + '</span></span>' +
-          '<span class="resultado-marc"><span class="resultado-score">' + score + '</span>' + pen + '</span></a>';
+          '<span class="resultado-meta">' + esc(meta) + '</span></span></a>';
       }).join('');
     }
 

@@ -1312,7 +1312,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    by a hairline. Thin result-colored line, Jornada, rival pill in its kit
    colors with date/hora/cancha underneath, score (penales smaller below)
    on the right. Each item is a real link to the match sheet. */
-#matches-wrap { border: none; border-radius: 0; background: transparent; padding: 0; overflow: visible; }
+#matches-wrap { max-width: 34rem; margin: 0 auto; border: none; border-radius: 0; background: transparent; padding: 0; overflow: visible; }
 .resultados-mes { color: var(--accent-light); font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin: 1.25rem 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 .resultados-mes:first-child { margin-top: 0; }
 .resultado-item { display: flex; align-items: stretch; gap: 0.9rem; padding: 0 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: var(--white); text-decoration: none; cursor: pointer; }
@@ -1321,15 +1321,16 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 .resultado-jor { flex: 0 0 3rem; align-self: center; text-align: center; color: var(--accent-light); font-weight: 800; font-size: 1.05rem; }
 .resultado-info { flex: 1 1 auto; min-width: 0; align-self: center; padding: 0.65rem 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 .resultado-rival { display: inline-block; max-width: 100%; padding: 0.15rem 0.6rem; font-weight: 800; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.01em; }
-.resultado-meta { color: var(--muted); font-size: 0.82rem; }
-.resultado-marc { flex: 0 0 auto; align-self: center; padding: 0.4rem 0; text-align: right; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
+.resultado-meta { color: #8fb3b7; font-size: 0.82rem; font-weight: 700; }
+.resultado-marc { flex: 0 0 4.6rem; align-self: center; padding: 0.4rem 0; text-align: center; display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
 .resultado-score { font-weight: 800; font-size: 1.6rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.resultado-pen { margin-top: 0.2rem; color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+.resultado-pen { margin-top: 0.2rem; color: #8fb3b7; font-size: 0.72rem; font-weight: 700; }
 @media (max-width: 640px) {
   .resultado-item { gap: 0.6rem; padding: 0 0.25rem; }
   .resultado-jor { flex-basis: 2.4rem; font-size: 0.95rem; }
   .resultado-rival { font-size: 0.95rem; }
   .resultado-score { font-size: 1.4rem; }
+  .resultado-marc { flex-basis: 4.2rem; }
 }
 /* Right + bottom on every cell, plus top on the header row and left on
    the first column — see the border-collapse: separate comment further
