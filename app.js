@@ -951,23 +951,33 @@
   // no mask-type override needed.
   var ICON_BALON_ = '<span class="jugador-card-badge-balon" aria-label="Gol"></span>';
 
-  function partidoMetaItemHtml_(icon, label) {
-    return '<span class="partido-meta-item">' + icon + esc(label) + '</span>';
+  /** One icon+text item of the match info bar. The icon is one of Daniel's
+   * PNGs in images/partidos/ drawn as a CSS mask, so it takes the accent
+   * color; the text stays white. */
+  function partidoMetaItemHtml_(iconName, label) {
+    return '<span class="partido-meta-item"><span class="partido-meta-icono" style="--ico:url(images/partidos/' + iconName + '-icono.png)" aria-hidden="true"></span>' + esc(label) + '</span>';
   }
 
-  /** The icon+label row under a partido-card's title — torneo/jornada,
-   * fecha, hora, cancha — mirroring the Estuardos social-graphic
-   * convention (trophy/calendar/clock/pin) instead of the site's usual
-   * plain "·"-separated meta line. Any piece that's blank/unavailable
-   * is just omitted, not shown empty. */
-  function partidoMetaHtml_(era, jornada, fecha, hora, cancha) {
+  /** "5 de julio" (with " de 2026" when conAnio) -- the Resultados list's
+   * own date format, shared by every match info bar. */
+  function formatFechaMeta_(iso, conAnio) {
+    var f = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!f) return iso ? String(iso) : '\u2014';
+    return Number(f[3]) + ' de ' + MESES_LARGOS_ES_[Number(f[2]) - 1].toLowerCase() + (conAnio ? ' de ' + f[1] : '');
+  }
+
+  /** The icon+text info bar for a match: torneo/jornada (omitted with
+   * opts.sinJornada), fecha, hora, cancha number (a dash when unknown).
+   * Used by Inicio's cards, the Resultados list and the match sheet. */
+  function partidoMetaHtml_(era, jornada, fecha, hora, cancha, opts) {
+    opts = opts || {};
     var torneo = torneoForEra_(era);
     var items = [];
-    if (torneo || jornada) items.push(partidoMetaItemHtml_(ICON_TROFEO_, (torneo ? torneo + ' / ' : '') + jornada));
-    if (fecha) items.push(partidoMetaItemHtml_(ICON_CALENDARIO_, formatFechaCorta_(fecha)));
-    if (hora) items.push(partidoMetaItemHtml_(ICON_RELOJ_, hora));
-    if (cancha) items.push(partidoMetaItemHtml_(ICON_PIN_, 'Cancha ' + cancha));
-    return '<div class="partido-meta-row">' + items.join('') + '</div>';
+    if (!opts.sinJornada && (torneo || jornada)) items.push(partidoMetaItemHtml_('jornada', (torneo ? torneo + ' / ' : '') + jornada));
+    items.push(partidoMetaItemHtml_('fecha', formatFechaMeta_(fecha, false)));
+    items.push(partidoMetaItemHtml_('hora', hora || '\u2014'));
+    items.push(partidoMetaItemHtml_('cancha', (cancha !== null && cancha !== undefined && cancha !== '') ? String(cancha) : '\u2014'));
+    return '<div class="partido-meta-row' + (opts.clase ? ' ' + opts.clase : '') + '">' + items.join('') + '</div>';
   }
 
   /** Small "(P 2-3)" annotation for a match decided by penales — same
@@ -2255,20 +2265,20 @@
         // not part of the game-data card itself. No "/" separator --
         // torneo keeps the header's own accent color, jornada renders
         // in plain white via its own span (Daniel's call).
-        var encabezadoHtml = '<h2 class="partido-encabezado">' + (torneo ? esc(torneo) + ' ' : '') +
-          '<span class="partido-encabezado-jornada">' + esc(m.jornada) + '</span></h2>';
+        var encabezadoHtml = '<h2 class="partido-encabezado">' + (torneo ? esc(torneo) + ' ' : '') + esc(formatEraLabel_(era)) + ' ' +
+          '<span class="partido-encabezado-jornada">' + esc(m.jornada) + '</span></h2>' +
+          partidoMetaHtml_(era, m.jornada, m.fecha, m.hora, m.cancha, { sinJornada: true, clase: 'partido-meta-hoja' });
         // Fecha/Hora/Cancha stacked one per row (plenty of vertical room
         // in this narrower card, no need to bunch them side by side), the
         // date spelled out in full ("Agosto 23, 2026") and the time given
         // a real AM/PM suffix -- both distinct from formatFechaCorta_/raw
         // m.hora, which stay as-is everywhere else (Resultados table etc.)
         // that still wants the compact form.
-        var datosHtml = '<div class="partido-card partido-datos-card">' +
-          '<div class="partido-datos-row">' +
-            '<div class="partido-dato"><span class="partido-dato-titulo">Fecha</span><span class="partido-dato-valor">' + (m.fecha ? esc(formatFechaLarga_(m.fecha)) : '—') + '</span></div>' +
-            '<div class="partido-dato"><span class="partido-dato-titulo">Hora</span><span class="partido-dato-valor">' + (m.hora ? esc(formatHoraAmPm_(m.hora)) : '—') + '</span></div>' +
-            '<div class="partido-dato"><span class="partido-dato-titulo">Cancha</span><span class="partido-dato-valor">' + (m.cancha ? esc(m.cancha) : '—') + '</span></div>' +
-          '</div>' +
+        // Right column: match media placeholders (the real media feature is
+        // being built separately -- Stage 11).
+        var datosHtml = '<div class="partido-card partido-datos-card partido-media-card">' +
+          '<div class="partido-media-bloque"><span class="partido-dato-titulo">Fotos</span><p class="partido-media-vacio">No hay fotos disponibles para este partido</p></div>' +
+          '<div class="partido-media-bloque"><span class="partido-dato-titulo">Videos</span><p class="partido-media-vacio">No hay videos disponibles para este partido</p></div>' +
         '</div>';
         // Marcador lives INSIDE the left column next to the lineup grid,
         // same as Ultimo Partido's own renderUltimoPartido_ -- so the
@@ -3668,10 +3678,7 @@
           mesActual = mesKey;
           header = f ? '<div class="resultados-mes">' + esc(MESES_LARGOS_ES_[Number(f[2]) - 1]) + ' ' + f[1] + '</div>' : '';
         }
-        var fechaTxt = f ? Number(f[3]) + ' de ' + MESES_LARGOS_ES_[Number(f[2]) - 1].toLowerCase() : '';
-        var meta = [fechaTxt, m.hora, (m.cancha !== null && m.cancha !== undefined && m.cancha !== '') ? 'Cancha ' + m.cancha : ''].filter(Boolean).join(' · ');
-        // Rival kit colors come straight from RES's own Rival cell
-        // formatting (bg/font color) in the season doc.
+        var meta = partidoMetaHtml_(season.era, m.jornada, m.fecha, m.hora, m.cancha, { sinJornada: true, clase: 'resultado-meta' });
         var pen = m.penales ? '<span class="resultado-pen" title="Definido por penales">(P ' + esc(m.penales.pf) + '-' + esc(m.penales.pc) + ')</span>' : '';
         var score = (m.gf === null || m.gf === undefined) ? '' : marcadorNum_(m.gf) + ' - ' + marcadorNum_(m.gc);
         return header +
@@ -3680,7 +3687,7 @@
           '<span class="resultado-jor">' + esc(m.jornada) + '</span>' +
           '<span class="resultado-marc"><span class="resultado-score">' + score + '</span>' + pen + '</span>' +
           '<span class="resultado-info"><span class="resultado-rival"' + rivalPillStyle_(m) + '>' + esc(rivalLabel_(m.rival)) + '</span>' +
-          '<span class="resultado-meta">' + esc(meta) + '</span></span></a>';
+          '' + meta + '</span></a>';
       }).join('');
     }
 
