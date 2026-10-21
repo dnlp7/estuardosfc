@@ -3652,41 +3652,35 @@
   function renderTemporadaSeason_(season) {
     if (!season) return;
 
-    var tbody = document.querySelector('#matches-table tbody');
+    var list = document.getElementById('matches-wrap');
     var matches = season.matches || []; // chronological order: J1 first
     if (!matches.length) {
-      tbody.innerHTML = '<tr><td colspan="7" style="color:#7fa3a8;">Sin partidos jugados todavía.</td></tr>';
+      list.innerHTML = '<p class="detail-message">Sin partidos jugados todavía.</p>';
     } else {
-      // Cancha (blue) and Hora (purple) gradients — computed from this
-      // season's own played matches, low value -> light end, high -> dark.
-      var canchaVals = matches.map(function (m) { return Number(m.cancha); }).filter(function (v) { return !isNaN(v); });
-      var canchaMin = canchaVals.length ? Math.min.apply(null, canchaVals) : 0;
-      var canchaMax = canchaVals.length ? Math.max.apply(null, canchaVals) : 0;
-      var horaMins = matches.map(function (m) { return parseHoraMinutes_(m.hora); }).filter(function (v) { return v !== null; });
-      var horaMin = horaMins.length ? Math.min.apply(null, horaMins) : 0;
-      var horaMax = horaMins.length ? Math.max.apply(null, horaMins) : 0;
-
-      // Column order: Jornada, Resultado, Marc. (GF-GC merged into one
-      // "3 - 2" cell), Rival, Fecha, Hora, Cancha — most important data
-      // first (visible without scrolling on a phone), with Jornada
-      // staying first/sticky throughout.
-      tbody.innerHTML = matches.map(function (m) {
-        var resClass = resultChipClass_(m);
-        var canchaNum = Number(m.cancha);
-        var canchaColor = isNaN(canchaNum) ? null : scaleColor_(canchaNum, canchaMin, canchaMax, COLORS.canchaLight, COLORS.canchaDark);
-        var horaVal = parseHoraMinutes_(m.hora);
-        var horaColor = horaVal === null ? null : scaleColor_(horaVal, horaMin, horaMax, COLORS.horaLight, COLORS.horaDark);
+      // One item per match (always one per line), grouped under a month
+      // heading so each item can carry a plain "24 de mayo" date.
+      var mesActual = '';
+      list.innerHTML = matches.map(function (m) {
+        var f = String(m.fecha || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        var mesKey = f ? f[1] + '-' + f[2] : '';
+        var header = '';
+        if (mesKey !== mesActual) {
+          mesActual = mesKey;
+          header = f ? '<div class="resultados-mes">' + esc(MESES_LARGOS_ES_[Number(f[2]) - 1]) + ' ' + f[1] + '</div>' : '';
+        }
+        var fechaTxt = f ? Number(f[3]) + ' de ' + MESES_LARGOS_ES_[Number(f[2]) - 1].toLowerCase() : '';
+        var meta = [fechaTxt, m.hora, (m.cancha !== null && m.cancha !== undefined && m.cancha !== '') ? 'Cancha ' + m.cancha : ''].filter(Boolean).join(' · ');
         // Rival kit colors come straight from RES's own Rival cell
-        // formatting (bg/font color) in the season doc — no separate
-        // Rivales tab. A rival cell with no color set gets no inline
-        // style (default cell).
-        var rivalStyle = rivalPillStyle_(m);
-        var marcador = marcadorNum_(m.gf) + ' - ' + marcadorNum_(m.gc) + penalesAnotacionHtml_(m);
-
-        return '<tr class="match-row-link" data-partido="' + esc(season.era) + '::' + esc(m.jornada) + '"><td class="jornada-cell">' + esc(m.jornada) + '</td><td class="result-chip ' + resClass + '"></td>' +
-          '<td class="val-strong">' + marcador + '</td>' +
-          '<td' + rivalStyle + '>' + esc(rivalLabel_(m.rival)) + '</td><td>' + esc(formatFechaCorta_(m.fecha)) + '</td>' +
-          '<td' + styleAttr_(horaColor) + '>' + esc(m.hora) + '</td><td' + styleAttr_(canchaColor) + '>' + esc(m.cancha) + '</td></tr>';
+        // formatting (bg/font color) in the season doc.
+        var pen = m.penales ? '<span class="resultado-pen" title="Definido por penales">(P ' + esc(m.penales.pf) + '-' + esc(m.penales.pc) + ')</span>' : '';
+        var score = (m.gf === null || m.gf === undefined) ? '' : marcadorNum_(m.gf) + ' - ' + marcadorNum_(m.gc);
+        return header +
+          '<a class="resultado-item" href="' + esc(hrefPartido_(season.era, m.jornada)) + '" data-partido="' + esc(season.era) + '::' + esc(m.jornada) + '">' +
+          '<span class="resultado-linea ' + resultChipClass_(m) + '"></span>' +
+          '<span class="resultado-jor">' + esc(m.jornada) + '</span>' +
+          '<span class="resultado-info"><span class="resultado-rival"' + rivalPillStyle_(m) + '>' + esc(rivalLabel_(m.rival)) + '</span>' +
+          '<span class="resultado-meta">' + esc(meta) + '</span></span>' +
+          '<span class="resultado-marc"><span class="resultado-score">' + score + '</span>' + pen + '</span></a>';
       }).join('');
     }
 

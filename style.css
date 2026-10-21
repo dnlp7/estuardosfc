@@ -1290,70 +1290,12 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    additionally draws a top border and the first column additionally
    draws a left border, so the full grid reconstructs with exactly one
    border's worth of thickness at every shared edge, never two. */
-#matches-table, #leaderboard-table, #team-balance-table, #otras-rivales-table, #otras-horarios-table, #perfil-stat-detail-table {
+#leaderboard-table, #team-balance-table, #otras-rivales-table, #otras-horarios-table, #perfil-stat-detail-table {
   border-collapse: separate;
   border-spacing: 0;
 }
 
-/* Results table — every column centered except Rival, which stays
-   left-aligned since it's the one variable-length text field. Column
-   order (Jornada, R, Marc., Rival, Fecha, Hora, Cancha) puts the most
-   important data first so it's visible without scrolling; Rival is
-   4th, not last, hence the :not(:nth-child(4)) rather than
-   :not(:last-child). GF/GC merged into one "Marc." column (3rd,
-   "3 - 2" style) picks up centering for free from this same rule. */
-#matches-table th:not(:nth-child(4)), #matches-table td:not(:nth-child(4)) {
-  text-align: center;
-}
-/* Cancha column — narrow, just a 1-digit court number. Now the LAST
-   column (moved from 2nd) as part of the reorder above. */
-#matches-table th:last-child, #matches-table td:last-child {
-  width: 1%; padding-left: 0.5rem; padding-right: 0.5rem;
-}
-/* Full cell grid, not just a bottom border between rows. Black rather
-   than the usual --border grey — several cells in this table carry
-   their own colored backgrounds (Jornada/Cancha/Hora/Rival), and the
-   subtler grey border read as invisible against grey-on-grey cells.
-   Right + bottom on every cell, plus top on the header row and left on
-   the first column — see the border-collapse: separate comment above
-   for why it's split this way instead of a plain 4-side border. */
-#matches-table th, #matches-table td {
-  border-right: 2px solid var(--black);
-  border-bottom: 2px solid var(--black);
-}
-#matches-table thead th { border-top: 2px solid var(--black); }
-#matches-table th:first-child, #matches-table td:first-child { border-left: 2px solid var(--black); }
-/* Rival name — bold, matching the kit-color treatment. Now the 4th
-   column (moved from last, then from 5th to 4th once GF/GC merged into
-   one Marc. column). */
-#matches-table td:nth-child(4) { font-weight: 700; }
-/* Jornada column — the main dark grey (--grey-header, same as the
-   column headers) with light-accent text, rather than a fixed accent
-   background. Also the table's one frozen/sticky column on
-   narrow screens: it's the only column that identifies which match a
-   scrolled-right row belongs to, so it stays pinned to the left edge
-   while the rest of the row scrolls under it — it's still the FIRST
-   column after the reorder above, so this sticky behavior is
-   unchanged. Only one column needs freezing here (unlike the player
-   leaderboard's 2-3), so no left-offset math is needed — it's always
-   left: 0. */
-#matches-table td.jornada-cell { background: var(--grey-header); color: var(--accent-light); font-weight: 700; }
-#matches-table th:first-child, #matches-table td:first-child {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-}
-/* Result column — a thin solid-colored line instead of a G/E/P letter,
-   same idea as the leaderboard's result-bar row. Fixed narrow width on
-   both header and cell so the "R" heading doesn't force the column
-   wider than the line itself needs to be. Now the 2nd column (moved
-   from 5th) as part of the reorder above. */
-#matches-table th:nth-child(2), #matches-table td:nth-child(2) {
-  width: 22px;
-  padding-left: 0.3rem;
-  padding-right: 0.3rem;
-}
-#matches-table td.result-chip { padding: 0; }
+/* Result colors (thin line on the Resultados list, marcador pills, the leaderboard result row). */
 .result-chip-g { background: var(--good); }
 .result-chip-p { background: var(--bad); }
 .result-chip-e { background: var(--draw); }
@@ -1365,11 +1307,30 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
    soft grey card wrapper is dropped for the same reason it's dropped
    on #leaderboard-wrap — the table already carries its own border. */
 #team-balance-wrap { border: none; border-radius: 0; background: transparent; }
-/* Results table (Equipo tab) — same reasoning as #leaderboard-wrap:
-   #matches-table already carries its own thick black grid, so the
-   plain .table-wrap grey card border/radius on top of it just reads
-   as a stray outline. */
-#matches-wrap { border: none; border-radius: 0; background: transparent; }
+/* Resultados list: one item per match, always one per line (never
+   columns). Thin result-colored line, Jornada, rival pill in its kit
+   colors with date/hora/cancha underneath, score (penales smaller below)
+   on the right. Each item is a real link to the match sheet. */
+#matches-wrap { border: none; border-radius: 0; background: transparent; padding: 0; overflow: visible; }
+.resultados-mes { color: var(--accent-light); font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin: 1.25rem 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--box-divider, var(--border)); }
+.resultados-mes:first-child { margin-top: 0; }
+.resultado-item { display: flex; align-items: stretch; gap: 0.9rem; background: var(--grey-cell); border-bottom: 2px solid var(--black); color: var(--white); text-decoration: none; cursor: pointer; }
+.resultado-item:hover, .resultado-item:focus-visible { background: var(--grey-cell-hover); }
+.resultado-linea { flex: 0 0 5px; }
+.resultado-jor { flex: 0 0 3rem; align-self: center; text-align: center; color: var(--accent-light); font-weight: 800; font-size: 1.05rem; }
+.resultado-info { flex: 1 1 auto; min-width: 0; align-self: center; padding: 0.65rem 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+.resultado-rival { display: inline-block; max-width: 100%; padding: 0.15rem 0.6rem; font-weight: 800; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.01em; }
+.resultado-meta { color: var(--muted); font-size: 0.82rem; }
+.resultado-marc { flex: 0 0 auto; align-self: center; padding: 0.4rem 1rem 0.4rem 0; text-align: right; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
+.resultado-score { font-weight: 800; font-size: 1.6rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.resultado-pen { margin-top: 0.2rem; color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+@media (max-width: 640px) {
+  .resultado-item { gap: 0.6rem; }
+  .resultado-jor { flex-basis: 2.4rem; font-size: 0.95rem; }
+  .resultado-rival { font-size: 0.95rem; }
+  .resultado-marc { padding-right: 0.7rem; }
+  .resultado-score { font-size: 1.4rem; }
+}
 /* Right + bottom on every cell, plus top on the header row and left on
    the first column — see the border-collapse: separate comment further
    up for why it's split this way instead of a plain 4-side border. */
