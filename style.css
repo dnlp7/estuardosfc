@@ -2033,3 +2033,19 @@ a.partido-link { color: inherit; }
 @media (max-width: 390px) {
   .main-nav .main-tab-btn:not(.nav-home-btn) { padding: 0.5rem 0.35rem; font-size: 0.8rem; }
 }
+
+/* Resultados on phones: tighten horizontal space (box padding, gaps, columns).
+   At the END of the file on purpose (see the mobile note above). Desktop untouched. */
+@media (max-width: 640px) {
+  #section-resultados .solid-box { padding: 1rem 0.6rem; }
+  #section-resultados .resultado-item { gap: 0.4rem; padding: 0; }
+  #section-resultados .resultado-linea { margin: 0.7rem 0; }
+  #section-resultados .resultado-jor { flex-basis: 1.9rem; font-size: 0.9rem; }
+  #section-resultados .resultado-marc { flex-basis: 4.7rem; }
+  #section-resultados .resultado-score { font-size: 1.3rem; }
+  #section-resultados .resultado-info { padding: 0.8rem 0; gap: 0.5rem; }
+  #section-resultados .resultado-rival { font-size: 1rem; padding: 0.15rem 0.5rem; }
+  #section-resultados .partido-meta-row.resultado-meta { gap: 0.5rem; }
+  #section-resultados .resultado-meta .partido-meta-item { font-size: 0.75rem; gap: 0.25rem; }
+  #section-resultados .resultado-meta .partido-meta-icono { width: 14px; height: 14px; }
+}
