@@ -2276,9 +2276,9 @@
         // that still wants the compact form.
         // Right column: match media placeholders (the real media feature is
         // being built separately -- Stage 11).
-        var datosHtml = '<div class="partido-card partido-datos-card partido-media-card">' +
-          '<div class="partido-media-bloque"><span class="partido-dato-titulo">Fotos</span><p class="partido-media-vacio">No hay fotos disponibles para este partido</p></div>' +
-          '<div class="partido-media-bloque"><span class="partido-dato-titulo">Videos</span><p class="partido-media-vacio">No hay videos disponibles para este partido</p></div>' +
+        var datosHtml = '<div class="partido-datos-card partido-media-col">' +
+          '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Fotos</span><p class="partido-media-vacio">No hay fotos disponibles para este partido</p></div>' +
+          '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Videos</span><p class="partido-media-vacio">No hay videos disponibles para este partido</p></div>' +
         '</div>';
         // Marcador lives INSIDE the left column next to the lineup grid,
         // same as Ultimo Partido's own renderUltimoPartido_ -- so the

@@ -572,12 +572,12 @@ main.wide { max-width: 1400px; }
   font-size: 1.4rem;
 }
 .partido-meta-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
-.partido-meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--white); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; }
+.partido-meta-item { display: flex; align-items: center; gap: 0.35rem; color: var(--white); font-weight: 700; font-size: 0.85rem; }
 .partido-meta-icono { width: 18px; height: 18px; flex-shrink: 0; background-color: var(--accent-light); -webkit-mask: var(--ico) center / contain no-repeat; mask: var(--ico) center / contain no-repeat; }
-.partido-meta-row.partido-meta-hoja { margin: -0.5rem 0 1.5rem; justify-content: flex-start; }
+.partido-meta-row.partido-meta-hoja { margin: -0.5rem 0 1.5rem; }
 .partido-meta-row.resultado-meta { justify-content: flex-start; margin: 0; gap: 0.9rem; }
 .resultado-meta .partido-meta-item { text-transform: none; font-size: 0.85rem; }
-.partido-media-card { display: flex; flex-direction: column; gap: 1.5rem; }
+.partido-media-col { display: flex; flex-direction: column; gap: 1.5rem; }
 .partido-media-vacio { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.9rem; }
 
 /* Último Partido's scoreboard — two full-width bands, score grouped
