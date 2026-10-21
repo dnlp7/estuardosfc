@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T09:46:31.217Z",
+  "generatedAt": "2026-10-21T04:27:18.425Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -17258,65 +17258,9 @@
             ]
           },
           {
-            "playerId": "P020",
-            "dorsal": 16,
-            "nombre": "Gabo",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
             "playerId": "P022",
             "dorsal": 28,
             "nombre": "Mane",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            "playerId": "P029",
-            "dorsal": 33,
-            "nombre": "Paquito",
             "total": 0,
             "isUtility": false,
             "byMatch": [
@@ -18088,65 +18032,9 @@
             ]
           },
           {
-            "playerId": "P020",
-            "dorsal": 16,
-            "nombre": "Gabo",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
             "playerId": "P022",
             "dorsal": 28,
             "nombre": "Mane",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            "playerId": "P029",
-            "dorsal": 33,
-            "nombre": "Paquito",
             "total": 0,
             "isUtility": false,
             "byMatch": [
@@ -18777,65 +18665,9 @@
             ]
           },
           {
-            "playerId": "P020",
-            "dorsal": 16,
-            "nombre": "Gabo",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
             "playerId": "P022",
             "dorsal": 28,
             "nombre": "Mane",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            "playerId": "P029",
-            "dorsal": 33,
-            "nombre": "Paquito",
             "total": 0,
             "isUtility": false,
             "byMatch": [
