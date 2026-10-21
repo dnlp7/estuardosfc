@@ -963,7 +963,7 @@
   function formatFechaMeta_(iso, conAnio) {
     var f = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (!f) return iso ? String(iso) : '\u2014';
-    return Number(f[3]) + ' de ' + MESES_LARGOS_ES_[Number(f[2]) - 1].toLowerCase() + (conAnio ? ' de ' + f[1] : '');
+    return Number(f[3]) + ' de ' + MESES_LARGOS_ES_[Number(f[2]) - 1].toLowerCase() + (conAnio ? ', ' + f[1] : '');
   }
 
   /** The icon+text info bar for a match: torneo/jornada (omitted with
@@ -974,7 +974,7 @@
     var torneo = torneoForEra_(era);
     var items = [];
     if (!opts.sinJornada && (torneo || jornada)) items.push(partidoMetaItemHtml_('jornada', (torneo ? torneo + ' / ' : '') + jornada));
-    items.push(partidoMetaItemHtml_('fecha', formatFechaMeta_(fecha, false)));
+    items.push(partidoMetaItemHtml_('fecha', formatFechaMeta_(fecha, !!opts.conAnio)));
     items.push(partidoMetaItemHtml_('hora', hora || '\u2014'));
     items.push(partidoMetaItemHtml_('cancha', (cancha !== null && cancha !== undefined && cancha !== '') ? String(cancha) : '\u2014'));
     return '<div class="partido-meta-row' + (opts.clase ? ' ' + opts.clase : '') + '">' + items.join('') + '</div>';
@@ -2267,7 +2267,7 @@
         // in plain white via its own span (Daniel's call).
         var encabezadoHtml = '<h2 class="partido-encabezado">' + (torneo ? esc(torneo) + ' ' : '') + esc(formatEraLabel_(era)) + ' ' +
           '<span class="partido-encabezado-jornada">' + esc(m.jornada) + '</span></h2>' +
-          partidoMetaHtml_(era, m.jornada, m.fecha, m.hora, m.cancha, { sinJornada: true, clase: 'partido-meta-hoja' });
+          partidoMetaHtml_(era, m.jornada, m.fecha, m.hora, m.cancha, { sinJornada: true, conAnio: true, clase: 'partido-meta-hoja' });
         // Fecha/Hora/Cancha stacked one per row (plenty of vertical room
         // in this narrower card, no need to bunch them side by side), the
         // date spelled out in full ("Agosto 23, 2026") and the time given
