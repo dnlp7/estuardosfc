@@ -579,6 +579,14 @@ main.wide { max-width: 1400px; }
 .resultado-meta .partido-meta-item { text-transform: none; font-size: 0.85rem; }
 .partido-media-col { display: flex; flex-direction: column; gap: 1.5rem; }
 .partido-media-vacio { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.9rem; }
+/* Themed match sheet / Inicio card: info-bar icons take the era's Acento, text and
+   placeholder text its background-aware text color (same pick the other
+   texts on these pages use). */
+#partido-content .partido-meta-icono,
+#ultimo-partido-card .partido-meta-icono { background-color: var(--tema-acento, var(--accent-light)); }
+#partido-content .partido-meta-item,
+#ultimo-partido-card .partido-meta-item { color: var(--tema-texto-fondo, var(--white)); }
+#partido-content .partido-media-vacio { color: var(--tema-texto-fondo, var(--muted)); opacity: 0.75; }
 
 /* Último Partido's scoreboard — two full-width bands, score grouped
    close to the name on the left (not spread to opposite edges).
