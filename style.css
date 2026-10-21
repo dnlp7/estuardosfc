@@ -1322,11 +1322,11 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 .resultados-mes:first-child { margin-top: 0; }
 .resultado-item { display: flex; align-items: stretch; gap: 0.9rem; padding: 0 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: var(--white); text-decoration: none; cursor: pointer; }
 .resultado-item:hover, .resultado-item:focus-visible { background: rgba(255, 255, 255, 0.05); outline: none; }
-.resultado-linea { flex: 0 0 4px; margin: 0.6rem 0; border-radius: 2px; }
+.resultado-linea { flex: 0 0 4px; margin: 0.8rem 0; border-radius: 2px; }
 .resultado-jor { flex: 0 0 3rem; align-self: center; text-align: center; color: var(--accent-light); font-weight: 800; font-size: 1.05rem; }
-.resultado-info { flex: 1 1 auto; min-width: 0; align-self: center; padding: 0.65rem 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+.resultado-info { flex: 1 1 auto; min-width: 0; align-self: center; padding: 0.95rem 0; display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; }
 .resultado-rival { display: inline-block; max-width: 100%; padding: 0.15rem 0.65rem; font-weight: 900; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.01em; }
-.resultado-marc { flex: 0 0 4.6rem; align-self: center; padding: 0.4rem 0; text-align: center; display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
+.resultado-marc { flex: 0 0 6.6rem; align-self: center; padding: 0.4rem 0; text-align: center; display: flex; flex-direction: column; align-items: center; line-height: 1.1; }
 .resultado-score { font-weight: 800; font-size: 1.6rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .resultado-pen { margin-top: 0.2rem; color: var(--white); font-size: 0.72rem; font-weight: 700; }
 @media (max-width: 640px) {
@@ -1337,7 +1337,7 @@ table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   .resultado-meta .partido-meta-icono { width: 15px; height: 15px; }
   .partido-meta-row.resultado-meta { gap: 0.6rem; }
   .resultado-score { font-size: 1.4rem; }
-  .resultado-marc { flex-basis: 4.2rem; }
+  .resultado-marc { flex-basis: 5.2rem; }
 }
 /* Right + bottom on every cell, plus top on the header row and left on
    the first column — see the border-collapse: separate comment further
