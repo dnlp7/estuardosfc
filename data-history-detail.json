@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T04:27:18.425Z",
+  "generatedAt": "2026-10-22T06:12:56.849Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -16108,19 +16108,6 @@
             ]
           },
           {
-            "playerId": "P030",
-            "dorsal": 25,
-            "nombre": "Pavel",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
             "playerId": "P024",
             "dorsal": 26,
             "nombre": "Irving",
@@ -16432,19 +16419,6 @@
               null,
               "x"
             ]
-          },
-          {
-            "playerId": "P030",
-            "dorsal": 25,
-            "nombre": "Pavel",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null
-            ]
           }
         ]
       },
@@ -16671,19 +16645,6 @@
             "playerId": "P007",
             "dorsal": 15,
             "nombre": "Sergio",
-            "total": 0,
-            "isUtility": false,
-            "byMatch": [
-              null,
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            "playerId": "P030",
-            "dorsal": 25,
-            "nombre": "Pavel",
             "total": 0,
             "isUtility": false,
             "byMatch": [
