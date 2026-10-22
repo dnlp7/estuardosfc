@@ -1941,6 +1941,7 @@
     // specifically on Inicio, which has its own inline social block
     // now (Stage 9) - see body[data-section="inicio"] there.
     document.body.dataset.section = name;
+    if (name !== 'resultados' && name !== 'partido') aplicarTemaPartido_(document.body, null);
     document.querySelectorAll('.main-tab-btn').forEach(function (b) {
       b.classList.toggle('active', b.dataset.section === name);
     });
@@ -3514,6 +3515,10 @@
   function renderResultados() {
     var data = state.data;
     if (!data) return;
+    // Era-accurate theme for the whole page (same --tema-* vars the match
+    // sheet puts on <body>); activateSection_ clears them again when
+    // leaving for any section that isn't themed.
+    aplicarTemaPartido_(document.body, state.teamEra);
 
     if (data.currentSeason && state.teamEra === data.currentSeason.era) {
       showResultadosDetail_();
