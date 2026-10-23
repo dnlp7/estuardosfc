@@ -2,6 +2,9 @@
   var DATA_URL = 'data.json';
   var TARJETAS_URL = 'tarjetas.json';
   var HISTORY_DETAIL_URL = 'data-history-detail.json';
+  // Stage 11 match media: written by scripts/media_match.py and committed
+  // with the site (NOT part of the nightly export, unlike the two above).
+  var MEDIA_URL = 'media.json';
   var STAT_TITLES = {
     BALANCE: 'BALANCE',
     GOL: 'GOLES ANOTADOS',
@@ -2215,6 +2218,193 @@
     el.style.setProperty('--tema-texto-secundario', pickContrastText_(tema.secundario, tema.textoClaro, tema.textoOscuro) || '');
   }
 
+  // ---------------- Match media (Stage 11) ----------------
+  // media.json lists, per match, its photo folder in the R2 bucket
+  // (<base>/<carpeta>/NNN.jpg = Facebook-quality full size, NNN-t.jpg =
+  // 600px thumbnail, numbered in the order they were taken) and its
+  // YouTube videos. The match sheet's right column shows a compact
+  // preview (3x3 mosaic + one card per video); clicking anything opens a
+  // full-screen viewer (#media-visor). A missing/failed media.json just
+  // means "no media" everywhere -- the match sheet itself still renders.
+  var MEDIA_MOSAICO_ = 9;
+
+  function fetchMedia_() {
+    if (!state.mediaPromise) {
+      state.mediaPromise = fetch(MEDIA_URL).then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      }).catch(function (err) {
+        console.warn('media.json no disponible', err);
+        return { partidos: [] };
+      });
+    }
+    return state.mediaPromise;
+  }
+
+  // era + jornada + fecha: a jornada code can repeat inside one era
+  // (two "JP" games in 2023/24), so the date disambiguates.
+  function mediaForMatch_(media, era, m) {
+    var lista = (media && media.partidos) || [];
+    for (var i = 0; i < lista.length; i++) {
+      var p = lista[i];
+      if (p.era === era && p.jornada === m.jornada && (!p.fecha || !m.fecha || p.fecha === m.fecha)) return p;
+    }
+    return null;
+  }
+
+  // i is 1-based (files are 001.jpg, 002.jpg, ...).
+  function mediaFotoUrl_(media, p, i, thumb) {
+    var n = ('00' + i).slice(-3);
+    return String(media.base || '').replace(/\/$/, '') + '/' + encodeURIComponent(p.carpeta) + '/' + n + (thumb ? '-t' : '') + '.jpg';
+  }
+
+  function partidoMediaColHtml_(media, p) {
+    var nFotos = (p && p.fotos) || 0;
+    var fotosHtml;
+    if (nFotos) {
+      var mostrar = Math.min(nFotos, MEDIA_MOSAICO_);
+      var tiles = '';
+      for (var i = 1; i <= mostrar; i++) {
+        // Last tile carries a "+N" overlay when there are more photos than the mosaic shows.
+        var resto = (i === mostrar && nFotos > mostrar) ? nFotos - mostrar : 0;
+        tiles += '<button type="button" class="media-tile" data-media-foto="' + i + '" aria-label="Ver foto ' + i + ' de ' + nFotos + '">' +
+          '<img src="' + esc(mediaFotoUrl_(media, p, i, true)) + '" alt="" loading="lazy" decoding="async">' +
+          (resto ? '<span class="media-tile-mas">+' + resto + '</span>' : '') +
+        '</button>';
+      }
+      fotosHtml = '<div class="media-mosaico">' + tiles + '</div>' +
+        '<button type="button" class="media-ver-todas" data-media-foto="1">Ver las ' + nFotos + ' fotos</button>';
+    } else {
+      fotosHtml = '<p class="partido-media-vacio">No hay fotos disponibles para este partido</p>';
+    }
+    var vids = (p && p.videos) || [];
+    var videosHtml;
+    if (vids.length) {
+      videosHtml = '<div class="media-videos">' + vids.map(function (v, k) {
+        return '<button type="button" class="media-video" data-media-video="' + k + '">' +
+          '<span class="media-video-img"><img src="https://i.ytimg.com/vi/' + encodeURIComponent(v.id) + '/mqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span></span>' +
+          '<span class="media-video-titulo">' + esc(v.titulo || ('Video ' + (k + 1))) + '</span>' +
+        '</button>';
+      }).join('') + '</div>';
+    } else {
+      videosHtml = '<p class="partido-media-vacio">No hay videos disponibles para este partido</p>';
+    }
+    return '<div class="partido-datos-card partido-media-col">' +
+      '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Fotos' + (nFotos ? '<span class="media-cuenta">' + nFotos + '</span>' : '') + '</span>' + fotosHtml + '</div>' +
+      '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Videos</span>' + videosHtml + '</div>' +
+    '</div>';
+  }
+
+  // Full-screen viewer: one shared overlay appended to <body> once (from
+  // setupPartido_). state.visor is null while closed; while open, the
+  // match sheet's own Left/Right "previous/next match" keys are ignored
+  // (see setupPartido_'s keydown guard) so the arrows move through the
+  // photos/videos instead.
+  function setupMediaVisor_() {
+    var visor = document.createElement('div');
+    visor.id = 'media-visor';
+    visor.className = 'media-visor';
+    visor.hidden = true;
+    visor.setAttribute('role', 'dialog');
+    visor.setAttribute('aria-modal', 'true');
+    visor.setAttribute('aria-label', 'Visor de fotos y videos');
+    visor.innerHTML =
+      '<div class="media-visor-barra">' +
+        '<span class="media-visor-contador"></span>' +
+        '<span class="media-visor-espacio"></span>' +
+        '<a class="media-visor-yt" target="_blank" rel="noopener" hidden>Ver en YouTube</a>' +
+        '<button type="button" class="media-visor-cerrar" aria-label="Cerrar">&times;</button>' +
+      '</div>' +
+      '<button type="button" class="media-visor-nav media-visor-prev" aria-label="Anterior">&#8249;</button>' +
+      '<div class="media-visor-escenario"></div>' +
+      '<button type="button" class="media-visor-nav media-visor-sig" aria-label="Siguiente">&#8250;</button>';
+    document.body.appendChild(visor);
+    visor.querySelector('.media-visor-cerrar').addEventListener('click', cerrarVisor_);
+    visor.querySelector('.media-visor-prev').addEventListener('click', function () { moverVisor_(-1); });
+    visor.querySelector('.media-visor-sig').addEventListener('click', function () { moverVisor_(1); });
+    // Clicking the dark backdrop closes it (clicks on the photo/video itself don't).
+    visor.addEventListener('click', function (e) {
+      if (e.target === visor || e.target.classList.contains('media-visor-escenario')) cerrarVisor_();
+    });
+    // Phone swipe left/right.
+    var x0 = null;
+    visor.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    visor.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) > 50) moverVisor_(dx < 0 ? 1 : -1);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!state.visor) return;
+      if (e.key === 'Escape') { e.preventDefault(); cerrarVisor_(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); moverVisor_(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); moverVisor_(1); }
+    });
+    // One delegated listener for every preview tile/card on the match sheet.
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('[data-media-foto],[data-media-video]');
+      if (!t || !state.partidoMedia) return;
+      e.preventDefault();
+      if (t.hasAttribute('data-media-foto')) abrirVisor_('foto', Number(t.getAttribute('data-media-foto')) - 1);
+      else abrirVisor_('video', Number(t.getAttribute('data-media-video')));
+    });
+  }
+
+  function abrirVisor_(tipo, idx) {
+    var pm = state.partidoMedia;
+    if (!pm) return;
+    var total = tipo === 'foto' ? (pm.p.fotos || 0) : (pm.p.videos || []).length;
+    if (!total) return;
+    state.visor = { tipo: tipo, idx: Math.max(0, Math.min(idx, total - 1)), total: total };
+    var visor = document.getElementById('media-visor');
+    visor.hidden = false;
+    document.body.classList.add('visor-abierto');
+    pintarVisor_();
+    visor.querySelector('.media-visor-cerrar').focus();
+  }
+
+  function moverVisor_(d) {
+    var v = state.visor;
+    if (!v || v.total < 2) return;
+    v.idx = (v.idx + d + v.total) % v.total;
+    pintarVisor_();
+  }
+
+  function pintarVisor_() {
+    var v = state.visor, pm = state.partidoMedia;
+    var visor = document.getElementById('media-visor');
+    if (!v || !pm || !visor) return;
+    var escenario = visor.querySelector('.media-visor-escenario');
+    var yt = visor.querySelector('.media-visor-yt');
+    visor.querySelector('.media-visor-contador').textContent = (v.idx + 1) + ' / ' + v.total;
+    visor.classList.toggle('media-visor-unico', v.total < 2);
+    if (v.tipo === 'foto') {
+      escenario.innerHTML = '<img class="media-visor-foto" src="' + esc(mediaFotoUrl_(pm.media, pm.p, v.idx + 1, false)) + '" alt="Foto ' + (v.idx + 1) + ' de ' + v.total + '">';
+      yt.hidden = true;
+      // Preload the neighbours so the arrows feel instant.
+      [(v.idx + 1) % v.total, (v.idx - 1 + v.total) % v.total].forEach(function (k) {
+        var img = new Image();
+        img.src = mediaFotoUrl_(pm.media, pm.p, k + 1, false);
+      });
+    } else {
+      var vid = pm.p.videos[v.idx];
+      escenario.innerHTML = '<div class="media-visor-video"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(vid.id) + '?autoplay=1&amp;rel=0" title="' + esc(vid.titulo || 'Video') + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' +
+        '<p class="media-visor-titulo">' + esc(vid.titulo || '') + '</p>';
+      yt.href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(vid.id);
+      yt.hidden = false;
+    }
+  }
+
+  function cerrarVisor_() {
+    var visor = document.getElementById('media-visor');
+    if (!visor || !state.visor) return;
+    state.visor = null;
+    visor.hidden = true;
+    document.body.classList.remove('visor-abierto');
+    visor.querySelector('.media-visor-escenario').innerHTML = ''; // also stops a playing video
+  }
+
   function renderPartido_(era, jornada) {
     var content = document.getElementById('partido-content');
     var anterior = document.getElementById('partido-anterior');
@@ -2231,6 +2421,8 @@
     // one full-bleed element both the background rule and this
     // property-source can share — see style.css.
     aplicarTemaPartido_(document.body, era);
+    cerrarVisor_();
+    state.partidoMedia = null;
     content.innerHTML = '<p class="detail-message">Cargando…</p>';
     if (anterior) anterior.disabled = true;
     if (siguiente) siguiente.disabled = true;
@@ -2239,8 +2431,9 @@
     state.partidoActualEra = era;
     state.partidoActualJornada = jornada;
 
-    fetchHistoryDetail()
-      .then(function (historyData) {
+    Promise.all([fetchHistoryDetail(), fetchMedia_()])
+      .then(function (res) {
+        var historyData = res[0], media = res[1];
         var matchesByEra = allEraMatches_(historyData);
         var matches = matchesByEra[era] || [];
         var m = matches.filter(function (mm) { return mm.jornada === jornada; })[0];
@@ -2275,12 +2468,11 @@
         // a real AM/PM suffix -- both distinct from formatFechaCorta_/raw
         // m.hora, which stay as-is everywhere else (Resultados table etc.)
         // that still wants the compact form.
-        // Right column: match media placeholders (the real media feature is
-        // being built separately -- Stage 11).
-        var datosHtml = '<div class="partido-datos-card partido-media-col">' +
-          '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Fotos</span><p class="partido-media-vacio">No hay fotos disponibles para este partido</p></div>' +
-          '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Videos</span><p class="partido-media-vacio">No hay videos disponibles para este partido</p></div>' +
-        '</div>';
+        // Right column: match media (Stage 11) -- compact preview; the
+        // full-screen viewer opens from it (see setupMediaVisor_).
+        var pMedia = mediaForMatch_(media, era, m);
+        state.partidoMedia = pMedia ? { media: media, p: pMedia } : null;
+        var datosHtml = partidoMediaColHtml_(media, pMedia);
         // Marcador lives INSIDE the left column next to the lineup grid,
         // same as Ultimo Partido's own renderUltimoPartido_ -- so the
         // colored bands only span the lineup-photos column's width, not
@@ -2334,6 +2526,7 @@
   }
 
   function setupPartido_() {
+    setupMediaVisor_();
     var volver = document.getElementById('partido-volver');
     if (volver) {
       volver.addEventListener('click', function () {
@@ -2381,6 +2574,7 @@
     // hijacked by this.
     document.addEventListener('keydown', function (e) {
       if (document.body.dataset.section !== 'partido') return;
+      if (state.visor) return; // the media viewer owns the arrow keys while open
       if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       var tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
       if (tag === 'input' || tag === 'select' || tag === 'textarea' || (document.activeElement && document.activeElement.isContentEditable)) return;

@@ -2080,3 +2080,61 @@ body[data-section="resultados"] .social-label { color: var(--tema-texto-fondo, v
 #section-resultados .alineacion-match-header .jornada-cell { color: var(--tema-acento, var(--accent-light)); }
 #section-resultados .alineacion-formacion,
 #section-resultados .marcador-penales { color: var(--tema-texto-fondo, var(--muted)); opacity: 0.75; }
+
+/* ---------------- Match media (Stage 11) ----------------
+   Right column of the match sheet: a compact preview (3x3 photo mosaic
+   + one card per YouTube video). Everything opens the full-screen
+   viewer (#media-visor, built once by setupMediaVisor_ in app.js). */
+.partido-dato-titulo .media-cuenta { margin-left: 0.4rem; opacity: 0.7; }
+.media-mosaico { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 0.75rem; }
+.media-tile { position: relative; display: block; padding: 0; border: 0; border-radius: 4px; overflow: hidden; aspect-ratio: 1 / 1; background: var(--grey-cell); cursor: pointer; }
+.media-tile img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
+.media-tile:hover img,
+.media-tile:focus-visible img { transform: scale(1.06); }
+.media-tile-mas { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); color: #fff; font-size: 1.3rem; font-weight: 800; }
+.media-ver-todas {
+  font: inherit; font-size: 0.9rem; font-weight: 700;
+  display: block; width: 100%; margin-top: 0.75rem; padding: 0.55rem;
+  border: 1px solid var(--tema-acento, var(--accent-light)); border-radius: 6px;
+  background: transparent; color: var(--tema-texto-fondo, var(--white)); cursor: pointer;
+}
+.media-ver-todas:hover,
+.media-ver-todas:focus-visible { background: var(--tema-acento, var(--accent-light)); color: var(--tema-texto-acento, var(--white)); }
+.media-videos { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem; }
+.media-video { font: inherit; display: flex; align-items: center; gap: 0.75rem; padding: 0; border: 0; background: none; color: var(--tema-texto-fondo, var(--white)); text-align: left; cursor: pointer; }
+.media-video-img { position: relative; flex: 0 0 128px; aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; background: #000; }
+.media-video-img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.media-play { position: absolute; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; background: rgba(0, 0, 0, 0.65); transition: background 0.2s ease; }
+.media-play::after { content: ""; position: absolute; left: 13px; top: 10px; border-left: 12px solid #fff; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
+.media-video:hover .media-play,
+.media-video:focus-visible .media-play { background: var(--tema-acento, var(--accent-light)); }
+.media-video-titulo { font-size: 0.95rem; font-weight: 700; }
+
+/* Full-screen viewer */
+body.visor-abierto { overflow: hidden; }
+.media-visor { position: fixed; inset: 0; z-index: 1000; background: rgba(0, 0, 0, 0.92); }
+.media-visor[hidden] { display: none; }
+.media-visor-barra { position: absolute; top: 0; left: 0; right: 0; z-index: 2; display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; color: #fff; }
+.media-visor-contador { font-size: 0.9rem; font-weight: 700; opacity: 0.85; }
+.media-visor-espacio { flex: 1; }
+.media-visor-yt { color: #fff; font-size: 0.85rem; opacity: 0.85; }
+.media-visor-yt:hover { opacity: 1; }
+.media-visor-cerrar { padding: 0 0.25rem; border: 0; background: none; color: #fff; font-size: 2.2rem; line-height: 1; cursor: pointer; }
+.media-visor-escenario { position: absolute; inset: 3.5rem 5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.media-visor-foto { display: block; max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+.media-visor-video { width: min(100%, calc((100vh - 9rem) * 16 / 9)); aspect-ratio: 16 / 9; background: #000; }
+.media-visor-video iframe { display: block; width: 100%; height: 100%; border: 0; }
+.media-visor-titulo { margin: 0.75rem 0 0; color: #fff; font-weight: 700; }
+.media-visor-nav { position: absolute; top: 50%; z-index: 2; width: 3rem; height: 3rem; transform: translateY(-50%); border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.12); color: #fff; font-size: 2rem; line-height: 1; cursor: pointer; }
+.media-visor-nav:hover,
+.media-visor-nav:focus-visible { background: rgba(255, 255, 255, 0.25); }
+.media-visor-prev { left: 1rem; }
+.media-visor-sig { right: 1rem; }
+.media-visor-unico .media-visor-nav { display: none; }
+@media (max-width: 640px) {
+  .media-visor-escenario { inset: 3.25rem 0.5rem 4.75rem; }
+  .media-visor-nav { top: auto; bottom: 1rem; transform: none; }
+  .media-visor-prev { left: calc(50% - 4rem); }
+  .media-visor-sig { right: calc(50% - 4rem); }
+  .media-video-img { flex-basis: 150px; }
+}

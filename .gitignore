@@ -1,2 +1,4 @@
 deploy.bat
 build-tarjetas.ps1
+node_modules/
+jsconfig.json

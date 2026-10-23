@@ -1,0 +1,17 @@
+{
+  "nota": "Generado por scripts/media_match.py (Stage 11). No es parte del export nocturno.",
+  "base": "https://pub-7dc206c5ba794f16bffaaac312dacadd.r2.dev",
+  "partidos": [
+    {
+      "era": "2026/27",
+      "jornada": "J15",
+      "fecha": "2026-10-11",
+      "carpeta": "2026-27_J15_2026-10-11",
+      "fotos": 22,
+      "videos": [
+        { "id": "7VUX0VdZoCE", "titulo": "1er tiempo" },
+        { "id": "_bFCxgjsAY8", "titulo": "2do tiempo" }
+      ]
+    }
+  ]
+}
