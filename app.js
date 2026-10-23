@@ -2258,40 +2258,57 @@
     return String(media.base || '').replace(/\/$/, '') + '/' + encodeURIComponent(p.carpeta) + '/' + n + (thumb ? '-t' : '') + '.jpg';
   }
 
+  // "1:05:12" / "19:40" from seconds (YouTube's own duration format).
+  function mediaDuracion_(seg) {
+    seg = Math.round(Number(seg) || 0);
+    if (!seg) return '';
+    var h = Math.floor(seg / 3600), m = Math.floor(seg % 3600 / 60), sg = seg % 60;
+    var dd = function (n) { return (n < 10 ? '0' : '') + n; };
+    return h ? h + ':' + dd(m) + ':' + dd(sg) : m + ':' + dd(sg);
+  }
+
+  // Videos first, then photos (Daniel's call). Videos: every video the
+  // match has, in media.json's order, each with its own label (halves,
+  // "Parte N", goal clips... -- whatever that match actually has).
+  // Photos: a 3x3 mosaic; when there are more than 9, the 9th tile shows
+  // "+N" and clicking it EXPANDS the grid in place to every thumbnail
+  // (the extra tiles are display:none until then, so their lazy-loaded
+  // thumbnails aren't even downloaded unless someone expands).
   function partidoMediaColHtml_(media, p) {
-    var nFotos = (p && p.fotos) || 0;
-    var fotosHtml;
-    if (nFotos) {
-      var mostrar = Math.min(nFotos, MEDIA_MOSAICO_);
-      var tiles = '';
-      for (var i = 1; i <= mostrar; i++) {
-        // Last tile carries a "+N" overlay when there are more photos than the mosaic shows.
-        var resto = (i === mostrar && nFotos > mostrar) ? nFotos - mostrar : 0;
-        tiles += '<button type="button" class="media-tile" data-media-foto="' + i + '" aria-label="Ver foto ' + i + ' de ' + nFotos + '">' +
-          '<img src="' + esc(mediaFotoUrl_(media, p, i, true)) + '" alt="" loading="lazy" decoding="async">' +
-          (resto ? '<span class="media-tile-mas">+' + resto + '</span>' : '') +
-        '</button>';
-      }
-      fotosHtml = '<div class="media-mosaico">' + tiles + '</div>' +
-        '<button type="button" class="media-ver-todas" data-media-foto="1">Ver las ' + nFotos + ' fotos</button>';
-    } else {
-      fotosHtml = '<p class="partido-media-vacio">No hay fotos disponibles para este partido</p>';
-    }
     var vids = (p && p.videos) || [];
     var videosHtml;
     if (vids.length) {
       videosHtml = '<div class="media-videos">' + vids.map(function (v, k) {
+        var dur = mediaDuracion_(v.duracion);
         return '<button type="button" class="media-video" data-media-video="' + k + '">' +
-          '<span class="media-video-img"><img src="https://i.ytimg.com/vi/' + encodeURIComponent(v.id) + '/mqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span></span>' +
+          '<span class="media-video-img"><img src="https://i.ytimg.com/vi/' + encodeURIComponent(v.id) + '/mqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span>' +
+            (dur ? '<span class="media-video-dur">' + dur + '</span>' : '') + '</span>' +
           '<span class="media-video-titulo">' + esc(v.titulo || ('Video ' + (k + 1))) + '</span>' +
         '</button>';
       }).join('') + '</div>';
     } else {
       videosHtml = '<p class="partido-media-vacio">No hay videos disponibles para este partido</p>';
     }
+    var nFotos = (p && p.fotos) || 0;
+    var fotosHtml;
+    if (nFotos) {
+      var tiles = '';
+      for (var i = 1; i <= nFotos; i++) {
+        var esMas = (i === MEDIA_MOSAICO_ && nFotos > MEDIA_MOSAICO_);
+        tiles += '<button type="button" class="media-tile' + (i > MEDIA_MOSAICO_ ? ' media-tile-extra' : '') + '" data-media-foto="' + i + '"' +
+            (esMas ? ' data-media-expandir="1"' : '') + ' aria-label="' + (esMas ? 'Mostrar las ' + nFotos + ' fotos' : 'Ver foto ' + i + ' de ' + nFotos) + '">' +
+          '<img src="' + esc(mediaFotoUrl_(media, p, i, true)) + '" alt="" loading="lazy" decoding="async">' +
+          (esMas ? '<span class="media-tile-mas">+' + (nFotos - MEDIA_MOSAICO_ + 1) + '</span>' : '') +
+        '</button>';
+      }
+      fotosHtml = '<div class="media-mosaico">' + tiles + '</div>' +
+        (nFotos > MEDIA_MOSAICO_ ? '<button type="button" class="media-ver-menos" data-media-contraer="1">Mostrar menos</button>' : '');
+    } else {
+      fotosHtml = '<p class="partido-media-vacio">No hay fotos disponibles para este partido</p>';
+    }
     return '<div class="partido-datos-card partido-media-col">' +
-      '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Fotos' + (nFotos ? '<span class="media-cuenta">' + nFotos + '</span>' : '') + '</span>' + fotosHtml + '</div>' +
-      '<div class="partido-card partido-media-bloque"><span class="partido-dato-titulo">Videos</span>' + videosHtml + '</div>' +
+      '<div class="partido-card partido-media-bloque"><h3 class="media-titulo">Videos' + (vids.length ? '<span class="media-cuenta">' + vids.length + '</span>' : '') + '</h3>' + videosHtml + '</div>' +
+      '<div class="partido-card partido-media-bloque media-fotos"><h3 class="media-titulo">Fotos' + (nFotos ? '<span class="media-cuenta">' + nFotos + '</span>' : '') + '</h3>' + fotosHtml + '</div>' +
     '</div>';
   }
 
@@ -2343,9 +2360,23 @@
     });
     // One delegated listener for every preview tile/card on the match sheet.
     document.addEventListener('click', function (e) {
-      var t = e.target.closest && e.target.closest('[data-media-foto],[data-media-video]');
+      var t = e.target.closest && e.target.closest('[data-media-foto],[data-media-video],[data-media-contraer]');
       if (!t || !state.partidoMedia) return;
       e.preventDefault();
+      var bloque = t.closest('.media-fotos');
+      // "+N" tile: expand the grid in place (only while still collapsed;
+      // once expanded it's a normal photo tile that opens the viewer).
+      if (bloque && t.hasAttribute('data-media-expandir') && !bloque.classList.contains('media-expandido')) {
+        bloque.classList.add('media-expandido');
+        return;
+      }
+      if (t.hasAttribute('data-media-contraer')) {
+        if (bloque) {
+          bloque.classList.remove('media-expandido');
+          if (bloque.getBoundingClientRect().top < 0) bloque.scrollIntoView({ block: 'start' });
+        }
+        return;
+      }
       if (t.hasAttribute('data-media-foto')) abrirVisor_('foto', Number(t.getAttribute('data-media-foto')) - 1);
       else abrirVisor_('video', Number(t.getAttribute('data-media-video')));
     });
