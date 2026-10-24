@@ -2220,7 +2220,7 @@
 
   // ---------------- Match media (Stage 11) ----------------
   // media.json lists, per match, its photo folder in the R2 bucket
-  // (<base>/<carpeta>/NNN.jpg = Facebook-quality full size, NNN-t.jpg =
+  // (<base>/<folder>/NNN.jpg = Facebook-quality full size, NNN-t.jpg =
   // 600px thumbnail, numbered in the order they were taken) and its
   // YouTube videos. The match sheet's right column shows a compact
   // preview (3x3 mosaic + one card per video); clicking anything opens a
@@ -2235,7 +2235,7 @@
         return r.json();
       }).catch(function (err) {
         console.warn('media.json no disponible', err);
-        return { partidos: [] };
+        return { matches: [] };
       });
     }
     return state.mediaPromise;
@@ -2244,10 +2244,10 @@
   // era + jornada + fecha: a jornada code can repeat inside one era
   // (two "JP" games in 2023/24), so the date disambiguates.
   function mediaForMatch_(media, era, m) {
-    var lista = (media && media.partidos) || [];
+    var lista = (media && media.matches) || [];
     for (var i = 0; i < lista.length; i++) {
       var p = lista[i];
-      if (p.era === era && p.jornada === m.jornada && (!p.fecha || !m.fecha || p.fecha === m.fecha)) return p;
+      if (p.era === era && p.jornada === m.jornada && (!p.date || !m.fecha || p.date === m.fecha)) return p;
     }
     return null;
   }
@@ -2255,7 +2255,7 @@
   // i is 1-based (files are 001.jpg, 002.jpg, ...).
   function mediaFotoUrl_(media, p, i, thumb) {
     var n = ('00' + i).slice(-3);
-    return String(media.base || '').replace(/\/$/, '') + '/' + encodeURIComponent(p.carpeta) + '/' + n + (thumb ? '-t' : '') + '.jpg';
+    return String(media.base || '').replace(/\/$/, '') + '/' + encodeURIComponent(p.folder) + '/' + n + (thumb ? '-t' : '') + '.jpg';
   }
 
   // "1:05:12" / "19:40" from seconds (YouTube's own duration format).
@@ -2279,17 +2279,17 @@
     var videosHtml;
     if (vids.length) {
       videosHtml = '<div class="media-videos">' + vids.map(function (v, k) {
-        var dur = mediaDuracion_(v.duracion);
+        var dur = mediaDuracion_(v.duration);
         return '<button type="button" class="media-video" data-media-video="' + k + '">' +
           '<span class="media-video-img"><img src="https://i.ytimg.com/vi/' + encodeURIComponent(v.id) + '/mqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span>' +
             (dur ? '<span class="media-video-dur">' + dur + '</span>' : '') + '</span>' +
-          '<span class="media-video-titulo">' + esc(v.titulo || ('Video ' + (k + 1))) + '</span>' +
+          '<span class="media-video-titulo">' + esc(v.title || ('Video ' + (k + 1))) + '</span>' +
         '</button>';
       }).join('') + '</div>';
     } else {
       videosHtml = '<p class="partido-media-vacio">No hay videos disponibles para este partido</p>';
     }
-    var nFotos = (p && p.fotos) || 0;
+    var nFotos = (p && p.photos) || 0;
     var fotosHtml;
     if (nFotos) {
       var tiles = '';
@@ -2385,7 +2385,7 @@
   function abrirVisor_(tipo, idx) {
     var pm = state.partidoMedia;
     if (!pm) return;
-    var total = tipo === 'foto' ? (pm.p.fotos || 0) : (pm.p.videos || []).length;
+    var total = tipo === 'foto' ? (pm.p.photos || 0) : (pm.p.videos || []).length;
     if (!total) return;
     state.visor = { tipo: tipo, idx: Math.max(0, Math.min(idx, total - 1)), total: total };
     var visor = document.getElementById('media-visor');
@@ -2420,8 +2420,8 @@
       });
     } else {
       var vid = pm.p.videos[v.idx];
-      escenario.innerHTML = '<div class="media-visor-video"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(vid.id) + '?autoplay=1&amp;rel=0" title="' + esc(vid.titulo || 'Video') + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' +
-        '<p class="media-visor-titulo">' + esc(vid.titulo || '') + '</p>';
+      escenario.innerHTML = '<div class="media-visor-video"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(vid.id) + '?autoplay=1&amp;rel=0" title="' + esc(vid.title || 'Video') + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' +
+        '<p class="media-visor-titulo">' + esc(vid.title || '') + '</p>';
       yt.href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(vid.id);
       yt.hidden = false;
     }
