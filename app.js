@@ -1992,11 +1992,11 @@
   var MESES_ = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
     'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
-  // "Octubre 2" — month name capitalized, no year (see buildDatosJson_'s
-  // own comment on why the sheet's placeholder year never reaches here).
+  // "2 de octubre" — same format as the match dates, no year (see
+  // buildDatosJson_'s own comment on why the sheet's placeholder year
+  // never reaches here).
   function formatCumpleanos_(c) {
-    var mes = MESES_[c.mes - 1];
-    return mes.charAt(0).toUpperCase() + mes.slice(1) + ' ' + c.dia;
+    return c.dia + ' de ' + MESES_[c.mes - 1];
   }
 
   /** Click delegation on the grid (not a listener per card) — survives
