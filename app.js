@@ -978,7 +978,7 @@
     opts = opts || {};
     var torneo = torneoForEra_(era);
     var items = [];
-    if (!opts.sinJornada && (torneo || jornada)) items.push(partidoMetaItemHtml_('jornada', (torneo ? torneo + ' / ' : '') + jornada));
+    if (!opts.sinJornada && jornada) items.push(partidoMetaItemHtml_('jornada', jornada));
     items.push(partidoMetaItemHtml_('fecha', formatFechaMeta_(fecha, !!opts.conAnio)));
     items.push(partidoMetaItemHtml_('hora', hora || '\u2014'));
     items.push(partidoMetaItemHtml_('cancha', (cancha !== null && cancha !== undefined && cancha !== '') ? String(cancha) : '\u2014'));
