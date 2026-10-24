@@ -1667,23 +1667,10 @@
         '<div class="partido-col">' + partidoMarcadorHtml_(m) + colIzquierdaHtml + '</div>' +
         '<div class="partido-col partido-col-cancha">' + colDerechaHtml + '</div>' +
       '</div>' +
-      '<a href="#resultados" class="partido-ver-todos" id="ultimo-partido-ver-todos">Ver todos los resultados →</a>';
+      '<a href="' + esc(hrefPartido_(data.currentSeason.era, m.jornada)) + '" data-partido="' + esc(data.currentSeason.era) + '::' + esc(m.jornada) + '" class="partido-ver-todos" id="ultimo-partido-ver-todos">Ver ficha completa del partido →</a>';
     card.innerHTML = html;
-
-    // A real <a href="#estadisticas"> — works with no JS at all (lands
-    // on the right top-level section via routeFromHash_) and is
-    // keyboard/middle-click friendly. The click handler layers the
-    // extra state routeFromHash_ doesn't know about on top: which
-    // Estadísticas sub-tab (Equipo) and which season (this card's own
-    // era) to land on — same "drive it directly, hash is for deep-
-    // link/refresh" pattern used by the Plantel cards and main nav.
-    var verTodosLink = document.getElementById('ultimo-partido-ver-todos');
-    if (verTodosLink) {
-      verTodosLink.addEventListener('click', function (e) {
-        e.preventDefault();
-        irATemporada_(data.currentSeason.era);
-      });
-    }
+    // The link is a plain data-partido anchor: the site-wide delegated
+    // handler opens the match sheet (and sets Volver to come back here).
   }
 
   /** Jumps to Resultados with that one season selected, on its
