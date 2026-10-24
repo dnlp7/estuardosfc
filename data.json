@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-23T06:23:44.725Z",
+  "generatedAt": "2026-10-24T06:52:51.557Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -5406,9 +5406,9 @@
           "playerId": "P003",
           "dorsal": 8,
           "nombre": "Bismark",
-          "total": 119,
+          "total": 120,
           "byEra": {
-            "2011": 9,
+            "2011": 10,
             "2012": 9,
             "2013": 10,
             "2014": 5,
@@ -7704,7 +7704,15 @@
       "dif": -18,
       "pts": 18
     },
-    "proximo": null
+    "proximo": {
+      "jornada": "J16",
+      "cancha": 1,
+      "fecha": "2026-10-25",
+      "hora": "12:30",
+      "rival": "MILAN",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
+    }
   },
   "detail": {
     "era": "2026/27",
