@@ -115,8 +115,12 @@
     </section>
 
     <section id="section-resultados" class="section-panel">
-        <div class="controls">
+        <div class="controls controls-season-nav">
           <select id="team-era-filter"></select>
+          <div class="partido-nav season-nav">
+            <button type="button" class="partido-nav-btn" id="resultados-temp-anterior" disabled aria-label="Temporada anterior">&#9664;</button>
+            <button type="button" class="partido-nav-btn" id="resultados-temp-siguiente" disabled aria-label="Temporada siguiente">&#9654;</button>
+          </div>
         </div>
 
         <p id="resultados-message" class="detail-message" hidden></p>
@@ -169,10 +173,14 @@
       </section>
 
       <section id="tab-historial" class="tab-panel">
-        <div class="controls controls-season">
+        <div class="controls controls-season controls-season-nav">
           <select id="era-filter">
             <option value="__all__">Todas las temporadas</option>
           </select>
+          <div class="partido-nav season-nav">
+            <button type="button" class="partido-nav-btn" id="individuales-temp-anterior" disabled aria-label="Temporada anterior">&#9664;</button>
+            <button type="button" class="partido-nav-btn" id="individuales-temp-siguiente" disabled aria-label="Temporada siguiente">&#9654;</button>
+          </div>
         </div>
         <div class="controls">
           <div class="stat-selector" id="stat-selector">

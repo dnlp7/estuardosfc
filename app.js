@@ -635,6 +635,8 @@
     renderRecordsLeaders_();
     setupPerfil();
     setupPartido_();
+    setupSeasonNav_('team-era-filter', 'resultados-temp-anterior', 'resultados-temp-siguiente', false);
+    setupSeasonNav_('era-filter', 'individuales-temp-anterior', 'individuales-temp-siguiente', true);
     setupContentLinks_();
     hydrateStatRangeIcons_();
     setupStatRangeIcons_();
@@ -2255,7 +2257,10 @@
   // i is 1-based (files are 001.jpg, 002.jpg, ...).
   function mediaFotoUrl_(media, p, i, thumb) {
     var n = ('00' + i).slice(-3);
-    return String(media.base || '').replace(/\/$/, '') + '/' + encodeURIComponent(p.folder) + '/' + n + (thumb ? '-t' : '') + '.jpg';
+    // p.version changes whenever a match's gallery is replaced (scripts/add_match_media.py),
+    // so browsers and Cloudflare's cache fetch the new photos instead of old cached ones.
+    return String(media.base || '').replace(/\/$/, '') + '/' + encodeURIComponent(p.folder) + '/' + n + (thumb ? '-t' : '') + '.jpg' +
+      (p.version ? '?v=' + encodeURIComponent(p.version) : '');
   }
 
   // "1:05:12" / "19:40" from seconds (YouTube's own duration format).
@@ -2554,6 +2559,42 @@
     location.hash = 'partido/' + encodeURIComponent(era) + '/' + encodeURIComponent(jornada);
     renderPartido_(era, jornada);
     activateSection_('partido');
+  }
+
+  /** Season stepping buttons (previous/next) next to a season <select> --
+   * the Resultados page and Individuales, same look as the match sheet's
+   * prev/next. The selects list newest first, so "anterior" (older) moves
+   * DOWN the list. In Individuales the first option is "Todas las
+   * temporadas" (index 0): stepping is disabled there, and the newest
+   * season (index 1) can't go "siguiente". Stepping just sets the select
+   * and fires its own 'change' handler, so every existing code path runs. */
+  var _seasonNavs_ = [];
+  function updateSeasonNavs_() {
+    _seasonNavs_.forEach(function (n) {
+      var sel = document.getElementById(n.select), prev = document.getElementById(n.prev), next = document.getElementById(n.next);
+      if (!sel || !prev || !next) return;
+      var i = sel.selectedIndex, last = sel.options.length - 1;
+      var todas = n.hasAll && sel.value === '__all__';
+      var first = n.hasAll ? 1 : 0;
+      prev.disabled = todas || i >= last || i < 0;
+      next.disabled = todas || i <= first;
+    });
+  }
+  function setupSeasonNav_(selectId, prevId, nextId, hasAll) {
+    var sel = document.getElementById(selectId), prev = document.getElementById(prevId), next = document.getElementById(nextId);
+    if (!sel || !prev || !next) return;
+    function step(delta) {
+      var i = sel.selectedIndex + delta;
+      if (i < (hasAll ? 1 : 0) || i > sel.options.length - 1) return;
+      sel.selectedIndex = i;
+      sel.dispatchEvent(new Event('change', { bubbles: true }));
+      updateSeasonNavs_();
+    }
+    prev.addEventListener('click', function () { step(1); });
+    next.addEventListener('click', function () { step(-1); });
+    sel.addEventListener('change', updateSeasonNavs_);
+    _seasonNavs_.push({ select: selectId, prev: prevId, next: nextId, hasAll: hasAll });
+    updateSeasonNavs_();
   }
 
   function setupPartido_() {
@@ -3744,6 +3785,7 @@
     // sheet puts on <body>); activateSection_ clears them again when
     // leaving for any section that isn't themed.
     aplicarTemaPartido_(document.body, state.teamEra);
+    updateSeasonNavs_();
 
     if (data.currentSeason && state.teamEra === data.currentSeason.era) {
       showResultadosDetail_();
@@ -4324,6 +4366,7 @@
   function renderLeaderboard() {
     var data = state.data;
     if (!data) return;
+    updateSeasonNavs_();
 
     document.getElementById('leaderboard-table').classList.toggle('balance-mode', state.stat === 'BALANCE');
     // Every non-BALANCE view is "# | Jugador | TOT | ..." with icon, dorsal

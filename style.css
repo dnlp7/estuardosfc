@@ -595,7 +595,7 @@ main.wide { max-width: 1400px; }
    the outcome obvious. The rival's band uses their real kit colors
    read off RES's Rival cell, falling back to the plain grey card
    background if that rival isn't colored yet. */
-.partido-marcador { border-radius: 10px; overflow: hidden; margin-bottom: 1.75rem; }
+.partido-marcador { border-radius: 0; overflow: hidden; margin-bottom: 1.75rem; }
 .partido-banda { display: flex; align-items: center; gap: 1.25rem; padding: 0.7rem 1.25rem; color: var(--white); background: var(--grey-cell); }
 .partido-banda-local { background: var(--main); }
 .partido-banda-nombre { font-weight: 700; text-transform: uppercase; font-size: 1.6rem; }
@@ -2139,3 +2139,15 @@ body.visor-abierto { overflow: hidden; }
   .media-visor-sig { right: calc(50% - 4rem); }
   .media-video-img { flex-basis: 150px; }
 }
+
+/* Season stepping buttons next to the season dropdown (Resultados, Individuales). */
+.controls-season-nav { justify-content: space-between; }
+.controls-season-nav .season-nav { margin-left: auto; }
+body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acento, var(--white)); color: var(--tema-texto-fondo, var(--white)); }
+
+/* "Triunfo/Derrota por default." and the penales line under the score follow the era theme. */
+#partido-content .partido-marcador-default,
+#partido-content .partido-marcador-penales,
+#ultimo-partido-card .partido-marcador-default,
+#ultimo-partido-card .partido-marcador-penales,
+#section-resultados .alineacion-match .detail-message { color: var(--tema-texto-fondo, var(--muted)); opacity: 0.8; }
