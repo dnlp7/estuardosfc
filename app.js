@@ -2580,6 +2580,29 @@
       next.disabled = todas || i <= first;
     });
   }
+  // Left/Right arrow keys step through seasons on Resultados and on
+  // Individuales, same guards as the match sheet's own arrow keys (no
+  // modifiers, ignored while typing in a field). One document-level
+  // listener, registered once; it just clicks the visible page's own
+  // prev/next button, so the disabled states (ends, "Todas") apply.
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'select' || tag === 'textarea' || (document.activeElement && document.activeElement.isContentEditable)) return;
+    var sec = document.body.dataset.section, ids = null;
+    if (sec === 'resultados') ids = ['resultados-temp-anterior', 'resultados-temp-siguiente'];
+    else if (sec === 'estadisticas') {
+      var hist = document.querySelector('#estadisticas-subnav .tab-btn[data-tab="historial"]');
+      if (hist && hist.classList.contains('active')) ids = ['individuales-temp-anterior', 'individuales-temp-siguiente'];
+    }
+    if (!ids) return;
+    var btn = document.getElementById(e.key === 'ArrowLeft' ? ids[0] : ids[1]);
+    if (!btn) return;
+    e.preventDefault();
+    if (!btn.disabled) btn.click();
+  });
+
   function setupSeasonNav_(selectId, prevId, nextId, hasAll) {
     var sel = document.getElementById(selectId), prev = document.getElementById(prevId), next = document.getElementById(nextId);
     if (!sel || !prev || !next) return;
