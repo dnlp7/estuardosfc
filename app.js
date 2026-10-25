@@ -3532,9 +3532,10 @@
         var headHtml = '<tr><th>Temporada</th><th>TOTAL</th>' + cols.map(function (i) { return '<th>' + i + '</th>'; }).join('') + '</tr>';
 
         var bodyHtml = eraInfo.map(function (e) {
+          var offSpan = Math.max(0, cols.length - e.realCols);
           var gameCells = cols.map(function (i) {
             var idx = i - 1;
-            if (idx >= e.realCols) return '<td class="off-game-cell"></td>';
+            if (idx >= e.realCols) return idx === e.realCols ? '<td class="off-game-cell" colspan="' + offSpan + '"></td>' : '';
             var v = e.byMatch[idx];
             var cellStyle = matchCellStyleAttr_(matchCellStyle_(stat, v, maxVal));
             // PI is a position code, not a magnitude — the color alone
