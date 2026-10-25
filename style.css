@@ -2165,3 +2165,19 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 
 /* Otras: every section title left-aligned (beats the centered compact-table rule). */
 #tab-otras .solid-box > h3 { text-align: left; }
+
+/* Líderes tab */
+#tab-lideres .solid-box > h3 { text-align: left; }
+.lideres-wrap { overflow-x: auto; }
+.lideres-table { width: 100%; border-collapse: collapse; }
+.lideres-table th { text-align: left; }
+.lideres-table td { vertical-align: top; white-space: normal; }
+.lideres-table .lider-periodo { white-space: nowrap; }
+.lider-torneo { color: var(--accent-light); font-weight: 800; }
+.lider-encurso { font-size: 0.7rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-left: 0.3rem; }
+.lider-celda { min-width: 11rem; }
+.lider-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; color: inherit; text-decoration: none; padding: 0.15rem 0; }
+.lider-row + .lider-row { border-top: 1px solid var(--border); }
+.lider-nombre { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--white); }
+.lider-total { color: var(--accent-light); font-weight: 700; }
+.lider-vacio { color: var(--muted); }

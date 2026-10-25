@@ -65,6 +65,7 @@
     <a class="tab-btn active" href="#estadisticas/equipo" data-tab="temporada">Equipo</a>
     <a class="tab-btn" href="#estadisticas/individuales" data-tab="historial">Individuales</a>
     <a class="tab-btn" href="#estadisticas/records" data-tab="records">Récords</a>
+    <a class="tab-btn" href="#estadisticas/lideres" data-tab="lideres">Líderes</a>
     <a class="tab-btn" href="#estadisticas/otras" data-tab="otras">Otras</a>
   </nav>
 
@@ -215,11 +216,6 @@
 
       <section id="tab-records" class="tab-panel">
         <div class="solid-box">
-        <h3>Líderes Históricos</h3>
-        <div class="records-leaders-grid" id="records-leaders"></div>
-        </div>
-
-        <div class="solid-box">
         <h3>Récords</h3>
         <p id="records-message" class="detail-message" hidden></p>
         <div id="records-highlights" hidden>
@@ -297,6 +293,34 @@
         </div>
       </section>
 
+      <section id="tab-lideres" class="tab-panel">
+        <div class="solid-box">
+        <h3>Históricos</h3>
+        <div class="records-leaders-grid" id="records-leaders"></div>
+        </div>
+
+        <p id="lideres-message" class="detail-message" hidden></p>
+
+        <div class="solid-box" id="lideres-torneo-box">
+        <h3>Por torneo</h3>
+        <div class="table-wrap lideres-wrap">
+          <table class="lideres-table" id="lideres-torneo-table"><thead></thead><tbody></tbody></table>
+        </div>
+        </div>
+
+        <div class="solid-box" id="lideres-anio-box" hidden>
+        <h3>Por año</h3>
+        <div class="table-wrap lideres-wrap">
+          <table class="lideres-table" id="lideres-anio-table"><thead></thead><tbody></tbody></table>
+        </div>
+        </div>
+
+        <div class="solid-box" id="lideres-posicion-box" hidden>
+        <h3 id="lideres-posicion-title">Partidos Iniciados por Posición</h3>
+        <div class="records-leaders-grid otras-titulares-grid" id="otras-titulares"></div>
+        </div>
+      </section>
+
       <section id="tab-otras" class="tab-panel">
         <p id="otras-message" class="detail-message" hidden></p>
         <div id="otras-content" hidden>
@@ -313,11 +337,6 @@
               <tbody></tbody>
             </table>
           </div>
-          </div>
-
-          <div class="solid-box">
-          <h3 class="otras-section-title" id="otras-titulares-title">Partidos Iniciados por Posición</h3>
-          <div class="records-leaders-grid otras-titulares-grid" id="otras-titulares"></div>
           </div>
 
           <div class="solid-box">

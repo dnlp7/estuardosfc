@@ -2724,8 +2724,8 @@
 
   var SECTION_HASHES_ = ['inicio', 'resultados', 'estadisticas', 'jugadores', 'historia'];
   // URL slug <-> internal tab id (Estadísticas)
-  var ESTAD_SLUG_TO_TAB_ = { equipo: 'temporada', individuales: 'historial', records: 'records', otras: 'otras' };
-  var ESTAD_TAB_TO_SLUG_ = { temporada: 'equipo', historial: 'individuales', records: 'records', otras: 'otras' };
+  var ESTAD_SLUG_TO_TAB_ = { equipo: 'temporada', individuales: 'historial', records: 'records', lideres: 'lideres', otras: 'otras' };
+  var ESTAD_TAB_TO_SLUG_ = { temporada: 'equipo', historial: 'individuales', records: 'records', lideres: 'lideres', otras: 'otras' };
 
   function activeSubTab_(navSel, attr) {
     var b = document.querySelector(navSel + ' .tab-btn.active');
@@ -3663,6 +3663,7 @@
     // init(), see renderRecordsLeaders_) so it shows instantly even
     // while this one's still loading.
     if (tab === 'records') renderRecordsHighlights_();
+    if (tab === 'lideres') renderLideres_();
     if (tab === 'otras') renderOtras_();
   }
 
@@ -4658,13 +4659,13 @@
     msg.hidden = false;
     content.hidden = true;
     fetchHistoryDetail()
-      .then(function (historyData) { showOtras_(allEraMatches_(historyData), historyData); })
+      .then(function (historyData) { showOtras_(allEraMatches_(historyData)); })
       .catch(function (err) {
         // Degrade to what's already in hand (current season only).
         var cur = state.data.currentSeason;
         if (cur && cur.matches && cur.matches.length) {
           var only = {}; only[cur.era] = cur.matches;
-          showOtras_(only, null);
+          showOtras_(only);
           return;
         }
         msg.textContent = 'No se pudo cargar el detalle histórico.';
@@ -4672,13 +4673,13 @@
       });
   }
 
-  /** Top 5 per position (POR/DEF/MED/DEL) in games started, all-time:
+  /** Top 10 per position (POR/DEF/MED/DEL) in games started, all-time:
    * counts, per player, every PI cell equal to that position code across
    * every era that has PI detail (SUP and blanks never count). Same row
    * markup and standard-competition ranking as Líderes Históricos. */
-  function renderOtrasTitulares_(historyData) {
+  function renderLideresPosiciones_(historyData) {
     var wrap = document.getElementById('otras-titulares');
-    var title = document.getElementById('otras-titulares-title');
+    var title = document.getElementById('lideres-posicion-title');
     if (!wrap) return;
     if (title) title.innerHTML = 'Partidos Iniciados por Posición' + statRangeBtnHtml_('PI');
     var POS = [['POR', 'Portero'], ['DEF', 'Defensa'], ['MED', 'Medio'], ['DEL', 'Delantero']];
@@ -4704,7 +4705,7 @@
         return { playerId: pid, nombre: nombres[pid], total: counts[p[0]][pid] };
       }).sort(function (a, b) {
         return b.total - a.total || String(a.nombre).localeCompare(String(b.nombre));
-      }).slice(0, 5);
+      }).slice(0, 10);
       var lastTotal = null, lastRank = 0;
       var rowsHtml = list.length
         ? list.map(function (r, i) {
@@ -4720,16 +4721,148 @@
     }).join('');
   }
 
-  function showOtras_(byEra, historyData) {
+  function showOtras_(byEra) {
     var msg = document.getElementById('otras-message');
     var content = document.getElementById('otras-content');
     msg.hidden = true;
     content.hidden = false; // visible before charting so Chart.js can measure the canvas
     renderOtrasTable_('otras-rivales-table', buildRivalesRows_(byEra, 10), false);
-    renderOtrasTitulares_(historyData);
     var horarios = buildHorariosRows_(byEra);
     renderOtrasTable_('otras-horarios-table', horarios, true);
     renderHorariosChart_(horarios);
+  }
+
+
+  // ---------------- Líderes ----------------
+
+  /** Cell content for one leaders list: every tied leader stacked
+   * (icon, name linking to the profile, total). Empty -> em dash. */
+  function liderCellHtml_(leaders) {
+    if (!leaders || !leaders.length) return '<span class="lider-vacio">—</span>';
+    return leaders.map(function (l) {
+      return '<a class="lider-row jugador-link" href="' + esc(hrefPerfil_(l.playerId)) + '" data-jugador-id="' + esc(l.playerId) + '">' +
+        '<span class="lider-nombre">' + jugadorIconoHtml_(l.playerId) + esc(statsDisplayNombre_(l.playerId, l.nombre)) + '</span>' +
+        '<span class="lider-total">' + esc(l.total) + '</span></a>';
+    }).join('');
+  }
+
+  /** Max-total player(s) of one map {playerId: total}; ties all kept
+   * (ordered by name), nothing for a max of 0. */
+  function topLeaders_(totals, nombres) {
+    var max = 0;
+    Object.keys(totals).forEach(function (pid) { if (totals[pid] > max) max = totals[pid]; });
+    if (!max) return [];
+    return Object.keys(totals).filter(function (pid) { return totals[pid] === max; })
+      .map(function (pid) { return { playerId: pid, nombre: nombres[pid], total: max }; })
+      .sort(function (a, b) { return String(a.nombre).localeCompare(String(b.nombre)); });
+  }
+
+  function lideresTableHtml_(tableId, labelHeader, rows) {
+    var thead = '<tr><th>' + labelHeader + '</th>' + STATS_ORDER.map(function (st) {
+      return '<th>' + esc(st) + '</th>';
+    }).join('') + '</tr>';
+    document.querySelector('#' + tableId + ' thead').innerHTML = thead;
+    document.querySelector('#' + tableId + ' tbody').innerHTML = rows.map(function (r) {
+      return '<tr><td class="val-strong lider-periodo">' + r.labelHtml + '</td>' + STATS_ORDER.map(function (st) {
+        return '<td class="lider-celda">' + liderCellHtml_(r.leaders[st]) + '</td>';
+      }).join('') + '</tr>';
+    }).join('');
+  }
+
+  /** Por torneo: straight from data.stats[stat].players[].byEra — no fetch. */
+  function renderLideresTorneo_() {
+    var data = state.data;
+    var nombres = {};
+    var rows = (data.seasons || []).slice().reverse().map(function (s) {
+      var leaders = {};
+      STATS_ORDER.forEach(function (stat) {
+        var block = data.stats && data.stats[stat];
+        var totals = {};
+        if (block && (block.eras || []).indexOf(s.era) !== -1) {
+          block.players.forEach(function (p) {
+            var v = Number(p.byEra && p.byEra[s.era]);
+            if (p.playerId && v > 0) { totals[p.playerId] = v; nombres[p.playerId] = p.nombre; }
+          });
+        }
+        leaders[stat] = topLeaders_(totals, nombres);
+      });
+      var torneo = torneoForEra_(s.era);
+      return {
+        labelHtml: (torneo ? '<span class="lider-torneo">' + esc(torneo) + '</span> ' : '') + esc(formatEraLabel_(s.era)) +
+          (data.currentSeason && s.era === data.currentSeason.era ? ' <span class="lider-encurso">En curso</span>' : ''),
+        leaders: leaders
+      };
+    });
+    lideresTableHtml_('lideres-torneo-table', 'Torneo', rows);
+  }
+
+  /** Por año: every match counts toward the calendar year of its own
+   * date (a 2022/23 season splits across 2022 and 2023). Totals are
+   * rebuilt from the per-match detail: GOL/AST sum the numbers, PA counts
+   * attended games, PI counts starts (POR/DEF/MED/DEL). */
+  function renderLideresAnio_(historyData) {
+    var matchesByEra = allEraMatches_(historyData);
+    var years = {};     // year -> stat -> playerId -> total
+    var nombres = {};
+    STATS_ORDER.forEach(function (stat) {
+      var detail = allEraStatDetail_(historyData, stat);
+      Object.keys(detail).forEach(function (era) {
+        var block = detail[era];
+        if (!block || !block.players) return;
+        var fechaByIdx = (block.columns || []).map(function (c) {
+          var jor = String(c.partido || '').split(' ')[0];
+          var m = (matchesByEra[era] || []).filter(function (x) { return x.jornada === jor; })[0];
+          return m && m.fecha ? String(m.fecha).slice(0, 4) : null;
+        });
+        block.players.forEach(function (p) {
+          if (p.isUtility || !p.playerId) return;
+          (p.byMatch || []).forEach(function (v, idx) {
+            var year = fechaByIdx[idx];
+            if (!year || v === null || v === undefined || v === '') return;
+            var add = 0;
+            if (stat === 'GOL' || stat === 'AST') add = Number(v) || 0;
+            else if (stat === 'PA') add = 1;
+            else add = ({ POR: 1, DEF: 1, MED: 1, DEL: 1 })[String(v).trim().toUpperCase()] || 0;
+            if (!add) return;
+            nombres[p.playerId] = p.nombre;
+            var y = years[year] = years[year] || {};
+            var t = y[stat] = y[stat] || {};
+            t[p.playerId] = (t[p.playerId] || 0) + add;
+          });
+        });
+      });
+    });
+    var currentYear = String(new Date().getFullYear());
+    var rows = Object.keys(years).sort().reverse().map(function (year) {
+      var leaders = {};
+      STATS_ORDER.forEach(function (stat) { leaders[stat] = topLeaders_(years[year][stat] || {}, nombres); });
+      return { labelHtml: esc(year) + (year === currentYear ? ' <span class="lider-encurso">En curso</span>' : ''), leaders: leaders };
+    });
+    lideresTableHtml_('lideres-anio-table', 'Año', rows);
+  }
+
+  function renderLideres_() {
+    if (!state.data) return;
+    var msg = document.getElementById('lideres-message');
+    var anio = document.getElementById('lideres-anio-box');
+    var pos = document.getElementById('lideres-posicion-box');
+    renderLideresTorneo_();
+    msg.textContent = 'Cargando...';
+    msg.hidden = false;
+    function show_(historyData) {
+      msg.hidden = true;
+      anio.hidden = false;
+      pos.hidden = false;
+      renderLideresAnio_(historyData);
+      renderLideresPosiciones_(historyData);
+    }
+    fetchHistoryDetail()
+      .then(show_)
+      .catch(function (err) {
+        // Degrade to the current season's own detail.
+        show_(null);
+        console.error(err);
+      });
   }
 
   // ---------------- Récords ----------------
