@@ -965,6 +965,34 @@
 
   /** "5 de julio" (with " de 2026" when conAnio) -- the Resultados list's
    * own date format, shared by every match info bar. */
+  /** ISO date of a player's earliest recorded game across every era:
+   * attended (PA 'x'), any position (PI), or a goal/assist. Null when
+   * nothing is recorded (the profile then keeps the Datos debut year). */
+  function firstGameDate_(historyData, playerId) {
+    var matchesByEra = allEraMatches_(historyData);
+    var best = null;
+    STATS_ORDER.forEach(function (stat) {
+      var detail = allEraStatDetail_(historyData, stat);
+      Object.keys(detail).forEach(function (era) {
+        var block = detail[era];
+        if (!block || !block.players || !block.columns) return;
+        var row = block.players.filter(function (p) { return p.playerId === playerId && !p.isUtility; })[0];
+        if (!row) return;
+        (row.byMatch || []).forEach(function (v, idx) {
+          var ok;
+          if (stat === 'PA') ok = String(v == null ? '' : v).toLowerCase() === 'x';
+          else if (stat === 'PI') ok = v !== null && v !== undefined && String(v).trim() !== '';
+          else ok = Number(v) > 0;
+          if (!ok) return;
+          var jor = String((block.columns[idx] || {}).partido || '').split(' ')[0];
+          var m = (matchesByEra[era] || []).filter(function (x) { return x.jornada === jor; })[0];
+          if (m && m.fecha && (!best || m.fecha < best)) best = m.fecha;
+        });
+      });
+    });
+    return best;
+  }
+
   function formatFechaMeta_(iso, conAnio) {
     var f = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (!f) return iso ? String(iso) : '\u2014';
@@ -2977,6 +3005,16 @@
     // "broken" than informative there.
     document.getElementById('perfil-debut-row').hidden = !datos.debut;
     document.getElementById('perfil-debut').textContent = datos.debut || '';
+    // Upgrade the debut year to the exact date of the first recorded game
+    // once the full match history is in (falls back to the year as-is).
+    state.perfilDebutReq = playerId;
+    fetchHistoryDetail().then(function (historyData) {
+      if (state.perfilDebutReq !== playerId) return;
+      var iso = firstGameDate_(historyData, playerId);
+      if (!iso) return;
+      document.getElementById('perfil-debut-row').hidden = false;
+      document.getElementById('perfil-debut').textContent = formatFechaMeta_(iso, true);
+    }).catch(function () { /* keep the year */ });
     document.getElementById('perfil-cumple-row').hidden = false;
     document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '–';
 
