@@ -4921,10 +4921,9 @@
    * attended at least one game. PA > 0 counts; an era with no PA data
    * for the player's row still counts when any other stat (PI, GOL, AST)
    * shows he played, so eras whose PA was never recovered aren't lost. */
-  function renderTorneosParticipados_() {
+  function torneosParticipadosColHtml_() {
     var data = state.data;
-    var wrap = document.getElementById('lideres-torneos-participados');
-    if (!data || !wrap) return;
+    if (!data) return '';
     var eras = {}, nombres = {};
     STATS_ORDER.forEach(function (stat) {
       var block = data.stats && data.stats[stat];
@@ -4954,12 +4953,11 @@
         '<span class="record-leader-nombre">' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</span>' +
         '<span class="record-leader-total">' + esc(p.total) + '</span></a>';
     }).join('');
-    wrap.innerHTML = '<div class="record-leader-col">' + (rowsHtml || '<p class="detail-message">Sin datos.</p>') + '</div>';
+    return '<div class="record-leader-col"><h4>Torneos Participados</h4>' + (rowsHtml || '<p class="detail-message">Sin datos.</p>') + '</div>';
   }
 
   function renderLideres_() {
     if (!state.data) return;
-    renderTorneosParticipados_();
     var msg = document.getElementById('lideres-message');
     var anio = document.getElementById('lideres-anio-box');
     var pos = document.getElementById('lideres-posicion-box');
@@ -5022,7 +5020,7 @@
       // other stat title on the site now uses, instead of repeating
       // the range as plain text in every one of these 4 cards.
       return '<div class="record-leader-col"><h4>' + esc(STAT_TITLES[stat] || stat) + statRangeBtnHtml_(stat) + '</h4>' + rowsHtml + '</div>';
-    }).join('');
+    }).join('') + torneosParticipadosColHtml_();
   }
 
   /** Every era's own match log (RES), keyed by era — current season's
