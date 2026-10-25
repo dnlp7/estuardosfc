@@ -2162,3 +2162,6 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 /* Otras > Partidos Iniciados por Posición: colored square before each position title. */
 .otras-titulares-grid { margin-bottom: 0; }
 .record-leader-col h4 .pos-legend-swatch { margin-right: 0.5rem; vertical-align: -1px; }
+
+/* Otras: every section title left-aligned (beats the centered compact-table rule). */
+#tab-otras .solid-box > h3 { text-align: left; }
