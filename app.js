@@ -993,6 +993,20 @@
     return best;
   }
 
+  /** Seasons (eras) in which a player attended at least one game: PA > 0,
+   * or (for eras with no recovered PA) any PI/GOL/AST > 0. Same rule as
+   * the Torneos Participados ranking. */
+  function torneosParticipadosCount_(playerId) {
+    var seen = {};
+    STATS_ORDER.forEach(function (stat) {
+      var block = state.data.stats && state.data.stats[stat];
+      var p = block && block.players.filter(function (x) { return x.playerId === playerId; })[0];
+      if (!p) return;
+      Object.keys(p.byEra || {}).forEach(function (era) { if (Number(p.byEra[era]) > 0) seen[era] = true; });
+    });
+    return Object.keys(seen).length;
+  }
+
   function formatFechaMeta_(iso, conAnio) {
     var f = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (!f) return iso ? String(iso) : '\u2014';
@@ -3015,6 +3029,9 @@
       document.getElementById('perfil-debut-row').hidden = false;
       document.getElementById('perfil-debut').textContent = formatFechaMeta_(iso, true).replace(/, (\d{4})$/, ' de $1');
     }).catch(function () { /* keep the year */ });
+    var nTorneos = torneosParticipadosCount_(playerId);
+    document.getElementById('perfil-torneos-row').hidden = !nTorneos;
+    document.getElementById('perfil-torneos').textContent = nTorneos || '';
     document.getElementById('perfil-cumple-row').hidden = false;
     document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '–';
 
