@@ -4680,7 +4680,7 @@
     var wrap = document.getElementById('otras-titulares');
     var title = document.getElementById('otras-titulares-title');
     if (!wrap) return;
-    if (title) title.innerHTML = 'Titulares por posición' + statRangeBtnHtml_('PI');
+    if (title) title.innerHTML = 'Partidos Iniciados por Posición' + statRangeBtnHtml_('PI');
     var POS = [['POR', 'Portero'], ['DEF', 'Defensa'], ['MED', 'Medio'], ['DEL', 'Delantero']];
     var counts = {};
     POS.forEach(function (p) { counts[p[0]] = {}; });
