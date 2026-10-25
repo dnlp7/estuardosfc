@@ -3013,7 +3013,7 @@
       var iso = firstGameDate_(historyData, playerId);
       if (!iso) return;
       document.getElementById('perfil-debut-row').hidden = false;
-      document.getElementById('perfil-debut').textContent = formatFechaMeta_(iso, true);
+      document.getElementById('perfil-debut').textContent = formatFechaMeta_(iso, true).replace(/, (\d{4})$/, ' de $1');
     }).catch(function () { /* keep the year */ });
     document.getElementById('perfil-cumple-row').hidden = false;
     document.getElementById('perfil-cumple').textContent = datos.cumpleanos ? formatCumpleanos_(datos.cumpleanos) : '–';
