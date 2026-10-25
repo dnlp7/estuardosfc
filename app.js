@@ -4607,7 +4607,7 @@
   function renderHorariosChart_(rows) {
     var total = rows.reduce(function (sum, r) { return sum + r.standings.pj; }, 0) || 1;
     var wrap = document.getElementById('otras-horarios-chart-wrap');
-    if (wrap) wrap.style.height = (rows.length * 30 + 40) + 'px';
+    if (wrap) wrap.style.height = (rows.length * 40 + 40) + 'px';
     var options = chartBaseOptions_();
     options.indexAxis = 'y';
     options.interaction = { mode: 'nearest', intersect: true };
@@ -4621,7 +4621,7 @@
     };
     options.scales = {
       x: { display: false, beginAtZero: true, grid: { display: false } },
-      y: { ticks: { color: '#ffffff', autoSkip: false }, grid: { display: false } }
+      y: { ticks: { color: '#ffffff', autoSkip: false, font: { weight: '700', size: 13 } }, grid: { display: false } }
     };
     var endLabels = {
       id: 'horariosEndLabels',
@@ -4644,7 +4644,7 @@
       type: 'bar',
       data: {
         labels: rows.map(function (r) { return r.label; }),
-        datasets: [{ label: 'PJ', data: rows.map(function (r) { return r.standings.pj; }), backgroundColor: COLORS.scaleBest, barPercentage: 0.7, categoryPercentage: 0.9 }]
+        datasets: [{ label: 'PJ', data: rows.map(function (r) { return r.standings.pj; }), backgroundColor: COLORS.scaleBest, barPercentage: 0.8, categoryPercentage: 0.75 }]
       },
       options: options,
       plugins: [endLabels]
@@ -4745,11 +4745,11 @@
     if (max < 0) { if (wrap) wrap.style.height = '60px'; return; }
     var labels = [], dataGf = [], dataGc = [];
     for (var n = 0; n <= max; n++) {
-      labels.push(n + (n === 1 ? ' gol' : ' goles'));
+      labels.push(String(n));
       dataGf.push(gf[n] || 0);
       dataGc.push(gc[n] || 0);
     }
-    if (wrap) wrap.style.height = (labels.length * 46 + 70) + 'px';
+    if (wrap) wrap.style.height = (labels.length * 58 + 70) + 'px';
     var options = chartBaseOptions_();
     options.indexAxis = 'y';
     options.interaction = { mode: 'nearest', intersect: true };
@@ -4763,7 +4763,7 @@
     };
     options.scales = {
       x: { display: false, beginAtZero: true, grid: { display: false } },
-      y: { ticks: { color: '#ffffff', autoSkip: false }, grid: { display: false } }
+      y: { ticks: { color: '#ffffff', autoSkip: false, font: { weight: '700', size: 13 } }, grid: { display: false } }
     };
     var endLabels = {
       id: 'golesEndLabels',
@@ -4788,8 +4788,8 @@
       data: {
         labels: labels,
         datasets: [
-          { label: 'Goles a favor', data: dataGf, backgroundColor: COLORS.good, barPercentage: 0.9, categoryPercentage: 0.8 },
-          { label: 'Goles en contra', data: dataGc, backgroundColor: COLORS.bad, barPercentage: 0.9, categoryPercentage: 0.8 }
+          { label: 'Goles a favor', data: dataGf, backgroundColor: COLORS.good, barPercentage: 0.95, categoryPercentage: 0.7 },
+          { label: 'Goles en contra', data: dataGc, backgroundColor: COLORS.bad, barPercentage: 0.95, categoryPercentage: 0.7 }
         ]
       },
       options: options,
