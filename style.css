@@ -2158,3 +2158,7 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 #ultimo-partido-card .partido-marcador-default,
 #ultimo-partido-card .partido-marcador-penales,
 #section-resultados .alineacion-match .detail-message { color: var(--tema-texto-fondo, var(--muted)); opacity: 0.8; }
+
+/* Otras > Titulares por posición: colored square before each position title. */
+.otras-titulares-grid { margin-bottom: 0; }
+.record-leader-col h4 .pos-legend-swatch { margin-right: 0.5rem; vertical-align: -1px; }

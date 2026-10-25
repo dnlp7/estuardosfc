@@ -4658,13 +4658,13 @@
     msg.hidden = false;
     content.hidden = true;
     fetchHistoryDetail()
-      .then(function (historyData) { showOtras_(allEraMatches_(historyData)); })
+      .then(function (historyData) { showOtras_(allEraMatches_(historyData), historyData); })
       .catch(function (err) {
         // Degrade to what's already in hand (current season only).
         var cur = state.data.currentSeason;
         if (cur && cur.matches && cur.matches.length) {
           var only = {}; only[cur.era] = cur.matches;
-          showOtras_(only);
+          showOtras_(only, null);
           return;
         }
         msg.textContent = 'No se pudo cargar el detalle histórico.';
@@ -4672,12 +4672,61 @@
       });
   }
 
-  function showOtras_(byEra) {
+  /** Top 5 per position (POR/DEF/MED/DEL) in games started, all-time:
+   * counts, per player, every PI cell equal to that position code across
+   * every era that has PI detail (SUP and blanks never count). Same row
+   * markup and standard-competition ranking as Líderes Históricos. */
+  function renderOtrasTitulares_(historyData) {
+    var wrap = document.getElementById('otras-titulares');
+    var title = document.getElementById('otras-titulares-title');
+    if (!wrap) return;
+    if (title) title.innerHTML = 'Titulares por posición' + statRangeBtnHtml_('PI');
+    var POS = [['POR', 'Portero'], ['DEF', 'Defensa'], ['MED', 'Medio'], ['DEL', 'Delantero']];
+    var counts = {};
+    POS.forEach(function (p) { counts[p[0]] = {}; });
+    var nombres = {};
+    var detailByEra = allEraStatDetail_(historyData, 'PI');
+    Object.keys(detailByEra).forEach(function (era) {
+      var block = detailByEra[era];
+      if (!block || !block.players) return;
+      block.players.forEach(function (pl) {
+        if (pl.isUtility || !pl.playerId) return;
+        nombres[pl.playerId] = pl.nombre;
+        (pl.byMatch || []).forEach(function (v) {
+          var code = String(v === null || v === undefined ? '' : v).trim().toUpperCase();
+          if (counts[code]) counts[code][pl.playerId] = (counts[code][pl.playerId] || 0) + 1;
+        });
+      });
+    });
+    wrap.innerHTML = POS.map(function (p) {
+      var c = POSITION_COLORS_[p[0]];
+      var list = Object.keys(counts[p[0]]).map(function (pid) {
+        return { playerId: pid, nombre: nombres[pid], total: counts[p[0]][pid] };
+      }).sort(function (a, b) {
+        return b.total - a.total || String(a.nombre).localeCompare(String(b.nombre));
+      }).slice(0, 5);
+      var lastTotal = null, lastRank = 0;
+      var rowsHtml = list.length
+        ? list.map(function (r, i) {
+            var rank = (lastTotal !== null && r.total === lastTotal) ? lastRank : i + 1;
+            lastTotal = r.total; lastRank = rank;
+            return '<a class="record-leader-row jugador-link" href="' + esc(hrefPerfil_(r.playerId)) + '" data-jugador-id="' + esc(r.playerId) + '">' +
+              '<span class="record-leader-rank">' + rank + '</span>' +
+              '<span class="record-leader-nombre">' + jugadorIconoHtml_(r.playerId) + esc(statsDisplayNombre_(r.playerId, r.nombre)) + '</span>' +
+              '<span class="record-leader-total">' + esc(r.total) + '</span></a>';
+          }).join('')
+        : '<p class="detail-message">Sin datos.</p>';
+      return '<div class="record-leader-col"><h4><span class="pos-legend-swatch" style="background:' + c.bg + '"></span>' + esc(p[1]) + '</h4>' + rowsHtml + '</div>';
+    }).join('');
+  }
+
+  function showOtras_(byEra, historyData) {
     var msg = document.getElementById('otras-message');
     var content = document.getElementById('otras-content');
     msg.hidden = true;
     content.hidden = false; // visible before charting so Chart.js can measure the canvas
     renderOtrasTable_('otras-rivales-table', buildRivalesRows_(byEra, 10), false);
+    renderOtrasTitulares_(historyData);
     var horarios = buildHorariosRows_(byEra);
     renderOtrasTable_('otras-horarios-table', horarios, true);
     renderHorariosChart_(horarios);
