@@ -4659,13 +4659,13 @@
     msg.hidden = false;
     content.hidden = true;
     fetchHistoryDetail()
-      .then(function (historyData) { showOtras_(allEraMatches_(historyData)); })
+      .then(function (historyData) { showOtras_(allEraMatches_(historyData), historyData); })
       .catch(function (err) {
         // Degrade to what's already in hand (current season only).
         var cur = state.data.currentSeason;
         if (cur && cur.matches && cur.matches.length) {
           var only = {}; only[cur.era] = cur.matches;
-          showOtras_(only);
+          showOtras_(only, null);
           return;
         }
         msg.textContent = 'No se pudo cargar el detalle histórico.';
@@ -4721,12 +4721,89 @@
     }).join('');
   }
 
-  function showOtras_(byEra) {
+  /** Goles Anotados: how many games the team scored (GF) and conceded
+   * (GC) exactly N goals, N = 0..max, as paired horizontal bars (green =
+   * scored, red = conceded). Unknown-score games and games decided by
+   * default are ignored. */
+  function renderGolesChart_(byEra, historyData) {
+    var defaults = defaultJornadasByEra_(historyData);
+    var gf = [], gc = [], games = 0;
+    Object.keys(byEra).forEach(function (era) {
+      (byEra[era] || []).forEach(function (m) {
+        if (m.resultado !== 'g' && m.resultado !== 'p' && m.resultado !== 'e') return;
+        if (m.gf === null || m.gf === undefined || m.gc === null || m.gc === undefined) return;
+        if (defaults[era] && defaults[era][m.jornada]) return;
+        var a = Number(m.gf), b = Number(m.gc);
+        if (isNaN(a) || isNaN(b)) return;
+        games++;
+        gf[a] = (gf[a] || 0) + 1;
+        gc[b] = (gc[b] || 0) + 1;
+      });
+    });
+    var max = Math.max(gf.length, gc.length) - 1;
+    var wrap = document.getElementById('otras-goles-chart-wrap');
+    if (max < 0) { if (wrap) wrap.style.height = '60px'; return; }
+    var labels = [], dataGf = [], dataGc = [];
+    for (var n = 0; n <= max; n++) {
+      labels.push(n + (n === 1 ? ' gol' : ' goles'));
+      dataGf.push(gf[n] || 0);
+      dataGc.push(gc[n] || 0);
+    }
+    if (wrap) wrap.style.height = (labels.length * 46 + 70) + 'px';
+    var options = chartBaseOptions_();
+    options.indexAxis = 'y';
+    options.interaction = { mode: 'nearest', intersect: true };
+    options.layout = { padding: { right: 90 } };
+    options.plugins.legend = { labels: { color: '#ffffff' } };
+    options.plugins.tooltip.callbacks = {
+      label: function (ctx) {
+        var v = ctx.parsed.x;
+        return ctx.dataset.label + ': ' + v + ' partidos (' + (games ? (v * 100 / games).toFixed(1) : '0.0') + '%)';
+      }
+    };
+    options.scales = {
+      x: { display: false, beginAtZero: true, grid: { display: false } },
+      y: { ticks: { color: '#ffffff', autoSkip: false }, grid: { display: false } }
+    };
+    var endLabels = {
+      id: 'golesEndLabels',
+      afterDatasetsDraw: function (chart) {
+        var ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 12px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        chart.data.datasets.forEach(function (ds, di) {
+          chart.getDatasetMeta(di).data.forEach(function (bar, i) {
+            var v = ds.data[i];
+            ctx.fillText(v + ' (' + (games ? (v * 100 / games).toFixed(1) : '0.0') + '%)', bar.x + 6, bar.y);
+          });
+        });
+        ctx.restore();
+      }
+    };
+    renderChart_('otras-goles-chart', {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: 'Goles a favor', data: dataGf, backgroundColor: COLORS.good, barPercentage: 0.9, categoryPercentage: 0.8 },
+          { label: 'Goles en contra', data: dataGc, backgroundColor: COLORS.bad, barPercentage: 0.9, categoryPercentage: 0.8 }
+        ]
+      },
+      options: options,
+      plugins: [endLabels]
+    });
+  }
+
+  function showOtras_(byEra, historyData) {
     var msg = document.getElementById('otras-message');
     var content = document.getElementById('otras-content');
     msg.hidden = true;
     content.hidden = false; // visible before charting so Chart.js can measure the canvas
     renderOtrasTable_('otras-rivales-table', buildRivalesRows_(byEra, 10), false);
+    renderGolesChart_(byEra, historyData);
     var horarios = buildHorariosRows_(byEra);
     renderOtrasTable_('otras-horarios-table', horarios, true);
     renderHorariosChart_(horarios);
