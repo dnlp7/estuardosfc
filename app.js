@@ -4917,8 +4917,49 @@
     lideresTableHtml_('lideres-anio-table', 'Año', rows);
   }
 
+  /** Torneos Participados: top 10 by number of seasons (eras) a player
+   * attended at least one game. PA > 0 counts; an era with no PA data
+   * for the player's row still counts when any other stat (PI, GOL, AST)
+   * shows he played, so eras whose PA was never recovered aren't lost. */
+  function renderTorneosParticipados_() {
+    var data = state.data;
+    var wrap = document.getElementById('lideres-torneos-participados');
+    if (!data || !wrap) return;
+    var eras = {}, nombres = {};
+    STATS_ORDER.forEach(function (stat) {
+      var block = data.stats && data.stats[stat];
+      if (!block) return;
+      block.players.forEach(function (p) {
+        if (!p.playerId) return;
+        nombres[p.playerId] = nombres[p.playerId] || p.nombre;
+        Object.keys(p.byEra || {}).forEach(function (era) {
+          if (Number(p.byEra[era]) > 0) {
+            eras[p.playerId] = eras[p.playerId] || {};
+            eras[p.playerId][era] = true;
+          }
+        });
+      });
+    });
+    var list = Object.keys(eras).map(function (pid) {
+      return { playerId: pid, nombre: nombres[pid], total: Object.keys(eras[pid]).length };
+    }).sort(function (a, b) {
+      return b.total - a.total || String(a.nombre).localeCompare(String(b.nombre));
+    }).slice(0, 10);
+    var lastTotal = null, lastRank = 0;
+    var rowsHtml = list.map(function (p, i) {
+      var rank = (lastTotal !== null && p.total === lastTotal) ? lastRank : i + 1;
+      lastTotal = p.total; lastRank = rank;
+      return '<a class="record-leader-row jugador-link" href="' + esc(hrefPerfil_(p.playerId)) + '" data-jugador-id="' + esc(p.playerId) + '">' +
+        '<span class="record-leader-rank">' + rank + '</span>' +
+        '<span class="record-leader-nombre">' + jugadorIconoHtml_(p.playerId) + esc(statsDisplayNombre_(p.playerId, p.nombre)) + '</span>' +
+        '<span class="record-leader-total">' + esc(p.total) + '</span></a>';
+    }).join('');
+    wrap.innerHTML = '<div class="record-leader-col">' + (rowsHtml || '<p class="detail-message">Sin datos.</p>') + '</div>';
+  }
+
   function renderLideres_() {
     if (!state.data) return;
+    renderTorneosParticipados_();
     var msg = document.getElementById('lideres-message');
     var anio = document.getElementById('lideres-anio-box');
     var pos = document.getElementById('lideres-posicion-box');
