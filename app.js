@@ -4741,7 +4741,7 @@
     if (!leaders || !leaders.length) return '<span class="lider-vacio">—</span>';
     return leaders.map(function (l) {
       return '<a class="lider-row jugador-link" href="' + esc(hrefPerfil_(l.playerId)) + '" data-jugador-id="' + esc(l.playerId) + '">' +
-        '<span class="lider-nombre">' + jugadorIconoHtml_(l.playerId) + esc(statsDisplayNombre_(l.playerId, l.nombre)) + '</span>' +
+        '<span class="lider-nombre">' + jugadorIconoHtml_(l.playerId) + esc(l.nombre) + '</span>' +
         '<span class="lider-total">' + esc(l.total) + '</span></a>';
     }).join('');
   }
@@ -4759,7 +4759,7 @@
 
   function lideresTableHtml_(tableId, labelHeader, rows) {
     var thead = '<tr><th>' + labelHeader + '</th>' + STATS_ORDER.map(function (st) {
-      return '<th>' + esc(st) + '</th>';
+      return '<th>' + esc(STAT_TITLES[st] || st) + statRangeBtnHtml_(st) + '</th>';
     }).join('') + '</tr>';
     document.querySelector('#' + tableId + ' thead').innerHTML = thead;
     document.querySelector('#' + tableId + ' tbody').innerHTML = rows.map(function (r) {
@@ -4786,10 +4786,9 @@
         }
         leaders[stat] = topLeaders_(totals, nombres);
       });
-      var torneo = torneoForEra_(s.era);
       return {
-        labelHtml: (torneo ? '<span class="lider-torneo">' + esc(torneo) + '</span> ' : '') + esc(formatEraLabel_(s.era)) +
-          (data.currentSeason && s.era === data.currentSeason.era ? ' <span class="lider-encurso">En curso</span>' : ''),
+        labelHtml: esc(formatEraLabel_(s.era)) +
+          (data.currentSeason && s.era === data.currentSeason.era ? '<span class="lider-encurso">En curso</span>' : ''),
         leaders: leaders
       };
     });
@@ -4836,7 +4835,7 @@
     var rows = Object.keys(years).sort().reverse().map(function (year) {
       var leaders = {};
       STATS_ORDER.forEach(function (stat) { leaders[stat] = topLeaders_(years[year][stat] || {}, nombres); });
-      return { labelHtml: esc(year) + (year === currentYear ? ' <span class="lider-encurso">En curso</span>' : ''), leaders: leaders };
+      return { labelHtml: esc(year) + (year === currentYear ? '<span class="lider-encurso">En curso</span>' : ''), leaders: leaders };
     });
     lideresTableHtml_('lideres-anio-table', 'Año', rows);
   }

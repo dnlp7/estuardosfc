@@ -2166,18 +2166,33 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 /* Otras: every section title left-aligned (beats the centered compact-table rule). */
 #tab-otras .solid-box > h3 { text-align: left; }
 
-/* Líderes tab */
+/* Líderes tab — same grid language as the Individuales/Equipo tables (flat header + cell greys, thick black grid), no color grading. */
 #tab-lideres .solid-box > h3 { text-align: left; }
-.lideres-wrap { overflow-x: auto; }
-.lideres-table { width: 100%; border-collapse: collapse; }
-.lideres-table th { text-align: left; }
-.lideres-table td { vertical-align: top; white-space: normal; }
-.lideres-table .lider-periodo { white-space: nowrap; }
-.lider-torneo { color: var(--accent-light); font-weight: 800; }
-.lider-encurso { font-size: 0.7rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-left: 0.3rem; }
-.lider-celda { min-width: 11rem; }
+.lideres-wrap { overflow-x: auto; border: none; border-radius: 0; background: transparent; }
+.lideres-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.lideres-table th, .lideres-table td {
+  border-right: 2px solid var(--black);
+  border-bottom: 2px solid var(--black);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+}
+.lideres-table thead th {
+  background: var(--grey-header);
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  border-top: 2px solid var(--black);
+  vertical-align: middle;
+}
+.lideres-table tbody td { background: var(--grey-cell); }
+.lideres-table th:first-child, .lideres-table td:first-child { border-left: 2px solid var(--black); }
+.lideres-table .lider-periodo { white-space: nowrap; width: 1%; font-weight: 700; }
+.lider-encurso { display: block; font-size: 0.65rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.15rem; }
+.lider-celda { min-width: 10rem; }
 .lider-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; color: inherit; text-decoration: none; padding: 0.15rem 0; }
-.lider-row + .lider-row { border-top: 1px solid var(--border); }
+.lider-row + .lider-row { border-top: 1px solid var(--black); }
 .lider-nombre { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--white); }
 .lider-total { color: var(--accent-light); font-weight: 700; }
 .lider-vacio { color: var(--muted); }
