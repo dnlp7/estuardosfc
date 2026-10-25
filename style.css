@@ -2171,9 +2171,8 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 .lideres-wrap { overflow-x: auto; border: none; border-radius: 0; background: transparent; }
 .lideres-table { width: 100%; border-collapse: separate; border-spacing: 0; }
 .lideres-table th, .lideres-table td {
-  border-right: 2px solid var(--black);
   border-bottom: 2px solid var(--black);
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem 0.75rem 1rem;
   text-align: left;
   vertical-align: top;
   white-space: normal;
@@ -2183,11 +2182,11 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
   color: var(--muted);
   font-size: 0.75rem;
   text-transform: uppercase;
-  border-top: 2px solid var(--black);
+  padding-bottom: 0.5rem;
   vertical-align: middle;
 }
-.lideres-table tbody td { background: var(--grey-cell); }
-.lideres-table th:first-child, .lideres-table td:first-child { border-left: 2px solid var(--black); }
+.lideres-table tbody td { background: var(--grey-header); }
+.lideres-table tbody tr:hover td { background: var(--grey-header); }
 .lideres-table .lider-periodo { white-space: nowrap; width: 1%; font-weight: 700; }
 .lider-encurso { display: block; font-size: 0.65rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.15rem; }
 .lider-celda { min-width: 10rem; }
