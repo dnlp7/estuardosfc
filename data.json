@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T00:00:02.772Z",
+  "generatedAt": "2026-10-26T04:05:40.691Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -1144,7 +1144,7 @@
       }
     },
     "P057": {
-      "nombre": "Ricardo",
+      "nombre": "Richie",
       "activo": false,
       "dorsalByEra": {
         "2011": 77,
@@ -1926,7 +1926,7 @@
     },
     "P057": {
       "nombreCompleto": "Ricardo Lizarraga",
-      "nombreEstadisticas": "Ricardo Lizarraga",
+      "nombreEstadisticas": "Richie Lizarraga",
       "posicion": "DEF",
       "debut": "2011",
       "cumpleanos": null,
@@ -4358,7 +4358,7 @@
         {
           "playerId": "P057",
           "dorsal": 77,
-          "nombre": "Ricardo",
+          "nombre": "Richie",
           "total": 1,
           "byEra": {
             "2011": 1,
@@ -5798,7 +5798,7 @@
         {
           "playerId": "P057",
           "dorsal": 77,
-          "nombre": "Ricardo",
+          "nombre": "Richie",
           "total": 15,
           "byEra": {
             "2011": 13,
