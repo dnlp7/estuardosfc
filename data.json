@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-25T23:54:35.887Z",
+  "generatedAt": "2026-10-26T00:00:02.772Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -7703,7 +7703,7 @@
         "penales": null,
         "puntos": 0,
         "rival": "MILAN",
-        "rivalBg": "#002b4d",
+        "rivalBg": "#001e36",
         "rivalText": "#ffda1e",
         "lineup": {
           "formacion": "2-3-1",
