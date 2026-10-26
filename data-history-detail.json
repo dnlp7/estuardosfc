@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-24T06:47:48.528Z",
+  "generatedAt": "2026-10-26T18:57:54.273Z",
   "eras": {
     "2011": {
       "GOL": {
@@ -73676,8 +73676,8 @@
           "penales": null,
           "puntos": 0,
           "rival": "MILAN",
-          "rivalBg": "#262626",
-          "rivalText": "#ffffff",
+          "rivalBg": "#101010",
+          "rivalText": "#bcae90",
           "lineup": {
             "formacion": "2-3-1",
             "jugadores": [
@@ -74560,8 +74560,8 @@
           "penales": null,
           "puntos": 0,
           "rival": "MILAN",
-          "rivalBg": "#262626",
-          "rivalText": "#ffffff",
+          "rivalBg": "#000000",
+          "rivalText": "#f2041b",
           "lineup": {
             "formacion": "2-3-1",
             "jugadores": [
