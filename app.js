@@ -725,7 +725,59 @@
     renderEscudos_();
     renderJerseys_();
     setupJerseysTipoSelector_();
+    renderHistoriaMedia_();
     linkHistoriaEventos_();
+  }
+
+  // Historia photos live in the media bucket next to the match galleries:
+  //  - Event photos: <base>/historia/evento-YYYY-MM-DD.jpg (one per timeline
+  //    event, matched by its date). A missing file shows a themed
+  //    crest placeholder instead.
+  //  - ¿Quiénes somos? strip: historia.json {"quienes":{"folder":
+  //    "historia-quienes","photos":N,"version":V}} -> <base>/historia-quienes/
+  //    001.jpg, 001-t.jpg ... (same layout as a match gallery); N = 0 hides it.
+  var HISTORIA_MEDIA_BASE_ = 'https://media.estuardosfc.com';
+  function renderHistoriaMedia_() {
+    fetchMedia_().then(function (media) {
+      var base = String((media && media.base) || HISTORIA_MEDIA_BASE_).replace(/\/$/, '');
+      document.querySelectorAll('.timeline li').forEach(function (li) {
+        if (li.querySelector('.timeline-foto')) return;
+        var texto = document.createElement('div');
+        texto.className = 'timeline-texto';
+        while (li.firstChild) texto.appendChild(li.firstChild);
+        li.appendChild(texto);
+        var iso = fechaTextoAIso_((texto.querySelector('.timeline-date') || {}).textContent);
+        var foto = document.createElement('div');
+        foto.className = 'timeline-foto';
+        if (iso) {
+          var img = document.createElement('img');
+          img.alt = '';
+          img.loading = 'lazy';
+          img.addEventListener('error', function () { img.remove(); });
+          img.src = base + '/historia/evento-' + iso + '.jpg';
+          foto.appendChild(img);
+        }
+        li.appendChild(foto);
+      });
+      fetch('historia.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (cfg) {
+        var q = cfg && cfg.quienes;
+        var strip = document.getElementById('historia-strip');
+        if (!q || !q.photos || !strip) return;
+        var p = { folder: q.folder || 'historia-quienes', photos: q.photos, videos: [], version: q.version };
+        var tiles = '';
+        for (var i = 1; i <= q.photos; i++) {
+          tiles += '<button type="button" class="historia-strip-tile" data-historia-foto="' + i + '"><img src="' + esc(mediaFotoUrl_({ base: base }, p, i, true)) + '" alt="Foto histórica ' + i + '" loading="lazy"></button>';
+        }
+        strip.innerHTML = tiles;
+        strip.hidden = false;
+        strip.addEventListener('click', function (e) {
+          var t = e.target.closest && e.target.closest('[data-historia-foto]');
+          if (!t) return;
+          state.partidoMedia = { media: { base: base }, p: p };
+          abrirVisor_('foto', Number(t.getAttribute('data-historia-foto')) - 1);
+        });
+      }).catch(function () { /* no strip */ });
+    });
   }
 
   var MESES_NUM_ = { enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6, julio: 7, agosto: 8, septiembre: 9, octubre: 10, noviembre: 11, diciembre: 12 };
@@ -765,6 +817,7 @@
           var hit = byFecha[fechaTextoAIso_(dateEl && dateEl.textContent)];
           if (!hit) return;
           li.dataset.partido = hit.era + '::' + hit.jornada;
+          aplicarTemaPartido_(li, hit.era); // era colors for the photo placeholder
         }
         li.classList.add('timeline-link');
         li.setAttribute('role', 'link');

@@ -2199,3 +2199,18 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 /* Perfil > Rachas: current streak line under the record entries. */
 .racha-actual { margin-top: 0.75rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.1); color: var(--muted); font-size: 0.95rem; }
 .racha-actual strong { color: var(--white); font-size: 1.05rem; }
+
+/* Historia: photo strip (¿Quiénes somos?) and event photos (timeline). */
+.historia-strip { display: flex; gap: 0.75rem; overflow-x: auto; margin-top: 1.25rem; padding-bottom: 0.5rem; }
+.historia-strip-tile { flex: 0 0 auto; padding: 0; border: none; background: var(--grey-header); cursor: pointer; line-height: 0; }
+.historia-strip-tile img { height: 11rem; width: auto; display: block; }
+.timeline li { display: flex; gap: 1.5rem; align-items: flex-start; }
+.timeline-texto { flex: 1 1 auto; min-width: 0; }
+.timeline-foto { position: relative; flex: 0 0 15rem; aspect-ratio: 3 / 2; background: var(--tema-principal, var(--grey-header)); overflow: hidden; }
+.timeline-foto::before { content: ''; position: absolute; inset: 0; background: url(images/Escudo.png) center / 42% auto no-repeat; opacity: 0.45; }
+.timeline-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 640px) {
+  .timeline li { flex-direction: column; gap: 0.75rem; }
+  .timeline-foto { flex: none; width: 100%; max-width: 20rem; }
+  .historia-strip-tile img { height: 8.5rem; }
+}
