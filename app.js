@@ -730,9 +730,9 @@
   }
 
   // Historia photos live in the media bucket next to the match galleries:
-  //  - Event photos: <base>/historia/evento-YYYY-MM-DD.jpg (one per timeline
-  //    event, matched by its date). A missing file shows a themed
-  //    crest placeholder instead.
+  //  - Event photos: <base>/historia/evento-YYYY-MM-DD.jpg (3:2 crop shown in
+  //    the timeline) and evento-YYYY-MM-DD-full.jpg (what the viewer opens).
+  //    An event without a photo is shown as plain text.
   //  - ¿Quiénes somos? strip: historia.json {"quienes":{"folder":
   //    "historia-quienes","photos":N,"version":V}} -> <base>/historia-quienes/
   //    001.jpg, 001-t.jpg ... (same layout as a match gallery); N = 0 hides it.
@@ -745,20 +745,40 @@
         var texto = document.createElement('div');
         texto.className = 'timeline-texto';
         while (li.firstChild) texto.appendChild(li.firstChild);
-        li.appendChild(texto);
         var iso = fechaTextoAIso_((texto.querySelector('.timeline-date') || {}).textContent);
-        var foto = document.createElement('div');
-        foto.className = 'timeline-foto';
         if (iso) {
+          // The photo block exists only once its image has loaded: an event
+          // without a photo is plain text (no placeholder).
+          var foto = document.createElement('button');
+          foto.type = 'button';
+          foto.className = 'timeline-foto';
+          foto.setAttribute('aria-label', 'Ampliar foto');
+          foto.dataset.full = base + '/historia/evento-' + iso + '-full.jpg';
           var img = document.createElement('img');
           img.alt = '';
-          img.loading = 'lazy';
-          img.addEventListener('error', function () { img.remove(); });
+          img.addEventListener('load', function () { foto.classList.add('cargada'); });
+          img.addEventListener('error', function () { foto.remove(); });
           img.src = base + '/historia/evento-' + iso + '.jpg';
           foto.appendChild(img);
+          li.appendChild(foto);
         }
-        li.appendChild(foto);
+        li.appendChild(texto);
       });
+      var timeline = document.querySelector('.timeline');
+      if (timeline && !timeline.dataset.fotosListas) {
+        timeline.dataset.fotosListas = '1';
+        // Click a photo: full-screen viewer over every event photo that exists.
+        timeline.addEventListener('click', function (e) {
+          var t = e.target.closest && e.target.closest('.timeline-foto.cargada');
+          if (!t) return;
+          e.preventDefault();
+          e.stopPropagation(); // don't also open the event's match sheet
+          var fotos = Array.prototype.slice.call(timeline.querySelectorAll('.timeline-foto.cargada'));
+          var urls = fotos.map(function (f) { return f.dataset.full; });
+          state.partidoMedia = { media: { base: base }, p: { urls: urls, photos: urls.length, videos: [] } };
+          abrirVisor_('foto', fotos.indexOf(t));
+        }, true);
+      }
       fetch('historia.json').then(function (r) { return r.ok ? r.json() : null; }).then(function (cfg) {
         var q = cfg && cfg.quienes;
         var strip = document.getElementById('historia-strip');
@@ -817,7 +837,6 @@
           var hit = byFecha[fechaTextoAIso_(dateEl && dateEl.textContent)];
           if (!hit) return;
           li.dataset.partido = hit.era + '::' + hit.jornada;
-          aplicarTemaPartido_(li, hit.era); // era colors for the photo placeholder
         }
         li.classList.add('timeline-link');
         li.setAttribute('role', 'link');
@@ -2338,6 +2357,7 @@
 
   // i is 1-based (files are 001.jpg, 002.jpg, ...).
   function mediaFotoUrl_(media, p, i, thumb) {
+    if (p.urls) return p.urls[i - 1]; // explicit list (Historia event photos)
     var n = ('00' + i).slice(-3);
     // p.version changes whenever a match's gallery is replaced (scripts/add_match_media.py),
     // so browsers and Cloudflare's cache fetch the new photos instead of old cached ones.
