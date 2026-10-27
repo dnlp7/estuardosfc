@@ -2195,3 +2195,7 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 .lider-nombre { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--white); }
 .lider-total { color: var(--accent-light); font-weight: 700; }
 .lider-vacio { color: var(--muted); }
+
+/* Perfil > Rachas: current streak line under the record entries. */
+.racha-actual { margin-top: 0.75rem; padding-top: 0.6rem; border-top: 1px solid rgba(255, 255, 255, 0.1); color: var(--muted); font-size: 0.95rem; }
+.racha-actual strong { color: var(--white); font-size: 1.05rem; }

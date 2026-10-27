@@ -3204,7 +3204,7 @@
    * which also have no name to show) - it's already this player's own
    * page. entries can be empty even with hasData: true (see
    * playerMatchRecord_) - the bare value then renders alone. */
-  function renderPerfilRecordCard_(elId, record, entryHtml, teamMax) {
+  function renderPerfilRecordCard_(elId, record, entryHtml, teamMax, actual) {
     var el = document.getElementById(elId);
     if (!el) return;
     if (!record.hasData) {
@@ -3220,7 +3220,8 @@
       (record.entries && record.entries.length
         ? record.entries.map(function (e) { return '<div class="record-highlight-entry">' + entryHtml(e) + '</div>'; }).join('')
         : '') +
-      (record.more ? '<div class="record-highlight-entry record-highlight-more">+' + esc(record.more) + ' más</div>' : '');
+      (record.more ? '<div class="record-highlight-entry record-highlight-more">+' + esc(record.more) + ' más</div>' : '') +
+      (actual !== null && actual !== undefined ? '<div class="racha-actual">Racha actual: <strong>' + esc(actual) + '</strong></div>' : '');
   }
 
   /** Renders the whole per-player Récords section (see renderPerfil).
@@ -3265,7 +3266,10 @@
           return partidoLinkSpanHtml_(e, esc(formatEraLabel_(e.era)) + ' ' + esc(e.matchLabel));
         }, mostStatInMatchRecord_(historyData, 'AST').max);
         PERFIL_RACHA_STATS_.forEach(function (stat, i) {
-          renderPerfilRecordCard_(PERFIL_RACHA_IDS_[i], playerStreakRecord_(historyData, stat, playerId), streakRangeLinkHtml_, individualStreaksRecord_(historyData, stat).max);
+          // "Racha actual" only for players currently on the roster.
+          var info = jugadorInfo_(nombre, playerId);
+          var actual = (info && info.activo) ? currentStreakLength_(historyData, stat, playerId) : null;
+          renderPerfilRecordCard_(PERFIL_RACHA_IDS_[i], playerStreakRecord_(historyData, stat, playerId), streakRangeLinkHtml_, individualStreaksRecord_(historyData, stat).max, actual);
         });
       })
       .catch(function (err) {
@@ -5519,6 +5523,15 @@
       entries: top.slice(0, PERFIL_RACHA_MAX_ENTRIES_),
       more: Math.max(0, top.length - PERFIL_RACHA_MAX_ENTRIES_)
     };
+  }
+
+  /** Length of the player's streak that is still running through the
+   * latest game (0 when the last game broke it or he has none). */
+  function currentStreakLength_(historyData, stat, playerId) {
+    var mine = individualStreaksAll_(historyData, stat).streaks.filter(function (s) {
+      return s.playerId === playerId && s.active;
+    });
+    return mine.reduce(function (m, s) { return Math.max(m, s.length); }, 0);
   }
 
   /** Wraps a game-level record entry's label in a clickable span that
