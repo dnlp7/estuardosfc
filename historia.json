@@ -1,4 +1,8 @@
 {
   "note": "Photos for the Historia page. Upload gallery files to the media bucket folder below (001.jpg, 001-t.jpg...), set photos to the count and bump version.",
-  "quienes": { "folder": "historia-quienes", "photos": 0, "version": 1 }
+  "quienes": {
+    "folder": "historia-quienes",
+    "photos": 9,
+    "version": 1793081865
+  }
 }
