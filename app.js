@@ -729,6 +729,131 @@
     linkHistoriaEventos_();
   }
 
+
+  // ---------------------------------------------------------------------
+  // Viajes: viajes.json {"viajes":[{id, titulo, inicio, fin, lugares:[{nombre,
+  // lat, lon}], mapa?:{lat,lon,zoom}, fotos:{folder:"viajes-<anio>", photos:N,
+  // version:V}}]}. Photos live in the media bucket like a match gallery
+  // (<base>/viajes-2025/001.jpg, 001-t.jpg ...). The small map is Leaflet
+  // (cdnjs, loaded the first time the page opens) over CARTO dark tiles with
+  // OpenStreetMap attribution; it is not interactive. Pins = the lugares'
+  // coordinates and the view fits them, unless the trip sets "mapa".
+  var VIAJES_LEAFLET_ = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/';
+  var VIAJES_TILES_ = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+  var viajesEstado_ = { cargando: false, listo: false, viajes: [], mapas: [], base: '' };
+
+  function cargarLeaflet_() {
+    if (window.L) return Promise.resolve(window.L);
+    if (!viajesEstado_.leafletPromise) {
+      viajesEstado_.leafletPromise = new Promise(function (resolve, reject) {
+        var css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = VIAJES_LEAFLET_ + 'leaflet.min.css';
+        document.head.appendChild(css);
+        var s = document.createElement('script');
+        s.src = VIAJES_LEAFLET_ + 'leaflet.min.js';
+        s.onload = function () { resolve(window.L); };
+        s.onerror = function () { reject(new Error('Leaflet no disponible')); };
+        document.head.appendChild(s);
+      });
+    }
+    return viajesEstado_.leafletPromise;
+  }
+
+  /** "10 – 11 de diciembre de 2022", "30 de agosto – 2 de septiembre de 2024". */
+  function viajeFechasTexto_(ini, fin) {
+    var A = String(ini || '').split('-').map(Number);
+    var B = String(fin || ini || '').split('-').map(Number);
+    if (A.length < 3 || isNaN(A[0])) return '';
+    var mes = function (n) { return MESES_LARGOS_ES_[n - 1].toLowerCase(); };
+    if (!fin || fin === ini) return A[2] + ' de ' + mes(A[1]) + ' de ' + A[0];
+    if (A[0] === B[0] && A[1] === B[1]) return A[2] + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
+    if (A[0] === B[0]) return A[2] + ' de ' + mes(A[1]) + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
+    return A[2] + ' de ' + mes(A[1]) + ' de ' + A[0] + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
+  }
+
+  function iniciarMapasViajes_(L) {
+    viajesEstado_.viajes.forEach(function (t, i) {
+      var el = document.getElementById('viaje-mapa-' + i);
+      if (!el || el.dataset.listo) return;
+      var pts = (t.lugares || []).filter(function (l) { return typeof l.lat === 'number' && typeof l.lon === 'number'; });
+      if (!pts.length && !t.mapa) return;
+      el.dataset.listo = '1';
+      var map = L.map(el, {
+        zoomControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false,
+        boxZoom: false, keyboard: false, touchZoom: false, attributionControl: true
+      });
+      map.attributionControl.setPrefix(false);
+      L.tileLayer(VIAJES_TILES_, {
+        subdomains: 'abcd', maxZoom: 14,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      }).addTo(map);
+      pts.forEach(function (l) {
+        L.circleMarker([l.lat, l.lon], { radius: 5, color: '#ffffff', weight: 1.5, fillColor: '#18a8b6', fillOpacity: 1, interactive: false }).addTo(map);
+      });
+      if (t.mapa && typeof t.mapa.lat === 'number') map.setView([t.mapa.lat, t.mapa.lon], t.mapa.zoom || 9);
+      else if (pts.length === 1) map.setView([pts[0].lat, pts[0].lon], 11);
+      else map.fitBounds(L.latLngBounds(pts.map(function (l) { return [l.lat, l.lon]; })), { padding: [22, 22], maxZoom: 11 });
+      viajesEstado_.mapas.push(map);
+    });
+  }
+
+  function renderViajes_() {
+    var cont = document.getElementById('viajes-lista');
+    if (!cont) return;
+    if (viajesEstado_.listo) {
+      viajesEstado_.mapas.forEach(function (m) { m.invalidateSize(); });
+      return;
+    }
+    if (viajesEstado_.cargando) return;
+    viajesEstado_.cargando = true;
+    Promise.all([
+      fetch('viajes.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetchMedia_()
+    ]).then(function (res) {
+      viajesEstado_.cargando = false;
+      var lista = ((res[0] && res[0].viajes) || []).slice();
+      lista.sort(function (x, y) { return String(y.inicio).localeCompare(String(x.inicio)); }); // newest first
+      viajesEstado_.viajes = lista;
+      viajesEstado_.base = String((res[1] && res[1].base) || HISTORIA_MEDIA_BASE_).replace(/\/$/, '');
+      if (!lista.length) {
+        cont.innerHTML = '<div class="solid-box"><p class="detail-message">Pronto habrá viajes por aquí.</p></div>';
+        return;
+      }
+      cont.innerHTML = lista.map(function (t, i) {
+        var lugares = (t.lugares || []).map(function (l) { return esc(l.nombre); }).join(' &middot; ');
+        var f = t.fotos || {};
+        var tiles = '';
+        for (var k = 1; k <= (f.photos || 0); k++) {
+          tiles += '<button type="button" class="viaje-foto" data-viaje="' + i + '" data-n="' + k + '"><img src="' +
+            esc(mediaFotoUrl_({ base: viajesEstado_.base }, { folder: f.folder, version: f.version }, k, true)) +
+            '" alt="' + esc(t.titulo) + ' — foto ' + k + '" loading="lazy"></button>';
+        }
+        return '<article class="solid-box viaje-card">' +
+          '<div class="viaje-mapa" id="viaje-mapa-' + i + '" role="img" aria-label="Mapa de ' + esc(t.titulo) + '"></div>' +
+          '<div class="viaje-info">' +
+            '<h3>' + esc(t.titulo) + '</h3>' +
+            '<div class="viaje-fecha">' + partidoMetaItemHtml_('fecha', viajeFechasTexto_(t.inicio, t.fin)) + '</div>' +
+            (lugares ? '<p class="viaje-lugares">' + lugares + '</p>' : '') +
+            (tiles ? '<div class="viaje-fotos">' + tiles + '</div>' : '') +
+          '</div></article>';
+      }).join('');
+      viajesEstado_.listo = true;
+      if (!cont.dataset.clicks) {
+        cont.dataset.clicks = '1';
+        cont.addEventListener('click', function (e) {
+          var b = e.target.closest && e.target.closest('.viaje-foto');
+          if (!b) return;
+          var t = viajesEstado_.viajes[Number(b.dataset.viaje)];
+          var f = (t && t.fotos) || {};
+          state.partidoMedia = { media: { base: viajesEstado_.base }, p: { folder: f.folder, photos: f.photos, videos: [], version: f.version } };
+          abrirVisor_('foto', Number(b.dataset.n) - 1);
+        });
+      }
+      cargarLeaflet_().then(iniciarMapasViajes_).catch(function (err) { console.warn(err); });
+    });
+  }
+
   // Historia photos live in the media bucket next to the match galleries:
   //  - Event photos: <base>/historia/evento-YYYY-MM-DD.jpg (3:2 crop shown in
   //    the timeline) and evento-YYYY-MM-DD-full.jpg (what the viewer opens).
@@ -2031,7 +2156,8 @@
     resultados: 'Estuardos FC — Resultados',
     estadisticas: 'Estuardos FC — Estadísticas',
     jugadores: 'Estuardos FC — Jugadores',
-    historia: 'Estuardos FC — Historia'
+    historia: 'Estuardos FC — Historia',
+    viajes: 'Estuardos FC — Viajes'
   };
 
   function activateSection_(name) {
@@ -2837,7 +2963,7 @@
   // by buildHash_() from the live UI state (single source of truth) and
   // read back by routeFromHash_().
 
-  var SECTION_HASHES_ = ['inicio', 'resultados', 'estadisticas', 'jugadores', 'historia'];
+  var SECTION_HASHES_ = ['inicio', 'resultados', 'estadisticas', 'jugadores', 'historia', 'viajes'];
   // URL slug <-> internal tab id (Estadísticas)
   var ESTAD_SLUG_TO_TAB_ = { equipo: 'temporada', individuales: 'historial', records: 'records', lideres: 'lideres', otras: 'otras' };
   var ESTAD_TAB_TO_SLUG_ = { temporada: 'equipo', historial: 'individuales', records: 'records', lideres: 'lideres', otras: 'otras' };
@@ -2968,6 +3094,9 @@
     } else if (seg0 === 'jugadores') {
       activateSection_('jugadores');
       activateJugadoresTab_(r.segs[1] === 'previos' ? 'previos' : 'actual');
+    } else if (seg0 === 'viajes') {
+      activateSection_('viajes');
+      renderViajes_();
     } else if (seg0 === 'historia') {
       activateSection_('historia');
       var tipo = p.tipo === 'Portero' ? 'Portero' : 'Jugador';

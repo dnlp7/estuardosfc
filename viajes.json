@@ -1,0 +1,150 @@
+{
+  "note": "Trips for the Viajes page. Edit titles/dates/places here; photos are added with scripts/add_viajes_media.py (see 'Viajes media guide.pdf'). Pins and the map view come from each place's lat/lon; add a \"mapa\": {\"lat\":..,\"lon\":..,\"zoom\":..} to a trip to force the view.",
+  "viajes": [
+    {
+      "id": "2022",
+      "titulo": "Melaque 2022",
+      "inicio": "2022-12-10",
+      "fin": "2022-12-11",
+      "lugares": [
+        {
+          "nombre": "Melaque",
+          "lat": 19.217,
+          "lon": -104.69
+        },
+        {
+          "nombre": "San Patricio",
+          "lat": 19.22,
+          "lon": -104.7
+        }
+      ],
+      "fotos": {
+        "folder": "viajes-2022",
+        "photos": 0,
+        "version": 0
+      }
+    },
+    {
+      "id": "2023",
+      "titulo": "Los Cabos 2023",
+      "inicio": "2023-12-01",
+      "fin": "2023-12-04",
+      "lugares": [
+        {
+          "nombre": "Balandra",
+          "lat": 24.322,
+          "lon": -110.325
+        },
+        {
+          "nombre": "Cabo San Lucas",
+          "lat": 22.8905,
+          "lon": -109.9167
+        },
+        {
+          "nombre": "San José del Cabo",
+          "lat": 23.0595,
+          "lon": -109.701
+        }
+      ],
+      "fotos": {
+        "folder": "viajes-2023",
+        "photos": 0,
+        "version": 0
+      }
+    },
+    {
+      "id": "2024",
+      "titulo": "Mazatlán 2024",
+      "inicio": "2024-09-13",
+      "fin": "2024-09-16",
+      "lugares": [
+        {
+          "nombre": "Mazatlán",
+          "lat": 23.2494,
+          "lon": -106.4111
+        }
+      ],
+      "fotos": {
+        "folder": "viajes-2024",
+        "photos": 0,
+        "version": 0
+      }
+    },
+    {
+      "id": "2025",
+      "titulo": "Cancún 2025",
+      "inicio": "2025-09-12",
+      "fin": "2025-09-17",
+      "lugares": [
+        {
+          "nombre": "Playa del Carmen",
+          "lat": 20.6296,
+          "lon": -87.0739
+        },
+        {
+          "nombre": "Cancún",
+          "lat": 21.1619,
+          "lon": -86.8515
+        },
+        {
+          "nombre": "Isla Mujeres",
+          "lat": 21.232,
+          "lon": -86.731
+        },
+        {
+          "nombre": "Holbox",
+          "lat": 21.523,
+          "lon": -87.379
+        },
+        {
+          "nombre": "Xel-Há",
+          "lat": 20.318,
+          "lon": -87.36
+        },
+        {
+          "nombre": "Cenote Azul",
+          "lat": 20.5833,
+          "lon": -87.1
+        }
+      ],
+      "fotos": {
+        "folder": "viajes-2025",
+        "photos": 0,
+        "version": 0
+      }
+    },
+    {
+      "id": "2026",
+      "titulo": "Puerto Vallarta 2026",
+      "inicio": "2026-10-15",
+      "fin": "2026-10-18",
+      "lugares": [
+        {
+          "nombre": "Puerto Vallarta",
+          "lat": 20.6534,
+          "lon": -105.2253
+        },
+        {
+          "nombre": "Conchas Chinas",
+          "lat": 20.5985,
+          "lon": -105.2425
+        },
+        {
+          "nombre": "Boca de Tomatlán",
+          "lat": 20.516,
+          "lon": -105.306
+        },
+        {
+          "nombre": "Las Ánimas",
+          "lat": 20.481,
+          "lon": -105.342
+        }
+      ],
+      "fotos": {
+        "folder": "viajes-2026",
+        "photos": 0,
+        "version": 0
+      }
+    }
+  ]
+}

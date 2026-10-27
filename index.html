@@ -59,6 +59,7 @@
     <a class="tab-btn main-tab-btn" href="#resultados" data-section="resultados">Resultados</a>
     <a class="tab-btn main-tab-btn" href="#estadisticas/equipo" data-section="estadisticas">Estadísticas</a>
     <a class="tab-btn main-tab-btn" href="#historia" data-section="historia">Historia</a>
+    <a class="tab-btn main-tab-btn" href="#viajes" data-section="viajes">Viajes</a>
   </nav>
 
   <nav class="tabs sub-nav" id="estadisticas-subnav" hidden>
@@ -413,6 +414,11 @@
         </div>
         <div class="historia-cards" id="jerseys-grid"></div>
       </div>
+    </section>
+
+    <!-- Viajes: one card per trip, rendered from viajes.json (see renderViajes_ in app.js). -->
+    <section id="section-viajes" class="section-panel">
+      <div id="viajes-lista"></div>
     </section>
 
     <!-- Standalone match-sheet page (Stage 9) - reuses Ultimo Partido's
