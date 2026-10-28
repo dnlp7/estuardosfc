@@ -735,11 +735,11 @@
   // lat, lon}], mapa?:{lat,lon,zoom}, fotos:{folder:"viajes-<anio>", photos:N,
   // version:V}}]}. Photos live in the media bucket like a match gallery
   // (<base>/viajes-2025/001.jpg, 001-t.jpg ...). The small map is Leaflet
-  // (cdnjs, loaded the first time the page opens) over CARTO dark tiles with
-  // OpenStreetMap attribution; it is not interactive. Pins = the lugares'
+  // (cdnjs, loaded the first time the page opens) over OpenStreetMap tiles (darkened with CSS) with
+  // attribution; it is not interactive. Pins = the lugares'
   // coordinates and the view fits them, unless the trip sets "mapa".
   var VIAJES_LEAFLET_ = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/';
-  var VIAJES_TILES_ = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+  var VIAJES_TILES_ = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
   var viajesEstado_ = { cargando: false, listo: false, viajes: [], mapas: [], base: '' };
 
   function cargarLeaflet_() {
@@ -785,8 +785,8 @@
       });
       map.attributionControl.setPrefix(false);
       L.tileLayer(VIAJES_TILES_, {
-        subdomains: 'abcd', maxZoom: 14,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        maxZoom: 14, className: 'viaje-tiles',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
       pts.forEach(function (l) {
         L.circleMarker([l.lat, l.lon], { radius: 5, color: '#ffffff', weight: 1.5, fillColor: '#18a8b6', fillOpacity: 1, interactive: false }).addTo(map);
@@ -2202,6 +2202,8 @@
     // shown (after its panel is visible, so the goals chart can size
     // itself); older seasons come from the cached history fetch.
     if (name === 'resultados') renderResultados();
+    // Viajes builds its cards (and Leaflet maps) once its panel is visible.
+    if (name === 'viajes') renderViajes_();
   }
 
   function setupSections() {
@@ -3096,7 +3098,6 @@
       activateJugadoresTab_(r.segs[1] === 'previos' ? 'previos' : 'actual');
     } else if (seg0 === 'viajes') {
       activateSection_('viajes');
-      renderViajes_();
     } else if (seg0 === 'historia') {
       activateSection_('historia');
       var tipo = p.tipo === 'Portero' ? 'Portero' : 'Jugador';

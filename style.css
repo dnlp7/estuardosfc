@@ -2219,6 +2219,8 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 .viaje-card { display: grid; grid-template-columns: 240px 1fr; gap: 1.5rem; align-items: start; }
 .viaje-mapa { width: 240px; height: 240px; background: #11171a; overflow: hidden; }
 .viaje-mapa .leaflet-control-attribution { font-size: 9px; }
+/* OpenStreetMap's standard tiles are light; invert them into a dark map. */
+.viaje-tiles { filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6); }
 .viaje-info { min-width: 0; }
 .viaje-info h3 { margin: 0 0 0.7rem; font-size: 1.6rem; text-align: left; }
 .viaje-fecha .partido-meta-item { font-size: 1.05rem; gap: 0.5rem; }
