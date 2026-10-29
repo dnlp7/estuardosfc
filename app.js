@@ -817,7 +817,10 @@
       }
       var map = new gl.Map(opts);
       // One attribution line, taken from the tile source itself (OpenFreeMap / OpenMapTiles / OpenStreetMap).
+      // The credit is moved out of the map, under it, so it never covers place names.
       map.addControl(new gl.AttributionControl({ compact: false }));
+      var atrib = el.querySelector('.maplibregl-ctrl-attrib'), caja = el.parentNode.querySelector('.viaje-atribucion');
+      if (atrib && caja) caja.appendChild(atrib);
       pts.forEach(function (l) {
         var pin = document.createElement('div');
         pin.className = 'viaje-pin';
@@ -859,7 +862,7 @@
             '" alt="' + esc(t.titulo) + ' — foto ' + k + '" loading="lazy"></button>';
         }
         return '<article class="solid-box viaje-card">' +
-          '<div class="viaje-mapa" id="viaje-mapa-' + i + '" role="img" aria-label="Mapa de ' + esc(t.titulo) + '"></div>' +
+          '<div class="viaje-mapa-col"><div class="viaje-mapa" id="viaje-mapa-' + i + '" role="img" aria-label="Mapa de ' + esc(t.titulo) + '"></div><div class="viaje-atribucion"></div></div>' +
           '<div class="viaje-info">' +
             '<h3>' + esc(t.titulo) + '</h3>' +
             '<div class="viaje-fecha">' + partidoMetaItemHtml_('fecha', viajeFechasTexto_(t.inicio, t.fin)) + '</div>' +
