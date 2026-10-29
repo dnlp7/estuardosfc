@@ -734,30 +734,53 @@
   // Viajes: viajes.json {"viajes":[{id, titulo, inicio, fin, lugares:[{nombre,
   // lat, lon}], mapa?:{lat,lon,zoom}, fotos:{folder:"viajes-<anio>", photos:N,
   // version:V}}]}. Photos live in the media bucket like a match gallery
-  // (<base>/viajes-2025/001.jpg, 001-t.jpg ...). The small map is Leaflet
-  // (cdnjs, loaded the first time the page opens) over OpenStreetMap tiles (darkened with CSS) with
-  // attribution; it is not interactive. Pins = the lugares'
-  // coordinates and the view fits them, unless the trip sets "mapa".
-  var VIAJES_LEAFLET_ = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/';
-  var VIAJES_TILES_ = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  // (<base>/viajes-2025/001.jpg, 001-t.jpg ...). The small map is MapLibre GL
+  // (MapLibre GL from cdnjs, loaded the first time the page opens) with a custom
+  // dark style in the site colors, drawn from OpenFreeMap's free vector tiles
+  // (no key needed); it is not interactive. Pins = the lugares' coordinates and
+  // the view fits them, unless the trip sets "mapa" ({lat, lon, zoom}; MapLibre
+  // zoom is one level lower than a Google/OSM map's for the same view).
+  var VIAJES_GL_ = 'https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/';
   var viajesEstado_ = { cargando: false, listo: false, viajes: [], mapas: [], base: '' };
 
-  function cargarLeaflet_() {
-    if (window.L) return Promise.resolve(window.L);
-    if (!viajesEstado_.leafletPromise) {
-      viajesEstado_.leafletPromise = new Promise(function (resolve, reject) {
+  function cargarMapLibre_() {
+    if (window.maplibregl) return Promise.resolve(window.maplibregl);
+    if (!viajesEstado_.glPromise) {
+      viajesEstado_.glPromise = new Promise(function (resolve, reject) {
         var css = document.createElement('link');
         css.rel = 'stylesheet';
-        css.href = VIAJES_LEAFLET_ + 'leaflet.min.css';
+        css.href = VIAJES_GL_ + 'maplibre-gl.min.css';
         document.head.appendChild(css);
         var s = document.createElement('script');
-        s.src = VIAJES_LEAFLET_ + 'leaflet.min.js';
-        s.onload = function () { resolve(window.L); };
-        s.onerror = function () { reject(new Error('Leaflet no disponible')); };
+        s.src = VIAJES_GL_ + 'maplibre-gl.min.js';
+        s.onload = function () { resolve(window.maplibregl); };
+        s.onerror = function () { reject(new Error('MapLibre no disponible')); };
         document.head.appendChild(s);
       });
     }
-    return viajesEstado_.leafletPromise;
+    return viajesEstado_.glPromise;
+  }
+
+  // Map style: site palette (land, darker water, teal roads, light labels).
+  function viajesEstiloMapa_() {
+    var nm = ['coalesce', ['get', 'name:es'], ['get', 'name']];
+    var font = ['Noto Sans Regular'];
+    return {
+      version: 8,
+      glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
+      sources: { o: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' } },
+      layers: [
+        { id: 'bg', type: 'background', paint: { 'background-color': '#0f3a40' } },
+        { id: 'lc', type: 'fill', source: 'o', 'source-layer': 'landcover', paint: { 'fill-color': '#14484d', 'fill-opacity': 0.7 } },
+        { id: 'park', type: 'fill', source: 'o', 'source-layer': 'park', paint: { 'fill-color': '#14484d', 'fill-opacity': 0.6 } },
+        { id: 'water', type: 'fill', source: 'o', 'source-layer': 'water', paint: { 'fill-color': '#062225' } },
+        { id: 'ww', type: 'line', source: 'o', 'source-layer': 'waterway', paint: { 'line-color': '#062225', 'line-width': 1 } },
+        { id: 'roadmin', type: 'line', source: 'o', 'source-layer': 'transportation', minzoom: 10, filter: ['in', ['get', 'class'], ['literal', ['minor', 'service', 'tertiary']]], paint: { 'line-color': '#1d6770', 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.4, 14, 1.6] } },
+        { id: 'roadmaj', type: 'line', source: 'o', 'source-layer': 'transportation', minzoom: 6, filter: ['in', ['get', 'class'], ['literal', ['secondary', 'primary', 'trunk', 'motorway']]], paint: { 'line-color': '#2d8b96', 'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.6, 14, 3] } },
+        { id: 'wname', type: 'symbol', source: 'o', 'source-layer': 'water_name', layout: { 'text-field': nm, 'text-font': font, 'text-size': 11, 'text-letter-spacing': 0.1 }, paint: { 'text-color': '#4aa3ad', 'text-halo-color': '#062225', 'text-halo-width': 1 } },
+        { id: 'place', type: 'symbol', source: 'o', 'source-layer': 'place', filter: ['in', ['get', 'class'], ['literal', ['city', 'town', 'village', 'suburb']]], layout: { 'text-field': nm, 'text-font': font, 'text-size': ['match', ['get', 'class'], 'city', 14, 'town', 12, 11] }, paint: { 'text-color': '#a9dde2', 'text-halo-color': '#062225', 'text-halo-width': 1.5 } }
+      ]
+    };
   }
 
   /** "10 – 11 de diciembre de 2022", "30 de agosto – 2 de septiembre de 2024". */
@@ -772,28 +795,34 @@
     return A[2] + ' de ' + mes(A[1]) + ' de ' + A[0] + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
   }
 
-  function iniciarMapasViajes_(L) {
+  function iniciarMapasViajes_(gl) {
     viajesEstado_.viajes.forEach(function (t, i) {
       var el = document.getElementById('viaje-mapa-' + i);
       if (!el || el.dataset.listo) return;
       var pts = (t.lugares || []).filter(function (l) { return typeof l.lat === 'number' && typeof l.lon === 'number'; });
       if (!pts.length && !t.mapa) return;
       el.dataset.listo = '1';
-      var map = L.map(el, {
-        zoomControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false,
-        boxZoom: false, keyboard: false, touchZoom: false, attributionControl: true
-      });
-      map.attributionControl.setPrefix(false);
-      L.tileLayer(VIAJES_TILES_, {
-        maxZoom: 14, className: 'viaje-tiles',
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map);
+      var opts = { container: el, style: viajesEstiloMapa_(), interactive: false, attributionControl: false };
+      if (t.mapa && typeof t.mapa.lat === 'number') {
+        opts.center = [t.mapa.lon, t.mapa.lat];
+        opts.zoom = t.mapa.zoom || 9;
+      } else if (pts.length === 1) {
+        opts.center = [pts[0].lon, pts[0].lat];
+        opts.zoom = 10;
+      } else {
+        var b = new gl.LngLatBounds();
+        pts.forEach(function (l) { b.extend([l.lon, l.lat]); });
+        opts.bounds = b;
+        opts.fitBoundsOptions = { padding: 22, maxZoom: 11 };
+      }
+      var map = new gl.Map(opts);
+      // One attribution line, taken from the tile source itself (OpenFreeMap / OpenMapTiles / OpenStreetMap).
+      map.addControl(new gl.AttributionControl({ compact: false }));
       pts.forEach(function (l) {
-        L.circleMarker([l.lat, l.lon], { radius: 5, color: '#ffffff', weight: 1.5, fillColor: '#18a8b6', fillOpacity: 1, interactive: false }).addTo(map);
+        var pin = document.createElement('div');
+        pin.className = 'viaje-pin';
+        new gl.Marker({ element: pin }).setLngLat([l.lon, l.lat]).addTo(map);
       });
-      if (t.mapa && typeof t.mapa.lat === 'number') map.setView([t.mapa.lat, t.mapa.lon], t.mapa.zoom || 9);
-      else if (pts.length === 1) map.setView([pts[0].lat, pts[0].lon], 11);
-      else map.fitBounds(L.latLngBounds(pts.map(function (l) { return [l.lat, l.lon]; })), { padding: [22, 22], maxZoom: 11 });
       viajesEstado_.mapas.push(map);
     });
   }
@@ -802,7 +831,7 @@
     var cont = document.getElementById('viajes-lista');
     if (!cont) return;
     if (viajesEstado_.listo) {
-      viajesEstado_.mapas.forEach(function (m) { m.invalidateSize(); });
+      viajesEstado_.mapas.forEach(function (m) { m.resize(); });
       return;
     }
     if (viajesEstado_.cargando) return;
@@ -850,7 +879,7 @@
           abrirVisor_('foto', Number(b.dataset.n) - 1);
         });
       }
-      cargarLeaflet_().then(iniciarMapasViajes_).catch(function (err) { console.warn(err); });
+      cargarMapLibre_().then(iniciarMapasViajes_).catch(function (err) { console.warn(err); });
     });
   }
 
@@ -2202,7 +2231,7 @@
     // shown (after its panel is visible, so the goals chart can size
     // itself); older seasons come from the cached history fetch.
     if (name === 'resultados') renderResultados();
-    // Viajes builds its cards (and Leaflet maps) once its panel is visible.
+    // Viajes builds its cards (and map libraries) once its panel is visible.
     if (name === 'viajes') renderViajes_();
   }
 
