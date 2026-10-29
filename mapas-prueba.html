@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Map style preview</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
+<style>
+body{margin:0;padding:24px;background:#062225;color:#fff;font:16px/1.4 Inter,Arial,sans-serif}
+h1{font-size:22px;margin:0 0 6px} p.s{color:#9e9e9e;margin:0 0 24px}
+.op{background:#082f32;padding:16px;margin-bottom:20px}
+.op h2{margin:0 0 4px;font-size:18px;color:#18a8b6} .op p{margin:0 0 12px;color:#c9d6d7;font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:16px} .m{width:300px;height:300px;background:#0f3a40;position:relative}
+.leaflet-control-attribution,.maplibregl-ctrl-attrib{font-size:9px}
+.duo{filter:grayscale(1) invert(1) url(#duo)}
+.pin{width:12px;height:12px;border-radius:50%;background:#18a8b6;border:1.5px solid #fff;box-sizing:border-box}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="duo" color-interpolation-filters="sRGB">
+<feComponentTransfer><feFuncR type="gamma" exponent="0.5"/><feFuncG type="gamma" exponent="0.5"/><feFuncB type="gamma" exponent="0.5"/></feComponentTransfer>
+<feComponentTransfer><feFuncR type="table" tableValues="0.02 0.55"/><feFuncG type="table" tableValues="0.12 0.85"/><feFuncB type="table" tableValues="0.14 0.90"/></feComponentTransfer></filter></svg>
+<h1>Map style preview (temporary page)</h1>
+<p class="s">The same two trips (Puerto Vallarta and Cancún) in three map styles. Tell me the number you prefer.</p>
+<div id="ops"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
+<script>
+var OSM='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+var OSMU='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+var TRIPS=[
+ [[20.6534,-105.2253],[20.5985,-105.2425],[20.5160,-105.3060],[20.4810,-105.3420]],
+ [[20.6296,-87.0739],[21.1619,-86.8515],[21.2320,-86.7310],[21.5230,-87.3790],[20.3180,-87.3600],[20.5833,-87.1000]]
+];
+var OPS=[
+ {t:'1. OpenStreetMap, natural colors',d:'Real map colors, light and detailed. Works on the live site. If this panel shows "Access blocked", that is the preview panel only: OpenStreetMap serves real websites, not this viewer.',kind:'osm',cls:''},
+ {t:'2. OpenStreetMap, teal duotone',d:'The same map recolored in two tones of the site teal (water lighter than land, roads and labels lighter still). Same note about the panel as option 1.',kind:'osm',cls:'duo'},
+ {t:'3. Custom dark map in the site colors (OpenFreeMap + MapLibre)',d:'Drawn from vector data with the site palette: dark land, darker water, teal roads, light labels. Works in this panel.',kind:'gl'}
+];
+var FONT=['Noto Sans Regular'];
+function glStyle(){
+ var nm=['coalesce',['get','name:es'],['get','name']];
+ return {version:8,
+  glyphs:'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
+  sources:{o:{type:'vector',url:'https://tiles.openfreemap.org/planet'}},
+  layers:[
+   {id:'bg',type:'background',paint:{'background-color':'#0f3a40'}},
+   {id:'lc',type:'fill',source:'o','source-layer':'landcover',paint:{'fill-color':'#14484d','fill-opacity':0.7}},
+   {id:'park',type:'fill',source:'o','source-layer':'park',paint:{'fill-color':'#14484d','fill-opacity':0.6}},
+   {id:'water',type:'fill',source:'o','source-layer':'water',paint:{'fill-color':'#062225'}},
+   {id:'ww',type:'line',source:'o','source-layer':'waterway',paint:{'line-color':'#062225','line-width':1}},
+   {id:'roadmin',type:'line',source:'o','source-layer':'transportation',minzoom:10,filter:['in',['get','class'],['literal',['minor','service','tertiary']]],paint:{'line-color':'#1d6770','line-width':['interpolate',['linear'],['zoom'],10,0.4,14,1.6]}},
+   {id:'roadmaj',type:'line',source:'o','source-layer':'transportation',minzoom:6,filter:['in',['get','class'],['literal',['secondary','primary','trunk','motorway']]],paint:{'line-color':'#2d8b96','line-width':['interpolate',['linear'],['zoom'],6,0.6,14,3]}},
+   {id:'wname',type:'symbol',source:'o','source-layer':'water_name',layout:{'text-field':nm,'text-font':FONT,'text-size':11,'text-letter-spacing':0.1},paint:{'text-color':'#4aa3ad','text-halo-color':'#062225','text-halo-width':1}},
+   {id:'place',type:'symbol',source:'o','source-layer':'place',filter:['in',['get','class'],['literal',['city','town','village','suburb']]],layout:{'text-field':nm,'text-font':FONT,'text-size':['match',['get','class'],'city',14,'town',12,11]},paint:{'text-color':'#a9dde2','text-halo-color':'#062225','text-halo-width':1.5}}
+  ]};
+}
+var root=document.getElementById('ops');
+OPS.forEach(function(o){
+ var d=document.createElement('div');d.className='op';
+ d.innerHTML='<h2>'+o.t+'</h2><p>'+o.d+'</p><div class="row"></div>';
+ root.appendChild(d);var row=d.querySelector('.row');
+ TRIPS.forEach(function(pts){
+  var el=document.createElement('div');el.className='m';row.appendChild(el);
+  if(o.kind==='osm'){
+   var map=L.map(el,{zoomControl:false,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,touchZoom:false});
+   map.attributionControl.setPrefix(false);
+   L.tileLayer(OSMU,{attribution:OSM,className:o.cls}).addTo(map);
+   pts.forEach(function(p){L.circleMarker(p,{radius:5,color:'#fff',weight:1.5,fillColor:'#18a8b6',fillOpacity:1,interactive:false}).addTo(map);});
+   map.fitBounds(L.latLngBounds(pts),{padding:[22,22],maxZoom:11});
+  }else{
+   var b=new maplibregl.LngLatBounds();pts.forEach(function(p){b.extend([p[1],p[0]]);});
+   var gl=new maplibregl.Map({container:el,style:glStyle(),interactive:false,attributionControl:false,bounds:b,fitBoundsOptions:{padding:22,maxZoom:11}});
+   gl.addControl(new maplibregl.AttributionControl({compact:false,customAttribution:'<a href="https://openfreemap.org">OpenFreeMap</a> &copy; OpenMapTiles Data from <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}));
+   pts.forEach(function(p){var m=document.createElement('div');m.className='pin';new maplibregl.Marker({element:m}).setLngLat([p[1],p[0]]).addTo(gl);});
+  }
+ });
+});
+</script></body></html>
