@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T06:24:23.606Z",
+  "generatedAt": "2026-10-30T03:35:59.113Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -4572,7 +4572,7 @@
           "playerId": "P014",
           "dorsal": 10,
           "nombre": "Paco",
-          "total": 93,
+          "total": 94,
           "byEra": {
             "2023": 6,
             "2024": 18,
@@ -4582,7 +4582,7 @@
             "2023/24": 12,
             "2024/25": 18,
             "2025/26": 4,
-            "2026/27": 5
+            "2026/27": 6
           }
         },
         {
@@ -7699,7 +7699,7 @@
         "hora": "12:30",
         "resultado": "p",
         "gf": 4,
-        "gc": 8,
+        "gc": 10,
         "penales": null,
         "puntos": 0,
         "rival": "MILAN",
@@ -7768,8 +7768,8 @@
       "pp": 9,
       "rd": 0,
       "gf": 38,
-      "gc": 60,
-      "dif": -22,
+      "gc": 62,
+      "dif": -24,
       "pts": 18
     },
     "proximo": null
@@ -8422,6 +8422,31 @@
           ]
         },
         {
+          "playerId": "P014",
+          "dorsal": 10,
+          "nombre": "Paco",
+          "total": 6,
+          "isUtility": false,
+          "byMatch": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            1,
+            1,
+            null,
+            null,
+            null,
+            1,
+            1,
+            1,
+            null,
+            1
+          ]
+        },
+        {
           "playerId": "P031",
           "dorsal": 11,
           "nombre": "Ramiro",
@@ -8444,31 +8469,6 @@
             null,
             null,
             1
-          ]
-        },
-        {
-          "playerId": "P014",
-          "dorsal": 10,
-          "nombre": "Paco",
-          "total": 5,
-          "isUtility": false,
-          "byMatch": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            1,
-            1,
-            null,
-            null,
-            null,
-            1,
-            1,
-            1,
-            null,
-            null
           ]
         },
         {
