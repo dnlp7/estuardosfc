@@ -3090,6 +3090,21 @@
      "duration": 775
     }
    ]
+  },
+  {
+   "era": "2026/27",
+   "jornada": "J17",
+   "date": "2026-10-25",
+   "folder": "2026-27_J17_2026-10-25",
+   "photos": 36,
+   "videos": [
+    {
+     "id": "173NZbg6kHI",
+     "title": "ATS2 J17 Estuardos FC vs Milan",
+     "duration": 1796
+    }
+   ],
+   "version": 1793334087
   }
  ]
 }

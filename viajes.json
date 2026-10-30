@@ -9,13 +9,13 @@
       "lugares": [
         {
           "nombre": "Melaque",
-          "lat": 19.217,
-          "lon": -104.69
+          "lat": 19.22528,
+          "lon": -104.70111
         },
         {
           "nombre": "San Patricio",
-          "lat": 19.22,
-          "lon": -104.7
+          "lat": 19.22528,
+          "lon": -104.70111
         }
       ],
       "fotos": {
@@ -32,18 +32,18 @@
       "lugares": [
         {
           "nombre": "Balandra",
-          "lat": 24.322,
-          "lon": -110.325
+          "lat": 24.321733,
+          "lon": -110.324203
         },
         {
           "nombre": "Cabo San Lucas",
-          "lat": 22.8905,
-          "lon": -109.9167
+          "lat": 22.8947,
+          "lon": -109.9153
         },
         {
           "nombre": "San José del Cabo",
-          "lat": 23.0595,
-          "lon": -109.701
+          "lat": 23.06139,
+          "lon": -109.70806
         }
       ],
       "fotos": {
@@ -60,8 +60,8 @@
       "lugares": [
         {
           "nombre": "Mazatlán",
-          "lat": 23.2494,
-          "lon": -106.4111
+          "lat": 23.217,
+          "lon": -106.417
         }
       ],
       "fotos": {
@@ -78,33 +78,33 @@
       "lugares": [
         {
           "nombre": "Playa del Carmen",
-          "lat": 20.6296,
-          "lon": -87.0739
+          "lat": 20.62814,
+          "lon": -87.0755
         },
         {
           "nombre": "Cancún",
-          "lat": 21.1619,
-          "lon": -86.8515
+          "lat": 21.16056,
+          "lon": -86.8475
         },
         {
           "nombre": "Isla Mujeres",
-          "lat": 21.232,
-          "lon": -86.731
+          "lat": 21.233,
+          "lon": -86.733
         },
         {
           "nombre": "Holbox",
-          "lat": 21.523,
-          "lon": -87.379
+          "lat": 21.51972,
+          "lon": -87.38278
         },
         {
           "nombre": "Xel-Há",
-          "lat": 20.318,
-          "lon": -87.36
+          "lat": 20.31728,
+          "lon": -87.35682
         },
         {
           "nombre": "Cenote Azul",
-          "lat": 20.5833,
-          "lon": -87.1
+          "lat": 20.4746,
+          "lon": -87.2651
         }
       ],
       "fotos": {
@@ -121,13 +121,13 @@
       "lugares": [
         {
           "nombre": "Puerto Vallarta",
-          "lat": 20.6534,
-          "lon": -105.2253
+          "lat": 20.64583,
+          "lon": -105.22222
         },
         {
           "nombre": "Conchas Chinas",
-          "lat": 20.5985,
-          "lon": -105.2425
+          "lat": 20.59139,
+          "lon": -105.24417
         },
         {
           "nombre": "Boca de Tomatlán",
