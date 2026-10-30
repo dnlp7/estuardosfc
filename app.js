@@ -783,16 +783,17 @@
     };
   }
 
-  /** "10 – 11 de diciembre de 2022", "30 de agosto – 2 de septiembre de 2024". */
+  /** "10 – 11 de diciembre", "30 de agosto – 2 de septiembre" (no year: the card
+   * title already has it; years only appear if a trip ever crosses New Year). */
   function viajeFechasTexto_(ini, fin) {
     var A = String(ini || '').split('-').map(Number);
     var B = String(fin || ini || '').split('-').map(Number);
     if (A.length < 3 || isNaN(A[0])) return '';
     var mes = function (n) { return MESES_LARGOS_ES_[n - 1].toLowerCase(); };
-    if (!fin || fin === ini) return A[2] + ' de ' + mes(A[1]) + ' de ' + A[0];
-    if (A[0] === B[0] && A[1] === B[1]) return A[2] + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
-    if (A[0] === B[0]) return A[2] + ' de ' + mes(A[1]) + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
-    return A[2] + ' de ' + mes(A[1]) + ' de ' + A[0] + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
+    if (!fin || fin === ini) return A[2] + ' de ' + mes(A[1]);
+    if (A[0] !== B[0]) return A[2] + ' de ' + mes(A[1]) + ' de ' + A[0] + ' – ' + B[2] + ' de ' + mes(B[1]) + ' de ' + B[0];
+    if (A[1] === B[1]) return A[2] + ' – ' + B[2] + ' de ' + mes(B[1]);
+    return A[2] + ' de ' + mes(A[1]) + ' – ' + B[2] + ' de ' + mes(B[1]);
   }
 
   function iniciarMapasViajes_(gl) {
@@ -864,7 +865,7 @@
         return '<article class="solid-box viaje-card">' +
           '<div class="viaje-mapa-col"><div class="viaje-mapa" id="viaje-mapa-' + i + '" role="img" aria-label="Mapa de ' + esc(t.titulo) + '"></div><div class="viaje-atribucion"></div></div>' +
           '<div class="viaje-info">' +
-            '<h3>' + esc(t.titulo) + '</h3>' +
+            '<h3><span class="viaje-anio">' + esc(String(t.inicio || '').slice(0, 4)) + '</span><span class="viaje-lugar">' + esc(String(t.titulo || '').replace(/\s*\d{4}\s*$/, '')) + '</span></h3>' +
             '<div class="viaje-fecha">' + partidoMetaItemHtml_('fecha', viajeFechasTexto_(t.inicio, t.fin)) + '</div>' +
             (lugares ? '<p class="viaje-lugares">' + lugares + '</p>' : '') +
             (tiles ? '<div class="viaje-fotos">' + tiles + '</div>' : '') +

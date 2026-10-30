@@ -2221,14 +2221,17 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 .viaje-mapa-col { width: 240px; }
 .viaje-atribucion { margin-top: 0.35rem; }
 /* Double class on purpose: MapLibre's own stylesheet loads later and paints a white box. */
-.viaje-atribucion .maplibregl-ctrl.maplibregl-ctrl-attrib { background: none; margin: 0; padding: 0; font-size: 10px; line-height: 1.35; color: #c9d6d7; }
-.viaje-atribucion .maplibregl-ctrl.maplibregl-ctrl-attrib a { color: #c9d6d7; text-decoration: underline; }
+.viaje-atribucion .maplibregl-ctrl.maplibregl-ctrl-attrib { background: none; margin: 0; padding: 0; font-size: 11px; line-height: 1.35; color: var(--muted-alt); }
+.viaje-atribucion .maplibregl-ctrl.maplibregl-ctrl-attrib a { color: var(--muted-alt); text-decoration: underline; }
 .viaje-pin { width: 12px; height: 12px; border-radius: 50%; background: #18a8b6; border: 1.5px solid #fff; box-sizing: border-box; }
 .viaje-info { min-width: 0; }
-.viaje-info h3 { margin: 0 0 0.7rem; font-size: 1.6rem; text-align: left; }
+.viaje-info h3 { margin: 0 0 0.7rem; font-size: 1.6rem; line-height: 1.15; text-align: left; }
+.viaje-anio, .viaje-lugar { display: block; }
+.viaje-anio { color: var(--accent-light); }
+.viaje-lugar { color: var(--white); }
 .viaje-fecha .partido-meta-item { font-size: 1.05rem; gap: 0.5rem; }
 .viaje-fecha .partido-meta-icono { width: 22px; height: 22px; }
-.viaje-lugares { margin: 0.75rem 0 0; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+.viaje-lugares { margin: 0.75rem 0 0; color: var(--muted-alt); font-size: 1rem; line-height: 1.6; }
 .viaje-fotos { display: grid; grid-template-columns: repeat(auto-fill, 7.5rem); gap: 0.5rem; justify-content: start; margin-top: 1.25rem; }
 .viaje-foto { padding: 0; border: 0; background: var(--grey-cell); aspect-ratio: 4 / 3; cursor: pointer; overflow: hidden; }
 .viaje-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
