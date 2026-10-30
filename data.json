@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T03:35:59.113Z",
+  "generatedAt": "2026-10-30T05:54:22.781Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -7772,7 +7772,15 @@
       "dif": -24,
       "pts": 18
     },
-    "proximo": null
+    "proximo": {
+      "jornada": "J18",
+      "cancha": 2,
+      "fecha": "2026-11-01",
+      "hora": "9:30",
+      "rival": "CAGUAMOS BOYS",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
+    }
   },
   "detail": {
     "era": "2026/27",
