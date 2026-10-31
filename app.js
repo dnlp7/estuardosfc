@@ -849,7 +849,7 @@
     if (viajesEstado_.cargando) return;
     viajesEstado_.cargando = true;
     Promise.all([
-      fetch('viajes.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch('viajes.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
       fetchMedia_()
     ]).then(function (res) {
       viajesEstado_.cargando = false;
