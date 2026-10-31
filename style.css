@@ -2219,6 +2219,9 @@ body[data-section="resultados"] .partido-nav-btn { border-color: var(--tema-acen
 .viaje-card { display: grid; grid-template-columns: 240px 1fr; gap: 1.5rem; align-items: start; }
 .viaje-mapa { width: 240px; height: 240px; background: #11171a; overflow: hidden; }
 .viaje-mapa-col { width: 240px; }
+.viaje-mapa-link { display: block; cursor: pointer; }
+.viaje-mapa-link .maplibregl-canvas, .viaje-mapa-link .maplibregl-canvas-container { cursor: pointer; }
+.viaje-mapa-link:hover .viaje-mapa, .viaje-mapa-link:focus-visible .viaje-mapa { outline: 2px solid var(--accent-light); outline-offset: -2px; }
 .viaje-atribucion { margin-top: 0.35rem; }
 /* Double class on purpose: MapLibre's own stylesheet loads later and paints a white box. */
 .viaje-atribucion .maplibregl-ctrl.maplibregl-ctrl-attrib { background: none; margin: 0; padding: 0; font-size: 11px; line-height: 1.35; color: var(--muted-alt); }

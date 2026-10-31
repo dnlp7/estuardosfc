@@ -831,6 +831,17 @@
     });
   }
 
+  /** The map; a click opens Google Maps on the trip's main place ("principal" in
+   * viajes.json, else its first place). */
+  function viajeMapaHtml_(t, i) {
+    var mapa = '<div class="viaje-mapa" id="viaje-mapa-' + i + '" role="img" aria-label="Mapa de ' + esc(t.titulo) + '"></div>';
+    var lugares = t.lugares || [];
+    var pr = lugares.filter(function (l) { return l.nombre === t.principal; })[0] || lugares[0];
+    if (!pr || typeof pr.lat !== 'number' || typeof pr.lon !== 'number') return mapa;
+    var url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(pr.lat + ',' + pr.lon);
+    return '<a class="viaje-mapa-link" href="' + url + '" target="_blank" rel="noopener" title="Abrir en Google Maps" aria-label="Abrir ' + esc(pr.nombre) + ' en Google Maps">' + mapa + '</a>';
+  }
+
   function renderViajes_() {
     var cont = document.getElementById('viajes-lista');
     if (!cont) return;
@@ -863,7 +874,7 @@
             '" alt="' + esc(t.titulo) + ' — foto ' + k + '" loading="lazy"></button>';
         }
         return '<article class="solid-box viaje-card">' +
-          '<div class="viaje-mapa-col"><div class="viaje-mapa" id="viaje-mapa-' + i + '" role="img" aria-label="Mapa de ' + esc(t.titulo) + '"></div><div class="viaje-atribucion"></div></div>' +
+          '<div class="viaje-mapa-col">' + viajeMapaHtml_(t, i) + '<div class="viaje-atribucion"></div></div>' +
           '<div class="viaje-info">' +
             '<h3><span class="viaje-anio">' + esc(String(t.inicio || '').slice(0, 4)) + '</span><span class="viaje-lugar">' + esc(String(t.titulo || '').replace(/\s*\d{4}\s*$/, '')) + '</span></h3>' +
             '<div class="viaje-fecha">' + partidoMetaItemHtml_('fecha', viajeFechasTexto_(t.inicio, t.fin)) + '</div>' +
