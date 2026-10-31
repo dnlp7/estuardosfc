@@ -820,7 +820,7 @@
       // One attribution line, taken from the tile source itself (OpenFreeMap / OpenMapTiles / OpenStreetMap).
       // The credit is moved out of the map, under it, so it never covers place names.
       map.addControl(new gl.AttributionControl({ compact: false }));
-      var atrib = el.querySelector('.maplibregl-ctrl-attrib'), caja = el.parentNode.querySelector('.viaje-atribucion');
+      var atrib = el.querySelector('.maplibregl-ctrl-attrib'), caja = el.closest('.viaje-mapa-col').querySelector('.viaje-atribucion');
       if (atrib && caja) caja.appendChild(atrib);
       pts.forEach(function (l) {
         var pin = document.createElement('div');
@@ -831,15 +831,12 @@
     });
   }
 
-  /** The map; a click opens Google Maps on the trip's main place ("principal" in
-   * viajes.json, else its first place). */
+  /** The map; when the trip has an "enlace" (a Google Maps share link, set by hand in
+   * viajes.json) a click on it opens that link in a new tab. */
   function viajeMapaHtml_(t, i) {
     var mapa = '<div class="viaje-mapa" id="viaje-mapa-' + i + '" role="img" aria-label="Mapa de ' + esc(t.titulo) + '"></div>';
-    var lugares = t.lugares || [];
-    var pr = lugares.filter(function (l) { return l.nombre === t.principal; })[0] || lugares[0];
-    if (!pr || typeof pr.lat !== 'number' || typeof pr.lon !== 'number') return mapa;
-    var url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(pr.lat + ',' + pr.lon);
-    return '<a class="viaje-mapa-link" href="' + url + '" target="_blank" rel="noopener" title="Abrir en Google Maps" aria-label="Abrir ' + esc(pr.nombre) + ' en Google Maps">' + mapa + '</a>';
+    if (!/^https:\/\/(maps\.app\.goo\.gl|www\.google\.com\/maps|goo\.gl\/maps)/.test(t.enlace || '')) return mapa;
+    return '<a class="viaje-mapa-link" href="' + esc(t.enlace) + '" target="_blank" rel="noopener" title="Abrir en Google Maps" aria-label="Abrir ' + esc(t.titulo) + ' en Google Maps">' + mapa + '</a>';
   }
 
   function renderViajes_() {

@@ -1,10 +1,10 @@
 {
-  "note": "Trips for the Viajes page. Edit titles/dates/places here; photos are added with scripts/add_viajes_media.py (see 'Viajes media guide.pdf'). \"principal\" is the place a click on the map opens in Google Maps. Pins and the map view come from each place's lat/lon; add a \"mapa\": {\"lat\":..,\"lon\":..,\"zoom\":..} to a trip to force the view.",
+  "note": "Trips for the Viajes page. Edit titles/dates/places here; photos are added with scripts/add_viajes_media.py (see 'Viajes media guide.pdf'). \"enlace\" is the Google Maps share link a click on the map opens (no link = the map is not clickable). Pins and the map view come from each place's lat/lon; add a \"mapa\": {\"lat\":..,\"lon\":..,\"zoom\":..} to a trip to force the view.",
   "viajes": [
     {
       "id": "2022",
       "titulo": "Melaque 2022",
-      "principal": "Melaque",
+      "enlace": "https://maps.app.goo.gl/GfABbQSehbG4qPMe7",
       "inicio": "2022-12-10",
       "fin": "2022-12-11",
       "lugares": [
@@ -28,7 +28,7 @@
     {
       "id": "2023",
       "titulo": "Los Cabos 2023",
-      "principal": "Cabo San Lucas",
+      "enlace": "https://maps.app.goo.gl/aUFSzwVYsoSycpBu7",
       "inicio": "2023-12-01",
       "fin": "2023-12-04",
       "lugares": [
@@ -57,7 +57,7 @@
     {
       "id": "2024",
       "titulo": "Mazatlán 2024",
-      "principal": "Mazatlán",
+      "enlace": "https://maps.app.goo.gl/9ZJj7CMUvpMv6Skm7",
       "inicio": "2024-09-13",
       "fin": "2024-09-16",
       "lugares": [
@@ -76,7 +76,7 @@
     {
       "id": "2025",
       "titulo": "Cancún 2025",
-      "principal": "Cancún",
+      "enlace": "https://maps.app.goo.gl/vtPJrhb8myMtu5xcA",
       "inicio": "2025-09-12",
       "fin": "2025-09-17",
       "lugares": [
@@ -120,7 +120,7 @@
     {
       "id": "2026",
       "titulo": "Puerto Vallarta 2026",
-      "principal": "Puerto Vallarta",
+      "enlace": "https://maps.app.goo.gl/uohP1ULG91uz5qCG8",
       "inicio": "2026-10-15",
       "fin": "2026-10-18",
       "lugares": [
