@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-04T01:52:05.069Z",
+  "generatedAt": "2026-11-04T01:52:45.386Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -7840,7 +7840,15 @@
       "dif": -25,
       "pts": 18
     },
-    "proximo": null
+    "proximo": {
+      "jornada": "J19",
+      "cancha": 3,
+      "fecha": "2026-11-08",
+      "hora": "11:30",
+      "rival": "AJAX",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
+    }
   },
   "detail": {
     "era": "2026/27",
