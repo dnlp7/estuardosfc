@@ -3120,6 +3120,21 @@
     }
    ],
    "version": 1793757328
+  },
+  {
+   "era": "2026/27",
+   "jornada": "J19",
+   "date": "2026-11-08",
+   "folder": "2026-27_J19_2026-11-08",
+   "photos": 16,
+   "videos": [
+    {
+     "id": "Q4iSOG2Kedg",
+     "title": "ATS2 J19 Estuardos FC vs Ajax",
+     "duration": 1886
+    }
+   ],
+   "version": 1794276717
   }
  ]
 }
