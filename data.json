@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T06:23:24.823Z",
+  "generatedAt": "2026-11-21T06:23:19.433Z",
   "currentEra": "2026/27",
   "erasOrder": [
     "2010/11",
@@ -7908,7 +7908,15 @@
       "dif": -26,
       "pts": 18
     },
-    "proximo": null
+    "proximo": {
+      "jornada": "J20",
+      "cancha": 2,
+      "fecha": "2026-11-22",
+      "hora": "11:30",
+      "rival": "BLACK BULLS",
+      "rivalBg": "#262626",
+      "rivalText": "#ffffff"
+    }
   },
   "detail": {
     "era": "2026/27",
