@@ -1536,6 +1536,26 @@
   // single player (POR/DEL) is simply centered (spread 0).
   var CANCHA_ROW_SPREAD_ = { 1: 0, 2: 100, 3: 161 };
   var CANCHA_MARKER_SIZE_ = 68;
+  // Explicit per-formation layouts: slot -> { dx: px offset from the
+  // pitch's horizontal center, y: fraction of the pitch height }. Used
+  // when the generic role-row logic below can't express a formation —
+  // 2-2-1-1 has a lone attacking midfielder (MED C) on its own row
+  // between the midfield pair and the forward, which the generic logic
+  // would draw as a 3-man midfield line. Formations without an entry
+  // (2-3-1, 3-2-1, anything unknown) keep using the generic logic, so
+  // existing matches render exactly as before. A new formation = one
+  // entry here (+ FORMACIONES in PartidoDialog/AsistentesDialog.html).
+  var FORMACION_LAYOUTS_ = {
+    '2-2-1-1': {
+      'POR':   { dx: 0,    y: 0.88 },
+      'DEF I': { dx: -100, y: 0.68 },
+      'DEF D': { dx: 100,  y: 0.68 },
+      'MED I': { dx: -120, y: 0.47 },
+      'MED D': { dx: 120,  y: 0.47 },
+      'MED C': { dx: 0,    y: 0.29 },
+      'DEL':   { dx: 0,    y: 0.11 }
+    }
+  };
   var CANCHA_MARKER_RX_ = 18;
   // Stage 9 (color-fix pass): each call needs its own <mask> id — Último
   // Partido and Próximo Partido can both have a cancha-svg in the DOM
@@ -1679,6 +1699,11 @@
           var spread = CANCHA_ROW_SPREAD_[n] !== undefined ? CANCHA_ROW_SPREAD_[n] : CANCHA_ROW_SPREAD_[3];
           var x = CANCHA_IMG_W_ / 2 + (n > 1 ? (i - (n - 1) / 2) * (2 * spread / (n - 1)) : 0);
           var y = (staggered && suffixOf(j) === 'C') ? baseY + CANCHA_OFFSET_C_FRAC_ * CANCHA_IMG_H_ : baseY;
+          var layoutForm = FORMACION_LAYOUTS_[lineup.formacion];
+          if (layoutForm && layoutForm[j.slot]) {
+            x = CANCHA_IMG_W_ / 2 + layoutForm[j.slot].dx;
+            y = layoutForm[j.slot].y * CANCHA_IMG_H_;
+          }
           // Prefer the real per-match dorsal from PI's own detail row
           // (dorsalPorJugador, built by partidoColumnasHtml_ from
           // presentesPI — the same reliable source the photo cards use).
